@@ -65,56 +65,78 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Bordered Table</h3>
+                    <h3 class="box-title">Select Course</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
                     <table class="table table-bordered">
                         <tr>
-                            <th style="width: 10px">#</th>
-                            <th>Task</th>
-                            <th>Progress</th>
-                            <th style="width: 40px">Label</th>
+                            <th>COURSE</th>
+                            <th style="width:100px;">PROGRESS</th>
+                            <th>SCORE</th>
+                            <th>ENROLLED ON</th>
+                            <th>COMPLETION DATE</th>
+                            <th>TIME</th>
                         </tr>
                         <tr>
-                            <td>1.</td>
-                            <td>Update software</td>
+                            <td><a href="#/" class="text-black" style="font-weight:700">Introduction to TalentLMS</a></td>
                             <td>
-                                <div class="progress progress-xs">
-                                    <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                                <div class="progress progress-striped">
+                                    <div class="progress-bar progress-bar-light-blue" style="width: 100%; border-radius:5px;">100%</div>
                                 </div>
                             </td>
-                            <td><span class="badge bg-red">55%</span></td>
+                            <td align="center"><b>99</b></td>
+                            <td align="center"><b>01/01/2019</b></td>
+                            <td align="center"><b>01/10/2019</b></td>
+                            <td align="center"><b>35 mins</b></td>
                         </tr>
                         <tr>
-                            <td>2.</td>
-                            <td>Clean database</td>
+                            <td><a href="#/" class="text-black" style="font-weight:700">Advanced features of TalentLMS</a></td>
                             <td>
-                                <div class="progress progress-xs">
-                                    <div class="progress-bar progress-bar-yellow" style="width: 70%"></div>
+                                <div class="progress progress-striped">
+                                    <div class="progress-bar progress-bar-success" style="width: 12%; border-radius:5px;">12%</div>
                                 </div>
                             </td>
-                            <td><span class="badge bg-yellow">70%</span></td>
+                            <td align="center"><b>7</b></td>
+                            <td align="center"><b>01/01/2019</b></td>
+                            <td align="center"> - </td>
+                            <td align="center"><b>6 mins</b></td>
                         </tr>
                         <tr>
-                            <td>3.</td>
-                            <td>Cron job running</td>
+                            <td><a href="#/" class="text-black" style="font-weight:700">Content and TalentLMS </a></td>
                             <td>
-                                <div class="progress progress-xs progress-striped active">
-                                    <div class="progress-bar progress-bar-primary" style="width: 30%"></div>
+                                <div class="progress progress-striped">
+                                    <div class="progress-bar progress-bar-success" style="width: 0%; border-radius:5px;">0%</div>
                                 </div>
                             </td>
-                            <td><span class="badge bg-light-blue">30%</span></td>
+                            <td align="center"><b>0</b></td>
+                            <td align="center"><b>01/01/2019</b></td>
+                            <td align="center"> - </td>
+                            <td align="center"><b>0 mins</b></td>
                         </tr>
                         <tr>
-                            <td>4.</td>
-                            <td>Fix and squish bugs</td>
+                            <td><a href="#/" class="text-black" style="font-weight:700">Future technologies</a></td>
                             <td>
-                                <div class="progress progress-xs progress-striped active">
-                                    <div class="progress-bar progress-bar-success" style="width: 90%"></div>
+                                <div class="progress progress-striped">
+                                    <div class="progress-bar progress-bar-success" style="width: 0%; border-radius:5px;">0%</div>
                                 </div>
                             </td>
-                            <td><span class="badge bg-green">90%</span></td>
+                            <td align="center"><b>0</b></td>
+                            <td align="center"><b>01/01/2019</b></td>
+                            <td align="center"> - </td>
+                            <td align="center"><b>0 mins</b></td>
+                        </tr>
+                        <tr>
+                            <td><a href="#/" class="text-black" style="font-weight:700">Grammar</a></td>
+                            <td>
+                                <div class="progress progress-striped">
+                                    <div class="progress-bar progress-bar-success" style="width: 0%; border-radius:5px;">0%</div>
+                                </div>
+                            </td>
+                            <td align="center"><b>0</b></td>
+                            <td align="center"><b>01/01/2019</b></td>
+                            <td align="center"> - </td>
+                            <td align="center"><b>0 mins</b></td>
                         </tr>
                     </table>
                 </div>
@@ -132,6 +154,110 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-md-8 col-xs-12">
+            <div id="UserActivity"></div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <div id="ProGressAct"></div>
+        </div>
+    </div>
+
 
 </section>
 
+<script type="text/javascript">
+    Highcharts.chart('UserActivity', {
+
+        title: {
+            text: 'Activity'
+        },
+
+        yAxis: {
+            title: {
+                text: 'Number of Employees'
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+
+        plotOptions: {
+            series: {
+                label: {
+                    connectorAllowed: false
+                },
+                pointStart: 2010
+            }
+        },
+
+        series: [{
+            name: 'Other',
+            data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
+        }],
+
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+
+    });
+
+
+
+    //-------------------------DONUT--------------------------------------//
+
+    var pieColors = ['#1E90FF','#FFFFFF'];
+    
+
+    chart = new Highcharts.Chart({
+        chart: {
+            renderTo: 'ProGressAct',
+            type: 'pie'
+        },
+        title: {
+            text: 'Browser market share, April, 2011'
+        },
+        yAxis: {
+            title: {
+                text: 'Total percent market share'
+            }
+        },
+        plotOptions: {
+            pie: {
+                colors: pieColors,
+                shadow: false
+            }
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.point.name + '</b>: ' + this.y + ' %';
+            }
+        },
+        series: [{
+            name: 'Browsers',
+            data: [["Chrome", 7],["Mozilla",3]],
+            size: '60%',
+            innerSize: '50%',
+            showInLegend: true,
+            dataLabels: {
+                enabled: false
+            }
+        }]
+    });
+
+
+
+</script>
