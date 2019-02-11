@@ -10,6 +10,7 @@ namespace ELearningV1.Controllers
     {
         public ActionResult Index()
         {
+            //This is just a test
             ViewBag.Title = "Home Page Test12";
 
             return View();
