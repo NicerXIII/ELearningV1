@@ -59,7 +59,11 @@
         <!-- ./col -->
     </div>
     <!-- /.row -->
-
+    <div class="row">
+        <div class="col-md-2">
+            <button type="button" class="btn btn-default btn-flat" style="background-color:#ffffff" onclick="addCourse()"><span class="fa fa-plus"></span> Add Course</button>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-md-12">
@@ -167,7 +171,49 @@
 
 </section>
 
+
+<div class="modal fade" id="modalAddCourse">
+    <div class="modal-dialog"  style="margin-top:300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Add Course</h4>
+            </div>
+            <div class="modal-body">
+                    <!-- form start -->
+                    <form role="form">
+                    
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Enter Course Name:</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                            </div>
+                    </form>
+
+                <!-- /.box -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Add</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
 <script type="text/javascript">
+    var addCourse = function () {
+        $("#modalAddCourse").modal('show');
+    }
+
+
+
+
+
     Highcharts.chart('UserActivity', {
 
         title: {
@@ -220,8 +266,8 @@
 
     //-------------------------DONUT--------------------------------------//
 
-    var pieColors = ['#1E90FF','#FFFFFF'];
-    
+    var pieColors = ['#1E90FF', '#FFFFFF'];
+
 
     chart = new Highcharts.Chart({
         chart: {
@@ -249,7 +295,7 @@
         },
         series: [{
             name: 'Browsers',
-            data: [["Chrome", 7],["Mozilla",3]],
+            data: [["Chrome", 7], ["Mozilla", 3]],
             size: '60%',
             innerSize: '50%',
             showInLegend: true,
