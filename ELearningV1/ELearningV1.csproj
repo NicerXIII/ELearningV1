@@ -2462,6 +2462,7 @@
     <Content Include="Views\Exam\Exam.cshtml" />
     <Content Include="Views\LogIn\Index.cshtml" />
     <Content Include="Views\Home\ViewCourse.cshtml" />
+    <Content Include="Views\Exam\ExamList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
