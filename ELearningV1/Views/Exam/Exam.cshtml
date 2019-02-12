@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewBag.Title = "Exam";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .margin {
+        margin-left: 50px;
+    }
+
+    .mt-1
+    {   margin-top:5px; }
+
+    .mt-2
+    {   margin-top: 10px;   }
+
+    .mt-3
+    {   margin-top:15px;    }
+
+    .mt-4
+    {   margin-top:20px;    }
+    
+    .mt5
+    {   margin-top:25px;    }
+</style>
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Question #1</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" title="Previous" data-widget="collapse"><i class="fa fa-arrow-left"></i></button>
+            <button type="button" class="btn btn-box-tool" title="Next" data-widget="remove"><i class="fa fa-arrow-right"></i></button>
+        </div>
+    </div>
+    <div class="box-body">
+        <iframe width="700" height="500" class="center-block" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+        <p class="margin">
+            QUESTION: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </p>
+        <div class="form-group margin">
+            <div class="radio">
+                <label>
+                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                    ANSWER 1
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                    ANSWER 2
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+                    ANSWER 3
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <button type="submit" class="btn btn-block btn-success" style="margin-left:15px;">Submit answer <i class="fa fa-angle-right"></i></button>
+            </div>
+            
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-3">
+            <div class="progress">
+                <div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                    <span class="sr-only">40% Complete (success)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-info">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Exam Name here</h4>
+            </div>
+            <div class="modal-body">
+                <h3 class="text-center">You can redo this test as many times as you want until you pass it. Good luck!</h3>
+                <h4 class="text-center">This test contains # questions</h4>
+                <h4 class="text-center">You have # minutes/hours to complete it</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Start test</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#modal-info").modal();
+    });
+</script>

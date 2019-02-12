@@ -158,7 +158,7 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">MAIN NAVIGATION</li>
-                <li><a href="#/"><i class="fa fa-home"></i> <span>HOME</span></a></li>
+                <li><a href="#/" onclick="Home()"><i class="fa fa-home"></i> <span>HOME</span></a></li>
                 <li class="treeview">
                     <a href="#/">
                         <i class="fa fa-book"></i> <span>COURSES</span>
@@ -169,6 +169,7 @@
                     <ul class="treeview-menu">
                         <li><a href="#/"><i class="fa fa-arrow-circle-o-right"></i> New Course</a></li>
                         <li><a href="#/"><i class="fa fa-arrow-circle-o-right"></i> View Courses</a></li>
+                        <li><a href="#/" onclick="Exams()"><i class="fa fa-arrow-circle-o-right"></i> Exams</a></li>
                     </ul>
                 </li>
                 <li><a href="#/"><i class="fa fa-group"></i> <span>JOIN GROUP</span></a></li>
@@ -209,3 +210,12 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+<script>
+    var Home = function () {
+        window.location.href = '@Url.Action("Index", "Home")';
+    }
+
+    var Exams = function () {
+        window.location.href = '@Url.Action("Exam", "Exam")';
+    }
+</script>
