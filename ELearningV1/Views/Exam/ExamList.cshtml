@@ -1,0 +1,160 @@
+﻿
+@{
+    ViewBag.Title = "ExamList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .margin {
+        margin-left: 50px;
+    }
+
+    .mt-1 {
+        margin-top: 5px;
+    }
+
+    .mt-2 {
+        margin-top: 10px;
+    }
+
+    .mt-3 {
+        margin-top: 15px;
+    }
+
+    .mt-4 {
+        margin-top: 20px;
+    }
+
+    .mt-5 {
+        margin-top: 25px;
+    }
+</style>
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Subject Name</h3>
+        <p>
+            This course comprises several video tutorials that describe the basic TalentLMS functions.
+            At the end there is a final test that will help you assess your knowledge.
+        </p>
+    </div>
+    <div class="box-body bg-gray-active">
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info btn-md">Action</button>
+                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#"><i class="fa fa-sticky-note-o"></i> Content</a></li>
+                        <li><a href="#"><i class="fa fa-cloud"></i> Web Content</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="fa fa-video-camera"></i> Video</a></li>
+                        <li><a href="#"><i class="fa  fa-volume-up"></i> Audio</a></li>
+                        <li><a href="#"><i class="fa fa-television"></i> Presentation | Document</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="fa fa-book"></i> SCORM | Tin Can | CMI5</a></li>
+                        <li><a href="#"><i class="fa fa-gear"></i> Flash Object</a></li>
+                        <li><a href="#"><i class="fa fa-sticky-note"></i> iFrame</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="fa fa-edit"></i> Test</a></li>
+                        <li><a href="#"><i class="fa fa-check-square"></i> Survey</a></li>
+                        <li><a href="#"><i class="fa fa-sticky-note"></i> Assignment</a></li>
+                        <li><a href="#"><i class="fa fa-calendar"></i> Instructor-Led Training</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="fa fa-quote-left"></i> Section</a></li>
+                        <li><a href="#"><i class="fa fa-paste"></i> Clone from another course</a></li>
+                        <li><a href="#"><i class="fa fa-link"></i> Link from another course</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <button type="submit" class="btn btn-block btn-info" style="margin-left:15px;"><i class="fa fa-arrows-v"></i> Reorder</button>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <button type="submit" class="btn btn-block btn-info" style="margin-left:15px;">Edit Course Info</button>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <button type="submit" class="btn btn-block btn-info" style="margin-left:15px;">View as Learner</button>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <button type="submit" class="btn btn-block btn-info" style="margin-left:15px;">...</button>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <span class="label label-default" style="font-size:medium">INTRODUCTION</span>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <a href="#"><i class="fa fa-sticky-note-o" title="Content"></i> Welcome</a>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <a href="#"><i class="fa fa-film" title="Video"></i> A short introduction</a>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <span class="label label-default" style="font-size:medium">MANAGING YOUR COURSES</span>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <a href="#"><i class="fa fa-film" title="Video"></i> Tests</a>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <a href="#"><i class="fa fa-film" title="Video"></i> Assignments</a>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <a href="#"><i class="fa fa-film" title="Video"></i> Files</a>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <span class="label label-default" style="font-size:medium">MANAGING YOUR PORTAL</span>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <a href="#"><i class="fa fa-film" title="Video"></i> Reports</a>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <a href="#"><i class="fa fa-film" title="Video"></i> Customization</a>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <a href="#"><i class="fa fa-film" title="Video"></i> Importing and Exporting data</a>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <a href="#"><i class="fa fa-film" title="Video"></i> Notifications</a>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <a href="#"><i class="fa fa-film" title="Video"></i> Gamification</a>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <span class="label label-default" style="font-size:medium">SELF ASSESSMENT</span>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <a href="@Url.Action("Exam", "Exam")"><i class="fa fa-edit" title="Video"></i> Final Test</a>
+            </div>
+        </div>
+    </div>
+</div>

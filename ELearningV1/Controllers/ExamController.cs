@@ -8,6 +8,11 @@ namespace ELearningV1.Controllers
 {
     public class ExamController : Controller
     {
+        public ActionResult ExamList()
+        {
+            return View();
+        }
+
         // GET: Exam
         public ActionResult Exam()
         {
