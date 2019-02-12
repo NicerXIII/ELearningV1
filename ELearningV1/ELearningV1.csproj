@@ -191,6 +191,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\ExamController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LogInController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -249,6 +250,7 @@
     <Content Include="admin-lte\img\credit\paypal2.png" />
     <Content Include="admin-lte\img\credit\visa.png" />
     <Content Include="admin-lte\img\default-50x50.gif" />
+    <Content Include="admin-lte\img\EmployeeKioskLogin2.png" />
     <Content Include="admin-lte\img\icons.png" />
     <Content Include="admin-lte\img\photo1.png" />
     <Content Include="admin-lte\img\photo2.png" />
@@ -2458,7 +2460,8 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Exam\Exam.cshtml" />
-    <Content Include="Views\Exam\ExamList.cshtml" />
+    <Content Include="Views\LogIn\Index.cshtml" />
+    <Content Include="Views\Home\ViewCourse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
