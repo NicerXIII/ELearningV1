@@ -13,5 +13,15 @@ namespace ELearningV1.Controllers
         {
             return View();
         }
+
+        public ActionResult CourseDetail()
+        {
+            return View();
+        }
+
+        public ActionResult CourseDetailReport()
+        {
+            return View();
+        }
     }
 }
