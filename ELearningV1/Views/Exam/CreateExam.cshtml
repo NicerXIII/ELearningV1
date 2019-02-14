@@ -3,5 +3,198 @@
     ViewBag.Title = "CreateExam";
 }
 
-<h2>CreateExam</h2>
 
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        Create Exam
+                        <small>Simple and fast</small>
+                    </h3>
+                    <!-- tools box -->
+                    <div class="pull-right box-tools">
+                        <button type="button" class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip"
+                                title="Collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-default btn-sm" data-widget="remove" data-toggle="tooltip"
+                                title="Remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                    <!-- /. tools -->
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body pad">
+                    <form>
+                        <textarea class="textarea" placeholder="Place some text here"
+                                  style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <div class="form-inline">
+                                    <label>Exam Type</label>
+                                    <select class="form-control">
+                                        <option>Single</option>
+                                        <option>Multiple</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        @* ---- Single Selection ----- *@
+                        <div>
+                            <div class="row form-group">
+                                <div class="col-lg-4">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control">
+                                        <span class="input-group-addon">
+                                            <input type="radio">
+                                            <label>Answer</label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-inline pull-right">
+                                        <label>YouTube Link</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control col" placeholder="Link" />
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-youtube" style="color:red;"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-lg-4">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control">
+                                        <span class="input-group-addon">
+                                            <input type="radio">
+                                            <label>Answer</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-lg-4">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control">
+                                        <span class="input-group-addon">
+                                            <input type="radio">
+                                            <label>Answer</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-lg-4">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control">
+                                        <span class="input-group-addon">
+                                            <input type="radio">
+                                            <label>Answer</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @* ----End Multiple Selection ----- *@
+
+                        @* ---- Multiple Selection ----- *@
+                        <div class="hidden">
+                            <div class="row form-group">
+                                <div class="col-lg-4">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control">
+                                        <span class="input-group-addon">
+                                            <input type="checkbox">
+                                            <label>Answer</label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-inline pull-right">
+                                        <label>YouTube Link</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control col" placeholder="Link" />
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-youtube" style="color:red;"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-lg-4">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control">
+                                        <span class="input-group-addon">
+                                            <input type="checkbox">
+                                            <label>Answer</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-lg-4">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control">
+                                        <span class="input-group-addon">
+                                            <input type="checkbox">
+                                            <label>Answer</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-lg-4">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control">
+                                        <span class="input-group-addon">
+                                            <input type="checkbox">
+                                            <label>Answer</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @* ----End Multiple Selection ----- *@
+
+                        <div class="row form-group">
+                            <div class="col-lg-4">
+                                <div class="pull-right">
+                                    <button type="button" class="form-control btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    $(function () {
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        //  CKEDITOR.replace('editor1')
+        //bootstrap WYSIHTML5 - text editor
+        $('.textarea').wysihtml5()
+    })
+</script>
