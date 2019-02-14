@@ -1,0 +1,227 @@
+﻿
+@{
+    ViewBag.Title = "CourseDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .margin {
+        margin-left: 50px;
+    }
+
+    .mt-1 {
+        margin-top: 5px;
+    }
+
+    .mt-2 {
+        margin-top: 10px;
+    }
+
+    .mt-3 {
+        margin-top: 15px;
+    }
+
+    .mt-4 {
+        margin-top: 20px;
+    }
+
+    .mt5 {
+        margin-top: 25px;
+    }
+</style>
+<div class="box box-primary">
+    <div class="box-header">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">Courses</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Introduction to TalentLMS</li>
+        </ol>
+    </div>
+    <div class="box-body">
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#activity" data-toggle="tab">Course</a></li>
+                <li><a href="#timeline" data-toggle="tab">Users</a></li>
+                <li role="presentation" style="float:right;line-height:45px;"><div class="btn-group"><button type="button" class="btn btn-info">Info</button><button type="button" class="btn btn-info" onclick="CourseDetailReport()">Reports</button></div></li>
+            </ul>
+            <div class="tab-content">
+                <div class="active tab-pane" id="activity">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <label class="mt-1">Course Name</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <input type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <label class="mt-1">Category</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2">
+                            <select class="form-control select2" style="width: 100%;">
+                                <option selected="selected">Alabama</option>
+                                <option>Alaska</option>
+                                <option>California</option>
+                                <option>Delaware</option>
+                                <option>Tennessee</option>
+                                <option>Texas</option>
+                                <option>Washington</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <label class="mt-1">Description</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2">
+                            <textarea class="form-control" style="width:500px; height:200px"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <input type="checkbox" class="minimal" checked>
+                            Active
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <input type="checkbox" class="minimal">
+                            Hide from catalog
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <label>Course Code</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <input type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <a href="#"><i class="fa fa-shopping-cart"></i> Price</a>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <a href="#"><i class="fa fa-clock-o"></i> Time Limit</a>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <a href="#"><i class="fa fa-trophy"></i> Certification</a>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <a href="#"><i class="fa fa-tachometer"></i> Level</a>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-info btn-md">Update Course</button>
+                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">and add another</a></li>
+                                    <li><a href="#">and go to users</a></li>
+                                </ul>
+                            </div>
+                            or <a href="#">cancel</a>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2"></div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 mt-2">
+                            <button type="button" class="btn btn-info">Go to course</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="timeline">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Role</th>
+                                <th>Completion Date</th>
+                                <th>Operations</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>John Doe</td>
+                                <td>Learner</td>
+                                <td>March 25, 2019</td>
+                                <td> 4</td>
+                            </tr>
+                            <tr>
+                                <td>John Doe</td>
+                                <td>Learner</td>
+                                <td>March 25, 2019</td>
+                                <td> 4</td>
+                            </tr>
+                            <tr>
+                                <td>John Doe</td>
+                                <td>Learner</td>
+                                <td>March 25, 2019</td>
+                                <td> 4</td>
+                            </tr>
+                            <tr>
+                                <td>John Doe</td>
+                                <td>Learner</td>
+                                <td>March 25, 2019</td>
+                                <td> 4</td>
+                            </tr>
+                            <tr>
+                                <td>John Doe</td>
+                                <td>Learner</td>
+                                <td>March 25, 2019</td>
+                                <td> 4</td>
+                            </tr>
+                            <tr>
+                                <td>John Doe</td>
+                                <td>Learner</td>
+                                <td>March 25, 2019</td>
+                                <td> 4</td>
+                            </tr>
+                            <tr>
+                                <td>John Doe</td>
+                                <td>Learner</td>
+                                <td>March 25, 2019</td>
+                                <td> 4</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>User</th>
+                                <th>Role</th>
+                                <th>Completion Date</th>
+                                <th>Operations</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#category").select2();
+    });
+
+    var CourseDetailReport = function ()
+    {   window.location.href = '@Url.Action("CourseDetailReport", "Course")';  }
+</script>
