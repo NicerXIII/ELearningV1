@@ -50,3 +50,4 @@ var ReadImage = function (file) {
         }
     }
 }
+
