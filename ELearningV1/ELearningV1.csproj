@@ -2682,6 +2682,7 @@
     <Content Include="Content\select2\src\scss\_dropdown.scss" />
     <Content Include="Content\select2\src\scss\_multiple.scss" />
     <Content Include="Content\select2\src\scss\_single.scss" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\highcharts\6.2.0\themes\sunset.src.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
