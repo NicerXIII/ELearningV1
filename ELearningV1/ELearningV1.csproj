@@ -197,6 +197,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DAL.cs" />
+    <Compile Include="Models\ViewModel\CourseImage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1890,6 +1892,7 @@
     <Content Include="Ionicons\scss\_ionicons-font.scss" />
     <Content Include="Ionicons\scss\_ionicons-icons.scss" />
     <Content Include="Ionicons\scss\_ionicons-variables.scss" />
+    <Content Include="Scripts\Dev_Scripts\AddNewCourse.js" />
     <Content Include="Scripts\highcharts\6.2.0\css\highcharts.css" />
     <Content Include="Scripts\highcharts\6.2.0\css\themes\dark-unica.css" />
     <Content Include="Scripts\highcharts\6.2.0\css\themes\grid-light.css" />
@@ -2692,6 +2695,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\tether.js" />
     <Content Include="Scripts\tether.min.js" />
+    <Content Include="UpLoadedImages\imagesaaaaa.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2717,7 +2721,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
