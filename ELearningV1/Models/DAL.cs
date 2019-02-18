@@ -123,5 +123,98 @@ namespace ELearningV1.Models
 
             return null;
         }
+
+        #region LogIn
+        public VMKioskLogInUserList KioskLogInUserData(string EmpNum,string Password)
+        {
+
+            VMKioskLogInUserList UserDataList = new VMKioskLogInUserList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("EmployeeKioskLoginUser", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@EmployeeNumber", EmpNum);
+                        cmd.Parameters.AddWithValue("@Password", Password);
+                        SqlDataReader dr = cmd.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+                            VMKioskLogInUser UserData = new VMKioskLogInUser();
+                            UserData.EmployeeNumber = Convert.ToString(dr["EmployeeNumber"]);
+                            UserData.EmployeeName = Convert.ToString(dr["EmployeeName"]);
+                            UserData.Department = Convert.ToString(dr["Department"]);
+                            UserData.Position = Convert.ToString(dr["Position_name"]);
+                            UserData.ReportTo = Convert.ToString(dr["ReportTo"]);
+                            UserDataList.Add(UserData);
+                        }
+                        return UserDataList;
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+                }
+            }
+
+            return null;
+        }
+
+
+        public VMELearnEmpDataList FBLoadLeftPanel(string EmpID)
+        {
+
+            VMELearnEmpDataList EmpDataList = new VMELearnEmpDataList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("Select * From fuzeEmpData1 Where EmployeeNumber = '" + EmpID + "' ", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        SqlDataReader dr = cmd.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+                            VMELearnEmpData empData = new VMELearnEmpData();
+                            empData.EmployeeNumber = Convert.ToString(dr["EmployeeNumber"]);
+                            empData.EmpName = Convert.ToString(dr["EmpName"]);
+                            empData.EmpImage = Convert.ToString(dr["EmpImage"]);
+                            empData.PEarned = Convert.ToInt32(dr["PEarned"]);
+                            empData.PGranted = Convert.ToInt32(dr["PGranted"]);
+                            empData.PBalance = Convert.ToInt32(dr["PBalance"]);
+                            empData.IsAdmin = Convert.ToBoolean(dr["IsAdmin"]);
+                            EmpDataList.Add(empData);
+                        }
+
+
+                        return EmpDataList;
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        #endregion
+
+
+
     }
 }
