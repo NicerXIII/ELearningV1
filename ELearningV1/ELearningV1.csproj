@@ -199,6 +199,7 @@
     </Compile>
     <Compile Include="Models\DAL.cs" />
     <Compile Include="Models\ViewModel\CourseImage.cs" />
+    <Compile Include="Models\ViewModel\VMViewCourses.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

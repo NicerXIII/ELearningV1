@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<ELearningV1.Models.ViewModel.VMViewCourses>
 @{
     ViewBag.Title = "ViewCourse";
 }
@@ -72,7 +72,7 @@
                         <h3 class="box-title" style="font-weight:700; font-size:20px;">Select Course</h3>
                         <div class="input-group input-group pull-right" style="width: 200px;">
 
-                            <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+                            <input type="text" name="table_search" id="searchCourse" class="form-control pull-right" placeholder="Search"/>
                             <div class="input-group-btn">
                                 <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                             </div>
@@ -83,466 +83,37 @@
 
                 <!-- /.box-body -->
                 <div class="box-body">
-                    <div class="row">
+                    <div class="row" id="reloadViewCourse">
 
+                        @if (Model != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <a href="#/" target="_blank">
+                                                <img src="~/UpLoadedImages/@item.Image" alt="Nature" style="width:100%; height:250px;">
+                                            </a>
+                                            <form class="form-inline" style="margin-top:20px;">
+                                                <label style="font-size:18px;">Course:</label>&nbsp;@item.Course
+                                            </form>
+                                            <form class="form-inline">
+                                                <label style="font-size:18px;">Description:</label>&nbsp;@item.Description
+                                            </form>
+                                        </div>
+                                        <div class="box-footer">
+                                            <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam('@item.ID')">Take Exam</button>
+                                            <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam('@item.ID')">Create Exam</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
 
-
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <a href="#/" target="_blank">
-                                        <img src="~/admin-lte/img/photo1.png" alt="Nature" style="width:100%">
-                                    </a>
-                                    <form class="form-inline" style="margin-top:20px;">
-                                        <label style="font-size:18px;">Course:</label>&nbsp;asdasd
-                                    </form>
-                                    <form class="form-inline">
-                                        <label style="font-size:18px;">Description:</label>&nbsp;asdasd
-                                    </form>
-                                </div>
-                                <div class="box-footer">
-                                    <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam()">Take Exam</button>
-                                    <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam()">Create Exam</button>
-                                </div>
-                            </div>
-                        </div>
+                        }
 
 
                     </div>
@@ -567,7 +138,21 @@
 </section>
 
 <script type="text/javascript">
-    var ocCreateExam = function () {
-          window.location.href = '@Url.Action("CreateExam", "Exam")';
+    $(document).ready(function () {
+        $("#reloadViewCourse").load("/Home/LoadCourseData #reloadViewCourse");
+    });
+
+    var ocCreateExam = function (courseID) {
+        alert(courseID);
+        //  window.location.href = '@Url.Action("CreateExam", "Exam")';
     }
+
+    var ocTakeExam = function (courseID) {
+        alert(courseID);
+    }
+
+    $("#searchCourse").change(function () {
+        var search = $("#searchCourse").val();
+        $("#reloadViewCourse").load("/Home/LoadCourseDataByCourseName?CName=" + search + " #reloadViewCourse");
+    })
 </script>
