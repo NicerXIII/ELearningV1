@@ -1,4 +1,4 @@
-﻿
+﻿@model  ELearningV1.Models.ViewModel.VMViewCourses
 @{
     ViewBag.Title = "CourseDetail";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -45,49 +45,61 @@
                 <li role="presentation" style="float:right;line-height:45px;"><div class="btn-group"><button type="button" class="btn btn-info">Info</button><button type="button" class="btn btn-info" onclick="CourseDetailReport()">Reports</button></div></li>
             </ul>
             <div class="tab-content">
+
                 <div class="active tab-pane" id="activity">
                     <div class="row">
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                             <label class="mt-1">Course Name</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <input type="text" class="form-control" />
+                            <input type="text" class="form-control" value="@Model.Course" />
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <label class="mt-1">Category</label>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2">
-                            <select class="form-control select2" style="width: 100%;">
-                                <option selected="selected">Alabama</option>
-                                <option>Alaska</option>
-                                <option>California</option>
-                                <option>Delaware</option>
-                                <option>Tennessee</option>
-                                <option>Texas</option>
-                                <option>Washington</option>
-                            </select>
-                        </div>
-                    </div>
+                    @*<div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <label class="mt-1">Category</label>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2">
+                                <select class="form-control select2" style="width: 100%;">
+                                    <option selected="selected">Alabama</option>
+                                    <option>Alaska</option>
+                                    <option>California</option>
+                                    <option>Delaware</option>
+                                    <option>Tennessee</option>
+                                    <option>Texas</option>
+                                    <option>Washington</option>
+                                </select>
+                            </div>
+                        </div>*@
                     <div class="row">
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                             <label class="mt-1">Description</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2">
-                            <textarea class="form-control" style="width:500px; height:200px"></textarea>
+                            <textarea class="form-control" style="width:500px; height:200px">@Model.Description</textarea>
                         </div>
                     </div>
                     <div class="row mt-2">
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input type="checkbox" class="minimal" checked>
-                            Active
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <input type="checkbox" class="minimal">
-                            Hide from catalog
-                        </div>
+                        @if (Model.IsActive == true)
+                        {
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <input type="checkbox" class="minimal" checked>
+                                Active
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <input type="checkbox" class="minimal">
+                                Active
+                            </div>
+                        }
+
+                        @*<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <input type="checkbox" class="minimal">
+            Hide from catalog
+        </div>*@
                     </div>
 
                     <!--
@@ -153,6 +165,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="tab-pane" id="timeline">
                     <table id="example2" class="table table-bordered table-hover">
                         <thead>
@@ -221,10 +234,15 @@
         </div>
     </div>
 </div>
+
+<input type="hidden" id="cID" value="@Model.ID" />
+
 <script>
     $(document).ready(function () {
-        $("#category").select2();
+
     });
+
+
 
     var CourseDetailReport = function ()
     { window.location.href = '@Url.Action("CourseDetailReport", "Course")'; }

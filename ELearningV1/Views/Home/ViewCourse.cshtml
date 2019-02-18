@@ -104,7 +104,7 @@
                                         </div>
                                         <div class="box-footer">
                                             <button type="button" class="btn btn-success pull-right" onclick="ocTakeExam('@item.ID')">Take Exam</button>
-                                            <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocCreateExam('@item.ID')">Create Exam</button>
+                                            <button type="button" class="btn btn-default pull-right" style="margin-right:4px;" onclick="ocViewDetails('@item.ID')">View Details</button>
                                         </div>
                                     </div>
                                 </div>
@@ -133,22 +133,22 @@
             <div id="ProGressAct"></div>
         </div>
     </div>
-
-
 </section>
+
+
+
 
 <script type="text/javascript">
     $(document).ready(function () {
         $("#reloadViewCourse").load("/Home/LoadCourseData #reloadViewCourse");
     });
 
-    var ocCreateExam = function (courseID) {
-        alert(courseID);
-        //  window.location.href = '@Url.Action("CreateExam", "Exam")';
+    var ocViewDetails = function (courseID) {
+        window.location.href = '/Course/CourseDetail?CourseID=' + courseID + '';
     }
 
     var ocTakeExam = function (courseID) {
-        alert(courseID);
+        //alert(courseID);
     }
 
     $("#searchCourse").change(function () {

@@ -12,6 +12,7 @@ namespace ELearningV1.Models.ViewModel
         public string Description { get; set; }
         public string Image { get; set; }
         public DateTime DateCreated { get; set; }
+        public bool IsActive { get; set; }
 
     }
 
