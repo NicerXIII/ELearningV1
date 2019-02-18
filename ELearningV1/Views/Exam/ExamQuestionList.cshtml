@@ -28,54 +28,156 @@
                     <table id="example2" class="table table-hover dataTable" role="grid" aria-describedby="example2_info">
                         <thead>
                             <tr role="row">
-                                <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column descending" aria-sort="ascending">Use</th>
-                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Question</th>
-                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Type</th>
-                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Operations</th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Use</th>
+                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Question</th>
+                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" ">Type</th>
+                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Operations</th>
                         </thead>
                         <tbody>
                             <tr role="row" class="odd">
                                 <td class="sorting_1"><input type="button" value="Add" class="btn btn-info btn-sm" /></td>
-                                <td><a href="#">Sample question 1 the quick brown [fox] jumps over the lazy [dog]</a></td>
+                                <td><a href="#">FILL IN THE BLANK the quick brown [fox] jumps over the lazy [dog]</a></td>
                                 <td>Win 98+ / OSX.2+</td>
-                                <td><i class="fa fa-pencil" title="Edit"></i> <i class="fa fa-search" title="Preview"></i> <i class="fa fa-times" title="Delete"</td>
+                                <td><i class="fa fa-pencil" title="Edit" onclick="filltheGap()"></i> <i class="fa fa-search" title="Preview"></i> <i class="fa fa-times" title="Delete"></i></td>
                             </tr>
                             <tr role="row" class="even">
                                 <td class="sorting_1"><input type="button" value="Add" class="btn btn-info btn-sm" /></td>
-                                <td>Firefox 1.5</td>
+                                <td><a href="#">MULTIPLE CHOICE the quick brown [fox] jumps over the lazy [dog]</a></td>
                                 <td>Win 98+ / OSX.2+</td>
-                                <td><button><i class="fa fa-pencil" title="Edit"></i></button> <button><i class="fa fa-search" title="Preview"></i></button> <button><i class="fa fa-times" title="Delete"</i></button> </td>
+                                <td><i class="fa fa-pencil" title="Edit" onclick="multilpleChoice()"></i> <i class="fa fa-search" title="Preview"></i> <i class="fa fa-times" title="Delete"></i> </td>
                             </tr>
                             <tr role="row" class="odd">
                                 <td class="sorting_1"><input type="button" value="Add" class="btn btn-info btn-sm" /></td>
-                                <td>Firefox 2.0</td>
+                                <td><a href="#">CHECKBOX the quick brown [fox] jumps over the lazy [dog]</a></td>
                                 <td>Win 98+ / OSX.2+</td>
-                                <td><i class="fa fa-pencil" title="Edit"></i> <i class="fa fa-search" title="Preview"></i> <i class="fa fa-times" title="Delete"</td>
-                            </tr>
-                            <tr role="row" class="even">
-                                <td class="sorting_1"><input type="button" value="Add" class="btn btn-info btn-sm" /></td>
-                                <td>Firefox 3.0</td>
-                                <td>Win 2k+ / OSX.3+</td>
-                                <td><i class="fa fa-pencil" title="Edit"></i> <i class="fa fa-search" title="Preview"></i> <i class="fa fa-times" title="Delete"</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td class="sorting_1"><input type="button" value="Add" class="btn btn-info btn-sm" /></td>
-                                <td>Camino 1.0</td>
-                                <td>OSX.2+</td>
                                 <td><i class="fa fa-pencil" title="Edit"></i> <i class="fa fa-search" title="Preview"></i> <i class="fa fa-times" title="Delete"</td>
                             </tr>
                         </tbody>
-                        <tfoot>
-                            <tr>
-                                <th rowspan="1" colspan="1">Use</th>
-                                <th rowspan="1" colspan="1">Question</th>
-                                <th rowspan="1" colspan="1">Type(s)</th>
-                                <th rowspan="1" colspan="1">Operations</th>
-                            </tr>
-                        </tfoot>
                     </table>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<div class="modal fade" id="fillTheGap">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Edit Question</h4>
+            </div>
+            <div class="modal-body">
+                <textarea class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="multilpleChoicee">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Edit Question</h4>
+            </div>
+            <div class="modal-body">
+                <textarea class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                <br />
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <label>Answers</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <input type="text" class="form-control" />
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox">
+                                Correct
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <input type="text" class="form-control" />
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox">
+                                Correct
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <input type="text" class="form-control" />
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox">
+                                Correct
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <input type="text" class="form-control" />
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox">
+                                Correct
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary pull-left">Save changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<script>
+    var filltheGap = function ()
+    {
+        $("#fillTheGap").modal();
+        //window.location.href = '@Url.Action("CourseDetailReport", "Course")';
+    }
+
+    var multilpleChoice = function ()
+    {
+        $("#multilpleChoicee").modal();
+        //window.location.href = '@Url.Action("CourseDetailReport", "Course")';
+    }
+
+    $(function () {
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        //  CKEDITOR.replace('editor1')
+        //bootstrap WYSIHTML5 - text editor
+        $('.textarea').wysihtml5()
+    })
+</script>
