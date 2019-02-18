@@ -23,5 +23,10 @@ namespace ELearningV1.Controllers
         {
             return View();
         }
+
+        public ActionResult ExamQuestionList()
+        {
+            return View();
+        }
     }
 }
