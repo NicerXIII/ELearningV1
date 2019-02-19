@@ -124,6 +124,74 @@ namespace ELearningV1.Models
             return null;
         }
 
+
+
+        public VMViewCoursesList ViewCoursesByID(string CID)
+        {
+
+            VMViewCoursesList CourseList = new VMViewCoursesList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("Select * From ELearningCourse Where ID='" + CID + "'", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        SqlDataReader dr = cmd.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+                            VMViewCourses course = new VMViewCourses();
+                            course.ID = Convert.ToInt32(dr["ID"]);
+                            course.Course = Convert.ToString(dr["Course"]);
+                            course.Description = Convert.ToString(dr["Description"]);
+                            course.Image = Convert.ToString(dr["Image"]);
+                            course.DateCreated = Convert.ToDateTime(dr["DateCreated"]);
+                            course.IsActive = Convert.ToBoolean(dr["IsActive"]);
+                            CourseList.Add(course);
+                        }
+                        return CourseList;
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public bool UpdateCourse(string CID, string CName, string Desc, bool IsActive)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("Update ELearningCourse SET COurse='" + CName + "', Description='" + Desc + "',IsActive='" + IsActive + "' Where ID = '" + CID + "' ", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        return false;
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+                }
+            }
+        }
+
         #region LogIn
         public VMKioskLogInUserList KioskLogInUserData(string EmpNum,string Password)
         {
