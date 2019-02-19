@@ -16,9 +16,37 @@ namespace ELearningV1.Controllers
             return View();
         }
 
-        public ActionResult CourseDetail()
+     
+        [HttpGet]
+        public ActionResult CourseDetail(string CourseID)
         {
-            return View();
+            DAL SQLcon = new DAL();
+            VMViewCourses courseData = new VMViewCourses();
+            try {
+                courseData = SQLcon.ViewCoursesByID(CourseID).SingleOrDefault();
+            } catch (Exception ex) { }
+
+            return View(courseData);
+        }
+
+        public ActionResult UpdateCourse(string CourseID,string CourseName,string CourseDesc,bool IsActive)
+        {
+            DAL SQLcon = new DAL();
+            bool stats = false;
+            try
+            {
+                stats = SQLcon.UpdateCourse(CourseID,CourseName,CourseDesc,IsActive);
+            }
+            catch (Exception ex) {
+                stats = false;
+            }
+
+            var response = new JsonResult();
+            response.Data = new {
+                res = stats
+            };
+
+            return response;
         }
 
         public ActionResult CourseDetailReport()
