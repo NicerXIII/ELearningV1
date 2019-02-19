@@ -3,14 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ELearningV1.Models;
+using ELearningV1.Models.ViewModel;
 
 namespace ELearningV1.Controllers
 {
     public class ExamController : Controller
     {
-        public ActionResult ExamList()
+        [HttpGet]
+        public ActionResult ExamList(string CourseID)
         {
-            return View();
+            DAL SQLcon = new DAL();
+            VMViewCourses courseData = new VMViewCourses();
+            try
+            {
+                courseData = SQLcon.ViewCoursesByID(CourseID).SingleOrDefault();
+            }
+            catch (Exception ex) { }
+
+            return View(courseData);
         }
 
         // GET: Exam
