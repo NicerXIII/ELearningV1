@@ -3,15 +3,48 @@
     ViewBag.Title = "ExamQuestionList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .margin {
+        margin-left: 50px;
+    }
+
+    .mt-1 {
+        margin-top: 5px;
+    }
+
+    .mt-2 {
+        margin-top: 10px;
+    }
+
+    .mt-3 {
+        margin-top: 15px;
+    }
+
+    .mt-4 {
+        margin-top: 20px;
+    }
+
+    .mt5 {
+        margin-top: 25px;
+    }
+</style>
 <section class="content">
     <div class="row">
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header">
+                    <!--
                     <h3 class="box-title">
-                        Create Exam
-                        <small>Simple and fast</small>
+                        Create Test
+                        <!--<small>Simple and fast</small>
                     </h3>
+                    -->
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                            <input type="text" class="form-control" placeholder="Test name" />
+                        </div>
+                    </div>
+
                     <div class="pull-right box-tools">
                         <button type="button" class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip"
                                 title="Collapse">
@@ -25,31 +58,36 @@
                 </div>
 
                 <div class="box-body pad">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                            <button type="button" class="btn btn-info" onclick="addQuestion()">Add Question</button>
+                        </div>
+                    </div>
                     <table id="example2" class="table table-hover dataTable" role="grid" aria-describedby="example2_info">
                         <thead>
                             <tr role="row">
-                                <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Use</th>
+                                <!--<th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Use</th>-->
                                 <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Question</th>
                                 <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" ">Type</th>
                                 <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Operations</th>
                         </thead>
                         <tbody>
                             <tr role="row" class="odd">
-                                <td class="sorting_1"><input type="button" value="Add" class="btn btn-info btn-sm" /></td>
+                                <!--<td class="sorting_1"><input type="button" value="Add" class="btn btn-info btn-sm" /></td>-->
                                 <td><a href="#">FILL IN THE BLANK the quick brown [fox] jumps over the lazy [dog]</a></td>
-                                <td>Win 98+ / OSX.2+</td>
+                                <td><i class="fa fa-ellipsis-h" title="Fill the gap"></i></td>
                                 <td><i class="fa fa-pencil" title="Edit" onclick="filltheGap()"></i> <i class="fa fa-search" title="Preview"></i> <i class="fa fa-times" title="Delete"></i></td>
                             </tr>
                             <tr role="row" class="even">
-                                <td class="sorting_1"><input type="button" value="Add" class="btn btn-info btn-sm" /></td>
+                                <!--<td class="sorting_1"><input type="button" value="Add" class="btn btn-info btn-sm" /></td>-->
                                 <td><a href="#">MULTIPLE CHOICE the quick brown [fox] jumps over the lazy [dog]</a></td>
-                                <td>Win 98+ / OSX.2+</td>
+                                <td><i class="fa fa-check-square"></i></td>
                                 <td><i class="fa fa-pencil" title="Edit" onclick="multilpleChoice()"></i> <i class="fa fa-search" title="Preview"></i> <i class="fa fa-times" title="Delete"></i> </td>
                             </tr>
                             <tr role="row" class="odd">
-                                <td class="sorting_1"><input type="button" value="Add" class="btn btn-info btn-sm" /></td>
-                                <td><a href="#">CHECKBOX the quick brown [fox] jumps over the lazy [dog]</a></td>
-                                <td>Win 98+ / OSX.2+</td>
+                                <!--<td class="sorting_1"><input type="button" value="Add" class="btn btn-info btn-sm" /></td>-->
+                                <td><a href="#">RADIO BUTTON the quick brown [fox] jumps over the lazy [dog]</a></td>
+                                <td><i class="fa fa-dot-circle-o"></i></td>
                                 <td><i class="fa fa-pencil" title="Edit"></i> <i class="fa fa-search" title="Preview"></i> <i class="fa fa-times" title="Delete"</td>
                             </tr>
                         </tbody>
@@ -59,6 +97,180 @@
         </div>
     </div>
 </section>
+<div class="modal fade" id="addQuestionaire">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Edit Question</h4>
+            </div>
+            <div class="modal-body">
+                <textarea class="textarea" placeholder="Add question here" style="width: 100%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+
+                <div class="row mt-3">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <label>Question Type</label>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <select id="ddquestionType" class="form-control select2" style="width: 100%;">
+                            <option selected>Select question type</option>
+                            <option value="1">Fill in the blank</option>
+                            <option value="2">Multiple choice with Multiple answer</option>
+                            <option value="3">Multiple choice with one answer</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-3" id="fitb" style="display:none">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                        <label class="label-warning">Put <mark>[ ]</mark> on the answer in the text area above</label>
+                    </div>
+                </div>
+                <div class="row" id="mc" style="display:none">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <label>Answers</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <input type="text" class="form-control" />
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox">
+                                        Correct
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <input type="text" class="form-control" />
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox">
+                                        Correct
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <input type="text" class="form-control" />
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox">
+                                        Correct
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <input type="text" class="form-control" />
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox">
+                                        Correct
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="tof" style="display:none">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <label>Answers</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                                        <input type="text" placeholder="option one" class="form-control" />
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left mt-3">
+                                <label>
+                                    <input type="checkbox">
+                                    Correct
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                                        <input type="text" placeholder="option two" class="form-control" />
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left mt-3">
+                                <label>
+                                    <input type="checkbox">
+                                    Correct
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                                        <input type="text" placeholder="option three" class="form-control" />
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left mt-3">
+                                <label>
+                                    <input type="checkbox">
+                                    Correct
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                                        <input type="text" placeholder="option four" class="form-control" />
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left mt-3">
+                                <label>
+                                    <input type="checkbox">
+                                    Correct
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 <div class="modal fade" id="fillTheGap">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -160,21 +372,13 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-<script>
-    $(document).ready(function () {
-        $.ajax({
-            type: "POST",
-            url: "/Home/GetSession",
-            data: {},
-            success: function (response) {
-             
-            },
-            error: function (response) {
-                window.location.href = '/LogIn/Index';
-            }
+<script type="text/javascript">
+    var addQuestion = function ()
+    {
+        $("#addQuestionaire").modal();
+        //window.location.href = '@Url.Action("CourseDetailReport", "Course")';
+    }
 
-        });
-    });
     var filltheGap = function ()
     {
         $("#fillTheGap").modal();
@@ -187,6 +391,31 @@
         //window.location.href = '@Url.Action("CourseDetailReport", "Course")';
     }
 
+    $("#ddquestionType").change(function () {
+        debugger
+        var selected = $("#ddquestionType option:selected").val();
+        var a = document.getElementById("fitb");
+        var b = document.getElementById("mc");
+        var c = document.getElementById("tof");
+
+        if (selected === "1") {
+            a.style.display = "block";
+            b.style.display = "none";
+            c.style.display = "none";
+        }
+        else if (selected === "2") {
+            b.style.display = "block";
+            a.style.display = "none";
+            c.style.display = "none";
+        }
+        else if (selected === "3") {
+            c.style.display = "block";
+            b.style.display = "none";
+            a.style.display = "none";
+        }
+
+    });
+
     $(function () {
         // Replace the <textarea id="editor1"> with a CKEditor
         // instance, using default configuration.
@@ -194,4 +423,16 @@
         //bootstrap WYSIHTML5 - text editor
         $('.textarea').wysihtml5()
     })
+</script>
+<script>
+    var saveQuestion = function () {
+        $.ajax({
+            type: "POST",
+            url: "",
+            data: {},
+            success: function (response) {
+
+            }
+        });
+    }
 </script>
