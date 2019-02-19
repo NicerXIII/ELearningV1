@@ -13,7 +13,8 @@ namespace ELearningV1.Models
     {
         string Cons = ConfigurationManager.ConnectionStrings["PayRollCon"].ConnectionString;
 
-        public String AddNewCourse(string CName,string Desc, string ImageName,string Date1)
+        #region Course
+        public String AddNewCourse(string CName, string Desc, string ImageName, string Date1)
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {
@@ -124,11 +125,8 @@ namespace ELearningV1.Models
             return null;
         }
 
-
-
         public VMViewCoursesList ViewCoursesByID(string CID)
         {
-
             VMViewCoursesList CourseList = new VMViewCoursesList();
             using (SqlConnection con = new SqlConnection(Cons))
             {
@@ -191,6 +189,55 @@ namespace ELearningV1.Models
                 }
             }
         }
+        #endregion
+
+        #region Exam
+        public string SaveExamAndQuestion(string Question, string Ans1, string Ans2, string Ans3, string Ans4, string EmployeeNumber)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand com = new SqlCommand("", con))
+                {
+                    try
+                    {
+                        com.CommandType = CommandType.StoredProcedure;
+                        com.Parameters.AddWithValue("@Question", Question);
+                        com.Parameters.AddWithValue("@Ans1", Ans1);
+                        com.Parameters.AddWithValue("@Ans2", Ans2);
+                        com.Parameters.AddWithValue("@Ans3", Ans3);
+                        com.Parameters.AddWithValue("@Ans4", Ans4);
+                        com.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                        com.ExecuteNonQuery();
+                        
+                    }
+                    catch (Exception ex)
+                    {   return ex.Message;  }
+                }
+            }
+            return "Success";
+        }
+
+        public string SaveTest(string TestName, string EmployeeNumber)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand com = new SqlCommand("", con))
+                {
+                    try
+                    {
+                        com.CommandType = CommandType.StoredProcedure;
+                        com.Parameters.AddWithValue("@TestName", TestName);
+                        com.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                        com.ExecuteNonQuery();
+
+                    }
+                    catch (Exception ex)
+                    {   return ex.Message;  }
+                }
+            }
+            return "Success";
+        }
+        #endregion
 
         #region LogIn
         public VMKioskLogInUserList KioskLogInUserData(string EmpNum,string Password)
