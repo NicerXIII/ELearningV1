@@ -88,7 +88,7 @@ namespace ELearningV1.Models
 
         public VMViewCoursesList ViewCoursesByName(string CName)
         {
-
+            ////////
             VMViewCoursesList CourseList = new VMViewCoursesList();
             using (SqlConnection con = new SqlConnection(Cons))
             {

@@ -26,19 +26,19 @@ namespace ELearningV1.Controllers
                 var logInData = SQLcon.KioskLogInUserData(unum, upass).SingleOrDefault();
                 if (logInData != null)
                 {
-                    Session["EmployeeNumber"] = logInData.EmployeeNumber.ToString();
-                    Session["EmployeeName"] = logInData.EmployeeName.ToString();
-                    Session["EmployeeDeptName"] = logInData.Department.ToString();
-                    Session["EmployeePositionName"] = logInData.Position.ToString();
-                    Session["EmployeeReportTo"] = logInData.ReportTo.ToString();
-                    var data1 = SQLcon.FBLoadLeftPanel(logInData.EmployeeNumber).Select(x => new VMELearnEmpData
-                    {
-                        EmpImage = (x.EmpImage != "") ? x.EmpImage : "avatar3.png",
-                    }).SingleOrDefault();
+                    //Session["EmployeeNumber"] = logInData.EmployeeNumber.ToString();
+                    //Session["EmployeeName"] = logInData.EmployeeName.ToString();
+                    //Session["EmployeeDeptName"] = logInData.Department.ToString();
+                    //Session["EmployeePositionName"] = logInData.Position.ToString();
+                    //Session["EmployeeReportTo"] = logInData.ReportTo.ToString();
+                    //var data1 = SQLcon.FBLoadLeftPanel(logInData.EmployeeNumber).Select(x => new VMELearnEmpData
+                    //{
+                    //    EmpImage = (x.EmpImage != "") ? x.EmpImage : "avatar3.png",
+                    //}).SingleOrDefault();
 
 
 
-                    Session["UserProfilePic"] = path + data1.EmpImage;
+                    //Session["UserProfilePic"] = path + data1.EmpImage;
                     stats = true;
                 }
                 else
