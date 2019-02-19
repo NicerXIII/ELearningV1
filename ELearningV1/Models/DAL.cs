@@ -14,7 +14,7 @@ namespace ELearningV1.Models
         string Cons = ConfigurationManager.ConnectionStrings["PayRollCon"].ConnectionString;
 
 
-
+        #region Course
         public String AddNewCourse(string CName,string Desc, string ImageName,string Date1)
         {
             using (SqlConnection con = new SqlConnection(Cons))
@@ -167,6 +167,34 @@ namespace ELearningV1.Models
             return null;
         }
 
+        public bool UpdateCourse(string CID,string CName, string Desc, bool IsActive)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("Update ELearningCourse SET COurse='" + CName + "', Description='" + Desc + "',IsActive='" + IsActive + "' Where ID = '" + CID + "' ", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        return false;
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+                }
+            }
+        }
+
+
+
+        #endregion
 
         #region LogIn
         public VMKioskLogInUserList KioskLogInUserData(string EmpNum,string Password)

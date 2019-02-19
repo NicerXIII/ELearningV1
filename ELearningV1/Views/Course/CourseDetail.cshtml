@@ -52,7 +52,7 @@
                             <label class="mt-1">Course Name</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <input type="text" class="form-control" value="@Model.Course" />
+                            <input type="text" class="form-control" id="courseName" value="@Model.Course" />
                         </div>
                     </div>
                     @*<div class="row">
@@ -76,7 +76,7 @@
                             <label class="mt-1">Description</label>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2">
-                            <textarea class="form-control" style="width:500px; height:200px">@Model.Description</textarea>
+                            <textarea class="form-control" style="width:500px; height:200px" id="courseDesc">@Model.Description</textarea>
                         </div>
                     </div>
                     <div class="row mt-2">
@@ -97,9 +97,9 @@
                         }
 
                         @*<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-            <input type="checkbox" class="minimal">
-            Hide from catalog
-        </div>*@
+                                <input type="checkbox" class="minimal">
+                                Hide from catalog
+                            </div>*@
                     </div>
 
                     <!--
@@ -147,15 +147,7 @@
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-info btn-md">Update Course</button>
-                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-                                    <span class="caret"></span>
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#">and add another</a></li>
-                                    <li><a href="#">and go to users</a></li>
-                                </ul>
+                                <button type="button" class="btn btn-info btn-md" onclick="ocUpdateCourse()">Update Course</button>
                             </div>
                             or <a href="#">cancel</a>
                         </div>
@@ -248,5 +240,39 @@
     { window.location.href = '@Url.Action("CourseDetailReport", "Course")'; }
 
     var ExamList = function ()
-    {   window.location.href = '@Url.Action("ExamList", "Exam")';  }
+    { window.location.href = '@Url.Action("ExamList", "Exam")'; }
+
+
+    var ocUpdateCourse = function () {
+        debugger
+        var isAct = false;
+        var cid = $("#cID").val();
+        var cName = $("#courseName").val();
+        var cDesc = $("#courseDesc").val();
+
+        if ($('input.minimal').is(':checked')) {
+            isAct = true;
+        }
+        if (cid != "" || cid != undefined) {
+            $.ajax({
+                type: "POST",
+                url: "/Course/UpdateCourse",
+                data: { "CourseID": cid, "CourseName": cName, "CourseDesc": cDesc, "IsActive": isAct },
+                success: function (response) {
+                    var result = response.res;
+                    if (result == true) {
+                        alert("Course successfully updated");
+                    } else {
+                        alert("UNKNOWN ERROR!!!");
+                    }
+                },
+                error: function (response) { }
+            });
+        } else {
+            window.href.location = "/Home/ViewCourse"
+        }
+       
+
+
+    }
 </script>
