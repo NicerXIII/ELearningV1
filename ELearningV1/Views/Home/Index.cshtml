@@ -176,19 +176,19 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        //$.ajax({
-        //    type: "POST",
-        //    url: "/Home/GetSession",
-        //    data: {},
-        //    success: function (response) {
-        //        UserActivityChart();
-        //        UserProgressActivity();
-        //    },
-        //    error: function (response) {
-        //        window.location.href = '/LogIn/Index';
-        //    }
+        $.ajax({
+            type: "POST",
+            url: "/Home/GetSession",
+            data: {},
+            success: function (response) {
+                UserActivityChart();
+                UserProgressActivity();
+            },
+            error: function (response) {
+                window.location.href = '/LogIn/Index';
+            }
 
-        //});
+        });
     });
 
     var UserActivityChart = function () {
