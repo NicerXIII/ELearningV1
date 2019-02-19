@@ -28,5 +28,13 @@ namespace ELearningV1.Controllers
         {
             return View();
         }
+
+        public ActionResult saveQuestion(string Question, string QuestionType, string Answer1, string Answer2, string Answer3, string Answer4)
+        {
+
+
+            var response = new JsonResult();
+            return response;
+        }
     }
 }
