@@ -11,6 +11,7 @@ namespace ELearningV1.Controllers
     public class CourseController : Controller
     {
         // GET: Course
+        [HttpGet]
         public ActionResult CourseList()
         {
             return View();

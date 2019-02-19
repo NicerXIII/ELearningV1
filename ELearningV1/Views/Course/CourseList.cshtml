@@ -1,4 +1,4 @@
-﻿
+﻿@model  ELearningV1.Models.ViewModel.VMViewCourses
 @{
     ViewBag.Title = "CourseList";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -157,6 +157,7 @@
         </div>
     </div>
 </div>
+<input type="hidden" id="cID" value="@Model.ID" />
 
 <script type="text/javascript">
     $(document).ready(function () {
