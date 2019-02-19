@@ -157,3 +157,20 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Home/GetSession",
+            data: {},
+            success: function (response) {
+
+            },
+            error: function (response) {
+                window.location.href = '/LogIn/Index';
+            }
+
+        });
+    });
+</script>

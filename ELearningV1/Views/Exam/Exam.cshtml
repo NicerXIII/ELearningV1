@@ -96,6 +96,20 @@
 </div>
 <script>
     $(document).ready(function () {
-        $("#modal-info").modal();
+        $(document).ready(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Home/GetSession",
+                data: {},
+                success: function (response) {
+                    $("#modal-info").modal();
+                },
+                error: function (response) {
+                    window.location.href = '/LogIn/Index';
+                }
+
+            });
+        });
+     
     });
 </script>

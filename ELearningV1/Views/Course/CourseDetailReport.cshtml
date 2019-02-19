@@ -248,8 +248,22 @@
 </div>
 <script>
     $(document).ready(function () {
-        a();
-        b();
+        $(document).ready(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Home/GetSession",
+                data: {},
+                success: function (response) {
+                    a();
+                    b();
+                },
+                error: function (response) {
+                    window.location.href = '/LogIn/Index';
+                }
+
+            });
+        });
+   
     });
 
     var a = function () {

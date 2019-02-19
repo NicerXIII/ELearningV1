@@ -175,97 +175,119 @@
 
 
 <script type="text/javascript">
-    Highcharts.chart('UserActivity', {
-
-        title: {
-            text: 'Activity'
-        },
-
-        yAxis: {
-            title: {
-                text: 'Number of Employees'
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Home/GetSession",
+            data: {},
+            success: function (response) {
+                UserActivityChart();
+                UserProgressActivity();
+            },
+            error: function (response) {
+                window.location.href = '/LogIn/Index';
             }
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle'
-        },
 
-        plotOptions: {
-            series: {
-                label: {
-                    connectorAllowed: false
-                },
-                pointStart: 2010
-            }
-        },
-
-        series: [{
-            name: 'Other',
-            data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-        }],
-
-        responsive: {
-            rules: [{
-                condition: {
-                    maxWidth: 500
-                },
-                chartOptions: {
-                    legend: {
-                        layout: 'horizontal',
-                        align: 'center',
-                        verticalAlign: 'bottom'
-                    }
-                }
-            }]
-        }
-
+        });
     });
+
+    var UserActivityChart = function () {
+        Highcharts.chart('UserActivity', {
+
+            title: {
+                text: 'Activity'
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Number of Employees'
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+
+            plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    },
+                    pointStart: 2010
+                }
+            },
+
+            series: [{
+                name: 'Other',
+                data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
+            }],
+
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+
+        });
+
+    }
+   
 
 
 
     //-------------------------DONUT--------------------------------------//
 
-    var pieColors = ['#1E90FF', '#FFFFFF'];
+    var UserProgressActivity = function () {
+        var pieColors = ['#1E90FF', '#FFFFFF'];
 
 
-    chart = new Highcharts.Chart({
-        chart: {
-            renderTo: 'ProGressAct',
-            type: 'pie'
-        },
-        title: {
-            text: 'Course Progress'
-        },
-        yAxis: {
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'ProGressAct',
+                type: 'pie'
+            },
             title: {
-                text: 'Total percent market share'
-            }
-        },
-        plotOptions: {
-            pie: {
-                colors: pieColors,
-                shadow: false
-            }
-        },
-        tooltip: {
-            formatter: function () {
-                return '<b>' + this.point.name + '</b>: ' + this.y + ' %';
-            }
-        },
-        series: [{
-            name: 'Browsers',
-            data: [["Progress", 7], ["Remaining", 3]],
-            size: '60%',
-            innerSize: '50%',
-            showInLegend: true,
-            dataLabels: {
-                enabled: false
-            }
-        }]
-    });
+                text: 'Course Progress'
+            },
+            yAxis: {
+                title: {
+                    text: 'Total percent market share'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    colors: pieColors,
+                    shadow: false
+                }
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.point.name + '</b>: ' + this.y + ' %';
+                }
+            },
+            series: [{
+                name: 'Browsers',
+                data: [["Progress", 7], ["Remaining", 3]],
+                size: '60%',
+                innerSize: '50%',
+                showInLegend: true,
+                dataLabels: {
+                    enabled: false
+                }
+            }]
+        });
 
-
+    }
+    
 
 </script>

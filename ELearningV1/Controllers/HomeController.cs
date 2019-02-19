@@ -13,10 +13,33 @@ namespace ELearningV1.Controllers
         public ActionResult Index()
         {
             //Nice ONE BROTHER 2334
-            ViewBag.Title = "Home Page Test12";
+            ViewBag.Title = "Home Page";
 
             return View();
         }
+
+        public ActionResult GetSession()
+        {
+            var userID = Session["EmployeeNumber"].ToString();
+            var userName = Session["EmployeeName"].ToString();
+            var userDept = Session["EmployeeDeptName"].ToString();
+            var userPos = Session["EmployeePositionName"].ToString();
+            var userReportTo = Session["EmployeeReportTo"].ToString();
+
+            var response = new JsonResult();
+            response.Data = new
+            {
+                ID = userID.Trim(),
+                Name = userName,
+                Dep = userDept,
+                Pos = userPos,
+                ReportTo = userReportTo
+            };
+
+            return response;
+        }
+
+
 
         public ActionResult ViewCourse()
         {
