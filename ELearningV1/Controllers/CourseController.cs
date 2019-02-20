@@ -21,6 +21,7 @@ namespace ELearningV1.Controllers
         [HttpGet]
         public ActionResult CourseDetail(string CourseID)
         {
+            
             DAL SQLcon = new DAL();
             VMViewCourses courseData = new VMViewCourses();
             try {
