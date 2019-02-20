@@ -27,17 +27,17 @@ namespace ELearningV1.Controllers
                 if (logInData != null)
                 {
                     Session["EmployeeNumber"] = logInData.EmployeeNumber.ToString();
-                    Session["EmployeeName"] = logInData.EmployeeName.ToString();
                     Session["EmployeeDeptName"] = logInData.Department.ToString();
                     Session["EmployeePositionName"] = logInData.Position.ToString();
                     Session["EmployeeReportTo"] = logInData.ReportTo.ToString();
                     var data1 = SQLcon.FBLoadLeftPanel(logInData.EmployeeNumber).Select(x => new VMELearnEmpData
                     {
-                        EmpImage = (x.EmpImage != "") ? x.EmpImage : "avatar3.png",
+                        EmpName = x.EmpName,
+                        EmpImage = (x.EmpImage != "") ? x.EmpImage : "avatar3.png"
                     }).SingleOrDefault();
 
 
-
+                    Session["EmployeeName"] = data1.EmpName;
                     Session["UserProfilePic"] = path + data1.EmpImage;
                     stats = true;
                 }
