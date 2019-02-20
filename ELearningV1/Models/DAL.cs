@@ -192,7 +192,7 @@ namespace ELearningV1.Models
         #endregion
 
         #region Exam
-        public string SaveExamAndQuestion(string Question, string Ans1, string Ans2, string Ans3, string Ans4, string EmployeeNumber)
+        public string SaveExamAndQuestion(string Question, string Ans1, string Ans2, string Ans3, string Ans4, string CorAns1, string CorAns2, string CorAns3, string CorAns4, string EmployeeNumber)
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {

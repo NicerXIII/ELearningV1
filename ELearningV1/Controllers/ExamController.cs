@@ -10,10 +10,11 @@ namespace ELearningV1.Controllers
 {
     public class ExamController : Controller
     {
+        DAL SQLcon = new DAL();
+
         [HttpGet]
         public ActionResult ExamList(string CourseID)
-        {
-            DAL SQLcon = new DAL();
+        {            
             VMViewCourses courseData = new VMViewCourses();
             try
             {
@@ -40,11 +41,33 @@ namespace ELearningV1.Controllers
             return View();
         }
 
-        public ActionResult saveQuestion(string Question, string QuestionType, string Answer1, string Answer2, string Answer3, string Answer4)
+        public ActionResult saveQuestion(string Question, string QuestionType, string Answer1, string Answer2, string Answer3, string Answer4, string CorrectAns1, string CorrectAns2, string CorrectAns3, string CorrectAns4)
         {
+            string EmployeeNumber = Session["EmployeeNumber"].ToString();
+            if (Answer1 == "" || Answer1 == null)
+            {
 
+            }
+            else if (Answer2 == "" || Answer2 == null)
+            {
+
+            }
+            else if (Answer3 == "" || Answer3 == null)
+            {
+
+            }
+            else if (Answer4 == "" || Answer4 == null)
+            {
+
+            }
+
+            string result = SQLcon.SaveExamAndQuestion(Question, Answer1, Answer2, Answer3, Answer4, CorrectAns1, CorrectAns2, CorrectAns3, CorrectAns4, EmployeeNumber);
 
             var response = new JsonResult();
+            response.Data = new
+            {
+                res = result
+            };
             return response;
         }
     }

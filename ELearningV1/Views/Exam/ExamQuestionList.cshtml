@@ -107,7 +107,7 @@
                 <h4 class="modal-title">Edit Question</h4>
             </div>
             <div class="modal-body">
-                <textarea class="textarea" placeholder="Add question here" style="width: 100%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                <textarea class="textarea" id="textQuestion" placeholder="Add question here" style="width: 100%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
 
                 <div class="row mt-3">
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
@@ -125,6 +125,7 @@
                 <div class="row mt-3" id="fitb" style="display:none">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
                         <label class="label-warning">Put <mark>[ ]</mark> on the answer in the text area above</label>
+                        <p style="font-style:italic">Example: The quick brown [fox] jumps over the lazy [dog]</p>
                     </div>
                 </div>
                 <div class="row" id="mc" style="display:none">
@@ -136,12 +137,12 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <input type="text" class="form-control" />
+                                <input type="text" class="form-control" id="txtMCOne"/>
                             </div>
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox">
+                                        <input type="checkbox" id="chckMCOne">
                                         Correct
                                     </label>
                                 </div>
@@ -149,12 +150,12 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <input type="text" class="form-control" />
+                                <input type="text" class="form-control" id="txtMCTwo" />
                             </div>
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox">
+                                        <input type="checkbox" id="chckMCTwo">
                                         Correct
                                     </label>
                                 </div>
@@ -162,12 +163,12 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <input type="text" class="form-control" />
+                                <input type="text" class="form-control" id="txtMCThree" />
                             </div>
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox">
+                                        <input type="checkbox" id="chckMCThree">
                                         Correct
                                     </label>
                                 </div>
@@ -175,12 +176,12 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <input type="text" class="form-control" />
+                                <input type="text" class="form-control" id="txtMCFour" />
                             </div>
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox">
+                                        <input type="checkbox" id="chckMCFour">
                                         Correct
                                     </label>
                                 </div>
@@ -188,7 +189,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" id="tof" style="display:none">
+                <div class="row" id="mcoa" style="display:none">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -199,14 +200,14 @@
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
-                                        <input type="text" placeholder="option one" class="form-control" />
+                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+                                        <input type="text" placeholder="option one" class="form-control" id="txtMCOA1" />
                                     </label>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left mt-3">
                                 <label>
-                                    <input type="checkbox">
+                                    <input type="checkbox" id="chckMCOA1">
                                     Correct
                                 </label>
                             </div>
@@ -215,14 +216,14 @@
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
-                                        <input type="text" placeholder="option two" class="form-control" />
+                                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option1">
+                                        <input type="text" placeholder="option two" class="form-control" id="txtMCOA2"/>
                                     </label>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left mt-3">
                                 <label>
-                                    <input type="checkbox">
+                                    <input type="checkbox" id="chckMCOA2">
                                     Correct
                                 </label>
                             </div>
@@ -231,14 +232,14 @@
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
-                                        <input type="text" placeholder="option three" class="form-control" />
+                                        <input type="radio" name="optionsRadios" id="optionsRadios3" value="option1">
+                                        <input type="text" placeholder="option three" class="form-control" id="txtMCOA3"/>
                                     </label>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left mt-3">
                                 <label>
-                                    <input type="checkbox">
+                                    <input type="checkbox" id="chckMCOA3">
                                     Correct
                                 </label>
                             </div>
@@ -247,14 +248,14 @@
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
-                                        <input type="text" placeholder="option four" class="form-control" />
+                                        <input type="radio" name="optionsRadios" id="optionsRadios4" value="option1">
+                                        <input type="text" placeholder="option four" class="form-control" id="txtMCOA4"/>
                                     </label>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left mt-3">
                                 <label>
-                                    <input type="checkbox">
+                                    <input type="checkbox" id="chckMCOA4">
                                     Correct
                                 </label>
                             </div>
@@ -373,30 +374,22 @@
     <!-- /.modal-dialog -->
 </div>
 <script type="text/javascript">
+
     var addQuestion = function ()
-    {
-        $("#addQuestionaire").modal();
-        //window.location.href = '@Url.Action("CourseDetailReport", "Course")';
-    }
+    {   $("#addQuestionaire").modal();  }
 
     var filltheGap = function ()
-    {
-        $("#fillTheGap").modal();
-        //window.location.href = '@Url.Action("CourseDetailReport", "Course")';
-    }
+    {   $("#fillTheGap").modal();   }
 
     var multilpleChoice = function ()
-    {
-        $("#multilpleChoicee").modal();
-        //window.location.href = '@Url.Action("CourseDetailReport", "Course")';
-    }
+    {   $("#multilpleChoicee").modal(); }
 
     $("#ddquestionType").change(function () {
         debugger
         var selected = $("#ddquestionType option:selected").val();
         var a = document.getElementById("fitb");
         var b = document.getElementById("mc");
-        var c = document.getElementById("tof");
+        var c = document.getElementById("mcoa");
 
         if (selected === "1") {
             a.style.display = "block";
@@ -426,12 +419,69 @@
 </script>
 <script>
     var saveQuestion = function () {
+        var ques = $("#textQuestion").text();
+
+        var selected = $("#ddquestionType option:selected").val();
+
+        var Ans1 = "";
+        var Ans2 = "";
+        var Ans3 = "";
+        var Ans4 = "";
+
+        var CorrectAnswer1 = "";//
+        var CorrectAnswer2 = "";//
+        var CorrectAnswer3 = "";//
+        var CorrectAnswer4 = "";//
+
+        if (selected === "1") {
+            Ans1 = $("#").val();
+            Ans2 = $("#").val();
+            Ans3 = $("#").val();
+            Ans4 = $("#").val();
+        }
+
+        else if (selected === "2")
+        {
+            Ans1 = $("#txtMCOne").val();
+            Ans2 = $("#txtMCTwo").val();
+            Ans3 = $("#txtMCThree").val();
+            Ans4 = $("#txtMCFour").val();
+
+            CorrectAnswer1 = document.getElementById("chckMCOne");//
+            CorrectAnswer2 = document.getElementById("chckMCTwo");// 
+            CorrectAnswer3 = document.getElementById("chckMCThree");//
+            CorrectAnswer4 = document.getElementById("chckMCFour");//
+        }
+        else if (selected === "3")
+        {
+            Ans1 = $("#txtMCOA1").val();
+            Ans2 = $("#txtMCOA2").val();
+            Ans3 = $("#txtMCOA3").val();
+            Ans4 = $("#txtMCOA4").val();
+
+            CorrectAnswer1 = document.getElementById("chckMCOA1");//"";
+            CorrectAnswer2 = document.getElementById("chckMCOA2");// "";
+            CorrectAnswer3 = document.getElementById("chckMCOA3");//"";
+            CorrectAnswer4 = document.getElementById("chckMCOA4");//"";
+        }
+
         $.ajax({
             type: "POST",
-            url: "",
-            data: {},
+            url: "Exam/saveQuestion",
+            data: { "Question": ques, "QuestionType": selected, "Answer1": Ans1, "Answer2": Ans2, "Answer3": Ans3, "Answer4": Ans4 },
             success: function (response) {
-
+                var result = response.res;
+                if (result == true) {
+                    $("#exampleModal").modal('show');
+                    $("#txtItemType").val("");
+                    $("#txtBrand").val("");
+                    $("#txtModel").val("");
+                    $("#txtSerialNo").val("");
+                    $("#ddStatusselect").val("");
+                    $("#txtQuantity").val("");
+                    $("#txtLocation").val("");
+                    $("#txtDescription").val("");
+                }
             }
         });
     }
