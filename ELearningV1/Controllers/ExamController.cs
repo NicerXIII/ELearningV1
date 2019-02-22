@@ -24,6 +24,86 @@ namespace ELearningV1.Controllers
             return View(courseData);
         }
 
+        public ActionResult SaveVideoData(CourseImage model, string CID, string Title) {
+
+            var result = false;
+            var file = model.ImageFile;
+            if (file != null)
+            {
+                if (!System.IO.File.Exists(Server.MapPath("/UploadedFiles/" + file.FileName)))
+                {
+                    file.SaveAs(Server.MapPath("/UploadedFiles/" + file.FileName));
+                    try
+                    {
+                        DAL SQLcon = new DAL();
+                        result = SQLcon.UploadNewFile(Title,"Video", "/UploadedFiles/" + file.FileName,CID);
+                    }
+                    catch (Exception ex) { }
+                }
+                else
+                {
+                    result = false;
+                }
+            }
+            var response = new JsonResult();
+            response.Data = new
+            {
+                res = result,
+                vName = "/UploadedFiles/" + file.FileName
+            };
+            return response;
+        }
+
+        public ActionResult SavePPTData(CourseImage model, string CID, string Title)
+        {
+
+            var result = false;
+            var file = model.ImageFile;
+            if (file != null)
+            {
+                if (!System.IO.File.Exists(Server.MapPath("/UploadedFiles/" + file.FileName)))
+                {
+                    file.SaveAs(Server.MapPath("/UploadedFiles/" + file.FileName));
+                    try
+                    {
+                        DAL SQLcon = new DAL();
+                        result = SQLcon.UploadNewFile(Title, "PPT", "/UploadedFiles/" + file.FileName, CID);
+                    }
+                    catch (Exception ex) { }
+                }
+                else
+                {
+                    result = false;
+                }
+            }
+            var response = new JsonResult();
+            response.Data = new
+            {
+                res = result,
+                pName = "/UploadedFiles/" + file.FileName
+            };
+            return response;
+        }
+
+        public ActionResult SaveTestTitle(string CID, string Title)
+        {
+            var result = false;
+            try
+            {
+                DAL SQLcon = new DAL();
+                result = SQLcon.UploadNewFile(Title, "Test", "", CID);
+            }
+            catch (Exception ex) {
+                result = false;
+            }
+            var response = new JsonResult();
+            response.Data = new
+            {
+                res = result
+            };
+            return response;
+        }
+
         // GET: Exam
         public ActionResult Exam()
         {

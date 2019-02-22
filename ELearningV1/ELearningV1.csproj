@@ -2699,6 +2699,7 @@
     <Content Include="Scripts\tether.js" />
     <Content Include="Scripts\tether.min.js" />
     <Content Include="UpLoadedImages\imagesaaaaa.jpg" />
+    <Content Include="UploadedFiles\trophy-png-2.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

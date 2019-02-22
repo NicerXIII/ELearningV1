@@ -45,6 +45,38 @@ namespace ELearningV1.Models
             }
         }
 
+        public bool UploadNewFile(string Title, string Type, string SrcFile, string CourseID)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningAddSourceFile", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("@Title", Title);
+                        cmd.Parameters.AddWithValue("@Type", Type);
+                        cmd.Parameters.AddWithValue("@SrcFile", SrcFile);
+                        cmd.Parameters.AddWithValue("@CourseID", CourseID);
+
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        return false;
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+                }
+            }
+        }
+
+
         public VMViewCoursesList ViewCourses()
         {
 

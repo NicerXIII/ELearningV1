@@ -140,9 +140,20 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#reloadViewCourse").load("/Home/LoadCourseData #reloadViewCourse");
-    });
+        $.ajax({
+            type: "POST",
+            url: "/Home/GetSession",
+            data: {},
+            success: function (response) {
+                $("#reloadViewCourse").load("/Home/LoadCourseData #reloadViewCourse");
+            },
+            error: function (response) {
+                window.location.href = '/LogIn/Index';
+            }
 
+        });
+    });
+    
     var ocViewDetails = function (courseID) {
         //courseID.String.hashCode();
         window.location.href = '/Course/CourseDetail?CourseID=' + courseID + '';

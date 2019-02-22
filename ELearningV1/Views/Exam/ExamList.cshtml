@@ -1,4 +1,4 @@
-﻿
+﻿@model  ELearningV1.Models.ViewModel.VMViewCourses
 @{
     ViewBag.Title = "ExamList";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -46,31 +46,12 @@
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        @*<li><a href="#"><i class="fa fa-sticky-note-o"></i> Content</a></li>
-                        <li><a href="#"><i class="fa fa-cloud"></i> Web Content</a></li>*@
-                        
                         <li class="divider"></li>
-                        <li><a href="#"><i class="fa fa-video-camera"></i> Video</a></li>
-                        <li><a href="#"><i class="fa fa-television"></i> Presentation | Document</a></li>
-                        
-                        <!--
+                        <li><a href="#" onclick="ocUploadExamVid()"><i class="fa fa-video-camera"></i> Video</a></li>
+                        <li><a href="#" onclick="ocUploadExamPresentation()"><i class="fa fa-television"></i> PDF | Document</a></li>
                         <li class="divider"></li>
-                        <li><a href="#"><i class="fa fa-book"></i> SCORM | Tin Can | CMI5</a></li>
-                        <li><a href="#"><i class="fa fa-gear"></i> Flash Object</a></li>
-                        <li><a href="#"><i class="fa fa-sticky-note"></i> iFrame</a></li>
-                        -->
-                        <li class="divider"></li>
-                        <li><a href="@Url.Action("ExamQuestionList","Exam")"><i class="fa fa-edit"></i> Test</a></li>
-                         <li><a href="#"><i class="fa fa-quote-left"></i> Section</a></li>
-                        @*<li><a href="#"><i class="fa fa-check-square"></i> Survey</a></li>
-                        <li><a href="#"><i class="fa fa-sticky-note"></i> Assignment</a></li>
-                        <li><a href="#"><i class="fa fa-calendar"></i> Instructor-Led Training</a></li>*@
-                        
-                        @*<li class="divider"></li>
+                        <li><a href="#/" onclick="ocNewTest()"><i class="fa fa-edit"></i> Test</a></li>
                         <li><a href="#"><i class="fa fa-quote-left"></i> Section</a></li>
-                        <li><a href="#"><i class="fa fa-paste"></i> Clone from another course</a></li>
-                        <li><a href="#"><i class="fa fa-link"></i> Link from another course</a></li>*@
-                        
                     </ul>
                 </div>
             </div>
@@ -87,73 +68,6 @@
                 <button type="submit" class="btn btn-block btn-info" style="margin-left:15px;">...</button>
             </div>
         </div>
-        <!--
-        <div class="row mt-5">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <span class="label label-default" style="font-size:medium">INTRODUCTION</span>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <a href="#"><i class="fa fa-sticky-note-o" title="Content"></i> Welcome</a>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <a href="#"><i class="fa fa-film" title="Video"></i> A short introduction</a>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <span class="label label-default" style="font-size:medium">MANAGING YOUR COURSES</span>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <a href="#"><i class="fa fa-film" title="Video"></i> Tests</a>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <a href="#"><i class="fa fa-film" title="Video"></i> Assignments</a>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <a href="#"><i class="fa fa-film" title="Video"></i> Files</a>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <span class="label label-default" style="font-size:medium">MANAGING YOUR PORTAL</span>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <a href="#"><i class="fa fa-film" title="Video"></i> Reports</a>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <a href="#"><i class="fa fa-film" title="Video"></i> Customization</a>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                <a href="#"><i class="fa fa-film" title="Video"></i> Importing and Exporting data</a>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <a href="#"><i class="fa fa-film" title="Video"></i> Notifications</a>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <a href="#"><i class="fa fa-film" title="Video"></i> Gamification</a>
-            </div>
-        </div>
-        -->
         <div class="row mt-2">
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                 <span class="label label-default" style="font-size:medium">SELF ASSESSMENT</span>
@@ -166,4 +80,333 @@
         </div>
     </div>
 </div>
+<input type="hidden" id="courseID1" value="@try { @Model.ID; } catch (Exception ex) { }" />
 
+<div class="modal fade" id="modalUploadVid">
+    <div class="modal-dialog" style="margin-top:200px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="ocCloseUploadVideoModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Add Video</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-1 control-label">Title:</label>
+                    <div class="col-sm-11">
+                        <input type="text" class="form-control" id="SourceTitle" placeholder="Enter Title" style="margin-bottom:10px;">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" align="center">
+                        @*<iframe id="vid123" width="420" height="345" src="https://www.youtube.com/embed/h0bKRkLTY3adasd0"></iframe>*@
+                        <video id="vidPlayer" width="400" controls autoplay>
+                            <source id="vidSource" src="" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 col-xs-1">
+
+                    </div>
+                    <div class="col-md-7 col-xs-11" style="margin-bottom:5px;">
+                        <div class="input-group">
+                            <input type="file" id="VidImage">
+                            <p class="help-block">Please select only .mp4 file.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xs-12" align="center">
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <div class=""></div>
+                <button type="button" class="btn btn-success pull-right" onclick="ocSaveVideoData()">Save</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+<div class="modal fade" id="modalUploadPresentation">
+    <div class="modal-dialog " style="margin-top:200px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="ocCloseUploadPresModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Add PDF File</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-1 control-label">Title:</label>
+                    <div class="col-sm-11">
+                        <input type="text" class="form-control" id="PresTitle" placeholder="Enter Title" style="margin-bottom:10px;">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" align="center">
+                        @*<iframe id="presentation1" width="420" height="345" src=""></iframe>*@
+                        <iframe id="pdfPres" class="hidden" src="" frameborder="0" width="490" height="400" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 col-xs-1">
+
+                    </div>
+                    <div class="col-md-7 col-xs-11" style="margin-bottom:5px;">
+                        <div class="input-group">
+                            <input type="file" id="PreImage">
+                            <p class="help-block">Support only PDF file.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xs-12" align="center">
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <div class=""></div>
+                <button type="button" class="btn btn-success pull-right" onclick="ocSavePresentationData()">Save</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+<div class="modal fade" id="modalTestTitle">
+    <div class="modal-dialog " style="margin-top:200px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="ocCloseCreateNewTest()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Add Test</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-1 control-label">Title:</label>
+                    <div class="col-sm-11">
+                        <input type="text" class="form-control" id="TestTitle" placeholder="Enter Title" style="margin-bottom:10px;">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class=""></div>
+                <button type="button" class="btn btn-success pull-right" onclick="ocSaveTestTitle()">Save</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Home/GetSession",
+            data: {},
+            success: function (response) {
+             
+            },
+            error: function (response) {
+                window.location.href = '/LogIn/Index';
+            }
+
+        });
+    });
+
+
+
+    var ocUploadExamVid = function () {
+        $("#modalUploadVid").modal("show");
+    }
+
+    //var ocGenerateLink = function () {
+    //    debugger
+    //    var linkText = $("#linkGenText").val();
+    //    var n = linkText.indexOf("watch?v=");
+    //    var link1 = "https://www.youtube.com/embed/" + linkText.substr(n + 8);
+
+    //    if (linkText.indexOf("list") > 0) {
+    //        alert("Please enter youtube link that is not in list mode");
+    //    } else {
+    //        $("#vid123").attr('src', link1);
+    //        $("#vid123").removeClass("hidden");
+    //    }
+
+    //}
+
+
+    $("#VidImage").change(function () {
+        var File = this.files;
+        if (File && File[0]) {
+            VideoImage(File[0]);
+        }
+    })
+
+    $("#PreImage").change(function () {
+        var File = this.files;
+        if (File && File[0]) {
+            VideoImage(File[0]);
+        }
+    })
+
+
+    var VideoImage = function (file) {
+        var ImageName = file.name;
+        var reader = new FileReader;
+        var image = new Image;
+
+        reader.readAsDataURL(file);
+        reader.onload = function (_file) {
+            image.src = _file.target.result;
+            image.onload = function () {
+            }
+        }
+
+    }
+
+    var ocSaveVideoData = function () {
+        debugger
+        var title = $("#SourceTitle").val();
+        var cid = $("#courseID1").val();
+
+        if (imageName != "" && title != "" && cid != "") {
+            var file = $("#VidImage").get(0).files;
+            var data = new FormData;
+            data.append("ImageFile", file[0]);
+            var type1 = file[0].type;
+            if (type1.includes("mp4")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Exam/SaveVideoData?CID=" + cid + "&Title=" + title + "",
+                    data: data,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        var res = response.res;
+                        if (res == true) {
+                            alert("Video uploaded successfully.");
+                            var getVideo = document.getElementById("vidPlayer");
+                            $("#vidSource").attr('src', response.vName);
+                            getVideo.load()
+                            getVideo.play();
+                            getVideo.volume = 0.5;
+
+                            $("#SourceTitle").val("");
+                            $("#VidImage").val("");
+
+                        } else {
+                            alert("Video upload failed");
+                        }
+                    },
+                    error: function (response) {
+                        alert("ERROR: please select video again.");
+                    }
+                });
+            } else {
+                alert('ERROR: File format not supported');
+            }
+        } else {
+            alert("Please fill up all fields");
+        }
+    }
+
+    var ocCloseUploadVideoModal = function () {
+        var getVideo = document.getElementById("vidPlayer");
+        getVideo.pause();
+        $("#modalUploadVid").modal("hide");
+    }
+
+    var ocUploadExamPresentation = function () {
+        $("#modalUploadPresentation").modal('show');
+    }
+
+    var ocSavePresentationData = function () {
+        var title = $("#PresTitle").val();
+        var cid = $("#courseID1").val();
+
+        if (title != "" && cid != "") {
+            var file = $("#PreImage").get(0).files;
+            var data = new FormData;
+            data.append("ImageFile", file[0]);
+            var type1 = file[0].type;
+
+
+            if (type1.includes("pdf")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Exam/SavePPTData?CID=" + cid + "&Title=" + title + "",
+                    data: data,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        var res = response.res;
+                        if (res == true) {
+                            alert(response.pName + " uploaded successfully.");
+                            $("#pdfPres").attr('src', response.pName);
+                            $("#pdfPres").removeClass("hidden");
+                            $("#PresTitle").val("");
+                            $("#PreImage").val("");
+                        } else {
+                            alert("File upload failed");
+                        }
+                    },
+                    error: function (response) {
+                        alert("ERROR: invalid file type.");
+                    }
+                });
+            } else {
+                alert("ERROR: please select video again.");
+            }
+        } else {
+            alert("Please fill up all fields");
+        }
+
+
+    }
+
+    var ocCloseUploadPresModal = function () {
+        $("#PresTitle").val('');
+        $("#PreImage").val('');
+        $("#modalUploadPresentation").modal('hide');
+
+    }
+
+    var ocNewTest = function () {
+        $("#modalTestTitle").modal('show');
+    }
+
+    var ocCloseCreateNewTest = function () {
+        $("#TestTitle").val("");
+        $("#modalTestTitle").modal('hide');
+    }
+
+    var ocSaveTestTitle = function () {
+        var title = $("#TestTitle").val();
+        var cid = $("#courseID1").val();
+        if (title != "" && cid != "") {
+            $.ajax({
+                type: "POST",
+                url: "/Exam/SaveTestTitle",
+                data: { "CID": cid, "Title": title },
+                success: function (response) {
+                    alert("Test added successfully.");
+                },
+                error: function (response) { }
+            });
+        }
+    }
+
+</script>
