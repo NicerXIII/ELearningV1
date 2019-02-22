@@ -69,18 +69,26 @@
             </div>
         </div>
         <div class="row mt-2">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <span class="label label-default" style="font-size:medium">SELF ASSESSMENT</span>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <a href="@Url.Action("Exam", "Exam")"><i class="fa fa-edit" title="Video"></i> Final Test</a>
+            <div class="col-lg-4 col-md-4 col-xs-12">
+                <table id="tblSection" class="cell-border stripe hover" style="width:100%; min-height:100px; min-width:200px; font-size:14px; font-weight:700;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>TITLE</th>
+                            <th>TYPE</th>
+                            <th>SrcFile</th>
+                            <th>CourseID</th>
+                            <th>ORDER</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
 <input type="hidden" id="courseID1" value="@try { @Model.ID; } catch (Exception ex) { }" />
+<input type="hidden" id="sectionID" />
 
 <div class="modal fade" id="modalUploadVid">
     <div class="modal-dialog" style="margin-top:200px;">
@@ -89,7 +97,7 @@
                 <button type="button" class="close" onclick="ocCloseUploadVideoModal()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Add Video</h4>
+                <h4 class="modal-title" style="font-weight:700;">Add Video</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
@@ -140,7 +148,7 @@
                 <button type="button" class="close" onclick="ocCloseUploadPresModal()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Add PDF File</h4>
+                <h4 class="modal-title" style="font-weight:700;">Add PDF File</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
@@ -189,7 +197,7 @@
                 <button type="button" class="close" onclick="ocCloseCreateNewTest()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Add Test</h4>
+                <h4 class="modal-title" style="font-weight:700;">Add Test</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
@@ -210,6 +218,31 @@
 </div>
 <!-- /.modal -->
 
+<div class="modal fade" id="modalDeleteSection">
+    <div class="modal-dialog modal-sm" style="margin-top:200px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" style="font-weight:700;">Delete: <span style="font-weight:500;" id="sectionName"></span></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" align="center">
+                   <h3>Are you sure you want to delete this section?</h3>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class=""></div>
+                <button type="button" class="btn btn-danger pull-right" onclick="ocDeleteSelectedSection()">Delete</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <script type="text/javascript">
     $(document).ready(function () {
         $.ajax({
@@ -217,7 +250,7 @@
             url: "/Home/GetSession",
             data: {},
             success: function (response) {
-             
+                BindDataTable();
             },
             error: function (response) {
                 window.location.href = '/LogIn/Index';
@@ -225,9 +258,7 @@
 
         });
     });
-
-
-
+    
     var ocUploadExamVid = function () {
         $("#modalUploadVid").modal("show");
     }
@@ -409,4 +440,129 @@
         }
     }
 
+
+    var otable;
+    var BindDataTable = function () {
+
+        //if table exist
+        if ($.fn.DataTable.isDataTable("#tblSection")) {
+            //Clear table for redraw
+            otable.draw();
+        } else {
+
+            otable = $("#tblSection").DataTable({
+                "bServerSide": true,
+                "processing": true,
+                "sAjaxSource": "/Exam/LoadSectionData",
+                "fnServerData": function (sSource, aoData, fnCallback) {
+
+                    //For Parameter
+                    var courseID = $("#courseID1").val();
+
+                    aoData.push({ "name": "courseID", "value": courseID });
+
+                    $.ajax({
+                        type: "Get",
+                        data: aoData,
+                        url: sSource,
+                        success: fnCallback
+                    });
+                },
+                "aoColumns": [
+                    {
+                        "mData": "ID",
+                        "width": "10px",
+                        "className": "dt-center", "targets": "_all",
+                        "orderable": false,
+                        "render": function (ID, type, full, meta) {
+                            return '<a href="#/" style="font-size:20px; color:red;" onclick="ocDelete(\'' + ID + '\',\'' + full.Title + '\')"><span class="fa fa-trash"></span></a>';
+                        }
+                    },
+                    {
+                        "mData": "Title",
+                        "orderable": false,
+                        "render": function (Title, type, full, meta) {
+                            return '<a href="#/" onclick="ocViewCTimeEmployeeFiled(\'' + full.ID + '\',\'' + full.CourseID + '\')">' + Title + '</a>';
+                        }
+                    },
+                    {
+                        "mData": "Type",
+                        "visible": false,
+                        "orderable": false
+                    },
+                    {
+                        "mData": "SrcFile",
+                        "visible": false,
+                        "orderable": false
+                    },
+                    {
+                        "mData": "CourseID",
+                        "orderable": false,
+                        "visible": false,
+                        "className": "dt-center", "targets": "_all"
+                    },
+                    {
+                        "mData": "OrderSec",
+                        "orderable": false,
+                        "width": "25px",
+                        "render": function (OrderSec, type, full, meta) {
+                            return '<input type="text" style="width:40px; text-align:center;" id="oderBy' + full.ID + '" class="" value="' + OrderSec + '" onchange="ochOrderBy(\'' + full.ID + '\')" />';
+                        }
+                    }
+                ],
+                responsive: true,
+                select: { style: 'single' },
+                "bInfo": true,
+                "searching": false,
+                "bPaginate": false,
+                "sScrollY": "300",
+                "scrollX": true,
+                "bScrollCollapse": false,
+                "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]]
+            });
+        }
+    }
+
+    var ochOrderBy = function (sectionID) {
+        debugger
+        var secID = sectionID;
+        var orderVal = $("#oderBy" + sectionID).val();
+        if (secID != "" || secID != undefined) {
+            $.ajax({
+                type: "POST",
+                url: "/Exam/UpdateSectionOrderingByID",
+                data: { "SID": secID, "OrderVal": orderVal },
+                success: function (response) {
+                    BindDataTable();
+                },
+                error: function (response) { }
+            });
+        }
+    }
+
+    var ocDelete = function (secID, title) {
+        $("#sectionID").val(secID);
+        $("#sectionName").text(title);
+        $("#modalDeleteSection").modal('show');
+    }
+
+    var ocDeleteSelectedSection = function () {
+        var secID = $("#sectionID").val();
+        if (secID != "") {
+            $.ajax({
+                type: "POST",
+                url: "/Exam/DeleteSectionByID",
+                data: { "SID": secID },
+                success: function (response) {
+                    alert("Section deleted successfully.");
+                    $("#modalDeleteSection").modal('hide');
+                    BindDataTable();
+                },
+                error: function (response) { }
+            });
+        } else {
+            alert("Please select again");
+            $("#modalDeleteSection").modal('hide');
+        }
+    }
 </script>

@@ -76,6 +76,30 @@ namespace ELearningV1.Models
             }
         }
 
+        public bool DeleteSectionById(string SecID)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("Delete From ELearningCourseSection Where ID='" + SecID + "'", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        return false;
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+                }
+            }
+        }
 
         public VMViewCoursesList ViewCourses()
         {
@@ -197,6 +221,47 @@ namespace ELearningV1.Models
             return null;
         }
 
+        public VMCourseSectionList ViewCourseSectionByID(string CID)
+        {
+            VMCourseSectionList SectionList = new VMCourseSectionList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("Select * From ELearningCourseSection Where CourseID='" + CID + "'", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        SqlDataReader dr = cmd.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+                            VMCourseSection section = new VMCourseSection();
+                            section.ID = Convert.ToInt32(dr["ID"]);
+                            section.Title = Convert.ToString(dr["Title"]);
+                            section.Type = Convert.ToString(dr["Type"]);
+                            section.SrcFile = Convert.ToString(dr["SrcFile"]);
+                            section.CourseID = Convert.ToString(dr["CourseID"]);
+                            section.OrderSec = Convert.ToInt32(dr["OrderSec"]);
+                            SectionList.Add(section);
+                        }
+                        return SectionList;
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+                }
+            }
+
+            return null;
+        }
+
+
         public bool UpdateCourse(string CID, string CName, string Desc, bool IsActive)
         {
             using (SqlConnection con = new SqlConnection(Cons))
@@ -221,6 +286,32 @@ namespace ELearningV1.Models
                 }
             }
         }
+
+        public bool UpdateSectionOrdering(string SectionID,string OderVal)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("Update ELearningCourseSection SET OrderSec='" + OderVal + "' Where ID='" + SectionID + "'", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        return false;
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region Exam

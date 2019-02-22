@@ -199,6 +199,8 @@
     </Compile>
     <Compile Include="Models\DAL.cs" />
     <Compile Include="Models\ViewModel\CourseImage.cs" />
+    <Compile Include="Models\ViewModel\DataTablesParam.cs" />
+    <Compile Include="Models\ViewModel\VMCourseSection.cs" />
     <Compile Include="Models\ViewModel\VMELearnEmpData.cs" />
     <Compile Include="Models\ViewModel\VMKioskLogInUser.cs" />
     <Compile Include="Models\ViewModel\VMViewCourses.cs" />
@@ -1847,6 +1849,14 @@
     <Content Include="plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.all.min.js" />
     <Content Include="plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.css" />
     <Content Include="plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.min.css" />
+    <Content Include="plugins\datatables.net-bs\css\dataTables.bootstrap.css" />
+    <Content Include="plugins\datatables.net-bs\css\dataTables.bootstrap.min.css" />
+    <Content Include="plugins\datatables.net-bs\js\dataTables.bootstrap.js" />
+    <Content Include="plugins\datatables.net-bs\js\dataTables.bootstrap.min.js" />
+    <Content Include="plugins\datatables.net-bs\License.txt" />
+    <Content Include="plugins\datatables.net\js\jquery.dataTables.js" />
+    <Content Include="plugins\datatables.net\js\jquery.dataTables.min.js" />
+    <Content Include="plugins\datatables.net\License.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -2688,6 +2698,12 @@
     <Content Include="Content\select2\src\scss\_dropdown.scss" />
     <Content Include="Content\select2\src\scss\_multiple.scss" />
     <Content Include="Content\select2\src\scss\_single.scss" />
+    <Content Include="plugins\datatables.net-bs\.bower.json" />
+    <Content Include="plugins\datatables.net-bs\bower.json" />
+    <Content Include="plugins\datatables.net-bs\Readme.md" />
+    <Content Include="plugins\datatables.net\.bower.json" />
+    <Content Include="plugins\datatables.net\bower.json" />
+    <Content Include="plugins\datatables.net\Readme.md" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\highcharts\6.2.0\themes\sunset.src.js" />

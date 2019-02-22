@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ELearningV1.Models;
 using ELearningV1.Models.ViewModel;
+using KioskVersion3.Models.ViewModel;
 
 namespace ELearningV1.Controllers
 {
@@ -95,6 +96,77 @@ namespace ELearningV1.Controllers
                 result = SQLcon.UploadNewFile(Title, "Test", "", CID);
             }
             catch (Exception ex) {
+                result = false;
+            }
+            var response = new JsonResult();
+            response.Data = new
+            {
+                res = result
+            };
+            return response;
+        }
+
+        public JsonResult LoadSectionData(DataTablesParam param, string courseID)
+        {
+            List<VMCourseSection> sectionData = new List<VMCourseSection>();
+            DAL SQLcon = new DAL();
+            int pageNo = 1;
+            int totalCount = 0;
+          
+            if (param.iDisplayStart >= param.iDisplayLength)
+            { pageNo = (param.iDisplayStart / param.iDisplayLength) + 1; }
+
+          
+                totalCount = SQLcon.ViewCourseSectionByID(courseID).Count();
+                sectionData = SQLcon.ViewCourseSectionByID(courseID).OrderBy(x => x.OrderSec).Select(x => new VMCourseSection
+                {
+                    ID = x.ID,
+                    Title = x.Title,
+                    Type = x.Type,
+                    SrcFile = x.SrcFile,
+                    CourseID = x.CourseID,
+                    OrderSec = x.OrderSec
+                }).AsEnumerable().ToList();
+            
+            return Json(new
+            {
+                aaData = sectionData,
+                eEcho = param.sEcho,
+                iTotalDisplayRecords = totalCount,
+                iTotalRecords = sectionData.Count()
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult UpdateSectionOrderingByID(string SID, string OrderVal)
+        {
+            var result = false;
+            try
+            {
+                DAL SQLcon = new DAL();
+                result = SQLcon.UpdateSectionOrdering(SID,OrderVal);
+            }
+            catch (Exception ex)
+            {
+                result = false;
+            }
+            var response = new JsonResult();
+            response.Data = new
+            {
+                res = result
+            };
+            return response;
+        }
+
+        public ActionResult DeleteSectionByID(string SID)
+        {
+            var result = false;
+            try
+            {
+                DAL SQLcon = new DAL();
+                result = SQLcon.DeleteSectionById(SID);
+            }
+            catch (Exception ex)
+            {
                 result = false;
             }
             var response = new JsonResult();
