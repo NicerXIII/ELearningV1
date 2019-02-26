@@ -337,6 +337,7 @@
 
                             $("#SourceTitle").val("");
                             $("#VidImage").val("");
+                            BindDataTable();
 
                         } else {
                             alert("Video upload failed");
@@ -390,6 +391,7 @@
                             $("#pdfPres").removeClass("hidden");
                             $("#PresTitle").val("");
                             $("#PreImage").val("");
+                            BindDataTable();
                         } else {
                             alert("File upload failed");
                         }
@@ -434,6 +436,7 @@
                 data: { "CID": cid, "Title": title },
                 success: function (response) {
                     alert("Test added successfully.");
+                    BindDataTable();
                 },
                 error: function (response) { }
             });
