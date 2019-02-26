@@ -208,8 +208,237 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <div><label id="lblSave" style="display:none">Test Name saved!</label></div>
+                <button type="button" class="btn btn-success pull-right" onclick="ocSaveTestTitle()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalTestQuestion">
+    <div class="modal-dialog modal-lg" style="margin-top:200px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="ocCloseCreateNewTest()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" style="font-weight:700;">Questionaires</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                            <button type="button" class="btn btn-info" onclick="addQuestion()">Add Question</button>
+                        </div>
+                    </div>
+                    <table id="example2" class="table table-hover dataTable" role="grid" aria-describedby="example2_info">
+                        <thead>
+                            <tr role="row">
+                                <!--<th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Use</th>-->
+                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Question</th>
+                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" ">Type</th>
+                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Operations</th>
+                        </thead>
+                        <tbody>
+                            <tr role="row" class="odd">
+                                <!--<td class="sorting_1"><input type="button" value="Add" class="btn btn-info btn-sm" /></td>-->
+                                <td><a href="#">FILL IN THE BLANK the quick brown [fox] jumps over the lazy [dog]</a></td>
+                                <td><i class="fa fa-ellipsis-h" title="Fill the gap"></i></td>
+                                <td><i class="fa fa-pencil" title="Edit" onclick="filltheGap()"></i> <i class="fa fa-search" title="Preview"></i> <i class="fa fa-times" title="Delete"></i></td>
+                            </tr>
+                            <tr role="row" class="even">
+                                <!--<td class="sorting_1"><input type="button" value="Add" class="btn btn-info btn-sm" /></td>-->
+                                <td><a href="#">MULTIPLE CHOICE the quick brown [fox] jumps over the lazy [dog]</a></td>
+                                <td><i class="fa fa-check-square"></i></td>
+                                <td><i class="fa fa-pencil" title="Edit" onclick="multilpleChoice()"></i> <i class="fa fa-search" title="Preview"></i> <i class="fa fa-times" title="Delete"></i> </td>
+                            </tr>
+                            <tr role="row" class="odd">
+                                <!--<td class="sorting_1"><input type="button" value="Add" class="btn btn-info btn-sm" /></td>-->
+                                <td><a href="#">RADIO BUTTON the quick brown [fox] jumps over the lazy [dog]</a></td>
+                                <td><i class="fa fa-dot-circle-o"></i></td>
+                                <td><i class="fa fa-pencil" title="Edit"></i> <i class="fa fa-search" title="Preview"></i> <i class="fa fa-times" title="Delete"</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
                 <div class=""></div>
                 <button type="button" class="btn btn-success pull-right" onclick="ocSaveTestTitle()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addQuestionaire">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Add Question</h4>
+            </div>
+            <div class="modal-body">
+                <textarea class="textarea" id="textQuestion" placeholder="Add question here" style="width: 100%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+
+                <div class="row mt-3">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <label>Question Type</label>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <select id="ddquestionType" class="form-control select2" style="width: 100%;">
+                            <option selected>Select question type</option>
+                            <option value="1">Fill in the blank</option>
+                            <option value="2">Multiple choice with Multiple answer</option>
+                            <option value="3">Multiple choice with one answer</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-3" id="fitb" style="display:none">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                        <label class="label-warning">Put <mark>[ ]</mark> on the answer in the text area above</label>
+                        <p style="font-style:italic">Example: The quick brown [fox] jumps over the lazy [dog]</p>
+                    </div>
+                </div>
+                <div class="row" id="mc" style="display:none">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <label>Answers</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <input type="text" class="form-control" id="txtMCOne" />
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="chckMCOne">
+                                        Correct
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <input type="text" class="form-control" id="txtMCTwo" />
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="chckMCTwo">
+                                        Correct
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <input type="text" class="form-control" id="txtMCThree" />
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="chckMCThree">
+                                        Correct
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <input type="text" class="form-control" id="txtMCFour" />
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="chckMCFour">
+                                        Correct
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="mcoa" style="display:none">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <label>Answers</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+                                        <input type="text" placeholder="option one" class="form-control" id="txtMCOA1" />
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left mt-3">
+                                <label>
+                                    <input type="checkbox" id="chckMCOA1">
+                                    Correct
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option1">
+                                        <input type="text" placeholder="option two" class="form-control" id="txtMCOA2" />
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left mt-3">
+                                <label>
+                                    <input type="checkbox" id="chckMCOA2">
+                                    Correct
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios3" value="option1">
+                                        <input type="text" placeholder="option three" class="form-control" id="txtMCOA3" />
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left mt-3">
+                                <label>
+                                    <input type="checkbox" id="chckMCOA3">
+                                    Correct
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="optionsRadios" id="optionsRadios4" value="option1">
+                                        <input type="text" placeholder="option four" class="form-control" id="txtMCOA4" />
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left mt-3">
+                                <label>
+                                    <input type="checkbox" id="chckMCOA4">
+                                    Correct
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="saveQuestion()">Save changes</button>
             </div>
         </div>
     </div>
@@ -226,7 +455,7 @@
             </div>
             <div class="modal-body">
                 <div class="form-group" align="center">
-                   <h3>Are you sure you want to delete this section?</h3>
+                    <h3>Are you sure you want to delete this section?</h3>
                 </div>
             </div>
             <div class="modal-footer">
@@ -253,7 +482,7 @@
 
         });
     });
-    
+
     var ocUploadExamVid = function ()
     {
         $("#modalUploadVid").modal("show");
@@ -273,8 +502,7 @@
     //    }
 
     //}
-
-
+    
     $("#VidImage").change(function ()
     {
         var File = this.files;
@@ -433,19 +661,119 @@
     {
         var title = $("#TestTitle").val();
         var cid = $("#courseID1").val();
-        if (title != "" && cid != "") {
+        if (title != "" /**&& cid != ""**/) {
             $.ajax({
                 type: "POST",
                 url: "/Exam/SaveTestTitle",
                 data: { "CID": cid, "Title": title },
                 success: function (response) {
-                    alert("Test added successfully.");
+                    debugger
+
+                    $("#modalTestTitle").modal('hide');
+                    //var x = document.getElementById("testquestionslist");
+                    //var y = document.getElementById("lblSave");
+                    //var xx = $("#testquestionslist");
+
+                    //if (x.style.display === "none") {
+                    //    y.style.display === "block";
+                    //    x.style.display === "block";
+                    //}
+                    //else if (x.style.display === "block") {
+                    //    y.style.display === "none";
+                    //    x.style.display === "none";
+                    //}
+                    alert(response.res);
+                    $("#modalTestQuestion").modal('show');
                 },
                 error: function (response) { }
             });
         }
     }
-    
+
+    var addQuestion = function () {
+        $("#addQuestionaire").modal('show');
+    }
+
+    $(function () {
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        //  CKEDITOR.replace('editor1')
+        //bootstrap WYSIHTML5 - text editor
+        $('.textarea').wysihtml5()
+    })
+
+    $("#ddquestionType").change(function () {
+        debugger
+        var selected = $("#ddquestionType option:selected").val();
+        var a = document.getElementById("fitb");
+        var b = document.getElementById("mc");
+        var c = document.getElementById("mcoa");
+
+        if (selected === "1") {
+            a.style.display = "block";
+            b.style.display = "none";
+            c.style.display = "none";
+        }
+        else if (selected === "2") {
+            b.style.display = "block";
+            a.style.display = "none";
+            c.style.display = "none";
+        }
+        else if (selected === "3") {
+            c.style.display = "block";
+            b.style.display = "none";
+            a.style.display = "none";
+        }
+
+    });
+
+    var saveQuestion = function () {
+        debugger
+        var ques = $("#textQuestion").text();
+
+        var selected = $("#ddquestionType option:selected").val();
+
+        var Ans1 = "";
+        var Ans2 = "";
+        var Ans3 = "";
+        var Ans4 = "";
+
+        var CorrectAnswer1 = "";//
+        var CorrectAnswer2 = "";//
+        var CorrectAnswer3 = "";//
+        var CorrectAnswer4 = "";//
+
+        if (selected === "1") {
+            Ans1 = $("#").val();
+            Ans2 = $("#").val();
+            Ans3 = $("#").val();
+            Ans4 = $("#").val();
+        }
+
+        else if (selected === "2") {
+            Ans1 = $("#txtMCOne").val();
+            Ans2 = $("#txtMCTwo").val();
+            Ans3 = $("#txtMCThree").val();
+            Ans4 = $("#txtMCFour").val();
+
+            CorrectAnswer1 = document.getElementById("chckMCOne");//
+            CorrectAnswer2 = document.getElementById("chckMCTwo");// 
+            CorrectAnswer3 = document.getElementById("chckMCThree");//
+            CorrectAnswer4 = document.getElementById("chckMCFour");//
+        }
+        else if (selected === "3") {
+            Ans1 = $("#txtMCOA1").val();
+            Ans2 = $("#txtMCOA2").val();
+            Ans3 = $("#txtMCOA3").val();
+            Ans4 = $("#txtMCOA4").val();
+
+            CorrectAnswer1 = document.getElementById("chckMCOA1");//"";
+            CorrectAnswer2 = document.getElementById("chckMCOA2");// "";
+            CorrectAnswer3 = document.getElementById("chckMCOA3");//"";
+            CorrectAnswer4 = document.getElementById("chckMCOA4");//"";
+        }
+    }
+
     var otable;
     var BindDataTable = function ()
     {

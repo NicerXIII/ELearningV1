@@ -274,23 +274,25 @@ namespace ELearningV1.Models
         #endregion
 
         #region Exam
-        public string SaveExamAndQuestion(string Question, string Ans1, string Ans2, string Ans3, string Ans4, string CorAns1, string CorAns2, string CorAns3, string CorAns4, string EmployeeNumber)
+        public string SaveExamAndQuestion(string Question, string Ans1, string Ans2, string Ans3, string Ans4, string CorAns1, string EmployeeNumber)
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {
-                using (SqlCommand com = new SqlCommand("", con))
+                using (SqlCommand com = new SqlCommand("ELearningSaveQuestion", con))
                 {
                     try
                     {
                         com.CommandType = CommandType.StoredProcedure;
                         com.Parameters.AddWithValue("@Question", Question);
-                        com.Parameters.AddWithValue("@Ans1", Ans1);
-                        com.Parameters.AddWithValue("@Ans2", Ans2);
-                        com.Parameters.AddWithValue("@Ans3", Ans3);
-                        com.Parameters.AddWithValue("@Ans4", Ans4);
+                        com.Parameters.AddWithValue("@Choice1", Ans1);
+                        com.Parameters.AddWithValue("@Choice2", Ans2);
+                        com.Parameters.AddWithValue("@Choice3", Ans3);
+                        com.Parameters.AddWithValue("@Choice4", Ans4);
+                        com.Parameters.AddWithValue("@ChoiceAns", CorAns1);
                         com.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                        con.Open();
                         com.ExecuteNonQuery();
-                        
+                        con.Close();
                     }
                     catch (Exception ex)
                     {   return ex.Message;  }
@@ -299,19 +301,20 @@ namespace ELearningV1.Models
             return "Success";
         }
 
-        public string SaveTest(string TestName, string EmployeeNumber)
+        public string SaveTestName(string TestName, string EmployeeNumber)
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {
-                using (SqlCommand com = new SqlCommand("", con))
+                using (SqlCommand com = new SqlCommand("ELearningSaveTestName", con))
                 {
                     try
                     {
                         com.CommandType = CommandType.StoredProcedure;
                         com.Parameters.AddWithValue("@TestName", TestName);
-                        com.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                        com.Parameters.AddWithValue("@AuditUser", EmployeeNumber);
+                        con.Open();
                         com.ExecuteNonQuery();
-
+                        con.Close();
                     }
                     catch (Exception ex)
                     {   return ex.Message;  }

@@ -89,14 +89,15 @@ namespace ELearningV1.Controllers
 
         public ActionResult SaveTestTitle(string CID, string Title)
         {
-            var result = false;
+            var result = "";
+            var user = Session["EmployeeNumber"].ToString();
             try
             {
                 DAL SQLcon = new DAL();
-                result = SQLcon.UploadNewFile(Title, "Test", "", CID);
+                result = SQLcon.SaveTestName(Title, user);
             }
             catch (Exception ex) {
-                result = false;
+                result = "false";
             }
             var response = new JsonResult();
             response.Data = new
@@ -213,7 +214,7 @@ namespace ELearningV1.Controllers
 
             }
 
-            string result = SQLcon.SaveExamAndQuestion(Question, Answer1, Answer2, Answer3, Answer4, CorrectAns1, CorrectAns2, CorrectAns3, CorrectAns4, EmployeeNumber);
+            string result = SQLcon.SaveExamAndQuestion(Question, Answer1, Answer2, Answer3, Answer4, CorrectAns1, EmployeeNumber);
 
             var response = new JsonResult();
             response.Data = new
