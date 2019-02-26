@@ -34,13 +34,9 @@ namespace ELearningV1.Models
                         return "True";
                     }
                     catch (Exception ex)
-                    {
-                        return ex.ToString();
-                    }
+                    {   return ex.ToString();   }
                     finally
-                    {
-                        con.Close();
-                    }
+                    {   con.Close();    }
                 }
             }
         }
@@ -65,13 +61,9 @@ namespace ELearningV1.Models
                         return true;
                     }
                     catch (Exception ex)
-                    {
-                        return false;
-                    }
+                    {   return false;   }
                     finally
-                    {
-                        con.Close();
-                    }
+                    {   con.Close();    }
                 }
             }
         }
@@ -90,20 +82,15 @@ namespace ELearningV1.Models
                         return true;
                     }
                     catch (Exception ex)
-                    {
-                        return false;
-                    }
+                    {   return false;   }
                     finally
-                    {
-                        con.Close();
-                    }
+                    {   con.Close();    }
                 }
             }
         }
 
         public VMViewCoursesList ViewCourses()
         {
-
             VMViewCoursesList CourseList = new VMViewCoursesList();
             using (SqlConnection con = new SqlConnection(Cons))
             {
@@ -128,13 +115,9 @@ namespace ELearningV1.Models
                         return CourseList;
                     }
                     catch (Exception ex)
-                    {
-
-                    }
+                    {   }
                     finally
-                    {
-                        con.Close();
-                    }
+                    {   con.Close();    }
                 }
             }
 
@@ -143,7 +126,6 @@ namespace ELearningV1.Models
 
         public VMViewCoursesList ViewCoursesByName(string CName)
         {
-            ////////
             VMViewCoursesList CourseList = new VMViewCoursesList();
             using (SqlConnection con = new SqlConnection(Cons))
             {
@@ -168,16 +150,11 @@ namespace ELearningV1.Models
                         return CourseList;
                     }
                     catch (Exception ex)
-                    {
-
-                    }
+                    {   }
                     finally
-                    {
-                        con.Close();
-                    }
+                    {   con.Close();    }
                 }
             }
-
             return null;
         }
 
@@ -208,13 +185,9 @@ namespace ELearningV1.Models
                         return CourseList;
                     }
                     catch (Exception ex)
-                    {
-
-                    }
+                    {   }
                     finally
-                    {
-                        con.Close();
-                    }
+                    {   con.Close();    }
                 }
             }
 
@@ -248,20 +221,15 @@ namespace ELearningV1.Models
                         return SectionList;
                     }
                     catch (Exception ex)
-                    {
-
-                    }
+                    {   }
                     finally
-                    {
-                        con.Close();
-                    }
+                    {   con.Close();    }
                 }
             }
 
             return null;
         }
-
-
+        
         public bool UpdateCourse(string CID, string CName, string Desc, bool IsActive)
         {
             using (SqlConnection con = new SqlConnection(Cons))
@@ -276,13 +244,9 @@ namespace ELearningV1.Models
                         return true;
                     }
                     catch (Exception ex)
-                    {
-                        return false;
-                    }
+                    {   return false;   }
                     finally
-                    {
-                        con.Close();
-                    }
+                    {   con.Close();    }
                 }
             }
         }
@@ -301,17 +265,12 @@ namespace ELearningV1.Models
                         return true;
                     }
                     catch (Exception ex)
-                    {
-                        return false;
-                    }
+                    {   return false;   }
                     finally
-                    {
-                        con.Close();
-                    }
+                    {   con.Close();    }
                 }
             }
         }
-
         #endregion
 
         #region Exam
@@ -365,7 +324,6 @@ namespace ELearningV1.Models
         #region LogIn
         public VMKioskLogInUserList KioskLogInUserData(string EmpNum,string Password)
         {
-
             VMKioskLogInUserList UserDataList = new VMKioskLogInUserList();
             using (SqlConnection con = new SqlConnection(Cons))
             {
@@ -392,23 +350,16 @@ namespace ELearningV1.Models
                         return UserDataList;
                     }
                     catch (Exception ex)
-                    {
-
-                    }
+                    {   }
                     finally
-                    {
-                        con.Close();
-                    }
+                    {   con.Close();    }
                 }
             }
-
             return null;
         }
-
-
+        
         public VMELearnEmpDataList FBLoadLeftPanel(string EmpID)
         {
-
             VMELearnEmpDataList EmpDataList = new VMELearnEmpDataList();
             using (SqlConnection con = new SqlConnection(Cons))
             {
@@ -432,27 +383,16 @@ namespace ELearningV1.Models
                             empData.IsAdmin = Convert.ToBoolean(dr["IsAdmin"]);
                             EmpDataList.Add(empData);
                         }
-
-
                         return EmpDataList;
                     }
                     catch (Exception ex)
-                    {
-
-                    }
+                    {   }
                     finally
-                    {
-                        con.Close();
-                    }
+                    {   con.Close();    }
                 }
             }
-
             return null;
         }
-
         #endregion
-
-
-
     }
 }

@@ -201,7 +201,7 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-1 control-label">Title:</label>
+                    <label for="inputEmail3" class="col-sm-1 control-label mt-2">Title:</label>
                     <div class="col-sm-11">
                         <input type="text" class="form-control" id="TestTitle" placeholder="Enter Title" style="margin-bottom:10px;">
                     </div>
@@ -212,11 +212,8 @@
                 <button type="button" class="btn btn-success pull-right" onclick="ocSaveTestTitle()">Save</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
 
 <div class="modal fade" id="modalDeleteSection">
     <div class="modal-dialog modal-sm" style="margin-top:200px;">
@@ -237,14 +234,12 @@
                 <button type="button" class="btn btn-danger pull-right" onclick="ocDeleteSelectedSection()">Delete</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
 
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function ()
+    {
         $.ajax({
             type: "POST",
             url: "/Home/GetSession",
@@ -259,7 +254,8 @@
         });
     });
     
-    var ocUploadExamVid = function () {
+    var ocUploadExamVid = function ()
+    {
         $("#modalUploadVid").modal("show");
     }
 
@@ -279,22 +275,24 @@
     //}
 
 
-    $("#VidImage").change(function () {
+    $("#VidImage").change(function ()
+    {
         var File = this.files;
         if (File && File[0]) {
             VideoImage(File[0]);
         }
     })
 
-    $("#PreImage").change(function () {
+    $("#PreImage").change(function ()
+    {
         var File = this.files;
         if (File && File[0]) {
             VideoImage(File[0]);
         }
     })
 
-
-    var VideoImage = function (file) {
+    var VideoImage = function (file)
+    {
         var ImageName = file.name;
         var reader = new FileReader;
         var image = new Image;
@@ -308,7 +306,8 @@
 
     }
 
-    var ocSaveVideoData = function () {
+    var ocSaveVideoData = function ()
+    {
         debugger
         var title = $("#SourceTitle").val();
         var cid = $("#courseID1").val();
@@ -354,17 +353,20 @@
         }
     }
 
-    var ocCloseUploadVideoModal = function () {
+    var ocCloseUploadVideoModal = function ()
+    {
         var getVideo = document.getElementById("vidPlayer");
         getVideo.pause();
         $("#modalUploadVid").modal("hide");
     }
 
-    var ocUploadExamPresentation = function () {
+    var ocUploadExamPresentation = function ()
+    {
         $("#modalUploadPresentation").modal('show');
     }
 
-    var ocSavePresentationData = function () {
+    var ocSavePresentationData = function ()
+    {
         var title = $("#PresTitle").val();
         var cid = $("#courseID1").val();
 
@@ -408,23 +410,27 @@
 
     }
 
-    var ocCloseUploadPresModal = function () {
+    var ocCloseUploadPresModal = function ()
+    {
         $("#PresTitle").val('');
         $("#PreImage").val('');
         $("#modalUploadPresentation").modal('hide');
 
     }
 
-    var ocNewTest = function () {
+    var ocNewTest = function ()
+    {
         $("#modalTestTitle").modal('show');
     }
 
-    var ocCloseCreateNewTest = function () {
+    var ocCloseCreateNewTest = function ()
+    {
         $("#TestTitle").val("");
         $("#modalTestTitle").modal('hide');
     }
 
-    var ocSaveTestTitle = function () {
+    var ocSaveTestTitle = function ()
+    {
         var title = $("#TestTitle").val();
         var cid = $("#courseID1").val();
         if (title != "" && cid != "") {
@@ -439,11 +445,10 @@
             });
         }
     }
-
-
+    
     var otable;
-    var BindDataTable = function () {
-
+    var BindDataTable = function ()
+    {
         //if table exist
         if ($.fn.DataTable.isDataTable("#tblSection")) {
             //Clear table for redraw
@@ -523,7 +528,8 @@
         }
     }
 
-    var ochOrderBy = function (sectionID) {
+    var ochOrderBy = function (sectionID)
+    {
         debugger
         var secID = sectionID;
         var orderVal = $("#oderBy" + sectionID).val();
@@ -540,13 +546,15 @@
         }
     }
 
-    var ocDelete = function (secID, title) {
+    var ocDelete = function (secID, title)
+    {
         $("#sectionID").val(secID);
         $("#sectionName").text(title);
         $("#modalDeleteSection").modal('show');
     }
 
-    var ocDeleteSelectedSection = function () {
+    var ocDeleteSelectedSection = function ()
+    {
         var secID = $("#sectionID").val();
         if (secID != "") {
             $.ajax({
