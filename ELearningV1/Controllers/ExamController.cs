@@ -69,7 +69,7 @@ namespace ELearningV1.Controllers
                     try
                     {
                         DAL SQLcon = new DAL();
-                        result = SQLcon.UploadNewFile(Title, "PPT", "/UploadedFiles/" + file.FileName, CID);
+                        result = SQLcon.UploadNewFile(Title, "PDF", "/UploadedFiles/" + file.FileName, CID);
                     }
                     catch (Exception ex) { }
                 }
