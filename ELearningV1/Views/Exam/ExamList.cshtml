@@ -90,6 +90,8 @@
 <input type="hidden" id="courseID1" value="@try { @Model.ID; } catch (Exception ex) { }" />
 <input type="hidden" id="sectionID" />
 
+<input type="hidden" id="questionID" />
+
 <div class="modal fade" id="modalUploadVid">
     <div class="modal-dialog" style="margin-top:200px;">
         <div class="modal-content">
@@ -127,19 +129,14 @@
                     <div class="col-md-3 col-xs-12" align="center">
                     </div>
                 </div>
-
             </div>
             <div class="modal-footer">
                 <div class=""></div>
                 <button type="button" class="btn btn-success pull-right" onclick="ocSaveVideoData()">Save</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
-
 
 <div class="modal fade" id="modalUploadPresentation">
     <div class="modal-dialog " style="margin-top:200px;">
@@ -165,7 +162,6 @@
                 </div>
                 <div class="row">
                     <div class="col-md-2 col-xs-1">
-
                     </div>
                     <div class="col-md-7 col-xs-11" style="margin-bottom:5px;">
                         <div class="input-group">
@@ -176,19 +172,14 @@
                     <div class="col-md-3 col-xs-12" align="center">
                     </div>
                 </div>
-
             </div>
             <div class="modal-footer">
                 <div class=""></div>
                 <button type="button" class="btn btn-success pull-right" onclick="ocSavePresentationData()">Save</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
-
 
 <div class="modal fade" id="modalTestTitle">
     <div class="modal-dialog " style="margin-top:200px;">
@@ -216,7 +207,7 @@
 </div>
 
 <div class="modal fade" id="modalTestQuestion">
-    <div class="modal-dialog modal-lg" style="margin-top:200px;">
+    <div class="modal-dialog modal-lg" style="margin-top:75px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" onclick="ocCloseCreateNewTest()" aria-label="Close">
@@ -226,219 +217,195 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <div class="row">
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <button type="button" class="btn btn-info" onclick="addQuestion()">Add Question</button>
+                    <div class="box box-info">
+                        <div class="box-header">
+                            <div class="row">
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                    <button type="button" class="btn btn-info" data-widget="collapse" data-toggle="tooltip" onclick="AddQuest()">Add Question</button> @*onclick="addQuestion()"*@
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <table id="example2" class="table table-hover dataTable" role="grid" aria-describedby="example2_info">
-                        <thead>
-                            <tr role="row">
-                                <!--<th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Use</th>-->
-                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Question</th>
-                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" ">Type</th>
-                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">Operations</th>
-                        </thead>
-                        <tbody>
-                            <tr role="row" class="odd">
-                                <!--<td class="sorting_1"><input type="button" value="Add" class="btn btn-info btn-sm" /></td>-->
-                                <td><a href="#">FILL IN THE BLANK the quick brown [fox] jumps over the lazy [dog]</a></td>
-                                <td><i class="fa fa-ellipsis-h" title="Fill the gap"></i></td>
-                                <td><i class="fa fa-pencil" title="Edit" onclick="filltheGap()"></i> <i class="fa fa-search" title="Preview"></i> <i class="fa fa-times" title="Delete"></i></td>
-                            </tr>
-                            <tr role="row" class="even">
-                                <!--<td class="sorting_1"><input type="button" value="Add" class="btn btn-info btn-sm" /></td>-->
-                                <td><a href="#">MULTIPLE CHOICE the quick brown [fox] jumps over the lazy [dog]</a></td>
-                                <td><i class="fa fa-check-square"></i></td>
-                                <td><i class="fa fa-pencil" title="Edit" onclick="multilpleChoice()"></i> <i class="fa fa-search" title="Preview"></i> <i class="fa fa-times" title="Delete"></i> </td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <!--<td class="sorting_1"><input type="button" value="Add" class="btn btn-info btn-sm" /></td>-->
-                                <td><a href="#">RADIO BUTTON the quick brown [fox] jumps over the lazy [dog]</a></td>
-                                <td><i class="fa fa-dot-circle-o"></i></td>
-                                <td><i class="fa fa-pencil" title="Edit"></i> <i class="fa fa-search" title="Preview"></i> <i class="fa fa-times" title="Delete"</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div class=""></div>
-                <button type="button" class="btn btn-success pull-right" onclick="ocSaveTestTitle()">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
+                        <div class="box-body">
+                            <textarea class="form-control" id="textQuestion" placeholder="Add question here" style="width: 100%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
 
-<div class="modal fade" id="addQuestionaire">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title">Add Question</h4>
-            </div>
-            <div class="modal-body">
-                <textarea class="textarea" id="textQuestion" placeholder="Add question here" style="width: 100%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                            <div class="row mt-3">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <label>Question Type</label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <select id="ddquestionType" class="form-control select2" style="width: 100%;">
+                                        <option value="0" selected>Select question type</option>
+                                        <!--<option value="1">Fill in the blank</option>-->
+                                        <option value="2">Multiple choice with Multiple answer</option>
+                                        <option value="3">Multiple choice with one answer</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" id="mc" style="display:none">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <label>Answers</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                            <input type="text" class="form-control" id="txtMCOne" tabindex="1" />
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" id="chckMCOne">
+                                                    Correct
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                            <input type="text" class="form-control" id="txtMCTwo" tabindex="2" />
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" id="chckMCTwo">
+                                                    Correct
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                            <input type="text" class="form-control" id="txtMCThree" tabindex="3" />
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" id="chckMCThree">
+                                                    Correct
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                            <input type="text" class="form-control" id="txtMCFour" tabindex="4" />
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" id="chckMCFour">
+                                                    Correct
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="mcoa" style="display:none">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <label>Answers</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                            <input type="text" placeholder="option one" class="form-control" id="txtMCOA1" tabindex="1" />
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left">
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" id="chckMCOA1" name="optionsRadios" />
+                                                    Correct
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                            <input type="text" placeholder="option two" class="form-control" id="txtMCOA2" tabindex="2" />
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left">
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" id="chckMCOA2" name="optionsRadios" />
+                                                    Correct
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                            <input type="text" placeholder="option three" class="form-control" id="txtMCOA3" tabindex="3" />
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left">
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" id="chckMCOA3" name="optionsRadios" />
+                                                    Correct
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                            <input type="text" placeholder="option four" class="form-control" id="txtMCOA4" tabindex="4" />
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left">
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" id="chckMCOA4" name="optionsRadios" />
+                                                    Correct
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-md-10 col-sm-10"></div>
 
-                <div class="row mt-3">
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                        <label>Question Type</label>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                        <select id="ddquestionType" class="form-control select2" style="width: 100%;">
-                            <option selected>Select question type</option>
-                            <option value="1">Fill in the blank</option>
-                            <option value="2">Multiple choice with Multiple answer</option>
-                            <option value="3">Multiple choice with one answer</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row mt-3" id="fitb" style="display:none">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-                        <label class="label-warning">Put <mark>[ ]</mark> on the answer in the text area above</label>
-                        <p style="font-style:italic">Example: The quick brown [fox] jumps over the lazy [dog]</p>
-                    </div>
-                </div>
-                <div class="row" id="mc" style="display:none">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <label>Answers</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <input type="text" class="form-control" id="txtMCOne" />
-                            </div>
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" id="chckMCOne">
-                                        Correct
-                                    </label>
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                    <button type="button" class="btn btn-primary" onclick="UpdateSeletedQuestion()" title="Click when updating a question">Update</button>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <input type="text" class="form-control" id="txtMCTwo" />
-                            </div>
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" id="chckMCTwo">
-                                        Correct
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <input type="text" class="form-control" id="txtMCThree" />
-                            </div>
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" id="chckMCThree">
-                                        Correct
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <input type="text" class="form-control" id="txtMCFour" />
-                            </div>
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 pull-left">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" id="chckMCFour">
-                                        Correct
-                                    </label>
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                    <button type="button" class="btn btn-success" onclick="saveQuestion()" title="Click when creating new question">Save</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row" id="mcoa" style="display:none">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <label>Answers</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
-                                        <input type="text" placeholder="option one" class="form-control" id="txtMCOA1" />
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left mt-3">
-                                <label>
-                                    <input type="checkbox" id="chckMCOA1">
-                                    Correct
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option1">
-                                        <input type="text" placeholder="option two" class="form-control" id="txtMCOA2" />
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left mt-3">
-                                <label>
-                                    <input type="checkbox" id="chckMCOA2">
-                                    Correct
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="optionsRadios" id="optionsRadios3" value="option1">
-                                        <input type="text" placeholder="option three" class="form-control" id="txtMCOA3" />
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left mt-3">
-                                <label>
-                                    <input type="checkbox" id="chckMCOA3">
-                                    Correct
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="optionsRadios" id="optionsRadios4" value="option1">
-                                        <input type="text" placeholder="option four" class="form-control" id="txtMCOA4" />
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-left mt-3">
-                                <label>
-                                    <input type="checkbox" id="chckMCOA4">
-                                    Correct
-                                </label>
-                            </div>
+                    <div class="box box-info">
+                        <div class="box-body">
+                            <table id="tblQuestions" class="table table-hover dataTable" role="grid">
+                                <thead>
+                                    <tr>
+                                        <!-- role="row"-->
+                                        <!--<th>CourSecID</th> class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"-->
+                                        <th>Order</th>
+                                        <th>Question</th>
+                                        <th>Type</th>
+                                        <th>Choice 1</th>
+                                        <th>Choice 2</th>
+                                        <th>Choice 3</th>
+                                        <th>Choice 4</th>
+                                        <th>Correct Answer</th>
+                                        <th>CourseSectionID</th>
+                                        <th>CourseID</th>
+                                        <th>Operations</th>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="saveQuestion()">Save changes</button>
+                <input type="text" id="secID" value="" style="display:none" disabled />
+                <input type="text" id="QuestionID" value="" style="display:none" disabled />
+                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -465,125 +432,345 @@
         </div>
     </div>
 </div>
+
 <script src="/Scripts/Dev_Scripts/ExamList.js"></script>
+
 <script type="text/javascript">
+    var itable;
+    var BindQuestionTable = function (ID) {
+        //if table exist
+        if ($.fn.DataTable.isDataTable("#tblQuestions")) {
+            //Clear table for redraw
+            itable.draw();
+        } else {
 
-    var ocNewTest = function ()
-    {
-        $("#modalTestTitle").modal('show');
+            itable = $("#tblQuestions").DataTable({
+                "bServerSide": true,
+                "processing": true,
+                "sAjaxSource": "/Exam/getQuestionList",
+                "fnServerData": function (sSource, aoData, fnCallback) {
+
+                    //For Parameter
+                    var courseID = $("#courseID1").val();
+
+                    aoData.push({ "name": "CourSecID", "value": ID });
+
+                    $.ajax({
+                        type: "Get",
+                        data: aoData,
+                        url: sSource,
+                        success: fnCallback
+                    });
+                },
+                "aoColumns": [
+                    {
+                        "mData": "OrderNumber",
+                        "orderable": false,
+                        "width": "25px",
+                        "render": function (OrderNumber, type, full, meta) {
+                            return '<input type="text" id="txtOrderNo'+full.ID+'" style="width:40px; text-align:center;" value="'+OrderNumber+'" onchange=changeQuestOrderNo("'+full.ID+'") />';
+                        }
+                    },
+                    {
+                        "mData": "Question",
+                        "orderable": false,
+                        "width": "500px",
+                        "className": "dt-center", "targets": "_all"
+                    },
+                    {
+                        "mData": "QuestionType",
+                        "orderable": false,
+                        "width": "50px",
+                        "className": "dt-center", "targets": "_all",
+                        "render": function (QuestionType, type, full, meta) {
+                            if (QuestionType == "2") {
+                                return '<i class="fa fa-check-square" title="Multiple Choice"></i>';
+                            }
+                            else {
+                                return '<i class="fa fa-dot-circle-o" title="Radio Button"></i>';
+                            }
+                        }
+                    },
+                    {
+                        "mData": "C1",
+                        "orderable": false,
+                        "visible": false,
+                        "className": "dt-center", "targets": "_all"
+                    },
+                    {
+                        "mData": "C2",
+                        "orderable": false,
+                        "visible": false,
+                        "className": "dt-center", "targets": "_all"
+                    },
+                    {
+                        "mData": "C3",
+                        "orderable": false,
+                        "visible": false,
+                        "className": "dt-center", "targets": "_all"
+                    },
+                    {
+                        "mData": "C4",
+                        "orderable": false,
+                        "visible": false,
+                        "className": "dt-center", "targets": "_all"
+                    },
+                    {
+                        "mData": "CAnswer",
+                        "orderable": false,
+                        "visible": false,
+                        "className": "dt-center", "targets": "_all"
+                    },
+                    {
+                        "mData": "CourseSectionID",
+                        "orderable": false,
+                        "visible": false,
+                        "className": "dt-center", "targets": "_all"
+                    },
+                    {
+                        "mData": "CourseID",
+                        "orderable": false,
+                        "visible": false,
+                        "className": "dt-center", "targets": "_all"
+                    },
+                    {
+                        "mData": "ID",
+                        "orderable": false,
+                        "width": "100px",
+                        "render": function (ID, type, full, meta) {
+                            return '<a href="#/" onclick="EditQuestion(\'' + ID + '\',\'' + full.Question + '\',\'' + full.QuestionType + '\',\'' + full.C1 + '\',\'' + full.C2 + '\',\'' + full.C3 + '\',\'' + full.C4 + '\',\'' + full.CAnswer + '\',\'' + full.CourseSectionID + '\',\'' + full.CourseID + '\')"> <i class="fa fa-pencil" title="Edit"></i> ' + " " + "Edit" + '</a> | <a href="#/" onclick="DeleteSelectedQuestion(\'' + ID + '\')"> <i class="fa fa-times" title="Delete"></i> ' + " " + "Delete" + '</a>';
+                        }
+                    },
+                ],
+                responsive: true,
+                select: { style: 'single' },
+                "bInfo": true,
+                "searching": false,
+                "bPaginate": false,
+                "sScrollY": "200",
+                "scrollX": true,
+                "bScrollCollapse": false,
+                "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]]
+            });
+        }
     }
 
-    var ocCloseCreateNewTest = function ()
-    {
-        $("#TestTitle").val("");
-        $("#modalTestTitle").modal('hide');
+    var EditQuestion = function (ID, Question, Type, C1, C2, C3, C4, CAns, CourSecID, CouID) {
+        //alert("Edit: " + " ID: " + ID + ' & ' + "Question: " + Question + ' & ' + "Type: " + Type + ' & ' + "Choice1: " + C1 + ' & ' + "Choice2: " + C2 + ' & ' + "Choice3: " + C3 + ' & ' + "Choice4: " + C4 + ' & ' + "Correct Answer: " + CAns + ' & ' + "CourSecID: " + CourSecID + ' & ' + "CourID: " + CouID);
+
+        document.getElementById("chckMCOne").checked = false;
+        document.getElementById("chckMCTwo").checked = false;
+        document.getElementById("chckMCThree").checked = false;
+        document.getElementById("chckMCFour").checked = false;
+
+        document.getElementById("chckMCOA1").checked = false;
+        document.getElementById("chckMCOA2").checked = false;
+        document.getElementById("chckMCOA3").checked = false;
+        document.getElementById("chckMCOA4").checked = false;
+
+        $("#textQuestion").val(Question);
+        $("#QuestionID").val(ID);
+        document.getElementById("ddquestionType").selectedIndex = Type - 1;
+
+        var b = document.getElementById("mc");
+        var c = document.getElementById("mcoa");
+
+        if (Type == "2") {
+            b.style.display = "block";
+            c.style.display = "none";
+
+            $("#txtMCOne").val(C1);
+            $("#txtMCTwo").val(C2);
+            $("#txtMCThree").val(C3);
+            $("#txtMCFour").val(C4);
+
+            var temp = new Array();
+            temp = CAns.split("&");
+
+            for (var data in temp) {
+                //alert(temp[data]);
+                if (temp[data] == C1) {
+                    document.getElementById("chckMCOne").checked = true;
+                }
+                if (temp[data] == C2) {
+                    document.getElementById("chckMCTwo").checked = true;
+                }
+                if (temp[data] == C3) {
+                    document.getElementById("chckMCThree").checked = true;
+                }
+                if (temp[data] == C4) {
+                    document.getElementById("chckMCFour").checked = true;
+                }
+            }
+        }
+        else {
+            c.style.display = "block";
+            b.style.display = "none";
+
+            $("#txtMCOA1").val(C1);
+            $("#txtMCOA2").val(C2);
+            $("#txtMCOA3").val(C3);
+            $("#txtMCOA4").val(C4);
+
+            if (CAns == C1) {
+                document.getElementById("chckMCOA1").checked = true;
+            }
+            if (CAns == C2) {
+                document.getElementById("chckMCOA2").checked = true;
+            }
+            if (CAns == C3) {
+                document.getElementById("chckMCOA3").checked = true;
+            }
+            if (CAns == C4) {
+                document.getElementById("chckMCOA4").checked = true;
+            }
+        }
     }
 
-    var ocSaveTestTitle = function ()
-    {
-        var title = $("#TestTitle").val();
-        var cid = $("#courseID1").val();
-        if (title != "" /**&& cid != ""**/) {
+    var DeleteSelectedQuestion = function (ID) {
+        //alert("Delete: " + ID);
+        var getCourSec = $("#secID").val();
+        debugger
+        $.ajax({
+            type: "POST",
+            url: "/Exam/deleteQuestion",
+            data: { "ID": ID },
+            success: function (response) {
+                debugger
+                alert(response.res);
+                BindQuestionTable(getCourSec);
+            },
+            error: function (response) { }
+        });
+    }
+
+    var UpdateSeletedQuestion = function () {
+        var totalAnswer1 = "";
+        var totalAnswer2 = "";
+
+        var getCourSec = $("#secID").val();
+        var selectedQType = $("#ddquestionType option:selected").val();
+        var question = $("#textQuestion").val();
+        var questionID = $("#QuestionID").val();
+
+        if (selectedQType == "2") {
+            ans1 = $("#txtMCOne").val();
+            ans2 = $("#txtMCTwo").val();
+            ans3 = $("#txtMCThree").val();
+            ans4 = $("#txtMCFour").val();
+
+            if (document.getElementById("chckMCOne").checked) {
+                if (totalAnswer1 === "" || totalAnswer1 === null || totalAnswer1 === " ") {
+                    totalAnswer1 = $("#txtMCOne").val();
+                }
+                else {
+                    totalAnswer1 = totalAnswer1 + "&" + $("#txtMCOne").val();
+                }
+            }
+            if (document.getElementById("chckMCTwo").checked) {
+                if (totalAnswer1 === "" || totalAnswer1 === null || totalAnswer1 === " ") {
+                    totalAnswer1 = $("#txtMCTwo").val();
+                }
+                else {
+                    totalAnswer1 = totalAnswer1 + "&" + $("#txtMCTwo").val();
+                }
+            }
+            if (document.getElementById("chckMCThree").checked) {
+                if (totalAnswer1 === "" || totalAnswer1 === null || totalAnswer1 === " ") {
+                    totalAnswer1 = $("#txtMCThree").val();
+                }
+                else {
+                    totalAnswer1 = totalAnswer1 + "&" + $("#txtMCThree").val();
+                }
+            }
+            if (document.getElementById("chckMCFour").checked) {
+                if (totalAnswer1 === "" || totalAnswer1 === null || totalAnswer1 === " ") {
+                    totalAnswer1 = $("#txtMCFour").val();
+                }
+                else {
+                    totalAnswer1 = totalAnswer1 + "&" + $("#txtMCFour").val();
+                }
+            }
+
             $.ajax({
                 type: "POST",
-                url: "/Exam/SaveTestTitle",
-                data: { "CID": cid, "Title": title },
+                url: "/Exam/updateQuestion",
+                data: { "ID": questionID, "Question": question, "C1": ans1, "C2": ans2, "C3": ans3, "C4": ans4, "CorAns": totalAnswer1 },
                 success: function (response) {
                     debugger
                     alert(response.res);
-                    $("#modalTestTitle").modal('hide');
-                    BindDataTable();
+                    BindQuestionTable(getCourSec);
+                },
+                error: function (response) { }
+            });
+        }
+
+        else if (selectedQType == "3") {
+            ans1 = $("#txtMCOA1").val();
+            ans2 = $("#txtMCOA2").val();
+            ans3 = $("#txtMCOA3").val();
+            ans4 = $("#txtMCOA4").val();
+
+            if (document.getElementById("chckMCOA1").checked) {
+                totalAnswer2 = $("#txtMCOA1").val();
+            }
+            if (document.getElementById("chckMCOA2").checked) {
+                totalAnswer2 = $("#txtMCOA2").val();
+            }
+            if (document.getElementById("chckMCOA3").checked) {
+                totalAnswer2 = $("#txtMCOA3").val();
+            }
+            if (document.getElementById("chckMCOA4").checked) {
+                totalAnswer2 = $("#txtMCOA4").val();
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/Exam/updateQuestion",
+                data: { "ID": questionID, "Question": question, "C1": ans1, "C2": ans2, "C3": ans3, "C4": ans4, "CorAns": totalAnswer2 },
+                success: function (response) {
+                    debugger
+                    alert(response.res);
+                    BindQuestionTable(getCourSec);
                 },
                 error: function (response) { }
             });
         }
     }
 
-    var addQuestion = function () {
-        $("#addQuestionaire").modal('show');
+    var AddQuest = function () {
+        $("#textQuestion").val("");
+        document.getElementById("ddquestionType").selectedIndex = 0;
+
+        $("#txtMCOne").val("");
+        $("#txtMCTwo").val("");
+        $("#txtMCThree").val("");
+        $("#txtMCFour").val("");
+
+        $("#txtMCOA1").val("");
+        $("#txtMCOA2").val("");
+        $("#txtMCOA3").val("");
+        $("#txtMCOA4").val("");
+
+        document.getElementById("chckMCOne").checked = false;
+        document.getElementById("chckMCTwo").checked = false;
+        document.getElementById("chckMCThree").checked = false;
+        document.getElementById("chckMCFour").checked = false;
     }
 
-    $(function () {
-        // Replace the <textarea id="editor1"> with a CKEditor
-        // instance, using default configuration.
-        //  CKEDITOR.replace('editor1')
-        //bootstrap WYSIHTML5 - text editor
-        $('.textarea').wysihtml5()
-    })
-
-    $("#ddquestionType").change(function () {
-        debugger
-        var selected = $("#ddquestionType option:selected").val();
-        var a = document.getElementById("fitb");
-        var b = document.getElementById("mc");
-        var c = document.getElementById("mcoa");
-
-        if (selected === "1") {
-            a.style.display = "block";
-            b.style.display = "none";
-            c.style.display = "none";
-        }
-        else if (selected === "2") {
-            b.style.display = "block";
-            a.style.display = "none";
-            c.style.display = "none";
-        }
-        else if (selected === "3") {
-            c.style.display = "block";
-            b.style.display = "none";
-            a.style.display = "none";
-        }
-
-    });
-
-    var saveQuestion = function () {
-        debugger
-        var ques = $("#textQuestion").text();
-
-        var selected = $("#ddquestionType option:selected").val();
-
-        var Ans1 = "";
-        var Ans2 = "";
-        var Ans3 = "";
-        var Ans4 = "";
-
-        var CorrectAnswer1 = "";//
-        var CorrectAnswer2 = "";//
-        var CorrectAnswer3 = "";//
-        var CorrectAnswer4 = "";//
-
-        if (selected === "1") {
-            Ans1 = $("#").val();
-            Ans2 = $("#").val();
-            Ans3 = $("#").val();
-            Ans4 = $("#").val();
-        }
-
-        else if (selected === "2") {
-            Ans1 = $("#txtMCOne").val();
-            Ans2 = $("#txtMCTwo").val();
-            Ans3 = $("#txtMCThree").val();
-            Ans4 = $("#txtMCFour").val();
-
-            CorrectAnswer1 = document.getElementById("chckMCOne");//
-            CorrectAnswer2 = document.getElementById("chckMCTwo");// 
-            CorrectAnswer3 = document.getElementById("chckMCThree");//
-            CorrectAnswer4 = document.getElementById("chckMCFour");//
-        }
-        else if (selected === "3") {
-            Ans1 = $("#txtMCOA1").val();
-            Ans2 = $("#txtMCOA2").val();
-            Ans3 = $("#txtMCOA3").val();
-            Ans4 = $("#txtMCOA4").val();
-
-            CorrectAnswer1 = document.getElementById("chckMCOA1");//"";
-            CorrectAnswer2 = document.getElementById("chckMCOA2");// "";
-            CorrectAnswer3 = document.getElementById("chckMCOA3");//"";
-            CorrectAnswer4 = document.getElementById("chckMCOA4");//"";
-        }
-    }
-
-    var ocCreateViewQuiz = function (SecID,CID) {
-        debugger
+    var changeQuestOrderNo = function (ID) {
+        //alert(OrderNo);
+        var getCourSec = $("#secID").val();
+        var ordernoID = $("#txtOrderNo" + ID).val();
+        $.ajax({
+            type: "POST",
+            url: "/Exam/updateQuestionOrderNumber",
+            data: { "ID": ID, "OrderNo": ordernoID },
+            success: function (response) {
+                //alert(response.res);
+                BindQuestionTable(getCourSec);
+            },
+            error: function (response) { }
+        });
     }
 </script>

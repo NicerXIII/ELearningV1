@@ -13,9 +13,10 @@ namespace ELearningV1.Controllers
     {
         DAL SQLcon = new DAL();
 
+        #region Done by boss Tiqius
         [HttpGet]
         public ActionResult ExamList(string CourseID)
-        {            
+        {
             VMViewCourses courseData = new VMViewCourses();
             try
             {
@@ -26,8 +27,8 @@ namespace ELearningV1.Controllers
             return View(courseData);
         }
 
-        public ActionResult SaveVideoData(CourseImage model, string CID, string Title) {
-
+        public ActionResult SaveVideoData(CourseImage model, string CID, string Title)
+        {
             var result = false;
             var file = model.ImageFile;
             if (file != null)
@@ -38,7 +39,7 @@ namespace ELearningV1.Controllers
                     try
                     {
                         DAL SQLcon = new DAL();
-                        result = SQLcon.UploadNewFile(Title,"Video", "/UploadedFiles/" + file.FileName,CID);
+                        result = SQLcon.UploadNewFile(Title, "Video", "/UploadedFiles/" + file.FileName, CID);
                     }
                     catch (Exception ex) { }
                 }
@@ -58,7 +59,6 @@ namespace ELearningV1.Controllers
 
         public ActionResult SavePPTData(CourseImage model, string CID, string Title)
         {
-
             var result = false;
             var file = model.ImageFile;
             if (file != null)
@@ -87,48 +87,27 @@ namespace ELearningV1.Controllers
             return response;
         }
 
-        public ActionResult SaveTestTitle(string CID, string Title)
-        {
-            var result = "";
-            var user = Session["EmployeeNumber"].ToString();
-            try
-            {
-                DAL SQLcon = new DAL();
-                result = SQLcon.SaveTestName(Title, user);
-            }
-            catch (Exception ex) {
-                result = "false";
-            }
-            var response = new JsonResult();
-            response.Data = new
-            {
-                res = result
-            };
-            return response;
-        }
-
         public JsonResult LoadSectionData(DataTablesParam param, string courseID)
         {
             List<VMCourseSection> sectionData = new List<VMCourseSection>();
-            DAL SQLcon = new DAL();
             int pageNo = 1;
             int totalCount = 0;
-          
+
             if (param.iDisplayStart >= param.iDisplayLength)
             { pageNo = (param.iDisplayStart / param.iDisplayLength) + 1; }
 
-          
-                totalCount = SQLcon.ViewCourseSectionByID(courseID).Count();
-                sectionData = SQLcon.ViewCourseSectionByID(courseID).OrderBy(x => x.OrderSec).Select(x => new VMCourseSection
-                {
-                    ID = x.ID,
-                    Title = x.Title,
-                    Type = x.Type,
-                    SrcFile = x.SrcFile,
-                    CourseID = x.CourseID,
-                    OrderSec = x.OrderSec
-                }).AsEnumerable().ToList();
-            
+
+            totalCount = SQLcon.ViewCourseSectionByID(courseID).Count();
+            sectionData = SQLcon.ViewCourseSectionByID(courseID).OrderBy(x => x.OrderSec).Select(x => new VMCourseSection
+            {
+                ID = x.ID,
+                Title = x.Title,
+                Type = x.Type,
+                SrcFile = x.SrcFile,
+                CourseID = x.CourseID,
+                OrderSec = x.OrderSec
+            }).AsEnumerable().ToList();
+
             return Json(new
             {
                 aaData = sectionData,
@@ -144,7 +123,7 @@ namespace ELearningV1.Controllers
             try
             {
                 DAL SQLcon = new DAL();
-                result = SQLcon.UpdateSectionOrdering(SID,OrderVal);
+                result = SQLcon.UpdateSectionOrdering(SID, OrderVal);
             }
             catch (Exception ex)
             {
@@ -177,6 +156,7 @@ namespace ELearningV1.Controllers
             };
             return response;
         }
+        #endregion
 
         // GET: Exam
         public ActionResult Exam()
@@ -194,8 +174,30 @@ namespace ELearningV1.Controllers
             return View();
         }
 
-        public ActionResult saveQuestion(string Question, string QuestionType, string Answer1, string Answer2, string Answer3, string Answer4, string CorrectAns1, string CorrectAns2, string CorrectAns3, string CorrectAns4)
+        public ActionResult SaveTestTitle(string CID, string Title)
         {
+            var result = "";
+            var user = Session["EmployeeNumber"].ToString();
+            try
+            {
+                DAL SQLcon = new DAL();
+                result = SQLcon.SaveTestName(Title, "Test", CID);
+            }
+            catch (Exception ex)
+            {
+                result = "false";
+            }
+            var response = new JsonResult();
+            response.Data = new
+            {
+                res = result
+            };
+            return response;
+        }
+
+        public ActionResult saveQuestion(string Question, string QuestionType, string Answer1, string Answer2, string Answer3, string Answer4, string CorrectAns1, string CourseSecID, string CourseID)
+        {
+
             string EmployeeNumber = Session["EmployeeNumber"].ToString();
             if (Answer1 == "" || Answer1 == null)
             {
@@ -214,13 +216,89 @@ namespace ELearningV1.Controllers
 
             }
 
-            string result = SQLcon.SaveExamAndQuestion(Question, Answer1, Answer2, Answer3, Answer4, CorrectAns1, EmployeeNumber);
+            string result = SQLcon.SaveExamAndQuestion(Question, QuestionType, Answer1, Answer2, Answer3, Answer4, CorrectAns1, EmployeeNumber ,CourseSecID , CourseID);
 
             var response = new JsonResult();
             response.Data = new
             {
                 res = result
             };
+            return response;
+        }
+
+        public JsonResult getQuestionList(DataTablesParam param, string CourSecID)
+        {
+            List<VMGetExamQuestions> QuestList = new List<VMGetExamQuestions>();
+            int pageNo = 1;
+            int totalCount = 0;
+
+            if (param.iDisplayStart >= param.iDisplayLength)
+            { pageNo = (param.iDisplayStart / param.iDisplayLength) + 0; }
+            
+            totalCount = SQLcon.getQuestionList(CourSecID).Count();
+            QuestList = SQLcon.getQuestionList(CourSecID).OrderBy(x => x.OrderNumber).Select(x => new VMGetExamQuestions
+            {
+                ID = x.ID,
+                Question = x.Question,
+                QuestionType = x.QuestionType,
+                C1 = x.C1,
+                C2 = x.C2,
+                C3 = x.C3,
+                C4 = x.C4,
+                CAnswer = x.CAnswer,
+                CourseSectionID = x.CourseSectionID,
+                CourseID = x.CourseID,
+                OrderNumber = x.OrderNumber,
+            }).AsEnumerable().ToList();
+
+            return Json(new
+            {
+                aaData = QuestList,
+                eEcho = param.sEcho,
+                iTotalDisplayRecords = totalCount,
+                iTotalRecords = QuestList.Count()
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult deleteQuestion(string ID)
+        {
+            var result = "";
+            try
+            {   result = SQLcon.DeleteQuestion(ID); }
+            catch (Exception ex)
+            {   result = "false";   }
+
+            var response = new JsonResult();
+            response.Data = new
+            {   res = result    };
+            return response;
+        }
+
+        public ActionResult updateQuestion(string ID, string Question, string C1, string C2, string C3, string C4, string CorAns)
+        {
+            var result = "";
+            try
+            { result = SQLcon.UpdateQuestion(ID, Question, C1, C2, C3, C4, CorAns); }
+            catch (Exception ex)
+            { result = "false"; }
+
+            var response = new JsonResult();
+            response.Data = new
+            { res = result };
+            return response;
+        }
+
+        public ActionResult updateQuestionOrderNumber(string ID, string OrderNo)
+        {
+            var result = "";
+            try
+            { result = SQLcon.UpdateQuestionOrderNo(ID, OrderNo); }
+            catch (Exception ex)
+            { result = "false"; }
+
+            var response = new JsonResult();
+            response.Data = new
+            { res = result };
             return response;
         }
     }

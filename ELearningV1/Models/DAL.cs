@@ -34,9 +34,9 @@ namespace ELearningV1.Models
                         return "True";
                     }
                     catch (Exception ex)
-                    {   return ex.ToString();   }
+                    { return ex.ToString(); }
                     finally
-                    {   con.Close();    }
+                    { con.Close(); }
                 }
             }
         }
@@ -61,9 +61,9 @@ namespace ELearningV1.Models
                         return true;
                     }
                     catch (Exception ex)
-                    {   return false;   }
+                    { return false; }
                     finally
-                    {   con.Close();    }
+                    { con.Close(); }
                 }
             }
         }
@@ -82,9 +82,9 @@ namespace ELearningV1.Models
                         return true;
                     }
                     catch (Exception ex)
-                    {   return false;   }
+                    { return false; }
                     finally
-                    {   con.Close();    }
+                    { con.Close(); }
                 }
             }
         }
@@ -115,9 +115,9 @@ namespace ELearningV1.Models
                         return CourseList;
                     }
                     catch (Exception ex)
-                    {   }
+                    { }
                     finally
-                    {   con.Close();    }
+                    { con.Close(); }
                 }
             }
 
@@ -150,9 +150,9 @@ namespace ELearningV1.Models
                         return CourseList;
                     }
                     catch (Exception ex)
-                    {   }
+                    { }
                     finally
-                    {   con.Close();    }
+                    { con.Close(); }
                 }
             }
             return null;
@@ -185,9 +185,9 @@ namespace ELearningV1.Models
                         return CourseList;
                     }
                     catch (Exception ex)
-                    {   }
+                    { }
                     finally
-                    {   con.Close();    }
+                    { con.Close(); }
                 }
             }
 
@@ -221,15 +221,15 @@ namespace ELearningV1.Models
                         return SectionList;
                     }
                     catch (Exception ex)
-                    {   }
+                    { }
                     finally
-                    {   con.Close();    }
+                    { con.Close(); }
                 }
             }
 
             return null;
         }
-        
+
         public bool UpdateCourse(string CID, string CName, string Desc, bool IsActive)
         {
             using (SqlConnection con = new SqlConnection(Cons))
@@ -244,14 +244,14 @@ namespace ELearningV1.Models
                         return true;
                     }
                     catch (Exception ex)
-                    {   return false;   }
+                    { return false; }
                     finally
-                    {   con.Close();    }
+                    { con.Close(); }
                 }
             }
         }
 
-        public bool UpdateSectionOrdering(string SectionID,string OderVal)
+        public bool UpdateSectionOrdering(string SectionID, string OderVal)
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {
@@ -265,16 +265,64 @@ namespace ELearningV1.Models
                         return true;
                     }
                     catch (Exception ex)
-                    {   return false;   }
+                    { return false; }
                     finally
-                    {   con.Close();    }
+                    { con.Close(); }
                 }
             }
         }
         #endregion
 
         #region Exam
-        public string SaveExamAndQuestion(string Question, string Ans1, string Ans2, string Ans3, string Ans4, string CorAns1, string EmployeeNumber)
+        public getExamQuestionList getQuestionList(string CourSecID)
+        {
+            getExamQuestionList QuestionList = new getExamQuestionList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningGetQuestions", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@CouSecID", CourSecID);
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                VMGetExamQuestions question = new VMGetExamQuestions();
+                                question.ID = dr["ID"].ToString();
+                                question.Question = dr["Question"].ToString();
+                                question.QuestionType = dr["QuestionType"].ToString();
+                                question.C1 = dr["C1"].ToString();
+                                question.C2 = dr["C2"].ToString();
+                                question.C3 = dr["C3"].ToString();
+                                question.C4 = dr["C4"].ToString();
+                                question.CAnswer = dr["CAnswer"].ToString();
+                                question.CourseSectionID = dr["CourseSectionID"].ToString();
+                                question.CourseID = dr["CourseID"].ToString();
+                                question.OrderNumber = Int32.Parse(dr["OrderNumber"].ToString());
+                                QuestionList.Add(question);
+                            }
+                            return QuestionList;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public string SaveExamAndQuestion(string Question, string QuestType, string Ans1, string Ans2, string Ans3, string Ans4, string CorAns, string EmployeeNumber, string CourseSecID, string CourseID)
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {
@@ -283,25 +331,29 @@ namespace ELearningV1.Models
                     try
                     {
                         com.CommandType = CommandType.StoredProcedure;
+                        com.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                        com.Parameters.AddWithValue("@CourseSecID", CourseSecID);
+                        com.Parameters.AddWithValue("@CourseID", CourseID);
                         com.Parameters.AddWithValue("@Question", Question);
+                        com.Parameters.AddWithValue("@QuestionType", QuestType);
                         com.Parameters.AddWithValue("@Choice1", Ans1);
                         com.Parameters.AddWithValue("@Choice2", Ans2);
                         com.Parameters.AddWithValue("@Choice3", Ans3);
                         com.Parameters.AddWithValue("@Choice4", Ans4);
-                        com.Parameters.AddWithValue("@ChoiceAns", CorAns1);
-                        com.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                        com.Parameters.AddWithValue("@ChoiceAns", CorAns);
+
                         con.Open();
                         com.ExecuteNonQuery();
                         con.Close();
                     }
                     catch (Exception ex)
-                    {   return ex.Message;  }
+                    { return ex.Message; }
                 }
             }
             return "Success";
         }
 
-        public string SaveTestName(string TestName, string EmployeeNumber)
+        public string SaveTestName(string TestName, string Type, string CourseID)
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {
@@ -311,13 +363,84 @@ namespace ELearningV1.Models
                     {
                         com.CommandType = CommandType.StoredProcedure;
                         com.Parameters.AddWithValue("@TestName", TestName);
-                        com.Parameters.AddWithValue("@AuditUser", EmployeeNumber);
+                        com.Parameters.AddWithValue("@Type", Type);
+                        com.Parameters.AddWithValue("@CourseID", CourseID);
                         con.Open();
                         com.ExecuteNonQuery();
                         con.Close();
                     }
                     catch (Exception ex)
-                    {   return ex.Message;  }
+                    { return ex.Message; }
+                }
+            }
+            return "Success";
+        }
+        
+        public string DeleteQuestion(string ID)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand com = new SqlCommand("ELearningDeleteQuestion", con))
+                {
+                    try
+                    {
+                        com.CommandType = CommandType.StoredProcedure;
+                        com.Parameters.AddWithValue("@QuestionID", ID);
+                        con.Open();
+                        com.ExecuteNonQuery();
+                        con.Close();
+                    }
+                    catch (Exception ex)
+                    { return ex.Message; }
+                }
+            }
+            return "Success";
+        }
+
+        public string UpdateQuestion(string ID, string Question, string C1, string C2, string C3, string C4, string CorAns)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand com = new SqlCommand("ELearningUpdateQuestion", con))
+                {
+                    try
+                    {
+                        com.CommandType = CommandType.StoredProcedure;
+                        com.Parameters.AddWithValue("@ID", ID); 
+                        com.Parameters.AddWithValue("@Question", Question);
+                        com.Parameters.AddWithValue("@C1", C1);
+                        com.Parameters.AddWithValue("@C2", C2);
+                        com.Parameters.AddWithValue("@C3", C3);
+                        com.Parameters.AddWithValue("@C4", C4);
+                        com.Parameters.AddWithValue("@CAnswer", CorAns);
+                        con.Open();
+                        com.ExecuteNonQuery();
+                        con.Close();
+                    }
+                    catch (Exception ex)
+                    { return ex.Message; }
+                }
+            }
+            return "Success";
+        }
+
+        public string UpdateQuestionOrderNo(string ID, string OrderNo)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand com = new SqlCommand("ELearningUpdateQuestionOrderNumber", con))
+                {
+                    try
+                    {
+                        com.CommandType = CommandType.StoredProcedure;
+                        com.Parameters.AddWithValue("@ID", ID);
+                        com.Parameters.AddWithValue("@OrderNo", OrderNo);
+                        con.Open();
+                        com.ExecuteNonQuery();
+                        con.Close();
+                    }
+                    catch (Exception ex)
+                    { return ex.Message; }
                 }
             }
             return "Success";
@@ -325,7 +448,7 @@ namespace ELearningV1.Models
         #endregion
 
         #region LogIn
-        public VMKioskLogInUserList KioskLogInUserData(string EmpNum,string Password)
+        public VMKioskLogInUserList KioskLogInUserData(string EmpNum, string Password)
         {
             VMKioskLogInUserList UserDataList = new VMKioskLogInUserList();
             using (SqlConnection con = new SqlConnection(Cons))
@@ -353,14 +476,14 @@ namespace ELearningV1.Models
                         return UserDataList;
                     }
                     catch (Exception ex)
-                    {   }
+                    { }
                     finally
-                    {   con.Close();    }
+                    { con.Close(); }
                 }
             }
             return null;
         }
-        
+
         public VMELearnEmpDataList FBLoadLeftPanel(string EmpID)
         {
             VMELearnEmpDataList EmpDataList = new VMELearnEmpDataList();
@@ -389,9 +512,9 @@ namespace ELearningV1.Models
                         return EmpDataList;
                     }
                     catch (Exception ex)
-                    {   }
+                    { }
                     finally
-                    {   con.Close();    }
+                    { con.Close(); }
                 }
             }
             return null;
