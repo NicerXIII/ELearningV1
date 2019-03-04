@@ -39,6 +39,10 @@ namespace ELearningV1.Controllers
 
                     Session["EmployeeName"] = data1.EmpName;
                     Session["UserProfilePic"] = path + data1.EmpImage;
+
+
+
+
                     stats = true;
                 }
                 else
@@ -56,6 +60,15 @@ namespace ELearningV1.Controllers
                 result = stats
             };
             return response;
+        }
+
+
+        public ActionResult LogOutAccount()
+        {
+            Session.Clear();
+            Session.Abandon();
+            Session.RemoveAll();
+            return Json(new { res = true });
         }
 
     }

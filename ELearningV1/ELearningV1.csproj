@@ -499,6 +499,7 @@
     <Content Include="Content\select2\tests\vendor\qunit-1.23.1.css" />
     <Content Include="Content\select2\tests\vendor\qunit-1.23.1.js" />
     <Content Include="Content\select2\vendor\jquery-2.1.0.js" />
+    <Content Include="Content\Spinner.css" />
     <Content Include="Content\tether\tether-theme-arrows-dark.css" />
     <Content Include="Content\tether\tether-theme-arrows-dark.min.css" />
     <Content Include="Content\tether\tether-theme-arrows.css" />

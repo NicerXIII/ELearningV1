@@ -80,5 +80,15 @@ namespace ELearningV1.Controllers
 
             return View("ViewCourse", cList);
         }
+
+
+        [HttpPost]
+        public ActionResult LoadUserLogInHistoryByID1()
+        {
+            var sunday = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
+            var saturday = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Saturday);
+
+            return View();
+        }
     }
 }
