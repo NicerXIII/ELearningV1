@@ -39,6 +39,10 @@ namespace ELearningV1.Controllers
 
                     Session["EmployeeName"] = data1.EmpName;
                     Session["UserProfilePic"] = path + data1.EmpImage;
+
+
+
+
                     stats = true;
                 }
                 else
