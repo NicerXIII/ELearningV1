@@ -397,6 +397,28 @@ namespace ELearningV1.Models
             }
             return "Success";
         }
+
+        public string UpdateTestName(string ID, string TestName)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand com = new SqlCommand("ELearningUpdateTestName", con))
+                {
+                    try
+                    {
+                        com.CommandType = CommandType.StoredProcedure;
+                        com.Parameters.AddWithValue("@ID", ID);
+                        com.Parameters.AddWithValue("@TestName", TestName);
+                        con.Open();
+                        com.ExecuteNonQuery();
+                        con.Close();
+                    }
+                    catch (Exception ex)
+                    { return ex.Message; }
+                }
+            }
+            return "Success";
+        }
         #endregion
 
         public getExamQuestionList getQuestionList(string CourSecID)
@@ -453,7 +475,7 @@ namespace ELearningV1.Models
             getDataToLoadList PDFPathList = new getDataToLoadList();
             using (SqlConnection con = new SqlConnection(Cons))
             {
-                using (SqlCommand cmd = new SqlCommand("ELearningGetFirstDataToLoad", con))
+                using (SqlCommand cmd = new SqlCommand("ELearningGetDataToLoad", con))
                 {
                     using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                     {

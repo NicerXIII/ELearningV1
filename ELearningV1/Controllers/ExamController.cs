@@ -269,6 +269,20 @@ namespace ELearningV1.Controllers
             { res = result };
             return response;
         }
+
+        public ActionResult updateTestName(string ID, string TestName)
+        {
+            var result = "";
+            try
+            { result = SQLcon.UpdateTestName(ID, TestName); }
+            catch (Exception ex)
+            { result = "false"; }
+
+            var response = new JsonResult();
+            response.Data = new
+            { res = result };
+            return response;
+        }
         #endregion
 
         public JsonResult getQuestionList(DataTablesParam param, string CourSecID)
@@ -278,7 +292,7 @@ namespace ELearningV1.Controllers
             int totalCount = 0;
 
             if (param.iDisplayStart >= param.iDisplayLength)
-            { pageNo = (param.iDisplayStart / param.iDisplayLength) + 0; }
+            { pageNo = (param.iDisplayStart / param.iDisplayLength) + 1; }
 
             totalCount = SQLcon.getQuestionList(CourSecID).Count();
             QuestList = SQLcon.getQuestionList(CourSecID).OrderBy(x => x.OrderNumber).Select(x => new VMGetExamQuestions
@@ -308,7 +322,7 @@ namespace ELearningV1.Controllers
         #region Exam
         public ActionResult GetFirstDataToLoad(string CourseID)
         { 
-            var loadData = SQLcon.getDataToLoad(CourseID).OrderBy(x => x.Type).Select(x => x.Type).FirstOrDefault().ToString(); 
+            var loadData = SQLcon.getDataToLoad(CourseID).OrderBy(x => x.OrderSec).Select(x => x.Type).FirstOrDefault().ToString(); 
             CourseSectionID = SQLcon.getDataToLoad(CourseID).OrderBy(x => x.CourSecID).Select(x => x.CourSecID).FirstOrDefault().ToString();
             var response = new JsonResult();
             response.Data = new

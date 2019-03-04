@@ -211,7 +211,7 @@ var BindDataTable = function () {
                         if (full.Type == "Test") {
                             // INSIDE viewQuestionList nakalagay
                             //  \'' + full.ID + '\',\'' + full.CourseID + '\'
-                            return '<a href="#/" onclick="viewQuestionList(\'' + full.ID + '\',\'' + full.CourseID + '\')"> <i class="glyphicon glyphicon-check"></i> ' + " " + Title + '</a>';
+                            return '<a href="#/" onclick="viewQuestionList(\'' + full.ID + '\',\'' + full.CourseID + '\',\'' + Title + '\')"> <i class="glyphicon glyphicon-check"></i> ' + " " + Title + '</a>';
                         }
                         else if (full.Type != "Test" && full.Type != "Video" && full.Type == "PDF") {
                             return '<a href="#/"><i class="fa fa-file-pdf-o"></i>' + " " + Title + '</a>';
@@ -308,11 +308,7 @@ var totalAns = "";
 var totalAns2 = "";
 
 $(function () {
-    // Replace the <textarea id="editor1"> with a CKEditor
-    // instance, using default configuration.
-    //  CKEDITOR.replace('editor1')
-    //bootstrap WYSIHTML5 - text editor
-    $('.textarea').wysihtml5()
+    $('.textarea').wysihtml5();
 });
 
 var ocNewTest = function () { $("#modalTestTitle").modal('show'); }
@@ -365,9 +361,11 @@ var ocSaveTestTitle = function () {
 }
 
 // show modal that show created question list
-var viewQuestionList = function (ID, CourseID) {
-    $("#secID").val(ID);
-    BindQuestionTable(ID);
+var viewQuestionList = function (ID, CourseID, Title) {
+    $("#sectionID").val(ID);
+    $("#testName").val(Title);
+    setTimeout(function () { BindQuestionTable(); }, 1000);
+    //BindQuestionTable(ID);
     $("#modalTestQuestion").modal('show');
 };
 
@@ -528,7 +526,7 @@ var saveQuestion = function () {
 }
 
 var itable;
-var BindQuestionTable = function (ID) {
+var BindQuestionTable = function () {
     //if table exist
     if ($.fn.DataTable.isDataTable("#tblQuestions")) {
         //Clear table for redraw
@@ -541,7 +539,9 @@ var BindQuestionTable = function (ID) {
             "processing": true,
             "sAjaxSource": "/Exam/getQuestionList",
             "fnServerData": function (sSource, aoData, fnCallback) {
-                aoData.push({ "name": "CourSecID", "value": ID });
+                var a = $("#sectionID").val();
+
+                aoData.push({ "name": "CourSecID", "value": a });
 
                 $.ajax({
                     type: "Get",
@@ -736,6 +736,9 @@ var UpdateSeletedQuestion = function () {
     var totalAnswer1 = "";
     var totalAnswer2 = "";
 
+    var TestName = $("#testName").val();
+    var testID = $("#sectionID").val();
+
     var getCourSec = $("#secID").val();
     var selectedQType = $("#ddquestionType option:selected").val();
     var question = $("#textQuestion").val();
@@ -751,33 +754,29 @@ var UpdateSeletedQuestion = function () {
             if (totalAnswer1 === "" || totalAnswer1 === null || totalAnswer1 === " ") {
                 totalAnswer1 = $("#txtMCOne").val();
             }
-            else {
-                totalAnswer1 = totalAnswer1 + "&" + $("#txtMCOne").val();
-            }
+            else
+            {   totalAnswer1 = totalAnswer1 + "&" + $("#txtMCOne").val();   }
         }
         if (document.getElementById("chckMCTwo").checked) {
             if (totalAnswer1 === "" || totalAnswer1 === null || totalAnswer1 === " ") {
                 totalAnswer1 = $("#txtMCTwo").val();
             }
-            else {
-                totalAnswer1 = totalAnswer1 + "&" + $("#txtMCTwo").val();
-            }
+            else
+            {   totalAnswer1 = totalAnswer1 + "&" + $("#txtMCTwo").val();   }
         }
         if (document.getElementById("chckMCThree").checked) {
             if (totalAnswer1 === "" || totalAnswer1 === null || totalAnswer1 === " ") {
                 totalAnswer1 = $("#txtMCThree").val();
             }
-            else {
-                totalAnswer1 = totalAnswer1 + "&" + $("#txtMCThree").val();
-            }
+            else
+            {   totalAnswer1 = totalAnswer1 + "&" + $("#txtMCThree").val(); }
         }
         if (document.getElementById("chckMCFour").checked) {
             if (totalAnswer1 === "" || totalAnswer1 === null || totalAnswer1 === " ") {
                 totalAnswer1 = $("#txtMCFour").val();
             }
-            else {
-                totalAnswer1 = totalAnswer1 + "&" + $("#txtMCFour").val();
-            }
+            else
+            {   totalAnswer1 = totalAnswer1 + "&" + $("#txtMCFour").val();  }
         }
 
         $.ajax({
@@ -785,9 +784,7 @@ var UpdateSeletedQuestion = function () {
             url: "/Exam/updateQuestion",
             data: { "ID": questionID, "Question": question, "C1": ans1, "C2": ans2, "C3": ans3, "C4": ans4, "CorAns": totalAnswer1 },
             success: function (response) {
-                debugger
                 alert(response.res);
-                BindQuestionTable(getCourSec);
             },
             error: function (response) { }
         });
@@ -799,31 +796,38 @@ var UpdateSeletedQuestion = function () {
         ans3 = $("#txtMCOA3").val();
         ans4 = $("#txtMCOA4").val();
 
-        if (document.getElementById("chckMCOA1").checked) {
-            totalAnswer2 = $("#txtMCOA1").val();
-        }
-        if (document.getElementById("chckMCOA2").checked) {
-            totalAnswer2 = $("#txtMCOA2").val();
-        }
-        if (document.getElementById("chckMCOA3").checked) {
-            totalAnswer2 = $("#txtMCOA3").val();
-        }
-        if (document.getElementById("chckMCOA4").checked) {
-            totalAnswer2 = $("#txtMCOA4").val();
-        }
+        if (document.getElementById("chckMCOA1").checked)
+        {   totalAnswer2 = $("#txtMCOA1").val();    }
+        if (document.getElementById("chckMCOA2").checked)
+        {   totalAnswer2 = $("#txtMCOA2").val();    }
+        if (document.getElementById("chckMCOA3").checked)
+        {   totalAnswer2 = $("#txtMCOA3").val();    }
+        if (document.getElementById("chckMCOA4").checked)
+        {   totalAnswer2 = $("#txtMCOA4").val();    }
 
         $.ajax({
             type: "POST",
             url: "/Exam/updateQuestion",
             data: { "ID": questionID, "Question": question, "C1": ans1, "C2": ans2, "C3": ans3, "C4": ans4, "CorAns": totalAnswer2 },
             success: function (response) {
-                debugger
                 alert(response.res);
-                BindQuestionTable(getCourSec);
             },
             error: function (response) { }
         });
     }
+
+    debugger
+    $.ajax({
+        type: "POST",
+        url: "/Exam/updateTestName",
+        data: { "ID": testID, "TestName": TestName},
+        success: function (response) {
+            debugger
+            alert(response.res);
+            BindQuestionTable(getCourSec);
+        },
+        error: function (response) { }
+    });
 }
 
 var AddQuest = function () {
