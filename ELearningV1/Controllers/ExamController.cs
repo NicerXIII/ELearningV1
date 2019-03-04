@@ -12,6 +12,8 @@ namespace ELearningV1.Controllers
     public class ExamController : Controller
     {
         DAL SQLcon = new DAL();
+        string CourseSectionID = "";
+        string Section_OrderNo = "";
 
         #region Done by boss Tiqius
         [HttpGet]
@@ -158,7 +160,7 @@ namespace ELearningV1.Controllers
         }
         #endregion
 
-        // GET: Exam
+        #region Creating Test Name and Question
         public ActionResult Exam()
         {
             return View();
@@ -226,40 +228,6 @@ namespace ELearningV1.Controllers
             return response;
         }
 
-        public JsonResult getQuestionList(DataTablesParam param, string CourSecID)
-        {
-            List<VMGetExamQuestions> QuestList = new List<VMGetExamQuestions>();
-            int pageNo = 1;
-            int totalCount = 0;
-
-            if (param.iDisplayStart >= param.iDisplayLength)
-            { pageNo = (param.iDisplayStart / param.iDisplayLength) + 0; }
-            
-            totalCount = SQLcon.getQuestionList(CourSecID).Count();
-            QuestList = SQLcon.getQuestionList(CourSecID).OrderBy(x => x.OrderNumber).Select(x => new VMGetExamQuestions
-            {
-                ID = x.ID,
-                Question = x.Question,
-                QuestionType = x.QuestionType,
-                C1 = x.C1,
-                C2 = x.C2,
-                C3 = x.C3,
-                C4 = x.C4,
-                CAnswer = x.CAnswer,
-                CourseSectionID = x.CourseSectionID,
-                CourseID = x.CourseID,
-                OrderNumber = x.OrderNumber,
-            }).AsEnumerable().ToList();
-
-            return Json(new
-            {
-                aaData = QuestList,
-                eEcho = param.sEcho,
-                iTotalDisplayRecords = totalCount,
-                iTotalRecords = QuestList.Count()
-            }, JsonRequestBehavior.AllowGet);
-        }
-
         public ActionResult deleteQuestion(string ID)
         {
             var result = "";
@@ -301,5 +269,72 @@ namespace ELearningV1.Controllers
             { res = result };
             return response;
         }
+        #endregion
+
+        public JsonResult getQuestionList(DataTablesParam param, string CourSecID)
+        {
+            List<VMGetExamQuestions> QuestList = new List<VMGetExamQuestions>();
+            int pageNo = 1;
+            int totalCount = 0;
+
+            if (param.iDisplayStart >= param.iDisplayLength)
+            { pageNo = (param.iDisplayStart / param.iDisplayLength) + 0; }
+
+            totalCount = SQLcon.getQuestionList(CourSecID).Count();
+            QuestList = SQLcon.getQuestionList(CourSecID).OrderBy(x => x.OrderNumber).Select(x => new VMGetExamQuestions
+            {
+                ID = x.ID,
+                Question = x.Question,
+                QuestionType = x.QuestionType,
+                C1 = x.C1,
+                C2 = x.C2,
+                C3 = x.C3,
+                C4 = x.C4,
+                CAnswer = x.CAnswer,
+                CourseSectionID = x.CourseSectionID,
+                CourseID = x.CourseID,
+                OrderNumber = x.OrderNumber,
+            }).AsEnumerable().ToList();
+
+            return Json(new
+            {
+                aaData = QuestList,
+                eEcho = param.sEcho,
+                iTotalDisplayRecords = totalCount,
+                iTotalRecords = QuestList.Count()
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        #region Exam
+        public ActionResult GetFirstDataToLoad(string CourseID)
+        { 
+            var loadData = SQLcon.getDataToLoad(CourseID).OrderBy(x => x.Type).Select(x => x.Type).FirstOrDefault().ToString(); 
+            CourseSectionID = SQLcon.getDataToLoad(CourseID).OrderBy(x => x.CourSecID).Select(x => x.CourSecID).FirstOrDefault().ToString();
+            var response = new JsonResult();
+            response.Data = new
+            {   res = loadData, };
+            return response;
+        }
+
+        public JsonResult loadVideo(string CourseID)
+        {
+            var vidPath = SQLcon.getVideoPath(CourseID).Select(x => x.VideoPath).FirstOrDefault().ToString();
+
+            var responseVideo = new JsonResult();
+            responseVideo.Data = new
+            {   resVideo = vidPath, };
+            return responseVideo;
+        }
+
+        public JsonResult loadPDF(string CourseID)
+        {
+            var PDFpath = SQLcon.getPDFPath(CourseID).Select(x => x.PDFPath).FirstOrDefault().ToString();
+
+            var responsePDF = new JsonResult();
+            responsePDF.Data = new
+            {   resPDF = PDFpath,  };
+            return responsePDF;
+        }
+        #endregion
     }
 }

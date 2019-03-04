@@ -274,54 +274,6 @@ namespace ELearningV1.Models
         #endregion
 
         #region Exam
-        public getExamQuestionList getQuestionList(string CourSecID)
-        {
-            getExamQuestionList QuestionList = new getExamQuestionList();
-            using (SqlConnection con = new SqlConnection(Cons))
-            {
-                using (SqlCommand cmd = new SqlCommand("ELearningGetQuestions", con))
-                {
-                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
-                    {
-                        try
-                        {
-                            cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.Parameters.AddWithValue("@CouSecID", CourSecID);
-                            con.Open();
-                            cmd.ExecuteNonQuery();
-
-                            DataTable dt = new DataTable();
-                            sda.Fill(dt);
-
-                            foreach (DataRow dr in dt.Rows)
-                            {
-                                VMGetExamQuestions question = new VMGetExamQuestions();
-                                question.ID = dr["ID"].ToString();
-                                question.Question = dr["Question"].ToString();
-                                question.QuestionType = dr["QuestionType"].ToString();
-                                question.C1 = dr["C1"].ToString();
-                                question.C2 = dr["C2"].ToString();
-                                question.C3 = dr["C3"].ToString();
-                                question.C4 = dr["C4"].ToString();
-                                question.CAnswer = dr["CAnswer"].ToString();
-                                question.CourseSectionID = dr["CourseSectionID"].ToString();
-                                question.CourseID = dr["CourseID"].ToString();
-                                question.OrderNumber = Int32.Parse(dr["OrderNumber"].ToString());
-                                QuestionList.Add(question);
-                            }
-                            return QuestionList;
-                        }
-                        catch (Exception ex)
-                        { }
-                        finally
-                        { con.Close(); }
-                    }
-                }
-            }
-
-            return null;
-        }
-
         public string SaveExamAndQuestion(string Question, string QuestType, string Ans1, string Ans2, string Ans3, string Ans4, string CorAns, string EmployeeNumber, string CourseSecID, string CourseID)
         {
             using (SqlConnection con = new SqlConnection(Cons))
@@ -444,6 +396,182 @@ namespace ELearningV1.Models
                 }
             }
             return "Success";
+        }
+        #endregion
+
+        public getExamQuestionList getQuestionList(string CourSecID)
+        {
+            getExamQuestionList QuestionList = new getExamQuestionList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningGetQuestions", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@CouSecID", CourSecID);
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                VMGetExamQuestions question = new VMGetExamQuestions();
+                                question.ID = dr["ID"].ToString();
+                                question.Question = dr["Question"].ToString();
+                                question.QuestionType = dr["QuestionType"].ToString();
+                                question.C1 = dr["C1"].ToString();
+                                question.C2 = dr["C2"].ToString();
+                                question.C3 = dr["C3"].ToString();
+                                question.C4 = dr["C4"].ToString();
+                                question.CAnswer = dr["CAnswer"].ToString();
+                                question.CourseSectionID = dr["CourseSectionID"].ToString();
+                                question.CourseID = dr["CourseID"].ToString();
+                                question.OrderNumber = Int32.Parse(dr["OrderNumber"].ToString());
+                                QuestionList.Add(question);
+                            }
+                            return QuestionList;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        #region Tuitorial
+        public getDataToLoadList getDataToLoad(string CourseID)
+        {
+            getDataToLoadList PDFPathList = new getDataToLoadList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningGetFirstDataToLoad", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@CourseID", CourseID);
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                VMGetDataToLoadOneByOne pdfPATH = new VMGetDataToLoadOneByOne();
+                                pdfPATH.CourSecID = dr["ID"].ToString();
+                                pdfPATH.Title = dr["Title"].ToString();
+                                pdfPATH.Type = dr["Type"].ToString();
+                                //pdfPATH.PDFPath = dr["SrcFile"].ToString();
+                                //pdfPATH.CourseID = dr["CourseID"].ToString();
+                                pdfPATH.OrderSec = dr["OrderSec"].ToString();
+                                PDFPathList.Add(pdfPATH);
+                            }
+                            return PDFPathList;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+            return null;
+        }
+
+        public getVideoPathList getVideoPath(string CourseID)
+        {
+            getVideoPathList videoPathList = new getVideoPathList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningGetVideoPath", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@CourseID", CourseID);
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                VMGetVideoPath vidPATH = new VMGetVideoPath();
+                                vidPATH.ID = dr["ID"].ToString();
+                                vidPATH.Title = dr["Title"].ToString();
+                                vidPATH.Type = dr["Type"].ToString();
+                                vidPATH.VideoPath = dr["SrcFile"].ToString();
+                                vidPATH.CourseID = dr["CourseID"].ToString();
+                                vidPATH.OrderSec = dr["OrderSec"].ToString();
+                                videoPathList.Add(vidPATH);
+                            }
+                            return videoPathList;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+            return null;
+        }
+
+        public getPDFPathList getPDFPath(string CourseID)
+        {
+            getPDFPathList PDFPathList = new getPDFPathList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningGetPDFPath", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@CourseID", CourseID);
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                VMGetPDFPath pdfPATH = new VMGetPDFPath();
+                                pdfPATH.ID = dr["ID"].ToString();
+                                pdfPATH.Title = dr["Title"].ToString();
+                                pdfPATH.Type = dr["Type"].ToString();
+                                pdfPATH.PDFPath = dr["SrcFile"].ToString();
+                                pdfPATH.CourseID = dr["CourseID"].ToString();
+                                pdfPATH.OrderSec = dr["OrderSec"].ToString();
+                                PDFPathList.Add(pdfPATH);
+                            }
+                            return PDFPathList;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+            return null;
         }
         #endregion
 
