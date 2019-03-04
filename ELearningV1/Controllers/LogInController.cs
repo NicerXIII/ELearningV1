@@ -58,5 +58,14 @@ namespace ELearningV1.Controllers
             return response;
         }
 
+
+        public ActionResult LogOutAccount()
+        {
+            Session.Clear();
+            Session.Abandon();
+            Session.RemoveAll();
+            return Json(new { res = true });
+        }
+
     }
 }
