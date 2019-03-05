@@ -344,21 +344,29 @@ namespace ELearningV1.Controllers
 
         public JsonResult loadVideo(string CourseID)
         {
+            var vidTitle = SQLcon.getVideoPath(CourseID).Select(x => x.Title).FirstOrDefault().ToString();
             var vidPath = SQLcon.getVideoPath(CourseID).Select(x => x.VideoPath).FirstOrDefault().ToString();
-
+            
             var responseVideo = new JsonResult();
             responseVideo.Data = new
-            {   resVideo = vidPath, };
+            {
+                resTitleVideo = vidTitle,
+                resVideo = vidPath,
+            };
             return responseVideo;
         }
 
         public JsonResult loadPDF(string CourseID)
         {
+            var PDFTitle = SQLcon.getPDFPath(CourseID).Select(x => x.Title).FirstOrDefault().ToString();
             var PDFpath = SQLcon.getPDFPath(CourseID).Select(x => x.PDFPath).FirstOrDefault().ToString();
 
             var responsePDF = new JsonResult();
             responsePDF.Data = new
-            {   resPDF = PDFpath,  };
+            {   
+                resTitlePDF = PDFTitle,
+                resPDF = PDFpath,
+            };
             return responsePDF;
         }
         #endregion

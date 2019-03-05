@@ -363,6 +363,7 @@ var ocSaveTestTitle = function () {
 // show modal that show created question list
 var viewQuestionList = function (ID, CourseID, Title) {
     $("#sectionID").val(ID);
+    $("#secID").val(ID);
     $("#testName").val(Title);
     setTimeout(function () { BindQuestionTable(); }, 1000);
     //BindQuestionTable(ID);
