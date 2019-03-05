@@ -73,87 +73,37 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>COURSE</th>
-                            <th style="width:100px;">PROGRESS</th>
-                            <th>SCORE</th>
-                            <th>ENROLLED ON</th>
-                            <th>COMPLETION DATE</th>
-                            <th>TIME</th>
-                        </tr>
-                        <tr>
-                            <td><a href="#/" class="text-black" style="font-weight:700">Introduction to TalentLMS</a></td>
-                            <td>
-                                <div class="progress progress-striped">
-                                    <div class="progress-bar progress-bar-light-blue" style="width: 100%; border-radius:5px;">100%</div>
-                                </div>
-                            </td>
-                            <td align="center"><b>99</b></td>
-                            <td align="center"><b>01/01/2019</b></td>
-                            <td align="center"><b>01/10/2019</b></td>
-                            <td align="center"><b>35 mins</b></td>
-                        </tr>
-                        <tr>
-                            <td><a href="#/" class="text-black" style="font-weight:700">Advanced features of TalentLMS</a></td>
-                            <td>
-                                <div class="progress progress-striped">
-                                    <div class="progress-bar progress-bar-success" style="width: 12%; border-radius:5px;">12%</div>
-                                </div>
-                            </td>
-                            <td align="center"><b>7</b></td>
-                            <td align="center"><b>01/01/2019</b></td>
-                            <td align="center"> - </td>
-                            <td align="center"><b>6 mins</b></td>
-                        </tr>
-
-                        <tr>
-                            <td><a href="#/" class="text-black" style="font-weight:700">Content and TalentLMS </a></td>
-                            <td>
-                                <div class="progress progress-striped">
-                                    <div class="progress-bar progress-bar-success" style="width: 0%; border-radius:5px;">0%</div>
-                                </div>
-                            </td>
-                            <td align="center"><b>0</b></td>
-                            <td align="center"><b>01/01/2019</b></td>
-                            <td align="center"> - </td>
-                            <td align="center"><b>0 mins</b></td>
-                        </tr>
-                        <tr>
-                            <td><a href="#/" class="text-black" style="font-weight:700">Future technologies</a></td>
-                            <td>
-                                <div class="progress progress-striped">
-                                    <div class="progress-bar progress-bar-success" style="width: 0%; border-radius:5px;">0%</div>
-                                </div>
-                            </td>
-                            <td align="center"><b>0</b></td>
-                            <td align="center"><b>01/01/2019</b></td>
-                            <td align="center"> - </td>
-                            <td align="center"><b>0 mins</b></td>
-                        </tr>
-                        <tr>
-                            <td><a href="#/" class="text-black" style="font-weight:700">Grammar</a></td>
-                            <td>
-                                <div class="progress progress-striped">
-                                    <div class="progress-bar progress-bar-success" style="width: 0%; border-radius:5px;">0%</div>
-                                </div>
-                            </td>
-                            <td align="center"><b>0</b></td>
-                            <td align="center"><b>01/01/2019</b></td>
-                            <td align="center"> - </td>
-                            <td align="center"><b>0 mins</b></td>
-                        </tr>
+                    <table class="table table-bordered" id="courseProgTable">
+                        <thead>
+                            <tr>
+                                <th>COURSE</th>
+                                <th style="width:100px;">PROGRESS</th>
+                                <th>SCORE</th>
+                                <th>ENROLLED ON</th>
+                                <th>COMPLETION DATE</th>
+                                <th>TIME</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*<tr>
+                                <td><a href="#/" class="text-black" style="font-weight:700">Introduction to TalentLMS</a></td>
+                                <td>
+                                    <div class="progress progress-striped">
+                                        <div class="progress-bar progress-bar-light-blue" style="width: 100%; border-radius:5px;">100%</div>
+                                    </div>
+                                </td>
+                                <td align="center"><b>99</b></td>
+                                <td align="center"><b>01/01/2019</b></td>
+                                <td align="center"><b>01/10/2019</b></td>
+                                <td align="center"><b>35 mins</b></td>
+                            </tr>*@
+                        </tbody>
+                        
                     </table>
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer clearfix">
-                    <ul class="pagination pagination-sm no-margin pull-right">
-                        <li><a href="#">&laquo;</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">&raquo;</a></li>
-                    </ul>
+
                 </div>
             </div>
         </div>
@@ -189,6 +139,7 @@
             success: function (response) {
                 UserActivityChart();
                 UserProgressActivity();
+                BindDataTable();
             },
             error: function (response) {
                 window.location.href = '/LogIn/Index';
@@ -253,12 +204,7 @@
         
 
     }
-   
-
-
-
     //-------------------------DONUT--------------------------------------//
-
     var UserProgressActivity = function () {
         var pieColors = ['#1E90FF', '#FFFFFF'];
 
@@ -301,5 +247,70 @@
 
     }
     
+    var otable;
+    var BindDataTable = function () {
+        //if table exist
+        if ($.fn.DataTable.isDataTable("#courseProgTable")) {
+            //Clear table for redraw
+            otable.draw();
+        } else {
+
+            otable = $("#courseProgTable").DataTable({
+                "bServerSide": true,
+                "processing": true,
+                "sAjaxSource": "/Home/LoadUserCurrentCourse",
+                "fnServerData": function (sSource, aoData, fnCallback) {
+
+                    //For Parameter
+                    //var courseID = $("#courseID1").val();
+                    //aoData.push({ "name": "courseID", "value": courseID });
+
+                    $.ajax({
+                        type: "Get",
+                        data: aoData,
+                        url: sSource,
+                        success: fnCallback
+                    });
+                },
+                "aoColumns": [
+                    {
+                        "mData": "Course",
+                        "orderable": false
+                    },
+                    {
+                        "mData": "Progress",
+                        "orderable": false
+                    },
+                    {
+                        "mData": "Score",
+                        "orderable": false
+                    },
+                    {
+                        "mData": "EnrolledDate",
+                        "orderable": false
+                    },
+                    {
+                        "mData": "CompletionDate",
+                        "orderable": false
+                    },
+                    {
+                        "mData": "ConsumedTime",
+                        "orderable": false
+                    }
+                ],
+                responsive: true,
+                select: { style: 'single' },
+                "bInfo": true,
+                "searching": false,
+                "bPaginate": false,
+                "sScrollY": "300",
+                "scrollX": true,
+                "bScrollCollapse": false,
+                "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]]
+            });
+        }
+    }
+
+
 
 </script>

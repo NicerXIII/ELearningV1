@@ -51,7 +51,6 @@ namespace ELearningV1.Models
 
         #endregion
 
-
         #region Course
         public String AddNewCourse(string CName, string Desc, string ImageName, string Date1)
         {
@@ -128,12 +127,12 @@ namespace ELearningV1.Models
             }
         }
 
-        public VMViewCoursesList ViewCourses()
+        public VMViewCoursesList ViewCourses(string UserID)
         {
             VMViewCoursesList CourseList = new VMViewCoursesList();
             using (SqlConnection con = new SqlConnection(Cons))
             {
-                using (SqlCommand cmd = new SqlCommand("Select * From ELearningCourse", con))
+                using (SqlCommand cmd = new SqlCommand("Select * From ELearningCourse Where ID not in(Select CourseID FROM ELearningCourseProgress Where EmployeeNumber='" + UserID + "')", con))
                 {
                     try
                     {
@@ -163,12 +162,12 @@ namespace ELearningV1.Models
             return null;
         }
 
-        public VMViewCoursesList ViewCoursesByName(string CName)
+        public VMViewCoursesList ViewCoursesByName(string UserID,string CName)
         {
             VMViewCoursesList CourseList = new VMViewCoursesList();
             using (SqlConnection con = new SqlConnection(Cons))
             {
-                using (SqlCommand cmd = new SqlCommand("Select * From ELearningCourse Where Course like '%" + CName + "%'", con))
+                using (SqlCommand cmd = new SqlCommand("Select * From ELearningCourse Where Course like '%" + CName + "%' and ID not in(Select CourseID FROM ELearningCourseProgress Where EmployeeNumber='" + UserID + "')", con))
                 {
                     try
                     {
@@ -310,6 +309,69 @@ namespace ELearningV1.Models
                 }
             }
         }
+
+        public bool ApplyEmployeebyCourseID(string CourseID,string EmployeeNumber, string Date1)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("INSERT INTO ELearningCourseProgress(EmployeeNumber,CourseID,Progress,Score,EnrolledDate,CompletionDate,ConsumedTime) VALUES('" + EmployeeNumber + "','" + CourseID + "','0','0','" + Date1 + "','01/01/1999','0')", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    { return false; }
+                    finally
+                    { con.Close(); }
+                }
+            }
+        }
+
+        public VMELearningCousesProgressList ViewCurrentEmployeeCoursebyEmployeeNumber(string EmployeeNumber)
+        {
+            VMELearningCousesProgressList CourseProgList = new VMELearningCousesProgressList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("eLearningSelectCurrentCourseofEmployee", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                        SqlDataReader dr = cmd.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+                            VMELearningCousesProgress courseprog = new VMELearningCousesProgress();
+                            courseprog.ID = Convert.ToInt32(dr["ID"]);
+                            courseprog.EmployeeNumber = Convert.ToString(dr["EmployeeNumber"]);
+                            courseprog.CourseID = Convert.ToInt32(dr["CourseID"]);
+                            courseprog.Course = Convert.ToString(dr["Course"]);
+                            courseprog.Progress = Convert.ToInt32(dr["Progress"]);
+                            courseprog.Score = (float)Convert.ToDouble(dr["Score"]);
+                            courseprog.EnrolledDate = Convert.ToDateTime(dr["EnrolledDate"]);
+                            courseprog.CompletionDate = Convert.ToDateTime(dr["CompletionDate"]);
+                            courseprog.ConsumedTime = (float) Convert.ToDouble(dr["ConsumedTime"]);
+                            CourseProgList.Add(courseprog);
+                        }
+                        return CourseProgList;
+                    }
+                    catch (Exception ex)
+                    { }
+                    finally
+                    { con.Close(); }
+                }
+            }
+
+            return null;
+        }
+
+
         #endregion
 
         #region Exam

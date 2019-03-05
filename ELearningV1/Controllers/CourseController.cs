@@ -99,5 +99,21 @@ namespace ELearningV1.Controllers
 
             return View();
         }
+
+        public ActionResult ApplyEmployeebyCourseID(string CourseID)
+        {
+            DAL SQLcon = new DAL();
+            var userID = Session["EmployeeNumber"].ToString();
+            bool result = false;
+            try {
+                result = SQLcon.ApplyEmployeebyCourseID(CourseID, userID, DateTime.Now.ToString("MM/dd/yyyy"));
+            } catch (Exception ex) {
+            }
+            var response = new JsonResult();
+            response.Data = new {
+                res = result
+            };
+            return response;
+        }
     }
 }
