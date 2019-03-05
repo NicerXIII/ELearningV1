@@ -35,15 +35,9 @@ namespace ELearningV1.Controllers
                         EmpName = x.EmpName,
                         EmpImage = (x.EmpImage != "") ? x.EmpImage : "avatar3.png"
                     }).SingleOrDefault();
-
-
                     Session["EmployeeName"] = data1.EmpName;
                     Session["UserProfilePic"] = path + data1.EmpImage;
-
-
-
-
-                    stats = true;
+                    stats = SQLcon.SaveLogInLogHistory(logInData.EmployeeNumber.ToString(), DateTime.Now.ToString("MM/dd/yyyy"));
                 }
                 else
                 {

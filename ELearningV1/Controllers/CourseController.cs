@@ -93,5 +93,11 @@ namespace ELearningV1.Controllers
 
             return View();
         }
+
+        public ActionResult EmployeeCourseDetail()
+        {
+
+            return View();
+        }
     }
 }

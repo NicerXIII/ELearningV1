@@ -709,9 +709,33 @@ namespace ELearningV1.Models
             }
             return null;
         }
+
+        public bool SaveLogInLogHistory(string EmployeeNumber, string Date1)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("INSERT INTO ElearningLogInHistory VALUES('" + EmployeeNumber + "','" + Date1 + "')", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    { return false; }
+                    finally
+                    { con.Close(); }
+                }
+            }
+        }
+
+
+
         #endregion
 
-     
+
 
 
     }

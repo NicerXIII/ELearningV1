@@ -2746,6 +2746,7 @@
     <Content Include="Views\Course\CourseDetail.cshtml" />
     <Content Include="Views\Course\CourseDetailReport.cshtml" />
     <Content Include="Views\Exam\ExamQuestionList.cshtml" />
+    <Content Include="Views\Course\EmployeeCourseDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
