@@ -32,8 +32,8 @@
 <div class="box box-primary">
     <div class="box-header">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Courses</a></li>
+            <li class="breadcrumb-item"><a href="~/Home/Index">Home</a></li>
+            <li class="breadcrumb-item"><a href="~/Home/ViewCourse">Courses</a></li>
             <li class="breadcrumb-item active" aria-current="page">Introduction to TalentLMS</li>
         </ol>
     </div>
@@ -42,7 +42,6 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#activity" data-toggle="tab">Course</a></li>
                 <li><a href="#timeline" data-toggle="tab">Users</a></li>
-                <li role="presentation" style="float:right;line-height:45px;"><div class="btn-group"><button type="button" class="btn btn-info">Info</button><button type="button" class="btn btn-info" onclick="CourseDetailReport()">Reports</button></div></li>
             </ul>
             <div class="tab-content">
 
@@ -55,22 +54,6 @@
                             <input type="text" class="form-control" id="courseName" value="@Model.Course" />
                         </div>
                     </div>
-                    @*<div class="row">
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                <label class="mt-1">Category</label>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2">
-                                <select class="form-control select2" style="width: 100%;">
-                                    <option selected="selected">Alabama</option>
-                                    <option>Alaska</option>
-                                    <option>California</option>
-                                    <option>Delaware</option>
-                                    <option>Tennessee</option>
-                                    <option>Texas</option>
-                                    <option>Washington</option>
-                                </select>
-                            </div>
-                        </div>*@
                     <div class="row">
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                             <label class="mt-1">Description</label>
@@ -95,53 +78,8 @@
                                 Active
                             </div>
                         }
-
-                        @*<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                <input type="checkbox" class="minimal">
-                                Hide from catalog
-                            </div>*@
                     </div>
 
-                    <!--
-
-                    <hr />
-                    <div class="row">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <label>Course Code</label>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <input type="text" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <a href="#"><i class="fa fa-shopping-cart"></i> Price</a>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <a href="#"><i class="fa fa-clock-o"></i> Time Limit</a>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <a href="#"><i class="fa fa-trophy"></i> Certification</a>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <a href="#"><i class="fa fa-tachometer"></i> Level</a>
-                        </div>
-                    </div>
-                    -->
                     <hr />
                     <div class="row">
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
@@ -151,9 +89,14 @@
                             </div>
                             or <a href="/Home/ViewCourse">cancel</a>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2">
+                        </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 mt-2">
-                            <button type="button" class="btn btn-info" onclick="ExamList()">Go to course</button>
+                            <div class="form-inline">
+                                <button type="button" class="btn btn-info" onclick="ApplyCourse()">Apply Course</button>
+                                <button type="button" class="btn btn-info" onclick="ExamList()">Go to Course</button>
+                            </div>
+                           
                         </div>
                     </div>
                 </div>
@@ -285,8 +228,28 @@
         } else {
             window.href.location = "/Home/ViewCourse"
         }
-       
+    }
 
+
+    var ApplyCourse = function () {
+        var cid = $("#cID").val();
+        if (cid != "" || cid != undefined || cid != null) {
+            $.ajax({
+                type: "POST",
+                url: "/Course/ApplyEmployeebyCourseID",
+                data: { "CourseID": cid},
+                success: function (response) {
+                    var result = response.res;
+                    if (result == true) {
+                        alert("You are successfully applied to the selected course");
+                    } else {
+                        alert("ERROR: Apply course failed")
+                    }
+                },
+                error: function (response) { }
+            });
+
+        }
 
     }
 </script>

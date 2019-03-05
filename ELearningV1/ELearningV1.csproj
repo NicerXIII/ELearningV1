@@ -202,6 +202,7 @@
     <Compile Include="Models\ViewModel\DataTablesParam.cs" />
     <Compile Include="Models\ViewModel\VMCourseSection.cs" />
     <Compile Include="Models\ViewModel\VMELearnEmpData.cs" />
+    <Compile Include="Models\ViewModel\VMELearningCousesProgress.cs" />
     <Compile Include="Models\ViewModel\VMGetDataToLoadOneByOne.cs" />
     <Compile Include="Models\ViewModel\VMGetExamQuestions.cs" />
     <Compile Include="Models\ViewModel\VMGetPDFPath.cs" />
@@ -2746,6 +2747,7 @@
     <Content Include="Views\Course\CourseDetail.cshtml" />
     <Content Include="Views\Course\CourseDetailReport.cshtml" />
     <Content Include="Views\Exam\ExamQuestionList.cshtml" />
+    <Content Include="Views\Course\EmployeeCourseDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

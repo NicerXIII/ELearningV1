@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ELearningV1.Models.ViewModel;
 using ELearningV1.Models;
+using KioskVersion3.Models.ViewModel;
 
 namespace ELearningV1.Controllers
 {
@@ -50,7 +51,8 @@ namespace ELearningV1.Controllers
         public ActionResult LoadCourseData()
         {
             DAL SQLcon = new DAL();
-            List<VMViewCourses> cList = SQLcon.ViewCourses().Select(x => new VMViewCourses
+            var userID = Session["EmployeeNumber"].ToString();
+            List<VMViewCourses> cList = SQLcon.ViewCourses(userID).Select(x => new VMViewCourses
             {
                 ID = x.ID,
                 Course = x.Course,
@@ -59,15 +61,14 @@ namespace ELearningV1.Controllers
                 DateCreated = x.DateCreated
             }).ToList();
 
-            
-
             return View("ViewCourse",cList);
         }
 
         public ActionResult LoadCourseDataByCourseName(String CName)
         {
             DAL SQLcon = new DAL();
-            List<VMViewCourses> cList = SQLcon.ViewCoursesByName(CName).Select(x => new VMViewCourses
+            var userID = Session["EmployeeNumber"].ToString();
+            List<VMViewCourses> cList = SQLcon.ViewCoursesByName(userID,CName).Select(x => new VMViewCourses
             {
                 ID = x.ID,
                 Course = x.Course,
@@ -100,6 +101,40 @@ namespace ELearningV1.Controllers
 
 
             return response;
+        }
+
+        public JsonResult LoadUserCurrentCourse(DataTablesParam param)
+        {
+            List<VMELearningCousesProgress> QuestList = new List<VMELearningCousesProgress>();
+            var userID = Session["EmployeeNumber"].ToString();
+            DAL SQLcon = new DAL();
+            int pageNo = 1;
+            int totalCount = 0;
+
+            if (param.iDisplayStart >= param.iDisplayLength)
+            { pageNo = (param.iDisplayStart / param.iDisplayLength) + 1; }
+
+            totalCount = SQLcon.ViewCurrentEmployeeCoursebyEmployeeNumber(userID).Count();
+            QuestList = SQLcon.ViewCurrentEmployeeCoursebyEmployeeNumber(userID).Select(x => new VMELearningCousesProgress
+            {
+                ID = x.ID,
+                EmployeeNumber = x.EmployeeNumber,
+                CourseID = x.CourseID,
+                Course = x.Course,
+                Progress = x.Progress,
+                Score = x.Score,
+                EnrolledDate = x.EnrolledDate,
+                CompletionDate = x.CompletionDate,
+                ConsumedTime = x.ConsumedTime
+            }).AsEnumerable().ToList();
+
+            return Json(new
+            {
+                aaData = QuestList,
+                eEcho = param.sEcho,
+                iTotalDisplayRecords = totalCount,
+                iTotalRecords = QuestList.Count()
+            }, JsonRequestBehavior.AllowGet);
         }
     }
 }
