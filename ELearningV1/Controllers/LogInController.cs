@@ -47,11 +47,17 @@ namespace ELearningV1.Controllers
                 }
                 else
                 {
+                    Session.Clear();
+                    Session.Abandon();
+                    Session.RemoveAll();
                     stats = false;
                 }
             }
             catch (Exception ex)
             {
+                Session.Clear();
+                Session.Abandon();
+                Session.RemoveAll();
                 stats = false;
             }
             var response = new JsonResult();
