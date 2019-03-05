@@ -3,6 +3,12 @@
     ViewBag.Title = "Exam";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<head>
+    <link href="css/smoothness/jquery-ui-1.9.0.custom.css" rel="stylesheet">
+    <script language="javascript" type="text/javascript" src="jquery-1.8.2.js"></script>
+    <script src="js/jquery-ui-1.9.0.custom.js"></script>
+</head>
+
 <style>
     .margin {
         margin-left: 50px;
@@ -104,7 +110,7 @@
     </div>
     <div class="box-body">
         <div align="center">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/ByQ-u4WD1pE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe id="framePDF" width="1000" height="500"></iframe> <!-- src="~/Content/CROSSFIRE.PDF"-->
         </div>
     </div>
 </div>
@@ -130,7 +136,7 @@
     </div>
 </div>
 
-<script>
+<script type="text/javascript">
     $(document).ready(function () {
         $(document).ready(function () {
             $.ajax({
@@ -178,29 +184,28 @@
                         success: function (responseVideo) {
                             debugger
                             dVideo.style.display = "block";
+                            dPDF.style.display = "none";
+                            dExam.style.display = "none";
 
                             document.getElementById("videoTuitorial").src = responseVideo.resVideo;
-
-                            //var fileReader = new FileReader();
-                            //fileReader.onload = function () {
-                            //    video.src = "../" + responseVideo.resVideo;
-                            //    video.play();
-                            //}
-                            //fileReader.readAsDataURL();
                         }
                     });
                 }
 
-                //if (response.res == "PDF") {
-                //    $.ajax({
-                //        type: "POST",
-                //        url: "/Exam/loadPDF",
-                //        data: { "CourseID": CourseID },
-                //        success: function (responsePDF) {
+                if (response.res == "PDF") {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Exam/loadPDF",
+                        data: { "CourseID": CourseID },
+                        success: function (responsePDF) {
+                            dPDF.style.display = "block";
+                            dVideo.style.display = "none";
+                            dExam.style.display = "none";
 
-                //        }
-                //    });
-                //}
+                            document.getElementById("framePDF").src = responsePDF.resPDF;
+                        }
+                    });
+                }
 
                 //if (response.res == "Test") {
                 //    $.ajax({

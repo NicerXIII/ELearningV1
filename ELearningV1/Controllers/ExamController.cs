@@ -12,8 +12,8 @@ namespace ELearningV1.Controllers
     public class ExamController : Controller
     {
         DAL SQLcon = new DAL();
-        string CourseSectionID = "";
-        string Section_OrderNo = "";
+
+        string OrderSec = "";
 
         #region Done by boss Tiqius
         [HttpGet]
@@ -321,9 +321,21 @@ namespace ELearningV1.Controllers
 
         #region Exam
         public ActionResult GetFirstDataToLoad(string CourseID)
-        { 
-            var loadData = SQLcon.getDataToLoad(CourseID).OrderBy(x => x.OrderSec).Select(x => x.Type).FirstOrDefault().ToString(); 
-            CourseSectionID = SQLcon.getDataToLoad(CourseID).OrderBy(x => x.CourSecID).Select(x => x.CourSecID).FirstOrDefault().ToString();
+        {
+            var loadData = "";
+            //Check if OrderSec has a value
+            if (OrderSec == "" || OrderSec == null || OrderSec == "0" || OrderSec == 0.ToString())
+            {
+                loadData = SQLcon.getDataToLoad(CourseID,0).OrderBy(x => x.OrderSec).Select(x => x.Type).FirstOrDefault().ToString();
+                OrderSec = SQLcon.getDataToLoad(CourseID, 0).OrderBy(x => x.OrderSec).Select(x => x.OrderSec).FirstOrDefault().ToString();
+                Session["OrderSec"] = OrderSec;
+            }
+            else
+            {
+                loadData = SQLcon.getDataToLoad(CourseID, Convert.ToInt32(OrderSec)).OrderBy(x => x.OrderSec).Select(x => x.Type).FirstOrDefault().ToString();
+            }
+
+            
             var response = new JsonResult();
             response.Data = new
             {   res = loadData, };

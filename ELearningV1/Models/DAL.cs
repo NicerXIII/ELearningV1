@@ -470,9 +470,9 @@ namespace ELearningV1.Models
         }
 
         #region Tuitorial
-        public getDataToLoadList getDataToLoad(string CourseID)
+        public getDataToLoadList getDataToLoad(string CourseID, int PreviousOrderSec)
         {
-            getDataToLoadList PDFPathList = new getDataToLoadList();
+            getDataToLoadList loadList = new getDataToLoadList();
             using (SqlConnection con = new SqlConnection(Cons))
             {
                 using (SqlCommand cmd = new SqlCommand("ELearningGetDataToLoad", con))
@@ -483,6 +483,7 @@ namespace ELearningV1.Models
                         {
                             cmd.CommandType = CommandType.StoredProcedure;
                             cmd.Parameters.AddWithValue("@CourseID", CourseID);
+                            cmd.Parameters.AddWithValue("@PreviousOrderSec", PreviousOrderSec);
                             con.Open();
                             cmd.ExecuteNonQuery();
 
@@ -491,16 +492,16 @@ namespace ELearningV1.Models
 
                             foreach (DataRow dr in dt.Rows)
                             {
-                                VMGetDataToLoadOneByOne pdfPATH = new VMGetDataToLoadOneByOne();
-                                pdfPATH.CourSecID = dr["ID"].ToString();
-                                pdfPATH.Title = dr["Title"].ToString();
-                                pdfPATH.Type = dr["Type"].ToString();
-                                //pdfPATH.PDFPath = dr["SrcFile"].ToString();
-                                //pdfPATH.CourseID = dr["CourseID"].ToString();
-                                pdfPATH.OrderSec = dr["OrderSec"].ToString();
-                                PDFPathList.Add(pdfPATH);
+                                VMGetDataToLoadOneByOne loadData = new VMGetDataToLoadOneByOne();
+                                loadData.ID = dr["ID"].ToString();
+                                loadData.Title = dr["Title"].ToString();
+                                loadData.Type = dr["Type"].ToString();
+                                loadData.SourceFile = dr["SrcFile"].ToString();
+                                loadData.CourSecID = dr["CourseID"].ToString();
+                                loadData.OrderSec = dr["OrderSec"].ToString();
+                                loadList.Add(loadData);
                             }
-                            return PDFPathList;
+                            return loadList;
                         }
                         catch (Exception ex)
                         { }
