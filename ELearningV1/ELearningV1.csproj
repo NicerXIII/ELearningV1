@@ -207,6 +207,7 @@
     <Compile Include="Models\ViewModel\VMGetPDFPath.cs" />
     <Compile Include="Models\ViewModel\VMGetVideoPath.cs" />
     <Compile Include="Models\ViewModel\VMKioskLogInUser.cs" />
+    <Compile Include="Models\ViewModel\VMLogHistory.cs" />
     <Compile Include="Models\ViewModel\VMViewCourses.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

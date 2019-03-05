@@ -13,6 +13,45 @@ namespace ELearningV1.Models
     {
         string Cons = ConfigurationManager.ConnectionStrings["PayRollCon"].ConnectionString;
 
+        #region Home
+        public VMLogHistoryList LoadLogInHistoryByIDandDate(string EmpID,string Date1)
+        {
+            VMLogHistoryList LogsList = new VMLogHistoryList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("eLearningGetLogInHistory", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@EmployeeNumber", EmpID);
+                        cmd.Parameters.AddWithValue("@DateStart", Date1);
+
+                        SqlDataReader dr = cmd.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+                            VMLogHistory logs = new VMLogHistory();
+                            logs.Status1 = Convert.ToInt32(dr["Status1"]);
+                            logs.Date1 = Convert.ToDateTime(dr["Date1"]);
+                            LogsList.Add(logs);
+                        }
+                        return LogsList;
+                    }
+                    catch (Exception ex)
+                    { }
+                    finally
+                    { con.Close(); }
+                }
+            }
+
+            return null;
+        }
+
+        #endregion
+
+
         #region Course
         public String AddNewCourse(string CName, string Desc, string ImageName, string Date1)
         {
@@ -671,5 +710,9 @@ namespace ELearningV1.Models
             return null;
         }
         #endregion
+
+     
+
+
     }
 }

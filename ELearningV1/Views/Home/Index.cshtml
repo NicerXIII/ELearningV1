@@ -187,9 +187,8 @@
             url: "/Home/GetSession",
             data: {},
             success: function (response) {
-                loadUserLogInHistoryByWeeks();
                 UserActivityChart();
-                //UserProgressActivity();
+                UserProgressActivity();
             },
             error: function (response) {
                 window.location.href = '/LogIn/Index';
@@ -198,67 +197,60 @@
         });
     });
 
-
-    function loadUserLogInHistoryByWeeks() {
+    var UserActivityChart = function () {
         $.ajax({
             type: "POST",
             url: "/Home/LoadUserLogInHistoryByID1",
             data: {},
             success: function (response) {
+                var WeekList = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+                Highcharts.chart('UserActivity', {
+
+                    title: {
+                        text: 'LogIn History'
+                    },
+
+                    yAxis: {
+                        title: {
+                            text: 'IsActive'
+                        }
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle'
+                    },
+                    xAxis: [{
+                        categories: WeekList,
+                    }],
+                    series: [{
+                        name: 'IsActive',
+                        data: response._s
+                    }],
+
+                    responsive: {
+                        rules: [{
+                            condition: {
+                                maxWidth: 500
+                            },
+                            chartOptions: {
+                                legend: {
+                                    layout: 'horizontal',
+                                    align: 'center',
+                                    verticalAlign: 'bottom'
+                                }
+                            }
+                        }]
+                    }
+
+                });
 
 
             },
             error: function (response) { }
         });
-    }
-
-
-
-    var UserActivityChart = function () {
-
-        var WeekList = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-
-        Highcharts.chart('UserActivity', {
-
-            title: {
-                text: 'LogIn History'
-            },
-
-            yAxis: {
-                title: {
-                    text: 'IsActive'
-                }
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle'
-            },
-            xAxis: [{
-                categories: WeekList,
-            }],
-            series: [{
-                name: 'Other',
-                data: [12908, 5948, 8105, 11248, 8989, 11816, 18274]
-            }],
-
-            responsive: {
-                rules: [{
-                    condition: {
-                        maxWidth: 500
-                    },
-                    chartOptions: {
-                        legend: {
-                            layout: 'horizontal',
-                            align: 'center',
-                            verticalAlign: 'bottom'
-                        }
-                    }
-                }]
-            }
-
-        });
+        
 
     }
    

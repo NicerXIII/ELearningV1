@@ -85,10 +85,21 @@ namespace ELearningV1.Controllers
         [HttpPost]
         public ActionResult LoadUserLogInHistoryByID1()
         {
+            DAL SQLcon = new DAL();
+            var userID = Session["EmployeeNumber"].ToString();
             var sunday = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
-            var saturday = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Saturday);
+            var response = new JsonResult();
 
-            return View();
+            try {
+                response.Data = new {
+                    _s = SQLcon.LoadLogInHistoryByIDandDate(userID,Convert.ToString(sunday)).Select(x=>x.Status1)
+                };
+            } catch (Exception ex) { }
+
+
+
+
+            return response;
         }
     }
 }
