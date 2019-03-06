@@ -14,7 +14,7 @@ namespace ELearningV1.Models
         string Cons = ConfigurationManager.ConnectionStrings["PayRollCon"].ConnectionString;
 
         #region Home
-        public VMLogHistoryList LoadLogInHistoryByIDandDate(string EmpID,string Date1)
+        public VMLogHistoryList LoadLogInHistoryByIDandDate(string EmpID, string Date1)
         {
             VMLogHistoryList LogsList = new VMLogHistoryList();
             using (SqlConnection con = new SqlConnection(Cons))
@@ -48,7 +48,6 @@ namespace ELearningV1.Models
 
             return null;
         }
-
         #endregion
 
         #region Course
@@ -162,7 +161,7 @@ namespace ELearningV1.Models
             return null;
         }
 
-        public VMViewCoursesList ViewCoursesByName(string UserID,string CName)
+        public VMViewCoursesList ViewCoursesByName(string UserID, string CName)
         {
             VMViewCoursesList CourseList = new VMViewCoursesList();
             using (SqlConnection con = new SqlConnection(Cons))
@@ -310,7 +309,7 @@ namespace ELearningV1.Models
             }
         }
 
-        public bool ApplyEmployeebyCourseID(string CourseID,string EmployeeNumber, string Date1)
+        public bool ApplyEmployeebyCourseID(string CourseID, string EmployeeNumber, string Date1)
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {
@@ -356,7 +355,7 @@ namespace ELearningV1.Models
                             courseprog.Score = (float)Convert.ToDouble(dr["Score"]);
                             courseprog.EnrolledDate = Convert.ToDateTime(dr["EnrolledDate"]);
                             courseprog.CompletionDate = Convert.ToDateTime(dr["CompletionDate"]);
-                            courseprog.ConsumedTime = (float) Convert.ToDouble(dr["ConsumedTime"]);
+                            courseprog.ConsumedTime = (float)Convert.ToDouble(dr["ConsumedTime"]);
                             CourseProgList.Add(courseprog);
                         }
                         return CourseProgList;
@@ -370,8 +369,6 @@ namespace ELearningV1.Models
 
             return null;
         }
-
-
         #endregion
 
         #region Exam
@@ -428,7 +425,7 @@ namespace ELearningV1.Models
             }
             return "Success";
         }
-        
+
         public string DeleteQuestion(string ID)
         {
             using (SqlConnection con = new SqlConnection(Cons))
@@ -459,7 +456,7 @@ namespace ELearningV1.Models
                     try
                     {
                         com.CommandType = CommandType.StoredProcedure;
-                        com.Parameters.AddWithValue("@ID", ID); 
+                        com.Parameters.AddWithValue("@ID", ID);
                         com.Parameters.AddWithValue("@Question", Question);
                         com.Parameters.AddWithValue("@C1", C1);
                         com.Parameters.AddWithValue("@C2", C2);
@@ -520,7 +517,6 @@ namespace ELearningV1.Models
             }
             return "Success";
         }
-        #endregion
 
         public getExamQuestionList getQuestionList(string CourSecID)
         {
@@ -569,6 +565,7 @@ namespace ELearningV1.Models
 
             return null;
         }
+        #endregion
 
         #region Tuitorial
         public getDataToLoadList getDataToLoad(string CourseID, int PreviousOrderSec)
@@ -697,6 +694,55 @@ namespace ELearningV1.Models
             }
             return null;
         }
+
+        public getQuestionList getQuest(string CourseID, string CourseSectionID, int PrevOrderNumber)
+        {
+            getQuestionList PDFPathList = new getQuestionList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningGetQuestionOneByOne", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@CourseID", CourseID);
+                            cmd.Parameters.AddWithValue("@CourseSectionID", CourseSectionID);
+                            cmd.Parameters.AddWithValue("@PreviousOrderNumber", PrevOrderNumber);
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                VMGetExamQuestion quest = new VMGetExamQuestion();
+                                quest.ID = dr["ID"].ToString();
+                                quest.CourseID = dr["CourseID"].ToString();
+                                quest.CourseSectionID = dr["CourseSectionID"].ToString();
+                                quest.OrderNumber = Int32.Parse(dr["OrderNumber"].ToString());
+                                quest.Question = dr["Question"].ToString();
+                                quest.QuestionType = dr["QuestionType"].ToString();
+                                quest.C1 = dr["C1"].ToString();
+                                quest.C2 = dr["C2"].ToString();
+                                quest.C3 = dr["C3"].ToString();
+                                quest.C4 = dr["C4"].ToString();
+                                quest.CAnswer = dr["CAnswer"].ToString();
+                                PDFPathList.Add(quest);
+                            }
+                            return PDFPathList;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+            return null;
+        }
         #endregion
 
         #region LogIn
@@ -792,13 +838,6 @@ namespace ELearningV1.Models
                 }
             }
         }
-
-
-
         #endregion
-
-
-
-
     }
 }

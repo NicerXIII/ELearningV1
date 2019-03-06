@@ -76,7 +76,6 @@
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                         <button type="submit" class="btn btn-block btn-success" style="margin-left:15px;">Submit answer <i class="fa fa-angle-right"></i></button>
                     </div>
-
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-3">
                     <div class="progress">
@@ -87,7 +86,10 @@
                 </div>
             </div>
             <div class="box-footer">
-                <input type="text" class="form-control" style="display:none" id="txtQUestionID"/>
+                <input type="text" class="form-control" style="display:none" id="txtCourseID" />
+                <input type="text" class="form-control" style="display:none" id="txtCourseSectionID" />
+                <input type="text" class="form-control" style="display:none" id="txtQuestionID" />
+                <input type="text" class="form-control" style="display:none" id="txtOrderNumber" />
             </div>
         </div>
 
@@ -224,7 +226,7 @@
                 if (response.res == "Test") {
                     $.ajax({
                         type: "POST",
-                        url: "/Exam/getQuestionList",
+                        url: "/Exam/loadQuestionaire",
                         data: { "CourseID": CourseID },
                         success: function (response) {
                             dPDF.style.display = "none";

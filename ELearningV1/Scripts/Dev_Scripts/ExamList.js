@@ -872,6 +872,6 @@ var StartTuitorialExam = function () {
     var secID = $("#sectionID").val();
     //alert(getCourseID);
 
-    var testURL = "../Exam/Exam?CourseID=" + getCourseID;
+    var testURL = "../Exam/Exam?CourseID=" + getCourseID + "&CourseSectionID=" + secID;
     window.location.href = testURL;//'@Url.Action("Exam", "Exam")';
 }
