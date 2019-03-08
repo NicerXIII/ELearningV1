@@ -69,11 +69,11 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Select Course</h3>
+                    <h3 class="box-title" style="font-size:20px; font-weight:700;">Select Course</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <table class="table table-bordered" id="courseProgTable">
+                    <table id="courseProgTable" class="cell-border stripe hover" style="width:100%; min-height:100px; min-width:1170px; font-size:18px; font-weight:700;">
                         <thead>
                             <tr>
                                 <th>COURSE</th>
@@ -84,7 +84,7 @@
                                 <th>TIME</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody style="font-size:18px; font-weight:500;">
                             @*<tr>
                                 <td><a href="#/" class="text-black" style="font-weight:700">Introduction to TalentLMS</a></td>
                                 <td>
@@ -275,7 +275,10 @@
                 "aoColumns": [
                     {
                         "mData": "Course",
-                        "orderable": false
+                        "orderable": false,
+                        "render": function (Course, type, full, meta) {
+                            return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\')" style="font-size:24px;">'+ Course +'</a>';
+                        }
                     },
                     {
                         "mData": "Progress",
