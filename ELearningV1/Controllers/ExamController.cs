@@ -13,7 +13,8 @@ namespace ELearningV1.Controllers
     {
         DAL SQLcon = new DAL();
 
-        string OrderSec = "";
+        string CourseSectionOrder = "";
+        string QuestOrder = "";
 
         #region Done by boss Tiqius
         [HttpGet]
@@ -161,11 +162,6 @@ namespace ELearningV1.Controllers
         #endregion
 
         #region Creating Test Name and Question
-        public ActionResult Exam()
-        {
-            return View();
-        }
-
         public ActionResult CreateExam()
         {
             return View();
@@ -283,7 +279,6 @@ namespace ELearningV1.Controllers
             { res = result };
             return response;
         }
-        #endregion
 
         public JsonResult getQuestionList(DataTablesParam param, string CourSecID)
         {
@@ -318,21 +313,43 @@ namespace ELearningV1.Controllers
                 iTotalRecords = QuestList.Count()
             }, JsonRequestBehavior.AllowGet);
         }
+        #endregion
 
         #region Exam
+        public ActionResult Exam(string CourseID)
+        {
+            DAL SQLcon = new DAL();
+            List<VMGetExamQuestion> cList = SQLcon.getQuest(CourseID).Select(x => new VMGetExamQuestion
+            {
+                ID = x.ID,
+                CourseID = x.CourseID,
+                CourseSectionID = x.CourseSectionID,
+                OrderNumber = x.OrderNumber,
+                Question = x.Question,
+                QuestionType = x.QuestionType,
+                C1 = x.C1,
+                C2 = x.C2,
+                C3 = x.C3,
+                C4 = x.C4,
+                CAnswer = x.CAnswer
+            }).ToList();
+
+            return View("Exam", cList);
+        }
+
         public ActionResult GetFirstDataToLoad(string CourseID)
         {
             var loadData = "";
             //Check if OrderSec has a value
-            if (OrderSec == "" || OrderSec == null || OrderSec == "0" || OrderSec == 0.ToString())
+            if (CourseSectionOrder == "" || CourseSectionOrder == null || CourseSectionOrder == "0" || CourseSectionOrder == 0.ToString())
             {
                 loadData = SQLcon.getDataToLoad(CourseID,0).OrderBy(x => x.OrderSec).Select(x => x.Type).FirstOrDefault().ToString();
-                OrderSec = SQLcon.getDataToLoad(CourseID, 0).OrderBy(x => x.OrderSec).Select(x => x.OrderSec).FirstOrDefault().ToString();
-                Session["OrderSec"] = OrderSec;
+                CourseSectionOrder = SQLcon.getDataToLoad(CourseID, 0).OrderBy(x => x.OrderSec).Select(x => x.OrderSec).FirstOrDefault().ToString();
+                Session["CourseSectionOrder"] = CourseSectionOrder;
             }
             else
             {
-                loadData = SQLcon.getDataToLoad(CourseID, Convert.ToInt32(OrderSec)).OrderBy(x => x.OrderSec).Select(x => x.Type).FirstOrDefault().ToString();
+                loadData = SQLcon.getDataToLoad(CourseID, Convert.ToInt32(CourseSectionOrder)).OrderBy(x => x.OrderSec).Select(x => x.Type).FirstOrDefault().ToString();
             }
 
             
@@ -344,23 +361,96 @@ namespace ELearningV1.Controllers
 
         public JsonResult loadVideo(string CourseID)
         {
+            var vidTitle = SQLcon.getVideoPath(CourseID).Select(x => x.Title).FirstOrDefault().ToString();
             var vidPath = SQLcon.getVideoPath(CourseID).Select(x => x.VideoPath).FirstOrDefault().ToString();
-
+            
             var responseVideo = new JsonResult();
             responseVideo.Data = new
-            {   resVideo = vidPath, };
+            {
+                resTitleVideo = vidTitle,
+                resVideo = vidPath,
+            };
             return responseVideo;
         }
 
         public JsonResult loadPDF(string CourseID)
         {
+            var PDFTitle = SQLcon.getPDFPath(CourseID).Select(x => x.Title).FirstOrDefault().ToString();
             var PDFpath = SQLcon.getPDFPath(CourseID).Select(x => x.PDFPath).FirstOrDefault().ToString();
 
             var responsePDF = new JsonResult();
             responsePDF.Data = new
-            {   resPDF = PDFpath,  };
+            {   
+                resTitlePDF = PDFTitle,
+                resPDF = PDFpath,
+            };
             return responsePDF;
         }
+        /**
+        public JsonResult loadQuestionaire(string CourseID)
+        {
+            var qID = "";
+            var qCourseID = "";
+            var qCourseSectionID = "";
+            var OrderNumber = "";
+            var Question = "";
+            var QuestionType = "";
+            var C1 = "";
+            var C2 = "";
+            var C3 = "";
+            var C4 = "";
+            var CAnswer = "";
+
+            if (QuestOrder == "" || QuestOrder == null || QuestOrder == "0" || QuestOrder == 0.ToString())
+            {
+                qID = SQLcon.getQuest(CourseID).Select(x => x.ID).FirstOrDefault().ToString();
+                qCourseID = SQLcon.getQuest(CourseID).Select(x => x.CourseID).FirstOrDefault().ToString();
+                qCourseSectionID = SQLcon.getQuest(CourseID).Select(x => x.CourseSectionID).FirstOrDefault().ToString();
+                OrderNumber = SQLcon.getQuest(CourseID).Select(x => x.OrderNumber).FirstOrDefault().ToString();
+                Question = SQLcon.getQuest(CourseID).Select(x => x.Question).FirstOrDefault().ToString();
+                QuestionType = SQLcon.getQuest(CourseID).Select(x => x.QuestionType).FirstOrDefault().ToString();
+                C1 = SQLcon.getQuest(CourseID).Select(x => x.C1).FirstOrDefault().ToString();
+                C2 = SQLcon.getQuest(CourseID).Select(x => x.C2).FirstOrDefault().ToString();
+                C3 = SQLcon.getQuest(CourseID).Select(x => x.C3).FirstOrDefault().ToString();
+                C4 = SQLcon.getQuest(CourseID).Select(x => x.C4).FirstOrDefault().ToString();
+                CAnswer = SQLcon.getQuest(CourseID).Select(x => x.CAnswer).FirstOrDefault().ToString();
+
+                Session["QuestOrder"] = OrderNumber;
+            }
+
+            else
+            {
+                qID = SQLcon.getQuest(CourseID).Select(x => x.ID).FirstOrDefault().ToString();
+                qCourseID = SQLcon.getQuest(CourseID).Select(x => x.CourseID).FirstOrDefault().ToString();
+                qCourseSectionID = SQLcon.getQuest(CourseID).Select(x => x.CourseSectionID).FirstOrDefault().ToString();
+                OrderNumber = SQLcon.getQuest(CourseID).Select(x => x.OrderNumber).FirstOrDefault().ToString();
+                Question = SQLcon.getQuest(CourseID).Select(x => x.Question).FirstOrDefault().ToString();
+                QuestionType = SQLcon.getQuest(CourseID).Select(x => x.QuestionType).FirstOrDefault().ToString();
+                C1 = SQLcon.getQuest(CourseID).Select(x => x.C1).FirstOrDefault().ToString();
+                C2 = SQLcon.getQuest(CourseID).Select(x => x.C2).FirstOrDefault().ToString();
+                C3 = SQLcon.getQuest(CourseID).Select(x => x.C3).FirstOrDefault().ToString();
+                C4 = SQLcon.getQuest(CourseID).Select(x => x.C4).FirstOrDefault().ToString();
+                CAnswer = SQLcon.getQuest(CourseID).Select(x => x.CAnswer).FirstOrDefault().ToString();
+            }
+
+            var responsePDF = new JsonResult();
+            responsePDF.Data = new
+            {
+                _QuestionID = qID,
+                _CourseID = qCourseID,
+                _CourseSectionID = qCourseSectionID,
+                _OrderNo = OrderNumber,
+                _Question = Question,
+                _QuestionType = QuestionType,
+                _C1 = C1,
+                _C2 = C2,
+                _C3 = C3,
+                _C4 = C4,
+                _CAnswer = CAnswer
+            };
+            return responsePDF;
+        }
+        **/
         #endregion
     }
 }

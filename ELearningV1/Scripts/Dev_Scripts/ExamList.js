@@ -363,6 +363,7 @@ var ocSaveTestTitle = function () {
 // show modal that show created question list
 var viewQuestionList = function (ID, CourseID, Title) {
     $("#sectionID").val(ID);
+    $("#secID").val(ID);
     $("#testName").val(Title);
     setTimeout(function () { BindQuestionTable(); }, 1000);
     //BindQuestionTable(ID);
@@ -867,10 +868,11 @@ var changeQuestOrderNo = function (ID) {
 }
 
 var StartTuitorialExam = function () {
+    debugger
     var getCourseID = $("#courseID1").val();
     var secID = $("#sectionID").val();
     //alert(getCourseID);
 
-    var testURL = "../Exam/Exam?CourseID=" + getCourseID;
+    var testURL = "../Exam/Exam?CourseID=" + getCourseID;// + "&CourseSectionID=" + secID;
     window.location.href = testURL;//'@Url.Action("Exam", "Exam")';
 }

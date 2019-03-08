@@ -1,14 +1,8 @@
-﻿
+﻿@model IEnumerable<ELearningV1.Models.ViewModel.VMGetExamQuestion>
 @{
     ViewBag.Title = "Exam";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<head>
-    <link href="css/smoothness/jquery-ui-1.9.0.custom.css" rel="stylesheet">
-    <script language="javascript" type="text/javascript" src="jquery-1.8.2.js"></script>
-    <script src="js/jquery-ui-1.9.0.custom.js"></script>
-</head>
-
 <style>
     .margin {
         margin-left: 50px;
@@ -34,87 +28,186 @@
         margin-top: 25px;
     }
 </style>
-
-<div class="box box-primary" id="divEXAM" style="display:none;">
-    <div class="box-header with-border">
-        <h3 class="box-title">Question #1</h3>
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" title="Previous" data-widget="collapse"><i class="fa fa-arrow-left"></i></button>
-            <button type="button" class="btn btn-box-tool" title="Next" data-widget="remove"><i class="fa fa-arrow-right"></i></button>
-        </div>
-    </div>
+<div class="box">
     <div class="box-body">
-        <!--<div align="center">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/ByQ-u4WD1pE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="box box-primary" id="divEXAM" style="display:none;">
+            <div class="box-header with-border">
+                <h3 class="box-title">Questions</h3>
+                <!--
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" title="Previous" data-widget="collapse"><i class="fa fa-arrow-left"></i></button>
+                    <button type="button" class="btn btn-box-tool" title="Next" data-widget="remove"><i class="fa fa-arrow-right"></i></button>
+                </div>
+                -->
+            </div>
+            <div class="box-body">
+                <table class="table table-hover table-bordered table-responsive table-striped">
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            foreach (var items in Model)
+                            {
+                                //for the id of question inside <p> tag
+                                //for (int a = 1; a < Model.Count(); a++)
+                                //{
+                                //string id = Convert.ToString("pQuestion" + a);
+                                <tr>
+                                    <td><p id="@items.ID">@items.Question</p></td>
+                                </tr>
+                                if (items.QuestionType == "2")
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" id="@items.C1">
+                                                            <label id="txtMCOne" tabindex="12">@items.C1</label>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" id="@items.C2">
+                                                            <label id="txtMCTwo" tabindex="12">@items.C2</label>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" id="@items.C3">
+                                                            <label id="txtMCThree" tabindex="12">@items.C3</label>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" id="@items.C4">
+                                                            <label id="txtMCFour" tabindex="12">@items.C4</label>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+                                                    <label id="answer1">@items.C1</label>
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                                                    <label id="answer2">@items.C2</label>
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+                                                    <label id="answer3">@items.C3</label>
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios4" value="option4">
+                                                    <label id="answer4">@items.C4</label>
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!--<div class="form-group margin"></div>-->
+                                }
+                                //}
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="box-footer">
+                <input type="text" class="form-control" style="display:none" id="txtCourseID" />
+                <input type="text" class="form-control" style="display:none" id="txtCourseSectionID" />
+                <input type="text" class="form-control" style="display:none" id="txtQuestionID" />
+                <input type="text" class="form-control" style="display:none" id="txtOrderNumber" />
+            </div>
         </div>
-        <p class="margin">
-            QUESTION: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </p>
-        <div class="form-group margin">
-            <div class="radio">
-                <label>
-                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-                    ANSWER 1
-                </label>
-            </div>
-            <div class="radio">
-                <label>
-                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-                    ANSWER 2
-                </label>
-            </div>
-            <div class="radio">
-                <label>
-                    <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
-                    ANSWER 3
-                </label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <button type="submit" class="btn btn-block btn-success" style="margin-left:15px;">Submit answer <i class="fa fa-angle-right"></i></button>
-            </div>
 
-        </div>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-3">
-            <div class="progress">
-                <div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                    <span class="sr-only">40% Complete (success)</span>
+        <div class="box box-primary" id="divVIDEO" style="display:none;">
+            <div class="box-header with-border">
+                <h3 class="box-title" id="boxTitleVideo"></h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" title="Previous" data-widget="collapse"><i class="fa fa-arrow-left"></i></button>
+                    <button type="button" class="btn btn-box-tool" title="Next" data-widget="remove"><i class="fa fa-arrow-right"></i></button>
                 </div>
             </div>
-        </div>-->
-    </div>
-</div>
+            <div class="box-body text-center">
+                <video id="videoTuitorial" controls width="890" height="500"></video>
+            </div>
+        </div>
 
-<div class="box box-primary" id="divVIDEO" style="display:none;">
-    <div class="box-header with-border">
-        <h3 class="box-title">Video #1</h3>
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" title="Previous" data-widget="collapse"><i class="fa fa-arrow-left"></i></button>
-            <button type="button" class="btn btn-box-tool" title="Next" data-widget="remove"><i class="fa fa-arrow-right"></i></button>
+        <div class="box box-primary" id="divPDF" style="display:none;">
+            <div class="box-header with-border">
+                <h3 class="box-title" id="boxTitlePDF"></h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" title="Previous" data-widget="collapse"><i class="fa fa-arrow-left"></i></button>
+                    <button type="button" class="btn btn-box-tool" title="Next" data-widget="remove"><i class="fa fa-arrow-right"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="text-center">
+                    <iframe id="framePDF" width="1000" height="500"></iframe> <!-- src="~/Content/CROSSFIRE.PDF"-->
+                </div>
+            </div>
         </div>
     </div>
-    <div class="box-body">
-        <video id="videoTuitorial" controls width="1000" height="500"></video>
-    </div>
-</div>
-
-<div class="box box-primary" id="divPDF" style="display:none;">
-    <div class="box-header with-border">
-        <h3 class="box-title">PDF #1</h3>
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" title="Previous" data-widget="collapse"><i class="fa fa-arrow-left"></i></button>
-            <button type="button" class="btn btn-box-tool" title="Next" data-widget="remove"><i class="fa fa-arrow-right"></i></button>
-        </div>
-    </div>
-    <div class="box-body">
-        <div align="center">
-            <iframe id="framePDF" width="1000" height="500"></iframe> <!-- src="~/Content/CROSSFIRE.PDF"-->
+    <div class="box-footer">
+        <div class="row">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10"></div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <button class="btn btn-success btn-block" id="btnNext" onclick="getNextDataToLoad()">Save</button>
+            </div>
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="modal-info">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -135,8 +228,9 @@
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
+    var object = "";
+
     $(document).ready(function () {
         $(document).ready(function () {
             $.ajax({
@@ -144,7 +238,7 @@
                 url: "/Home/GetSession",
                 data: {},
                 success: function (response) {
-                    getUrlVars();
+                    getAllUrlParams();
                     //$("#modal-info").modal();
                 },
                 error: function (response) {
@@ -155,13 +249,20 @@
         });
     });
 
-    function getUrlVars() {
+    function getAllUrlParams() {
         var vars = {};
         var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
             vars[key] = value;
-            loadData(value);
+
+            $.ajax({
+                type: "POST",
+                url: "Exam/Exam",
+                data: { "CourseID": value },
+                success: function (response) {
+                    loadData(value);
+                }
+            });
         });
-        //return vars;
     }
 
     var loadData = function (CourseID) {
@@ -182,11 +283,11 @@
                         url: "/Exam/loadVideo",
                         data: { "CourseID": CourseID },
                         success: function (responseVideo) {
-                            debugger
                             dVideo.style.display = "block";
                             dPDF.style.display = "none";
                             dExam.style.display = "none";
 
+                            $("#boxTitleVideo").text(responseVideo.resTitleVideo);
                             document.getElementById("videoTuitorial").src = responseVideo.resVideo;
                         }
                     });
@@ -202,23 +303,38 @@
                             dVideo.style.display = "none";
                             dExam.style.display = "none";
 
+                            $("#boxTitlePDF").text(responsePDF.resTitlePDF);
                             document.getElementById("framePDF").src = responsePDF.resPDF;
                         }
                     });
                 }
 
-                //if (response.res == "Test") {
-                //    $.ajax({
-                //        type: "POST",
-                //        url: "/Exam/getQuestionList",
-                //        data: { "CourseID": CourseID },
-                //        success: function (response) {
-
-                //        }
-                //    });
-                //}
+                if (response.res == "Test") {
+                    dPDF.style.display = "none";
+                    dVideo.style.display = "none";
+                    dExam.style.display = "block";
+                }
             },
         });
+
+    }
+
+    var getNextDataToLoad = function () {
+        var dVideo = document.getElementById("divVIDEO");
+        var dPDF = document.getElementById("divPDF");
+        var dExam = document.getElementById("divEXAM");
+
+        var getSRC = "";
+
+        debugger
+
+        if (dVideo.style.display == "block") {
+            getSRC = document.getElementById("videoTuitorial").src;
+        }
+
+        if (dPDF.style.display == "block") {
+            getSRC = document.getElementById("framePDF").src;
+        }
 
     }
 </script>
