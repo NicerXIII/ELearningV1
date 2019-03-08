@@ -162,11 +162,6 @@ namespace ELearningV1.Controllers
         #endregion
 
         #region Creating Test Name and Question
-        public ActionResult Exam()
-        {
-            return View();
-        }
-
         public ActionResult CreateExam()
         {
             return View();
@@ -319,8 +314,29 @@ namespace ELearningV1.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
         #endregion
-        
+
         #region Exam
+        public ActionResult Exam(string CourseID)
+        {
+            DAL SQLcon = new DAL();
+            List<VMGetExamQuestion> cList = SQLcon.getQuest(CourseID).Select(x => new VMGetExamQuestion
+            {
+                ID = x.ID,
+                CourseID = x.CourseID,
+                CourseSectionID = x.CourseSectionID,
+                OrderNumber = x.OrderNumber,
+                Question = x.Question,
+                QuestionType = x.QuestionType,
+                C1 = x.C1,
+                C2 = x.C2,
+                C3 = x.C3,
+                C4 = x.C4,
+                CAnswer = x.CAnswer
+            }).ToList();
+
+            return View("Exam", cList);
+        }
+
         public ActionResult GetFirstDataToLoad(string CourseID)
         {
             var loadData = "";
@@ -370,8 +386,8 @@ namespace ELearningV1.Controllers
             };
             return responsePDF;
         }
-
-        public JsonResult loadQuestionaire(string CourseID, string CourseSectionID)
+        /**
+        public JsonResult loadQuestionaire(string CourseID)
         {
             var qID = "";
             var qCourseID = "";
@@ -387,34 +403,34 @@ namespace ELearningV1.Controllers
 
             if (QuestOrder == "" || QuestOrder == null || QuestOrder == "0" || QuestOrder == 0.ToString())
             {
-                qID = SQLcon.getQuest(CourseID, CourseSectionID,0).Select(x => x.ID).FirstOrDefault().ToString();
-                qCourseID = SQLcon.getQuest(CourseID, CourseSectionID, 0).Select(x => x.CourseID).FirstOrDefault().ToString();
-                qCourseSectionID = SQLcon.getQuest(CourseID, CourseSectionID, 0).Select(x => x.CourseSectionID).FirstOrDefault().ToString();
-                OrderNumber = SQLcon.getQuest(CourseID, CourseSectionID, 0).Select(x => x.OrderNumber).FirstOrDefault().ToString();
-                Question = SQLcon.getQuest(CourseID, CourseSectionID, 0).Select(x => x.Question).FirstOrDefault().ToString();
-                QuestionType = SQLcon.getQuest(CourseID, CourseSectionID, 0).Select(x => x.QuestionType).FirstOrDefault().ToString();
-                C1 = SQLcon.getQuest(CourseID, CourseSectionID, 0).Select(x => x.C1).FirstOrDefault().ToString();
-                C2 = SQLcon.getQuest(CourseID, CourseSectionID, 0).Select(x => x.C2).FirstOrDefault().ToString();
-                C3 = SQLcon.getQuest(CourseID, CourseSectionID, 0).Select(x => x.C3).FirstOrDefault().ToString();
-                C4 = SQLcon.getQuest(CourseID, CourseSectionID, 0).Select(x => x.C4).FirstOrDefault().ToString();
-                CAnswer = SQLcon.getQuest(CourseID, CourseSectionID, 0).Select(x => x.CAnswer).FirstOrDefault().ToString();
+                qID = SQLcon.getQuest(CourseID).Select(x => x.ID).FirstOrDefault().ToString();
+                qCourseID = SQLcon.getQuest(CourseID).Select(x => x.CourseID).FirstOrDefault().ToString();
+                qCourseSectionID = SQLcon.getQuest(CourseID).Select(x => x.CourseSectionID).FirstOrDefault().ToString();
+                OrderNumber = SQLcon.getQuest(CourseID).Select(x => x.OrderNumber).FirstOrDefault().ToString();
+                Question = SQLcon.getQuest(CourseID).Select(x => x.Question).FirstOrDefault().ToString();
+                QuestionType = SQLcon.getQuest(CourseID).Select(x => x.QuestionType).FirstOrDefault().ToString();
+                C1 = SQLcon.getQuest(CourseID).Select(x => x.C1).FirstOrDefault().ToString();
+                C2 = SQLcon.getQuest(CourseID).Select(x => x.C2).FirstOrDefault().ToString();
+                C3 = SQLcon.getQuest(CourseID).Select(x => x.C3).FirstOrDefault().ToString();
+                C4 = SQLcon.getQuest(CourseID).Select(x => x.C4).FirstOrDefault().ToString();
+                CAnswer = SQLcon.getQuest(CourseID).Select(x => x.CAnswer).FirstOrDefault().ToString();
 
                 Session["QuestOrder"] = OrderNumber;
             }
 
             else
             {
-                qID = SQLcon.getQuest(CourseID, CourseSectionID, Int32.Parse(QuestOrder)).Select(x => x.ID).FirstOrDefault().ToString();
-                qCourseID = SQLcon.getQuest(CourseID, CourseSectionID, Int32.Parse(QuestOrder)).Select(x => x.CourseID).FirstOrDefault().ToString();
-                qCourseSectionID = SQLcon.getQuest(CourseID, CourseSectionID, Int32.Parse(QuestOrder)).Select(x => x.CourseSectionID).FirstOrDefault().ToString();
-                OrderNumber = SQLcon.getQuest(CourseID, CourseSectionID, Int32.Parse(QuestOrder)).Select(x => x.OrderNumber).FirstOrDefault().ToString();
-                Question = SQLcon.getQuest(CourseID, CourseSectionID, Int32.Parse(QuestOrder)).Select(x => x.Question).FirstOrDefault().ToString();
-                QuestionType = SQLcon.getQuest(CourseID, CourseSectionID, Int32.Parse(QuestOrder)).Select(x => x.QuestionType).FirstOrDefault().ToString();
-                C1 = SQLcon.getQuest(CourseID, CourseSectionID, Int32.Parse(QuestOrder)).Select(x => x.C1).FirstOrDefault().ToString();
-                C2 = SQLcon.getQuest(CourseID, CourseSectionID, Int32.Parse(QuestOrder)).Select(x => x.C2).FirstOrDefault().ToString();
-                C3 = SQLcon.getQuest(CourseID, CourseSectionID, Int32.Parse(QuestOrder)).Select(x => x.C3).FirstOrDefault().ToString();
-                C4 = SQLcon.getQuest(CourseID, CourseSectionID, Int32.Parse(QuestOrder)).Select(x => x.C4).FirstOrDefault().ToString();
-                CAnswer = SQLcon.getQuest(CourseID, CourseSectionID, Int32.Parse(QuestOrder)).Select(x => x.CAnswer).FirstOrDefault().ToString();
+                qID = SQLcon.getQuest(CourseID).Select(x => x.ID).FirstOrDefault().ToString();
+                qCourseID = SQLcon.getQuest(CourseID).Select(x => x.CourseID).FirstOrDefault().ToString();
+                qCourseSectionID = SQLcon.getQuest(CourseID).Select(x => x.CourseSectionID).FirstOrDefault().ToString();
+                OrderNumber = SQLcon.getQuest(CourseID).Select(x => x.OrderNumber).FirstOrDefault().ToString();
+                Question = SQLcon.getQuest(CourseID).Select(x => x.Question).FirstOrDefault().ToString();
+                QuestionType = SQLcon.getQuest(CourseID).Select(x => x.QuestionType).FirstOrDefault().ToString();
+                C1 = SQLcon.getQuest(CourseID).Select(x => x.C1).FirstOrDefault().ToString();
+                C2 = SQLcon.getQuest(CourseID).Select(x => x.C2).FirstOrDefault().ToString();
+                C3 = SQLcon.getQuest(CourseID).Select(x => x.C3).FirstOrDefault().ToString();
+                C4 = SQLcon.getQuest(CourseID).Select(x => x.C4).FirstOrDefault().ToString();
+                CAnswer = SQLcon.getQuest(CourseID).Select(x => x.CAnswer).FirstOrDefault().ToString();
             }
 
             var responsePDF = new JsonResult();
@@ -434,6 +450,7 @@ namespace ELearningV1.Controllers
             };
             return responsePDF;
         }
+        **/
         #endregion
     }
 }

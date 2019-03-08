@@ -695,7 +695,7 @@ namespace ELearningV1.Models
             return null;
         }
 
-        public getQuestionList getQuest(string CourseID, string CourseSectionID, int PrevOrderNumber)
+        public getQuestionList getQuest(string CourseID)
         {
             getQuestionList PDFPathList = new getQuestionList();
             using (SqlConnection con = new SqlConnection(Cons))
@@ -708,8 +708,6 @@ namespace ELearningV1.Models
                         {
                             cmd.CommandType = CommandType.StoredProcedure;
                             cmd.Parameters.AddWithValue("@CourseID", CourseID);
-                            cmd.Parameters.AddWithValue("@CourseSectionID", CourseSectionID);
-                            cmd.Parameters.AddWithValue("@PreviousOrderNumber", PrevOrderNumber);
                             con.Open();
                             cmd.ExecuteNonQuery();
 

@@ -868,10 +868,11 @@ var changeQuestOrderNo = function (ID) {
 }
 
 var StartTuitorialExam = function () {
+    debugger
     var getCourseID = $("#courseID1").val();
     var secID = $("#sectionID").val();
     //alert(getCourseID);
 
-    var testURL = "../Exam/Exam?CourseID=" + getCourseID + "&CourseSectionID=" + secID;
+    var testURL = "../Exam/Exam?CourseID=" + getCourseID;// + "&CourseSectionID=" + secID;
     window.location.href = testURL;//'@Url.Action("Exam", "Exam")';
 }
