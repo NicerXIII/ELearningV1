@@ -56,7 +56,7 @@ namespace ELearningV1.Controllers
             return View();
         }
 
-        public JsonResult ImageUpload(CourseImage model,string CName,string CDesc)
+        public JsonResult ImageUpload(CourseImage model,string CName,string CDesc,string Days1)
         {
            // var userID = Session["EmployeeNumber"].ToString().Trim();
             var result = "False";
@@ -70,7 +70,7 @@ namespace ELearningV1.Controllers
                     try
                     {
                         DAL SQLcon = new DAL();
-                        result = SQLcon.AddNewCourse(CName, CDesc,file.FileName,dateNow);
+                        result = SQLcon.AddNewCourse(CName, CDesc,file.FileName,dateNow,Days1);
                         result = "True";
                     }
                     catch (Exception ex) { }
@@ -94,19 +94,29 @@ namespace ELearningV1.Controllers
             return View();
         }
 
-        public ActionResult EmployeeCourseDetail()
+        public ActionResult EmployeeCourseDetail(string CourseID)
         {
+            DAL SQLcon = new DAL();
+            VMViewCourses courseData = new VMViewCourses();
+            try
+            {
+                courseData = SQLcon.ViewCoursesByID(CourseID).SingleOrDefault();
+            }
+            catch (Exception ex) { }
 
-            return View();
+            return View(courseData);
         }
 
         public ActionResult ApplyEmployeebyCourseID(string CourseID)
         {
             DAL SQLcon = new DAL();
             var userID = Session["EmployeeNumber"].ToString();
+           
             bool result = false;
             try {
-                result = SQLcon.ApplyEmployeebyCourseID(CourseID, userID, DateTime.Now.ToString("MM/dd/yyyy"));
+                var Days1 = SQLcon.ViewCoursesByID(CourseID).Select(x => x.Days1).SingleOrDefault();
+                DateTime CompDate = DateTime.Now.AddDays(Days1 - 1);
+                result = SQLcon.ApplyEmployeebyCourseID(CourseID, userID, DateTime.Now.ToString("MM/dd/yyyy"), CompDate.ToString("MM/dd/yyyy"));
             } catch (Exception ex) {
             }
             var response = new JsonResult();

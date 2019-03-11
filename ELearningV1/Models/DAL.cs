@@ -51,7 +51,7 @@ namespace ELearningV1.Models
         #endregion
 
         #region Course
-        public String AddNewCourse(string CName, string Desc, string ImageName, string Date1)
+        public String AddNewCourse(string CName, string Desc, string ImageName, string Date1,string MinDay)
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {
@@ -66,6 +66,7 @@ namespace ELearningV1.Models
                         cmd.Parameters.AddWithValue("@CDesc", Desc);
                         cmd.Parameters.AddWithValue("@CImage", ImageName);
                         cmd.Parameters.AddWithValue("@Date1", Date1);
+                        cmd.Parameters.AddWithValue("@Day", MinDay);
 
                         cmd.ExecuteNonQuery();
                         return "True";
@@ -131,12 +132,13 @@ namespace ELearningV1.Models
             VMViewCoursesList CourseList = new VMViewCoursesList();
             using (SqlConnection con = new SqlConnection(Cons))
             {
-                using (SqlCommand cmd = new SqlCommand("Select * From ELearningCourse Where ID not in(Select CourseID FROM ELearningCourseProgress Where EmployeeNumber='" + UserID + "')", con))
+                using (SqlCommand cmd = new SqlCommand("ViewCoursesByUserID", con))
                 {
                     try
                     {
                         con.Open();
-                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@EmployeeNumber", UserID);
                         SqlDataReader dr = cmd.ExecuteReader();
 
                         while (dr.Read())
@@ -166,12 +168,14 @@ namespace ELearningV1.Models
             VMViewCoursesList CourseList = new VMViewCoursesList();
             using (SqlConnection con = new SqlConnection(Cons))
             {
-                using (SqlCommand cmd = new SqlCommand("Select * From ELearningCourse Where Course like '%" + CName + "%' and ID not in(Select CourseID FROM ELearningCourseProgress Where EmployeeNumber='" + UserID + "')", con))
+                using (SqlCommand cmd = new SqlCommand("ViewCoursesByUserIDandCName", con))
                 {
                     try
                     {
                         con.Open();
-                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@EmployeeNumber",UserID);
+                        cmd.Parameters.AddWithValue("@CourseName", CName);
                         SqlDataReader dr = cmd.ExecuteReader();
 
                         while (dr.Read())
@@ -217,6 +221,7 @@ namespace ELearningV1.Models
                             course.Image = Convert.ToString(dr["Image"]);
                             course.DateCreated = Convert.ToDateTime(dr["DateCreated"]);
                             course.IsActive = Convert.ToBoolean(dr["IsActive"]);
+                            course.Days1 = Convert.ToInt32(dr["Day1"]);
                             CourseList.Add(course);
                         }
                         return CourseList;
@@ -309,11 +314,11 @@ namespace ELearningV1.Models
             }
         }
 
-        public bool ApplyEmployeebyCourseID(string CourseID, string EmployeeNumber, string Date1)
+        public bool ApplyEmployeebyCourseID(string CourseID, string EmployeeNumber, string Date1,string CompDate)
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {
-                using (SqlCommand cmd = new SqlCommand("INSERT INTO ELearningCourseProgress(EmployeeNumber,CourseID,Progress,Score,EnrolledDate,CompletionDate,ConsumedTime) VALUES('" + EmployeeNumber + "','" + CourseID + "','0','0','" + Date1 + "','01/01/1999','0')", con))
+                using (SqlCommand cmd = new SqlCommand("INSERT INTO ELearningCourseProgress(EmployeeNumber,CourseID,Progress,Score,EnrolledDate,CompletionDate,ConsumedTime) VALUES('" + EmployeeNumber + "','" + CourseID + "','0','0','" + Date1 + "','" + CompDate + "','0')", con))
                 {
                     try
                     {

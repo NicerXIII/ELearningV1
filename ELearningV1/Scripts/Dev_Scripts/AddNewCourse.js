@@ -2,13 +2,14 @@
     var imageName = $("#imageName").val();
     var cname = $("#CName").val();
     var cdesc = $("#CDesc").val();
+    var days = $("#MinDay").val();
     if (imageName != "" && cname != "" && cdesc != "") {
         var file = $("#CourseImage").get(0).files;
         var data = new FormData;
         data.append("ImageFile", file[0]);
         $.ajax({
             type: "POST",
-            url: "/Course/ImageUpload?CName=" + cname + "&CDesc=" + cdesc + "",
+            url: "/Course/ImageUpload?CName=" + cname + "&CDesc=" + cdesc + "&Days1=" + days + "",
             data: data,
             contentType: false,
             processData: false,

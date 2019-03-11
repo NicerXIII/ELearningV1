@@ -78,6 +78,12 @@
                                 Active
                             </div>
                         }
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" align="right">
+                            <div class="form-inline">
+                                <label style="font-weight:500;">Minimum Days: </label>
+                                <label>@Model.Days1</label>
+                            </div>
+                        </div>
                     </div>
 
                     <hr />
@@ -102,67 +108,17 @@
                 </div>
 
                 <div class="tab-pane" id="timeline">
-                    <table id="example2" class="table table-bordered table-hover">
+                    <table id="AppCourseEmployeeList" class="table table-bordered table-striped" style="width:100%; min-height:100px; min-width:1170px; font-size:18px; font-weight:700;">
                         <thead>
                             <tr>
-                                <th>User</th>
-                                <th>Role</th>
+                                <th>Employee Number</th>
+                                <th>Name</th>
+                                <th>Department</th>
                                 <th>Completion Date</th>
-                                <th>Operations</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>John Doe</td>
-                                <td>Learner</td>
-                                <td>March 25, 2019</td>
-                                <td> 4</td>
-                            </tr>
-                            <tr>
-                                <td>John Doe</td>
-                                <td>Learner</td>
-                                <td>March 25, 2019</td>
-                                <td> 4</td>
-                            </tr>
-                            <tr>
-                                <td>John Doe</td>
-                                <td>Learner</td>
-                                <td>March 25, 2019</td>
-                                <td> 4</td>
-                            </tr>
-                            <tr>
-                                <td>John Doe</td>
-                                <td>Learner</td>
-                                <td>March 25, 2019</td>
-                                <td> 4</td>
-                            </tr>
-                            <tr>
-                                <td>John Doe</td>
-                                <td>Learner</td>
-                                <td>March 25, 2019</td>
-                                <td> 4</td>
-                            </tr>
-                            <tr>
-                                <td>John Doe</td>
-                                <td>Learner</td>
-                                <td>March 25, 2019</td>
-                                <td> 4</td>
-                            </tr>
-                            <tr>
-                                <td>John Doe</td>
-                                <td>Learner</td>
-                                <td>March 25, 2019</td>
-                                <td> 4</td>
-                            </tr>
                         </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>User</th>
-                                <th>Role</th>
-                                <th>Completion Date</th>
-                                <th>Operations</th>
-                            </tr>
-                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -253,4 +209,6 @@
         }
 
     }
+
+
 </script>
