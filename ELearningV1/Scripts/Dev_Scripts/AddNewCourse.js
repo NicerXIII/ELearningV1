@@ -13,12 +13,19 @@
             contentType: false,
             processData: false,
             success: function (response) {
-                alert("New course successfully added");
-                $("#imageName").val("");
-                $("#CName").val("");
-                $("#CDesc").val("");
-                $("#CourseImage").val("");
-                $("#CoursePic").attr('src', '/UpLoadedImages/imagesaaaaa.jpg');
+                var result = response.res;
+                if (result == "True") {
+                    alert("New course successfully added");
+                    $("#modalAddCourse").modal('hide');
+                    $("#imageName").val("");
+                    $("#CName").val("");
+                    $("#CDesc").val("");
+                    $("#CourseImage").val("");
+                    $("#CoursePic").attr('src', '/UpLoadedImages/imagesaaaaa.jpg');
+                    $("#reloadViewCourse").load("/Home/LoadCourseData #reloadViewCourse");
+                } else {
+                    alert("ERROR: Adding new course failed");
+                }
             },
             error: function () { }
         });

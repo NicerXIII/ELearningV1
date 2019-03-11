@@ -29,6 +29,10 @@
     <script src="~/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="~/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 
+    <script src="~/plugins/moment/moment.min.js"></script>
+    <script src="~/plugins/moment/moment-timezone-with-data.min.js"></script>
+    <script src="~/plugins/moment/moment-timezone-with-data-2012-2022.min.js"></script>
+    <script src="~/plugins/moment/moment-timezone.min.js"></script>
 
     <style type="text/css">
         .customSAccProf {
@@ -257,6 +261,16 @@
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Description:</label>
                                 <input type="email" class="form-control" id="CDesc" placeholder="Description">
+                            </div>
+                            <div class="form-group">
+                                <label>Select Minimum Day(s)</label>
+                                <select class="form-control" id="MinDay">
+                                    <option value="1" selected>1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
                             </div>
                         </div>
                     </div>
