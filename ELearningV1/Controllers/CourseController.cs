@@ -111,17 +111,27 @@ namespace ELearningV1.Controllers
         {
             DAL SQLcon = new DAL();
             var userID = Session["EmployeeNumber"].ToString();
-           
+            var Stats = "";
             bool result = false;
             try {
                 var Days1 = SQLcon.ViewCoursesByID(CourseID).Select(x => x.Days1).SingleOrDefault();
                 DateTime CompDate = DateTime.Now.AddDays(Days1 - 1);
-                result = SQLcon.ApplyEmployeebyCourseID(CourseID, userID, DateTime.Now.ToString("MM/dd/yyyy"), CompDate.ToString("MM/dd/yyyy"));
+
+                var courseStats = SQLcon.CheckCourseIfAlreadyApplied(CourseID, userID);
+                if (courseStats == false)
+                {
+                    result = SQLcon.ApplyEmployeebyCourseID(CourseID, userID, DateTime.Now.ToString("MM/dd/yyyy"), CompDate.ToString("MM/dd/yyyy"));
+                }
+                else {
+                    Stats = "RE";
+                }
+
             } catch (Exception ex) {
             }
             var response = new JsonResult();
             response.Data = new {
-                res = result
+                res = result,
+                sta = Stats
             };
             return response;
         }

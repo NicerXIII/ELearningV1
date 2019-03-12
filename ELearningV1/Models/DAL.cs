@@ -51,7 +51,7 @@ namespace ELearningV1.Models
         #endregion
 
         #region Course
-        public String AddNewCourse(string CName, string Desc, string ImageName, string Date1,string MinDay)
+        public String AddNewCourse(string CName, string Desc, string ImageName, string Date1, string MinDay)
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {
@@ -174,7 +174,7 @@ namespace ELearningV1.Models
                     {
                         con.Open();
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@EmployeeNumber",UserID);
+                        cmd.Parameters.AddWithValue("@EmployeeNumber", UserID);
                         cmd.Parameters.AddWithValue("@CourseName", CName);
                         SqlDataReader dr = cmd.ExecuteReader();
 
@@ -314,7 +314,7 @@ namespace ELearningV1.Models
             }
         }
 
-        public bool ApplyEmployeebyCourseID(string CourseID, string EmployeeNumber, string Date1,string CompDate)
+        public bool ApplyEmployeebyCourseID(string CourseID, string EmployeeNumber, string Date1, string CompDate)
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {
@@ -373,6 +373,52 @@ namespace ELearningV1.Models
             }
 
             return null;
+        }
+
+        public bool CheckCourseIfAlreadyApplied(string CourseID, string UserID)
+        {
+            var count1 = 0;
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("Select * From ELearningCourseProgress Where CourseID='" + CourseID + "' and EmployeeNumber='" + UserID + "'", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        SqlDataReader dr = cmd.ExecuteReader();
+
+                        if (dr.HasRows)
+                        {
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
+
+                        //while (dr.Read())
+                        //{
+                        //    count1++;
+                        //}
+
+                        //if (count1 > 0)
+                        //{
+                        //    return true;
+                        //}
+                        //else
+                        //{
+                        //    return false;
+                        //}
+
+                    }
+                    catch (Exception ex)
+                    {
+                        return false;
+                    }
+                    finally
+                    { con.Close(); }
+                }
+            }
         }
         #endregion
 
