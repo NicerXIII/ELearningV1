@@ -371,7 +371,7 @@ namespace ELearningV1.Models
         }
         #endregion
 
-        #region Exam
+        #region Creating Exam
         public string SaveExamAndQuestion(string Question, string QuestType, string Ans1, string Ans2, string Ans3, string Ans4, string CorAns, string EmployeeNumber, string CourseSecID, string CourseID)
         {
             using (SqlConnection con = new SqlConnection(Cons))
@@ -567,7 +567,7 @@ namespace ELearningV1.Models
         }
         #endregion
 
-        #region Tuitorial
+        #region Getting Questions and answers
         public getDataToLoadList getDataToLoad(string CourseID, int PreviousOrderSec)
         {
             getDataToLoadList loadList = new getDataToLoadList();
@@ -740,6 +740,30 @@ namespace ELearningV1.Models
                 }
             }
             return null;
+        }
+
+        public string saveAnswers(string QuestionID, string EmployeeNumber, string Answers, string isCorrect)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand com = new SqlCommand("ELearningSaveAnswers", con))
+                {
+                    try
+                    {
+                        com.CommandType = CommandType.StoredProcedure;
+                        com.Parameters.AddWithValue("@QuestionID", QuestionID);
+                        com.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                        com.Parameters.AddWithValue("@Answers", Answers);
+                        com.Parameters.AddWithValue("@IsCorrect", isCorrect);
+                        con.Open();
+                        com.ExecuteNonQuery();
+                        con.Close();
+                    }
+                    catch (Exception ex)
+                    { return ex.Message; }
+                }
+            }
+            return "Success";
         }
         #endregion
 
