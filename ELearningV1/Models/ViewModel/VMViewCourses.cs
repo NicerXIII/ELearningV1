@@ -13,6 +13,7 @@ namespace ELearningV1.Models.ViewModel
         public string Image { get; set; }
         public DateTime DateCreated { get; set; }
         public bool IsActive { get; set; }
+        public int Days1 { get; set; }
     }
 
     public class VMViewCoursesList : List<VMViewCourses> { }

@@ -1,7 +1,171 @@
 ﻿
+@model  ELearningV1.Models.ViewModel.VMViewCourses
 @{
     ViewBag.Title = "EmployeeCourseDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>EmployeeCourseDetail</h2>
+<style>
+    .margin {
+        margin-left: 50px;
+    }
 
+    .mt-1 {
+        margin-top: 5px;
+    }
+
+    .mt-2 {
+        margin-top: 10px;
+    }
+
+    .mt-3 {
+        margin-top: 15px;
+    }
+
+    .mt-4 {
+        margin-top: 20px;
+    }
+
+    .mt5 {
+        margin-top: 25px;
+    }
+</style>
+<div class="box box-primary">
+    <div class="box-header">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="~/Home/Index">Home</a></li>
+            <li class="breadcrumb-item"><a href="~/Home/ViewCourse">Courses</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Introduction to TalentLMS</li>
+        </ol>
+    </div>
+    <div class="box-body">
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#activity" data-toggle="tab">Course</a></li>
+                <li><a href="#timeline" data-toggle="tab">Users</a></li>
+            </ul>
+            <div class="tab-content">
+
+                <div class="active tab-pane" id="activity">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <label class="mt-1">Course Name</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <input type="text" class="form-control" id="courseName" value="@Model.Course" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <label class="mt-1">Description</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2">
+                            <textarea class="form-control" style="width:500px; height:200px" id="courseDesc">@Model.Description</textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                        @if (Model.IsActive == true)
+                        {
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <input type="checkbox" class="minimal" checked>
+                                Active
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <input type="checkbox" class="minimal">
+                                Active
+                            </div>
+                        }
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" align="right">
+                            <div class="form-inline">
+                                <label style="font-weight:500;">Minimum Days: </label>
+                                <label>@Model.Days1</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr />
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2">
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 mt-2">
+                            <div class="form-inline">
+                                <button type="button" class="btn btn-info pull-right" onclick="ApplyCourse()">Apply Course</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="timeline">
+                    <table id="AppCourseEmployeeList" class="table table-bordered table-striped" style="width:100%; min-height:100px; min-width:1170px; font-size:18px; font-weight:700;">
+                        <thead>
+                            <tr>
+                                <th>Employee Number</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Completion Date</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="cID" value="@Model.ID" />
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Home/GetSession",
+            data: {},
+            success: function (response) {
+
+            },
+            error: function (response) {
+                window.location.href = '/LogIn/Index';
+            }
+
+        });
+    });
+
+
+
+    var CourseDetailReport = function ()
+    { window.location.href = '@Url.Action("CourseDetailReport", "Course")'; }
+
+    var ApplyCourse = function () {
+        var cid = $("#cID").val();
+        if (cid != "" || cid != undefined || cid != null) {
+            $.ajax({
+                type: "POST",
+                url: "/Course/ApplyEmployeebyCourseID",
+                data: { "CourseID": cid},
+                success: function (response) {
+                    var result = response.res;
+                    if (result == true) {
+                        alert("You are successfully applied to the selected course");
+                        window.location.href = '/Home/Index';
+                    } else {
+                        alert("ERROR: Apply course failed")
+                    }
+                },
+                error: function (response) { }
+            });
+
+        }
+
+    }
+
+
+</script>
