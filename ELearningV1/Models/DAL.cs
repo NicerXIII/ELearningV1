@@ -377,7 +377,6 @@ namespace ELearningV1.Models
 
         public bool CheckCourseIfAlreadyApplied(string CourseID, string UserID)
         {
-            var count1 = 0;
             using (SqlConnection con = new SqlConnection(Cons))
             {
                 using (SqlCommand cmd = new SqlCommand("Select * From ELearningCourseProgress Where CourseID='" + CourseID + "' and EmployeeNumber='" + UserID + "'", con))
@@ -395,21 +394,6 @@ namespace ELearningV1.Models
                         else {
                             return false;
                         }
-
-                        //while (dr.Read())
-                        //{
-                        //    count1++;
-                        //}
-
-                        //if (count1 > 0)
-                        //{
-                        //    return true;
-                        //}
-                        //else
-                        //{
-                        //    return false;
-                        //}
-
                     }
                     catch (Exception ex)
                     {
