@@ -155,10 +155,10 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
-            <li><a href="#/" onclick="Home()"><i class="fa fa-home" style="font-size:20px;"></i> <span> HOME</span></a></li>
+            <li><a href="#/" onclick="Home()"><i class="fa fa-home" style="font-size:20px; color:red;"></i> <span> HOME</span></a></li>
             <li class="treeview">
                 <a href="#/">
-                    <i class="fa fa-book" style="font-size:20px;"></i> <span>COURSES</span>
+                    <i class="fa fa-book" style="font-size:20px; color:dodgerblue"></i> <span>COURSES</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
@@ -181,7 +181,7 @@
             {
                 if (Session["EmployeePositionName"].ToString() == "Web Developer" || Session["EmployeePositionName"].ToString() == "Senior QA")
                 {
-                    <li><a href="#/"><i class="fa fa-group"></i> <span>AGENTS DATA</span></a></li>
+                    <li><a href="#/"><i class="fa fa-group" style="color:forestgreen;"></i> <span>AGENTS DATA</span></a></li>
                 }
             }
             catch (Exception ex) { }

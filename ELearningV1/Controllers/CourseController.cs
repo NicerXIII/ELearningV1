@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ELearningV1.Models;
 using ELearningV1.Models.ViewModel;
+using KioskVersion3.Models.ViewModel;
 
 namespace ELearningV1.Controllers
 {
@@ -135,5 +136,37 @@ namespace ELearningV1.Controllers
             };
             return response;
         }
+
+
+        public JsonResult LoadUserEnrolledList(DataTablesParam param,string CourseID)
+        {
+            List<VMViewCourseUser> CourseUserList = new List<VMViewCourseUser>();
+            DAL SQLcon = new DAL();
+            int pageNo = 1;
+            int totalCount = 0;
+
+            if (param.iDisplayStart >= param.iDisplayLength)
+            { pageNo = (param.iDisplayStart / param.iDisplayLength) + 1; }
+
+            totalCount = SQLcon.ViewCourseUserByCourseID(CourseID).Count();
+            CourseUserList = SQLcon.ViewCourseUserByCourseID(CourseID).Select(x => new VMViewCourseUser
+            {
+                EmployeeNumber = x.EmployeeNumber,
+                EmpName = x.EmpName,
+                Department = x.Department,
+                CompletionDate = x.CompletionDate
+            }).AsEnumerable().ToList();
+
+            return Json(new
+            {
+                aaData = CourseUserList,
+                eEcho = param.sEcho,
+                iTotalDisplayRecords = totalCount,
+                iTotalRecords = CourseUserList.Count()
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+
+
     }
 }

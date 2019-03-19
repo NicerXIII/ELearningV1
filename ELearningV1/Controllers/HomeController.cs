@@ -44,7 +44,7 @@ namespace ELearningV1.Controllers
 
         public ActionResult ViewCourse()
         {
-          
+
             return View();
         }
 
@@ -61,14 +61,14 @@ namespace ELearningV1.Controllers
                 DateCreated = x.DateCreated
             }).ToList();
 
-            return View("ViewCourse",cList);
+            return View("ViewCourse", cList);
         }
 
         public ActionResult LoadCourseDataByCourseName(String CName)
         {
             DAL SQLcon = new DAL();
             var userID = Session["EmployeeNumber"].ToString();
-            List<VMViewCourses> cList = SQLcon.ViewCoursesByName(userID,CName).Select(x => new VMViewCourses
+            List<VMViewCourses> cList = SQLcon.ViewCoursesByName(userID, CName).Select(x => new VMViewCourses
             {
                 ID = x.ID,
                 Course = x.Course,
@@ -91,11 +91,14 @@ namespace ELearningV1.Controllers
             var sunday = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
             var response = new JsonResult();
 
-            try {
-                response.Data = new {
-                    _s = SQLcon.LoadLogInHistoryByIDandDate(userID,Convert.ToString(sunday)).Select(x=>x.Status1)
+            try
+            {
+                response.Data = new
+                {
+                    _s = SQLcon.LoadLogInHistoryByIDandDate(userID, Convert.ToString(sunday)).Select(x => x.Status1)
                 };
-            } catch (Exception ex) { }
+            }
+            catch (Exception ex) { }
 
 
 
@@ -136,5 +139,70 @@ namespace ELearningV1.Controllers
                 iTotalRecords = QuestList.Count()
             }, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult LoadUserProgressAndStatus()
+        {
+            List<VMELearningCousesProgress> QuestList = new List<VMELearningCousesProgress>();
+            var userID = Session["EmployeeNumber"].ToString();
+            DAL SQLcon = new DAL();
+
+            QuestList = SQLcon.ViewCurrentEmployeeCoursebyEmployeeNumber(userID).Select(x => new VMELearningCousesProgress
+            {
+                ID = x.ID,
+                EmployeeNumber = x.EmployeeNumber,
+                CourseID = x.CourseID,
+                Course = x.Course,
+                Progress = x.Progress,
+                Score = x.Score,
+                EnrolledDate = x.EnrolledDate,
+                CompletionDate = x.CompletionDate,
+                ConsumedTime = x.ConsumedTime
+            }).AsEnumerable().ToList();
+
+            int GetCount = QuestList.Count();
+            double PercentMust = GetCount * 100;
+            double ProPercent = QuestList.Sum(x => x.Progress);
+
+            double GetPointPercentage = ProPercent / PercentMust;
+            double GetCurrentPercentage = Math.Round(GetPointPercentage * 100, MidpointRounding.AwayFromZero);
+            double GetRaminingPercentage = Math.Round((1 - GetPointPercentage) * 100, MidpointRounding.AwayFromZero);
+
+            var response = new JsonResult();
+            response.Data = new
+            {
+                _tCurrentPer = GetCurrentPercentage,
+                _tRemnainPer = GetRaminingPercentage
+            };
+
+            return response;
+
+        }
+
+        public ActionResult LoadPanelBoxData() {
+
+            DAL SQLcon = new DAL();
+            String sDate = DateTime.Now.Year.ToString();
+            var data = SQLcon.ViewUserDataByYear(sDate);
+
+            var userID = Session["EmployeeNumber"].ToString();
+
+            var CIP = data.Where(x => x.Progress < 100 && x.EmployeeNumber == userID).Count();
+            var CC = data.Where(x => x.Progress == 100 && x.EmployeeNumber == userID).Count();
+            var PA = data.Where(x => x.Progress == 100).Count();
+            var INC = data.Where(x => x.Progress < 100 && x.CompletionDate < DateTime.Now).Count();
+
+            var response = new JsonResult();
+            response.Data = new {
+                _cip = CIP,
+                _cc = CC,
+                _pa = PA,
+                _inc = INC
+            };
+
+
+            return response;
+        }
+
+
     }
 }

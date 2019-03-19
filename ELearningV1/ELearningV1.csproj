@@ -217,6 +217,7 @@
     <Compile Include="Models\ViewModel\VMKioskLogInUser.cs" />
     <Compile Include="Models\ViewModel\VMLogHistory.cs" />
     <Compile Include="Models\ViewModel\VMViewCourses.cs" />
+    <Compile Include="Models\ViewModel\VMViewCourseUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
