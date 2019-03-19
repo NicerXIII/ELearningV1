@@ -47,10 +47,10 @@
                         {
                             foreach (var items in Model)
                             {
-                                //for the id of question inside <p> tag
-                                //for (int a = 1; a < Model.Count(); a++)
-                                //{
-                                //string id = Convert.ToString("pQuestion" + a);
+                                <script type="text/javascript">
+                                    var questionIDs = new Array();
+                                    questionIDs.push(@items.ID);
+                                </script>
                                 <tr>
                                     <td><p id="@items.ID">@items.Question</p></td>
                                 </tr>
@@ -59,11 +59,11 @@
                                     <tr>
                                         <td>
                                             <div class="row">
-                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" id="@items.C1">
-                                                            <label id="txtMCOne" tabindex="12">@items.C1</label>
+                                                            <input type="checkbox" id="@items.C1" class="checkBox_">
+                                                            <label id="txtMCOne">@items.C1</label>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -73,11 +73,11 @@
                                     <tr>
                                         <td>
                                             <div class="row">
-                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" id="@items.C2">
-                                                            <label id="txtMCTwo" tabindex="12">@items.C2</label>
+                                                            <input type="checkbox" id="@items.C2" class="checkBox_">
+                                                            <label id="txtMCTwo">@items.C2</label>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -87,11 +87,11 @@
                                     <tr>
                                         <td>
                                             <div class="row">
-                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" id="@items.C3">
-                                                            <label id="txtMCThree" tabindex="12">@items.C3</label>
+                                                            <input type="checkbox" id="@items.C3" class="checkBox_">
+                                                            <label id="txtMCThree">@items.C3</label>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -101,11 +101,11 @@
                                     <tr>
                                         <td>
                                             <div class="row">
-                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" id="@items.C4">
-                                                            <label id="txtMCFour" tabindex="12">@items.C4</label>
+                                                            <input type="checkbox" id="@items.C4" class="checkBox_">
+                                                            <label id="txtMCFour">@items.C4</label>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -119,7 +119,7 @@
                                         <td>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+                                                    <input type="radio" name="@items.C1" id="@items.C1" value="option1" class="radio_">
                                                     <label id="answer1">@items.C1</label>
                                                 </label>
                                             </div>
@@ -129,7 +129,7 @@
                                         <td>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                                                    <input type="radio" name="@items.C1" id="@items.C2" value="option2" class="radio_">
                                                     <label id="answer2">@items.C2</label>
                                                 </label>
                                             </div>
@@ -139,7 +139,7 @@
                                         <td>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+                                                    <input type="radio" name="@items.C1" id="@items.C3" value="option3" class="radio_">
                                                     <label id="answer3">@items.C3</label>
                                                 </label>
                                             </div>
@@ -149,7 +149,7 @@
                                         <td>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="optionsRadios" id="optionsRadios4" value="option4">
+                                                    <input type="radio" name="@items.C1" id="@items.C4" value="option4" class="radio_"> <!--optionsRadios-->
                                                     <label id="answer4">@items.C4</label>
                                                 </label>
                                             </div>
@@ -157,7 +157,6 @@
                                     </tr>
                                     <!--<div class="form-group margin"></div>-->
                                 }
-                                //}
                             }
                         }
                     </tbody>
@@ -203,7 +202,7 @@
         <div class="row">
             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10"></div>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <button class="btn btn-success btn-block" id="btnNext" onclick="getNextDataToLoad()">Save</button>
+                <button class="btn btn-success btn-block" id="btnNext" onclick="getQuestionID()">Save</button>
             </div>
         </div>
     </div>
@@ -228,8 +227,30 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal-Confirmation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <h3 class="text-center">Are you sure about your answers?</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="SaveAnswers()">Yes</button>
+                <button type="button" class="btn btn-default pull-right" onclick="cancelSaving()">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
-    var object = "";
+
+    var answers = new Array();
 
     $(document).ready(function () {
         $(document).ready(function () {
@@ -253,15 +274,18 @@
         var vars = {};
         var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
             vars[key] = value;
+            loadExamData(value);
+        });
+    }
 
-            $.ajax({
-                type: "POST",
-                url: "Exam/Exam",
-                data: { "CourseID": value },
-                success: function (response) {
-                    loadData(value);
-                }
-            });
+    var loadExamData = function (CourseID) {
+        $.ajax({
+            type: "POST",
+            url: "Exam/Exam",
+            data: { "CourseID": CourseID },
+            success: function (response) {
+                loadData(CourseID);
+            }
         });
     }
 
@@ -276,7 +300,6 @@
             url: "/Exam/GetFirstDataToLoad",
             data: { "CourseID": CourseID },
             success: function (response) {
-                debugger
                 if (response.res == "Video") {
                     $.ajax({
                         type: "POST",
@@ -336,5 +359,61 @@
             getSRC = document.getElementById("framePDF").src;
         }
 
+    }
+
+    $(".checkBox_").change(function () {
+        //if ($(".checkBox_:checked").length == $("checkBox_").length) {
+        //if (answers == "" || answers == " " || answers == null) {
+            answers.push(this.id);//answers = this.id;
+        //}
+        //else {
+        //    answers = answers + ',' + this.id;
+        //}
+        //}
+    });
+
+    $(".radio_").change(function () {
+        //if ($(".checkBox_:checked").length == $("checkBox_").length) {
+        //if (answers == "" || answers == " " || answers == null) {
+            answers.push(this.id);
+        //}
+        //else {
+        //    answers = answers + ',' + this.id;
+        //}
+        //}
+    });
+
+    var confirmation = function () {
+        if (answers == "" || answers == null) {
+            alert("Please answer all the questions");
+        }
+        else { $("#modal-Confirmation").modal('show'); }
+
+    }
+
+    var cancelSaving = function () {
+        answers = "";
+        $("#modal-Confirmation").modal('hide');
+    }
+
+    var SaveAnswers = function () {
+        $("#modal-Confirmation").modal('hide')
+        debugger
+        //var qID = new Array();//questionIDs;
+        //qID.push(questionIDs);
+        //var ansList = answers.split();
+
+        $.ajax({
+            type: "POST",
+            url: "/Exam/SaveEmployeeAnswers",
+            data: { "QuestionID": questionIDs, "Answers": answers },
+            success: function (response) {
+                alert(response.res);
+            }
+        });
+    }
+
+    var getQuestionID = function () {
+        alert(questionIDs); //+ "\n" + answers
     }
 </script>

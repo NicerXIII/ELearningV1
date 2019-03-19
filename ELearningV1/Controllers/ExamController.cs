@@ -214,7 +214,7 @@ namespace ELearningV1.Controllers
 
             }
 
-            string result = SQLcon.SaveExamAndQuestion(Question, QuestionType, Answer1, Answer2, Answer3, Answer4, CorrectAns1, EmployeeNumber ,CourseSecID , CourseID);
+            string result = SQLcon.SaveExamAndQuestion(Question, QuestionType, Answer1, Answer2, Answer3, Answer4, CorrectAns1, EmployeeNumber, CourseSecID, CourseID);
 
             var response = new JsonResult();
             response.Data = new
@@ -228,13 +228,13 @@ namespace ELearningV1.Controllers
         {
             var result = "";
             try
-            {   result = SQLcon.DeleteQuestion(ID); }
+            { result = SQLcon.DeleteQuestion(ID); }
             catch (Exception ex)
-            {   result = "false";   }
+            { result = "false"; }
 
             var response = new JsonResult();
             response.Data = new
-            {   res = result    };
+            { res = result };
             return response;
         }
 
@@ -343,7 +343,7 @@ namespace ELearningV1.Controllers
             //Check if OrderSec has a value
             if (CourseSectionOrder == "" || CourseSectionOrder == null || CourseSectionOrder == "0" || CourseSectionOrder == 0.ToString())
             {
-                loadData = SQLcon.getDataToLoad(CourseID,0).OrderBy(x => x.OrderSec).Select(x => x.Type).FirstOrDefault().ToString();
+                loadData = SQLcon.getDataToLoad(CourseID, 0).OrderBy(x => x.OrderSec).Select(x => x.Type).FirstOrDefault().ToString();
                 CourseSectionOrder = SQLcon.getDataToLoad(CourseID, 0).OrderBy(x => x.OrderSec).Select(x => x.OrderSec).FirstOrDefault().ToString();
                 Session["CourseSectionOrder"] = CourseSectionOrder;
             }
@@ -352,10 +352,10 @@ namespace ELearningV1.Controllers
                 loadData = SQLcon.getDataToLoad(CourseID, Convert.ToInt32(CourseSectionOrder)).OrderBy(x => x.OrderSec).Select(x => x.Type).FirstOrDefault().ToString();
             }
 
-            
+
             var response = new JsonResult();
             response.Data = new
-            {   res = loadData, };
+            { res = loadData, };
             return response;
         }
 
@@ -363,7 +363,7 @@ namespace ELearningV1.Controllers
         {
             var vidTitle = SQLcon.getVideoPath(CourseID).Select(x => x.Title).FirstOrDefault().ToString();
             var vidPath = SQLcon.getVideoPath(CourseID).Select(x => x.VideoPath).FirstOrDefault().ToString();
-            
+
             var responseVideo = new JsonResult();
             responseVideo.Data = new
             {
@@ -380,11 +380,42 @@ namespace ELearningV1.Controllers
 
             var responsePDF = new JsonResult();
             responsePDF.Data = new
-            {   
+            {
                 resTitlePDF = PDFTitle,
                 resPDF = PDFpath,
             };
             return responsePDF;
+        }
+
+        public ActionResult SaveEmployeeAnswers(string[] QuestionID, string[] Answers)
+        {
+            var result = "";
+            var user = Session["EmployeeNumber"].ToString();
+            var isCorrect = "";
+
+            string[] answerList = new string[] { };
+            string[] questIDList = new string[] { };
+
+            //answerList = Answers.Split(',');
+            //questIDList = QuestionID.Split(',');
+
+            foreach (var quest in QuestionID)
+            {
+                foreach (var ans in Answers)
+                {
+                    try
+                    { result = SQLcon.saveAnswers(quest, user, ans, isCorrect); }
+                    catch (Exception ex)
+                    { result = "false"; }
+                    break;
+                }
+            }
+            var response = new JsonResult();
+            response.Data = new
+            {
+                res = result
+            };
+            return response;
         }
         /**
         public JsonResult loadQuestionaire(string CourseID)
