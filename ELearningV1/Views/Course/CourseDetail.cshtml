@@ -41,7 +41,7 @@
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#activity" data-toggle="tab">Course</a></li>
-                <li><a href="#timeline" data-toggle="tab">Users</a></li>
+                <li><a href="#timeline" data-toggle="tab" onclick="ocLoadCourseUsers()">Users</a></li>
             </ul>
             <div class="tab-content">
 
@@ -105,7 +105,7 @@
                 </div>
 
                 <div class="tab-pane" id="timeline">
-                    <table id="AppCourseEmployeeList" class="table table-bordered table-striped" style="width:100%; min-height:100px; min-width:1170px; font-size:18px; font-weight:700;">
+                    <table id="CourseUserList" class="table table-bordered table-striped" style="width:100%; min-height:100px; min-width:1170px; font-size:18px; font-weight:700;">
                         <thead>
                             <tr>
                                 <th>Employee Number</th>
@@ -114,7 +114,7 @@
                                 <th>Completion Date</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody style="font-size:18px; font-weight:500;"></tbody>
                     </table>
                 </div>
             </div>
@@ -206,4 +206,76 @@
         }
 
     }
+
+    var ocLoadCourseUsers = function () {
+        BindDataTable();
+    }
+
+    var otable;
+    var BindDataTable = function () {
+        //if table exist
+        if ($.fn.DataTable.isDataTable("#CourseUserList")) {
+            //Clear table for redraw
+            otable.draw();
+        } else {
+            moment.tz.add("Asia/Manila|+08 +09|-80 -90|010101010|-1kJI0 AL0 cK10 65X0 mXB0 vX0 VK10 1db0|24e6");
+            otable = $("#CourseUserList").DataTable({
+                "bServerSide": true,
+                "processing": true,
+                "sAjaxSource": "/Course/LoadUserEnrolledList",
+                "fnServerData": function (sSource, aoData, fnCallback) {
+
+                    //For parameter
+                    var CourseID = $("#cID").val();
+                    aoData.push({ "name": "CourseID", "value": CourseID });
+
+                    $.ajax({
+                        type: "Get",
+                        data: aoData,
+                        url: sSource,
+                        success: fnCallback
+                    });
+                },
+                "aoColumns": [
+                    {
+                        "mData": "EmployeeNumber",
+                        "orderable": false,
+                        "className": "text-center", "targets": "_all",
+                        "width": "200px"
+                    },
+                    {
+                        "mData": "EmpName",
+                        "orderable": false
+                    },
+                    {
+                        "mData": "Department",
+                        "orderable": false
+                    },
+                    {
+                        "mData": "CompletionDate",
+                        "orderable": false,
+                        "className": "text-center", "targets": "_all",
+                        "width": "200px",
+                        render: function (CompletionDate, type, row) {
+                            if (type === "sort" || type === "type") {
+                                return CompletionDate;
+                            }
+                            return moment.tz(CompletionDate, 'Asia/Manila').format("MM/DD/YYYY");
+                        }
+                    }
+                ],
+                responsive: true,
+                select: { style: 'single' },
+                "bInfo": true,
+                "searching": false,
+                "bPaginate": false,
+                "sScrollY": "300",
+                "scrollX": true,
+                "bScrollCollapse": false,
+                "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]]
+            });
+        }
+    }
+
+
 </script>

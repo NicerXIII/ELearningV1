@@ -258,6 +258,41 @@ namespace ELearningV1.Models
             return null;
         }
 
+        public VMViewCourseUserList ViewCourseUserByCourseID(string CourseID)
+        {
+            VMViewCourseUserList CourseUserList = new VMViewCourseUserList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("GetCourseEnrolledUsers", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@CourseID", CourseID);
+                        SqlDataReader dr = cmd.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+                            VMViewCourseUser courseUser = new VMViewCourseUser();
+                            courseUser.EmployeeNumber = Convert.ToString(dr["EmployeeNumber"]);
+                            courseUser.EmpName = Convert.ToString(dr["EmpName"]);
+                            courseUser.Department = Convert.ToString(dr["Department"]);
+                            courseUser.CompletionDate = Convert.ToDateTime(dr["CompletionDate"]);
+                            CourseUserList.Add(courseUser);
+                        }
+                        return CourseUserList;
+                    }
+                    catch (Exception ex)
+                    { }
+                    finally
+                    { con.Close(); }
+                }
+            }
+
+            return null;
+        }
+
         public VMViewCoursesList ViewCoursesByName(string UserID, string CName)
         {
             VMViewCoursesList CourseList = new VMViewCoursesList();
@@ -499,6 +534,44 @@ namespace ELearningV1.Models
                     { con.Close(); }
                 }
             }
+        }
+
+        public VMELearningCousesProgressList ViewUserDataByYear(string Year1)
+        {
+            VMELearningCousesProgressList CourseProgressList = new VMELearningCousesProgressList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("Select * From ELearningCourseProgress Where YEAR(EnrolledDate) = '" + Year1 + "'", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        SqlDataReader dr = cmd.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+                            VMELearningCousesProgress courseProg = new VMELearningCousesProgress();
+                            courseProg.ID = Convert.ToInt32(dr["ID"]);
+                            courseProg.EmployeeNumber = Convert.ToString(dr["EmployeeNumber"]);
+                            courseProg.CourseID = Convert.ToInt32(dr["CourseID"]);
+                            courseProg.Progress = Convert.ToInt32(dr["Progress"]);
+                            courseProg.Score = Convert.ToInt32(dr["Score"]);
+                            courseProg.EnrolledDate = Convert.ToDateTime(dr["EnrolledDate"]);
+                            courseProg.CompletionDate = Convert.ToDateTime(dr["CompletionDate"]);
+                            courseProg.ConsumedTime = Convert.ToInt32(dr["ConsumedTime"]);
+                            CourseProgressList.Add(courseProg);
+                        }
+                        return CourseProgressList;
+                    }
+                    catch (Exception ex)
+                    { }
+                    finally
+                    { con.Close(); }
+                }
+            }
+
+            return null;
         }
         #endregion
 

@@ -5,7 +5,7 @@
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>8</h3>
+                    <h3 id="CIP">8</h3>
                     <p>Course in Progress</p>
                 </div>
                 <div class="icon">
@@ -19,7 +19,7 @@
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>0</h3>
+                    <h3 id="CC">0</h3>
                     <p>Completed Courses</p>
                 </div>
                 <div class="icon">
@@ -33,7 +33,7 @@
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>44</h3>
+                    <h3 id="PA">44</h3>
                     <p>Passed Agent</p>
                 </div>
                 <div class="icon">
@@ -47,7 +47,7 @@
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>1</h3>
+                    <h3 id="INC">1</h3>
                     <p>Incompleted Course</p>
                 </div>
                 <div class="icon">
@@ -111,12 +111,12 @@
 
     <div class="row">
         <div class="col-md-8 col-xs-12">
-            <div>
+            @*<div>
                 <form class="form-inline">
                     <button type="button" class="btn btn-default"><span class="fa fa-arrow-left"></span> Prev</button>
                     <button type="button" class="btn btn-default pull-right">Next <span class="fa fa-arrow-right"></span></button>
                 </form>
-            </div>
+            </div>*@
 
 
             <div id="UserActivity"></div>
@@ -137,6 +137,7 @@
             url: "/Home/GetSession",
             data: {},
             success: function (response) {
+                PanelBoxStatus();
                 UserActivityChart();
                 UserProgressActivity();
                 BindDataTable();
@@ -147,6 +148,22 @@
 
         });
     });
+
+    var PanelBoxStatus = function () {
+        $.ajax({
+            type: "POST",
+            url: "/Home/LoadPanelBoxData",
+            data: { },
+            success: function (response) {
+                $("#CIP").text(response._cip);
+                $("#CC").text(response._cc);
+                $("#PA").text(response._pa);
+                $("#INC").text(response._inc);
+            },
+            error: function (response) { }
+        });
+    }
+
 
     var UserActivityChart = function () {
         $.ajax({
@@ -206,44 +223,57 @@
     }
     //-------------------------DONUT--------------------------------------//
     var UserProgressActivity = function () {
-        var pieColors = ['#1E90FF', '#FFFFFF'];
 
+        $.ajax({
+            type: "POST",
+            url: "/Home/LoadUserProgressAndStatus",
+            data: { },
+            success: function (response) {
+                var pieColors = ['#1E90FF', '#FFFFFF'];
 
-        chart = new Highcharts.Chart({
-            chart: {
-                renderTo: 'ProGressAct',
-                type: 'pie'
+                chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'ProGressAct',
+                        type: 'pie'
+                    },
+                    title: {
+                        text: 'Course Progress'
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Total percent market share'
+                        }
+                    },
+                    plotOptions: {
+                        pie: {
+                            colors: pieColors,
+                            shadow: false
+                        }
+                    },
+                    tooltip: {
+                        formatter: function () {
+                            return '<b>' + this.point.name + '</b>: ' + this.y + ' %';
+                        }
+                    },
+                    series: [{
+                        name: 'Browsers',
+                        data: [["Progress", response._tCurrentPer], ["Remaining", response._tRemnainPer]],
+                        size: '60%',
+                        innerSize: '50%',
+                        showInLegend: true,
+                        dataLabels: {
+                            enabled: false
+                        }
+                    }]
+                });
             },
-            title: {
-                text: 'Course Progress'
-            },
-            yAxis: {
-                title: {
-                    text: 'Total percent market share'
-                }
-            },
-            plotOptions: {
-                pie: {
-                    colors: pieColors,
-                    shadow: false
-                }
-            },
-            tooltip: {
-                formatter: function () {
-                    return '<b>' + this.point.name + '</b>: ' + this.y + ' %';
-                }
-            },
-            series: [{
-                name: 'Browsers',
-                data: [["Progress", 7], ["Remaining", 3]],
-                size: '60%',
-                innerSize: '50%',
-                showInLegend: true,
-                dataLabels: {
-                    enabled: false
-                }
-            }]
+            error: function (response) { }
         });
+
+
+
+
+        
 
     }
     
@@ -282,7 +312,7 @@
                         "orderable": false,
                         "className": "dt-center", "targets": "_all",
                         "render": function (Progress, type, full, meta) {
-                            return '<div class="progress progress-striped"><div class="progress-bar progress-bar-light-blue" style="width: ' + Progress + '%; border-radius:5px; color:black;" align="center">' + Progress +'%</div></div>';
+                            return '<div class="progress progress-striped"><div class="progress-bar progress-bar-green" style="width: ' + Progress + '%; border-radius:5px; color:black;" align="center">' + Progress +'%</div></div>';
                         }
                     },
                     {
