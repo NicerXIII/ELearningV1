@@ -172,14 +172,13 @@
                 <video id="videoTuitorial" controls width="1000" height="500"></video>
             </div>
         </div>
-
         <div class="box box-primary" id="divPDF" style="display:none;">
             <div class="box-header with-border">
                 <h3 class="box-title" id="boxTitlePDF"></h3>
             </div>
             <div class="box-body">
                 <div class="text-center">
-                    <iframe id="framePDF" width="1000" height="500"></iframe> <!-- src="~/Content/CROSSFIRE.PDF"-->
+                    <embed id="framePDF" width="100%" height="500" name="plugin" type="application/pdf" /> <!-- src="~/Content/CROSSFIRE.PDF"-->
                 </div>
             </div>
         </div>
@@ -191,27 +190,34 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-                        <label style="font-size:large;font-weight:400">You completed this course on </label><label id="labelDateCompleted" style="font-size:large;font-weight:400"> 3-18-2019 4:15pm</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
-                        <h4>Total # of questions: </h4>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-left">
-                        <h4 id="labelNoQuestion">15</h4>
+                        <label style="font-size:large;font-weight:400">Total # of questions: </label> <label id="labelNoQuestion" style="font-size:large;font-weight:400"></label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-                        <label style="font-size:large;font-weight:400">Your score is </label><label id="labelDateCompleted" style="font-size:large;font-weight:400">89%</label>
+                        <label style="font-size:large;font-weight:400">Your score is </label> <label id="labelScore" style="font-size:large;font-weight:400"></label>
                     </div>
                 </div>
-                <div class="panel panel-success" id="panelPositive">
-                    <p style="padding:10px">Congratulations! You are ready to start creating your own courses.</p>
+                <div class="panel panel-success" id="panelPositive" style="display:none;">
+                    <p style="padding:10px;font-size:large;font-weight:400;">Congratulations! You are ready to start creating your own courses.</p>
                 </div>
-                <div class="panel panel-danger" id="panelNegative">
-                    <p style="padding:10px">Maybe you should watch the video tutorials again. If you have any questions please feel free to contact the support team through the Help section! You can redo this test as many times as you want.</p>
+                <div class="panel panel-danger" id="panelNegative" style="display:none;">
+                    <p style="padding:10px;font-size:large;font-weight:400">Maybe you should watch the video tutorials again. If you have any questions please feel free to contact the support team through the Help section! You can redo this test as many times as you want.</p>
+                </div>
+            </div>
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8"></div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <select id="ddChoices" class="form-control select2" style="width: 100%;">
+                            <option value="0" selected>Select action</option>
+                            <option value="1">Re-take exam</option>
+                            <option value="2">Exit</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <button type="button" class="btn btn-success btn-block" onclick="Decision()">Ok</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -340,12 +346,13 @@
         var dPDF = document.getElementById("divPDF");
         var dScoring = document.getElementById("divScoring");
 
+        var iFrameVideo = document.getElementById("videoTuitorial");
+
         var btnExam = document.getElementById("btnNext");
         var btnVideo = document.getElementById("btnProceedVideo");
         var btnPDF = document.getElementById("btnProceedPDF");
 
         var CourseSec = $("#CourSecID").val();
-        debugger
         var OrderNo = $("#SectionOrderNo").val();
         if (OrderNo == "") {
             OrderNo = 0;
@@ -356,7 +363,6 @@
             url: "/Exam/GetDataToLoad",
             data: { "CourseID": CourseID, "PreviousOrderSec": OrderNo },
             success: function (response) {
-                debugger
                 $("#SectionOrderNo").val(response._currentSectionOrder);
 
                 if (response.res == "Video") {
@@ -366,13 +372,15 @@
                         data: { "CourseID": CourseID },
                         success: function (responseVideo) {
                             dVideo.style.display = "block";
+                            btnVideo.style.display = "block"
+
                             dPDF.style.display = "none";
                             dExam.style.display = "none";
                             dScoring.style.display = "none";
 
-                            btnVideo.style.display = "block"
                             btnExam.style.display = "none"
                             btnPDF.style.display = "none";
+
                             var text = "Save";
                             document.getElementById("btnNext").innerHTML = text;
 
@@ -388,17 +396,20 @@
                         url: "/Exam/loadPDF",
                         data: { "CourseID": CourseID },
                         success: function (responsePDF) {
+                            iFrameVideo.pause();
+
+                            $("#boxTitlePDF").text(responsePDF.resTitlePDF);
+                            document.getElementById("framePDF").src = responsePDF.resPDF;
+
                             dPDF.style.display = "block";
+                            btnPDF.style.display = "block"
+
                             dVideo.style.display = "none";
                             dExam.style.display = "none";
                             dScoring.style.display = "none";
 
-                            btnPDF.style.display = "block"
                             btnExam.style.display = "none"
                             btnVideo.style.display = "none";
-
-                            $("#boxTitlePDF").text(responsePDF.resTitlePDF);
-                            document.getElementById("framePDF").src = responsePDF.resPDF;
                         }
                     });
                 }
@@ -410,6 +421,8 @@
                     dExam.style.display = "block";
                     dScoring.style.display = "none";
 
+                    iFrameVideo.pause();
+
                     btnExam.style.display = "block"
                     btnVideo.style.display = "none";
                     btnPDF.style.display = "none";
@@ -417,20 +430,36 @@
                 }
 
                 //For scoring
-                else {
+                else if (response.res == "Scoring") {
+                    iFrameVideo.pause();
+                    dScoring.style.display = "block";
+                    dPDF.style.display = "none";
+                    dVideo.style.display = "none";
+                    dExam.style.display = "none";
+
+                    btnExam.style.display = "none"
+                    btnVideo.style.display = "none";
+                    btnPDF.style.display = "none";
+
                     $.ajax({
                         type: "POST",
                         url: "/Exam/getScoreofEmployeeExam",
                         data: { "CourseID": CourseID, "CourseSectionID": CourseSec },
-                        success: function (response) {
+                        success: function (responseScore) {
+                            var a = document.getElementById("panelPositive");
+                            var b = document.getElementById("panelNegative");
 
+                            $("#labelNoQuestion").text(responseScore._questionCount);
+                            $("#labelScore").text(responseScore._score + "%");
+
+                            if (responseScore._score <= 74) {
+                                b.style.display = "block";
+                            }
+                            else if (responseScore._score >= 75) {
+                                a.style.display = "block";
+                            }
                         }
                     });
-
-                    dPDF.style.display = "none";
-                    dVideo.style.display = "none";
-                    dExam.style.display = "none";
-                    dScoring.style.display = "block";
                 }
             },
         });
@@ -438,7 +467,6 @@
     }
 
     var getNextDataToLoad = function () {
-        debugger
         var dVideo = document.getElementById("divVIDEO");
         var dPDF = document.getElementById("divPDF");
         var dExam = document.getElementById("divEXAM");
@@ -450,7 +478,6 @@
     }
 
     $(".checkBox_").change(function () {
-        debugger
         var a;
         for (a = 0; a <= answers.length; a++) {
             if (this.value == answers[a]) {
@@ -461,7 +488,6 @@
     });
 
     $(".radio_").change(function () {
-        debugger
         // for employe who change their answer
         var a;
         for (a = 0; a <= answers.length; a++) {
@@ -497,6 +523,35 @@
         $("#modal-Confirmation").modal('hide');
     }
 
+    var getQuestionID = function () {
+        debugger
+        var rows = document.getElementsByTagName("tbody")[0].rows; //document.getElementById("tbody").rows.length; //
+
+        for (var i = 0; i < rows.length; i++) {
+
+            var chk = document.getElementsByTagName("input")[i].getAttribute("name");
+
+            //Check if chk is null
+            if (chk == null || chk == "" || chk == " ") { }
+
+            else {
+                if (chk == "q") {
+
+                }
+                else {
+                    var value = chk.match(/\d/g);//chk.slice(-1);
+                    value = value.join("");
+
+                    var result = Arrayid.includes(value);
+                    if (result == false) {
+                        Arrayid.push(value);
+                    }
+                    else { }
+                }
+            }
+        }
+    }
+
     var SaveAnswers = function () {
         $("#modal-Confirmation").modal('hide')
         debugger
@@ -514,43 +569,52 @@
         });
     }
 
-    var getQuestionID = function () {
-        //debugger
-        var rows = document.getElementsByTagName("tbody")[0].rows; //document.getElementById("tbody").rows.length; //
+    var Decision = function () {
+        var selected = $("#ddChoices option:selected").val();
+        var CourseSec = $("#CourSecID").val();
 
-        for (var i = 0; i < rows.length; i++) {
+        var dExam = document.getElementById("divEXAM");
+        var dVideo = document.getElementById("divVIDEO");
+        var dPDF = document.getElementById("divPDF");
+        var dScoring = document.getElementById("divScoring");
 
-            var chk = document.getElementsByTagName("input")[i].getAttribute("name");
+        var iFrameVideo = document.getElementById("videoTuitorial");
 
-            //Check if chk is null
-            if (chk == null || chk == "" || chk == " ") { }
+        var btnExam = document.getElementById("btnNext");
+        var btnVideo = document.getElementById("btnProceedVideo");
+        var btnPDF = document.getElementById("btnProceedPDF");
 
-            else {
-                var value = chk.slice(-1);
+        if (selected == "1") {
+            $.ajax({
+                type: "POST",
+                url: "/Exam/EmpResetAnswer",
+                data: { "CourseSecID": CourseSec },
+                success: function (responseReset) {
+                    if (responseReset.res == "true") {
+                        $("#modal-info").modal("show");
+                        dExam.style.display = "block";
+                        dPDF.style.display = "none";
+                        dVideo.style.display = "none";
+                        dScoring.style.display = "none";
 
-                for (var data = 0; data <= Arrayid.length; data++) {
-                    if (value == Arrayid[data]) {
-                        //do nothing because same data already inserted
+                        iFrameVideo.pause();
+
+                        btnExam.style.display = "block"
+                        btnVideo.style.display = "none";
+                        btnPDF.style.display = "none";
+                        getQuestionID();
+
+                        //Clearing checkbox and radio button
+                        document.getElementById("chckMCOne").checked = false;
+                        document.getElementById("chckMCTwo").checked = false;
+                        document.getElementById("chckMCThree").checked = false;
+                        document.getElementById("chckMCFour").checked = false;
                     }
-                    else {
-                        if (chk.startsWith("chk") == true) {
-                            //Arrayid.every((value, i, Arrayid) => value === Arrayid[0]);
-
-                            Arrayid.push(value);
-                        }
-                        else if (chk.startsWith("rd") == true) {
-                            Arrayid.push(value);
-                        }
-
-                        //not checkbox and radiobutton
-                        else {
-                            //Arrayid.push(chk+' -TRASH');
-                        }
-                    }
-                    break;
                 }
-            }
+            });
+        }
+        else if (selected == "2") {
+            window.location.href = "../Home/Index";
         }
     }
-
 </script>

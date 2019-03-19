@@ -352,7 +352,7 @@ namespace ELearningV1.Controllers
                 CourseSectionOrder = SQLcon.getDataToLoad(CourseID, PreviousOrderSec).OrderBy(x => x.OrderSec).Select(x => x.OrderSec).FirstOrDefault().ToString();
             }
             else
-            {   loadData = ""; CourseSectionOrder = ""; }
+            {   loadData = "Scoring"; CourseSectionOrder = null; }
 
             var response = new JsonResult();
             response.Data = new
@@ -436,7 +436,6 @@ namespace ELearningV1.Controllers
         
         public ActionResult getScoreofEmployeeExam(string CourseID, string CourseSectionID)
         {
-            string user = Session["EmployeeNumber"].ToString();
             List<VMGetAnswers> GetCorrectAnswerFromDB = new List<VMGetAnswers>();
             List<VMGetEmployeeAnswers> GetEmployeeAnswer = new List<VMGetEmployeeAnswers>();
             List<VMGetQuestionID> QuestionID = SQLcon.getQuestListByCourseSec(CourseSectionID).Select(x => new VMGetQuestionID{   QuestionID = x.QuestionID  }).ToList();
@@ -444,6 +443,9 @@ namespace ELearningV1.Controllers
             List<string> QuestIDFromDB = new List<string>();
             List<string> CorrectAnsFromDB = new List<string>();
             List<string> EmployeeAns = new List<string>();
+            List<int> IsCorrect = new List<int>();
+
+            string user = Session["EmployeeNumber"].ToString();
 
             #region Getting QuestionID | Correct Answer | Employee Answer
             //Get the list of QUESTION ID
@@ -461,20 +463,49 @@ namespace ELearningV1.Controllers
                     var result = a.Answers.Split(',');
                     foreach (var result2 in result)
                     { CorrectAnsFromDB.Add(result2); }
-                    //break;
                 }
 
-                foreach (var b in GetEmployeeAnswer)
-                {   EmployeeAns.Add(b.EmployeeAnswer.ToString());   }
+                //To avoid redundancy of inserting answers
+                if (EmployeeAns.Count <= 0) //!EmployeeAns.Any()
+                {
+                    foreach (var b in GetEmployeeAnswer)
+                    { EmployeeAns.Add(b.EmployeeAnswer.ToString()); }
+                }                
             }
             #endregion
 
+            foreach (var EmpAns in EmployeeAns)
+            {
+                if (CorrectAnsFromDB.Contains(EmpAns))
+                {   IsCorrect.Add(1);   }
+            }
+
+            int sum = IsCorrect.Sum();
+            decimal score = Decimal.Divide(sum,QuestIDFromDB.Count());//(sum / QuestIDFromDB.Count());
+            decimal finalScore = score * 100;
 
             var responseScore = new JsonResult();
             responseScore.Data = new
             {
+                _score = finalScore,
+                _questionCount = QuestIDFromDB.Count().ToString()
             };
             return responseScore;
+        }
+
+        public ActionResult EmpResetAnswer(string CourseSecID)
+        {
+            var user = Session["EmployeeNumber"].ToString();
+            var result = "";
+            try
+            { result = SQLcon.EmployeeResetAnswer(user, CourseSecID); }
+            catch (Exception ex)
+            { result = "false"; }
+
+            var responseReset = new JsonResult();
+            responseReset.Data = new
+            { res = result };
+            return responseReset;
         }
         /**
         public JsonResult loadQuestionaire(string CourseID)

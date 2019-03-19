@@ -696,6 +696,28 @@ namespace ELearningV1.Models
 
             return null;
         }
+
+        public string EmployeeResetAnswer(string EmployeeNumber, string CourseSec)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand com = new SqlCommand("ELearningResetEmployeeAnswer", con))
+                {
+                    try
+                    {
+                        com.CommandType = CommandType.StoredProcedure;
+                        com.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                        com.Parameters.AddWithValue("@CourseSection", CourseSec);
+                        con.Open();
+                        com.ExecuteNonQuery();
+                        con.Close();
+                    }
+                    catch (Exception ex)
+                    { return ex.Message; }
+                }
+            }
+            return "true";
+        }
         #endregion
 
         #region Getting Questions and answers

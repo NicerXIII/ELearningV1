@@ -868,7 +868,6 @@ var changeQuestOrderNo = function (ID) {
 }
 
 var StartTuitorialExam = function () {
-    debugger
     var getCourseID = $("#courseID1").val();
     var secID = $("#sectionID").val();
     //alert(getCourseID);
