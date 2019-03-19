@@ -436,27 +436,39 @@ namespace ELearningV1.Controllers
         
         public ActionResult getScoreofEmployeeExam(string CourseID, string CourseSectionID)
         {
-            List<VMGetAnswers> GetAnswerFromDB = new List<VMGetAnswers>();
+            string user = Session["EmployeeNumber"].ToString();
+            List<VMGetAnswers> GetCorrectAnswerFromDB = new List<VMGetAnswers>();
+            List<VMGetEmployeeAnswers> GetEmployeeAnswer = new List<VMGetEmployeeAnswers>();
             List<VMGetQuestionID> QuestionID = SQLcon.getQuestListByCourseSec(CourseSectionID).Select(x => new VMGetQuestionID{   QuestionID = x.QuestionID  }).ToList();
 
             List<string> QuestIDFromDB = new List<string>();
-            List<string> AnsFromDB = new List<string>();
+            List<string> CorrectAnsFromDB = new List<string>();
+            List<string> EmployeeAns = new List<string>();
 
+            #region Getting QuestionID | Correct Answer | Employee Answer
             //Get the list of QUESTION ID
             foreach (var data in QuestionID)
-            {   QuestIDFromDB.Add(data.QuestionID.ToString());  }
+            { QuestIDFromDB.Add(data.QuestionID.ToString()); }
 
             //Get the CORRECT ANSWER from DB
             foreach (var questID in QuestIDFromDB)
-            {   GetAnswerFromDB = SQLcon.getAnsList(questID).Select(x => new VMGetAnswers { Answers = x.Answers }).ToList();
-                foreach (var a in GetAnswerFromDB)
+            {
+                GetCorrectAnswerFromDB = SQLcon.getAnsList(questID).Select(x => new VMGetAnswers { Answers = x.Answers }).ToList();
+                GetEmployeeAnswer = SQLcon.getEmployeeAnswer(user,questID).Select(x => new VMGetEmployeeAnswers { EmployeeAnswer = x.EmployeeAnswer }).ToList();
+
+                foreach (var a in GetCorrectAnswerFromDB)
                 {
                     var result = a.Answers.Split(',');
-                    foreach(var result2 in result)
-                    {   AnsFromDB.Add(result2); }
+                    foreach (var result2 in result)
+                    { CorrectAnsFromDB.Add(result2); }
                     //break;
                 }
+
+                foreach (var b in GetEmployeeAnswer)
+                {   EmployeeAns.Add(b.EmployeeAnswer.ToString());   }
             }
+            #endregion
+
 
             var responseScore = new JsonResult();
             responseScore.Data = new

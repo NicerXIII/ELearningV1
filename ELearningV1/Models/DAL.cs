@@ -1012,6 +1012,44 @@ namespace ELearningV1.Models
             }
             return null;
         }
+
+        public EmployeeAnswersList getEmployeeAnswer(string EmployeeNumber, string QID)
+        {
+            EmployeeAnswersList AnswerList = new EmployeeAnswersList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningGetEmployeeAnswers", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                            cmd.Parameters.AddWithValue("@QuestionID", QID);
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                VMGetEmployeeAnswers question = new VMGetEmployeeAnswers();
+                                question.EmployeeAnswer = dr["EmployeeAnswer"].ToString();
+                                AnswerList.Add(question);
+                            }
+                            return AnswerList;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+            return null;
+        }
         #endregion
     }
 }
