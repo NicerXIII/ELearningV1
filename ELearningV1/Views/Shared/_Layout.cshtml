@@ -62,7 +62,7 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <!-- Messages: style can be found in dropdown.less-->
-                    <li class="dropdown messages-menu">
+                    @*<li class="dropdown messages-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-address-book-o"></i>
                             <span class="label label-success">4</span>
@@ -73,30 +73,14 @@
                                 <ul class="menu" align="center">
                                     <li>
                                         <a href="#" class="text-black">
-                                            <i class="fa fa-users"></i> My Info
+                                            <i class="fa fa-users"></i> Agent Status
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="#" class="text-black">
-                                            <i class="fa fa-warning"></i> My Courses
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="text-black">
-                                            <i class="fa fa-users"></i> My Progress
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="text-black">
-                                            <i class="fa fa-shopping-cart"></i> My Group
-                                        </a>
-                                    </li>
-
                                     <!-- end message -->
                                 </ul>
                             </li>
                         </ul>
-                    </li>
+                    </li>*@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -180,13 +164,29 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="#/" onclick="addCourse()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> New Course</a></li>
+                    @try
+                    {
+                        if (Session["EmployeePositionName"].ToString() == "Web Developer" || Session["EmployeePositionName"].ToString() == "Senior QA")
+                        {
+                            <li><a href="#/" onclick="addCourse()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> New Course</a></li>
+                        }
+                    }
+                    catch (Exception ex) { }
+
                     <li><a href="#/" onclick="viewCourse()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> View Courses</a></li>
                     <!--<li><a href="#/" onclick="Exams()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> Exams</a></li>-->
                 </ul>
             </li>
-            <li><a href="#/"><i class="fa fa-group"></i> <span>JOIN GROUP</span></a></li>
-            <li class="treeview">
+            @try
+            {
+                if (Session["EmployeePositionName"].ToString() == "Web Developer" || Session["EmployeePositionName"].ToString() == "Senior QA")
+                {
+                    <li><a href="#/"><i class="fa fa-group"></i> <span>AGENTS DATA</span></a></li>
+                }
+            }
+            catch (Exception ex) { }
+
+            @*<li class="treeview">
                 <a href="#/">
                     <i class="fa fa-cloud"></i> <span>DISCUSSION</span>
                     <span class="pull-right-container">
@@ -197,7 +197,7 @@
                     <li><a href="#/"><i class="fa fa-arrow-circle-o-right"></i> New Discussion</a></li>
                     <li><a href="#/"><i class="fa fa-arrow-circle-o-right"></i> View Discussion</a></li>
                 </ul>
-            </li>
+            </li>*@
         </ul>
     </section>
     <!-- /.sidebar -->
