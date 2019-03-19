@@ -6,14 +6,17 @@ using System.Web.Mvc;
 using ELearningV1.Models;
 using ELearningV1.Models.ViewModel;
 using KioskVersion3.Models.ViewModel;
+//
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace ELearningV1.Controllers
 {
     public class ExamController : Controller
     {
         DAL SQLcon = new DAL();
-
-        string CourseSectionOrder = "";
+        
         string QuestOrder = "";
 
         #region Done by boss Tiqius
@@ -337,25 +340,25 @@ namespace ELearningV1.Controllers
             return View("Exam", cList);
         }
 
-        public ActionResult GetFirstDataToLoad(string CourseID)
+        public ActionResult GetDataToLoad(string CourseID, int PreviousOrderSec)
         {
             var loadData = "";
-            //Check if OrderSec has a value
-            if (CourseSectionOrder == "" || CourseSectionOrder == null || CourseSectionOrder == "0" || CourseSectionOrder == 0.ToString())
+            var CourseSectionOrder = "";
+            var dataCount = SQLcon.getDataToLoad(CourseID, PreviousOrderSec).Count();
+
+            if(dataCount > 0)
             {
-                loadData = SQLcon.getDataToLoad(CourseID, 0).OrderBy(x => x.OrderSec).Select(x => x.Type).FirstOrDefault().ToString();
-                CourseSectionOrder = SQLcon.getDataToLoad(CourseID, 0).OrderBy(x => x.OrderSec).Select(x => x.OrderSec).FirstOrDefault().ToString();
-                Session["CourseSectionOrder"] = CourseSectionOrder;
+                loadData = SQLcon.getDataToLoad(CourseID, PreviousOrderSec).OrderBy(x => x.OrderSec).Select(x => x.Type).FirstOrDefault().ToString();
+                CourseSectionOrder = SQLcon.getDataToLoad(CourseID, PreviousOrderSec).OrderBy(x => x.OrderSec).Select(x => x.OrderSec).FirstOrDefault().ToString();
             }
             else
-            {
-                loadData = SQLcon.getDataToLoad(CourseID, Convert.ToInt32(CourseSectionOrder)).OrderBy(x => x.OrderSec).Select(x => x.Type).FirstOrDefault().ToString();
-            }
-
+            {   loadData = ""; CourseSectionOrder = ""; }
 
             var response = new JsonResult();
             response.Data = new
-            { res = loadData, };
+            {   res = loadData,
+                _currentSectionOrder = CourseSectionOrder
+            };
             return response;
         }
 
@@ -389,16 +392,28 @@ namespace ELearningV1.Controllers
 
         public ActionResult SaveEmployeeAnswers(string[] QuestionID, string[] Answers)
         {
-            var result = "";
             var user = Session["EmployeeNumber"].ToString();
-            var isCorrect = "";
+            var AnswerfromDB = "";
+            string[] AnswersfromDB = new string[] { };
 
-            string[] answerList = new string[] { };
-            string[] questIDList = new string[] { };
+            var QuestionIDfromDB = "";
+            string[] QuestionIDsfromDB = new string[] { };
+            var result = "";
 
-            //answerList = Answers.Split(',');
-            //questIDList = QuestionID.Split(',');
+            foreach (var qID in QuestionID)
+            {
+                AnswerfromDB = SQLcon.getAnsList(qID).Select(x => x.Answers).FirstOrDefault().ToString();
+                AnswersfromDB = AnswerfromDB.Split(',');
+                foreach (var ans in Answers)
+                {
+                    if (AnswersfromDB.Contains(ans))
+                    {   result = SQLcon.saveAnswers(qID,user,ans,"Y");   }
+                    else
+                    {   result = SQLcon.saveAnswers(qID, user, ans, "N");}
+                }
+            }
 
+            /**
             foreach (var quest in QuestionID)
             {
                 foreach (var ans in Answers)
@@ -410,12 +425,44 @@ namespace ELearningV1.Controllers
                     break;
                 }
             }
+            **/
             var response = new JsonResult();
             response.Data = new
             {
                 res = result
             };
             return response;
+        }
+        
+        public ActionResult getScoreofEmployeeExam(string CourseID, string CourseSectionID)
+        {
+            List<VMGetAnswers> GetAnswerFromDB = new List<VMGetAnswers>();
+            List<VMGetQuestionID> QuestionID = SQLcon.getQuestListByCourseSec(CourseSectionID).Select(x => new VMGetQuestionID{   QuestionID = x.QuestionID  }).ToList();
+
+            List<string> QuestIDFromDB = new List<string>();
+            List<string> AnsFromDB = new List<string>();
+
+            //Get the list of QUESTION ID
+            foreach (var data in QuestionID)
+            {   QuestIDFromDB.Add(data.QuestionID.ToString());  }
+
+            //Get the CORRECT ANSWER from DB
+            foreach (var questID in QuestIDFromDB)
+            {   GetAnswerFromDB = SQLcon.getAnsList(questID).Select(x => new VMGetAnswers { Answers = x.Answers }).ToList();
+                foreach (var a in GetAnswerFromDB)
+                {
+                    var result = a.Answers.Split(',');
+                    foreach(var result2 in result)
+                    {   AnsFromDB.Add(result2); }
+                    //break;
+                }
+            }
+
+            var responseScore = new JsonResult();
+            responseScore.Data = new
+            {
+            };
+            return responseScore;
         }
         /**
         public JsonResult loadQuestionaire(string CourseID)

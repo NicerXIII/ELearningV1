@@ -13,6 +13,101 @@ namespace ELearningV1.Models
     {
         string Cons = ConfigurationManager.ConnectionStrings["PayRollCon"].ConnectionString;
 
+        #region LogIn
+        public VMKioskLogInUserList KioskLogInUserData(string EmpNum, string Password)
+        {
+            VMKioskLogInUserList UserDataList = new VMKioskLogInUserList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("EmployeeKioskLoginUser", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@EmployeeNumber", EmpNum);
+                        cmd.Parameters.AddWithValue("@Password", Password);
+                        SqlDataReader dr = cmd.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+                            VMKioskLogInUser UserData = new VMKioskLogInUser();
+                            UserData.EmployeeNumber = Convert.ToString(dr["EmployeeNumber"]);
+                            UserData.EmployeeName = Convert.ToString(dr["EmployeeName"]);
+                            UserData.Department = Convert.ToString(dr["Department"]);
+                            UserData.Position = Convert.ToString(dr["Position_name"]);
+                            UserData.ReportTo = Convert.ToString(dr["ReportTo"]);
+                            UserDataList.Add(UserData);
+                        }
+                        return UserDataList;
+                    }
+                    catch (Exception ex)
+                    { }
+                    finally
+                    { con.Close(); }
+                }
+            }
+            return null;
+        }
+
+        public VMELearnEmpDataList FBLoadLeftPanel(string EmpID)
+        {
+            VMELearnEmpDataList EmpDataList = new VMELearnEmpDataList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("Select * From fuzeEmpData1 Where EmployeeNumber = '" + EmpID + "' ", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        SqlDataReader dr = cmd.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+                            VMELearnEmpData empData = new VMELearnEmpData();
+                            empData.EmployeeNumber = Convert.ToString(dr["EmployeeNumber"]);
+                            empData.EmpName = Convert.ToString(dr["EmpName"]);
+                            empData.EmpImage = Convert.ToString(dr["EmpImage"]);
+                            empData.PEarned = Convert.ToInt32(dr["PEarned"]);
+                            empData.PGranted = Convert.ToInt32(dr["PGranted"]);
+                            empData.PBalance = Convert.ToInt32(dr["PBalance"]);
+                            empData.IsAdmin = Convert.ToBoolean(dr["IsAdmin"]);
+                            EmpDataList.Add(empData);
+                        }
+                        return EmpDataList;
+                    }
+                    catch (Exception ex)
+                    { }
+                    finally
+                    { con.Close(); }
+                }
+            }
+            return null;
+        }
+
+        public bool SaveLogInLogHistory(string EmployeeNumber, string Date1)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("INSERT INTO ElearningLogInHistory VALUES('" + EmployeeNumber + "','" + Date1 + "')", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    { return false; }
+                    finally
+                    { con.Close(); }
+                }
+            }
+        }
+        #endregion
+
         #region Home
         public VMLogHistoryList LoadLogInHistoryByIDandDate(string EmpID, string Date1)
         {
@@ -391,7 +486,8 @@ namespace ELearningV1.Models
                         {
                             return true;
                         }
-                        else {
+                        else
+                        {
                             return false;
                         }
                     }
@@ -623,16 +719,19 @@ namespace ELearningV1.Models
                             DataTable dt = new DataTable();
                             sda.Fill(dt);
 
-                            foreach (DataRow dr in dt.Rows)
+                            if (dt.Rows.Count > 0)
                             {
-                                VMGetDataToLoadOneByOne loadData = new VMGetDataToLoadOneByOne();
-                                loadData.ID = dr["ID"].ToString();
-                                loadData.Title = dr["Title"].ToString();
-                                loadData.Type = dr["Type"].ToString();
-                                loadData.SourceFile = dr["SrcFile"].ToString();
-                                loadData.CourSecID = dr["CourseID"].ToString();
-                                loadData.OrderSec = dr["OrderSec"].ToString();
-                                loadList.Add(loadData);
+                                foreach (DataRow dr in dt.Rows)
+                                {
+                                    VMGetDataToLoadOneByOne loadData = new VMGetDataToLoadOneByOne();
+                                    loadData.ID = dr["ID"].ToString();
+                                    loadData.Title = dr["Title"].ToString();
+                                    loadData.Type = dr["Type"].ToString();
+                                    loadData.SourceFile = dr["SrcFile"].ToString();
+                                    loadData.CourSecID = dr["CourseID"].ToString();
+                                    loadData.OrderSec = dr["OrderSec"].ToString();
+                                    loadList.Add(loadData);
+                                }
                             }
                             return loadList;
                         }
@@ -777,6 +876,82 @@ namespace ELearningV1.Models
             return null;
         }
 
+        public QuestionIDList getQuestID(string Answer)
+        {
+            QuestionIDList questID = new QuestionIDList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningGetQuestionIDbyEmployeeAnswer", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@Answer", Answer);
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                VMGetQuestionIDbyEmployeeAnswer quest = new VMGetQuestionIDbyEmployeeAnswer();
+                                quest.QuestionID = dr["ID"].ToString();
+                                quest.CAnswer = dr["CAnswer"].ToString();
+                                questID.Add(quest);
+                            }
+                            return questID;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+            return null;
+        }
+
+        public getAnswersList getAnsList(string QuestionID)
+        {
+            getAnswersList questID = new getAnswersList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningGetAnswers", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@QuestionID", QuestionID);
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                VMGetAnswers quest = new VMGetAnswers();
+                                //quest.QuestionID = dr["ID"].ToString();
+                                quest.Answers = dr["CAnswer"].ToString();
+                                questID.Add(quest);
+                            }
+                            return questID;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+            return null;
+        }
+
         public string saveAnswers(string QuestionID, string EmployeeNumber, string Answers, string isCorrect)
         {
             using (SqlConnection con = new SqlConnection(Cons))
@@ -800,100 +975,42 @@ namespace ELearningV1.Models
             }
             return "Success";
         }
-        #endregion
 
-        #region LogIn
-        public VMKioskLogInUserList KioskLogInUserData(string EmpNum, string Password)
+        public getQuestIDList getQuestListByCourseSec(string CourSecID)
         {
-            VMKioskLogInUserList UserDataList = new VMKioskLogInUserList();
+            getQuestIDList QuestionList = new getQuestIDList();
             using (SqlConnection con = new SqlConnection(Cons))
             {
-                using (SqlCommand cmd = new SqlCommand("EmployeeKioskLoginUser", con))
+                using (SqlCommand cmd = new SqlCommand("ELearningGetQuestions", con))
                 {
-                    try
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                     {
-                        con.Open();
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@EmployeeNumber", EmpNum);
-                        cmd.Parameters.AddWithValue("@Password", Password);
-                        SqlDataReader dr = cmd.ExecuteReader();
-
-                        while (dr.Read())
+                        try
                         {
-                            VMKioskLogInUser UserData = new VMKioskLogInUser();
-                            UserData.EmployeeNumber = Convert.ToString(dr["EmployeeNumber"]);
-                            UserData.EmployeeName = Convert.ToString(dr["EmployeeName"]);
-                            UserData.Department = Convert.ToString(dr["Department"]);
-                            UserData.Position = Convert.ToString(dr["Position_name"]);
-                            UserData.ReportTo = Convert.ToString(dr["ReportTo"]);
-                            UserDataList.Add(UserData);
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@CouSecID", CourSecID);
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                VMGetQuestionID question = new VMGetQuestionID();
+                                question.QuestionID = dr["ID"].ToString();
+                                QuestionList.Add(question);
+                            }
+                            return QuestionList;
                         }
-                        return UserDataList;
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
                     }
-                    catch (Exception ex)
-                    { }
-                    finally
-                    { con.Close(); }
                 }
             }
             return null;
-        }
-
-        public VMELearnEmpDataList FBLoadLeftPanel(string EmpID)
-        {
-            VMELearnEmpDataList EmpDataList = new VMELearnEmpDataList();
-            using (SqlConnection con = new SqlConnection(Cons))
-            {
-                using (SqlCommand cmd = new SqlCommand("Select * From fuzeEmpData1 Where EmployeeNumber = '" + EmpID + "' ", con))
-                {
-                    try
-                    {
-                        con.Open();
-                        cmd.CommandType = CommandType.Text;
-                        SqlDataReader dr = cmd.ExecuteReader();
-
-                        while (dr.Read())
-                        {
-                            VMELearnEmpData empData = new VMELearnEmpData();
-                            empData.EmployeeNumber = Convert.ToString(dr["EmployeeNumber"]);
-                            empData.EmpName = Convert.ToString(dr["EmpName"]);
-                            empData.EmpImage = Convert.ToString(dr["EmpImage"]);
-                            empData.PEarned = Convert.ToInt32(dr["PEarned"]);
-                            empData.PGranted = Convert.ToInt32(dr["PGranted"]);
-                            empData.PBalance = Convert.ToInt32(dr["PBalance"]);
-                            empData.IsAdmin = Convert.ToBoolean(dr["IsAdmin"]);
-                            EmpDataList.Add(empData);
-                        }
-                        return EmpDataList;
-                    }
-                    catch (Exception ex)
-                    { }
-                    finally
-                    { con.Close(); }
-                }
-            }
-            return null;
-        }
-
-        public bool SaveLogInLogHistory(string EmployeeNumber, string Date1)
-        {
-            using (SqlConnection con = new SqlConnection(Cons))
-            {
-                using (SqlCommand cmd = new SqlCommand("INSERT INTO ElearningLogInHistory VALUES('" + EmployeeNumber + "','" + Date1 + "')", con))
-                {
-                    try
-                    {
-                        con.Open();
-                        cmd.CommandType = CommandType.Text;
-                        cmd.ExecuteNonQuery();
-                        return true;
-                    }
-                    catch (Exception ex)
-                    { return false; }
-                    finally
-                    { con.Close(); }
-                }
-            }
         }
         #endregion
     }

@@ -33,12 +33,6 @@
         <div class="box box-primary" id="divEXAM" style="display:none;">
             <div class="box-header with-border">
                 <h3 class="box-title">Questions</h3>
-                <!--
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" title="Previous" data-widget="collapse"><i class="fa fa-arrow-left"></i></button>
-                    <button type="button" class="btn btn-box-tool" title="Next" data-widget="remove"><i class="fa fa-arrow-right"></i></button>
-                </div>
-                -->
             </div>
             <div class="box-body">
                 <table class="table table-hover table-bordered table-responsive table-striped">
@@ -47,12 +41,11 @@
                         {
                             foreach (var items in Model)
                             {
-                                <script type="text/javascript">
-                                    var questionIDs = new Array();
-                                    questionIDs.push(@items.ID);
-                                </script>
                                 <tr>
-                                    <td><p id="@items.ID">@items.Question</p></td>
+                                    <td>
+                                        <input type="hidden" id="CourSecID" value="@items.CourseSectionID" />
+                                        <p id="@items.ID">@items.ID ) @items.Question</p>
+                                    </td>
                                 </tr>
                                 if (items.QuestionType == "2")
                                 {
@@ -62,7 +55,7 @@
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" id="@items.C1" class="checkBox_">
+                                                            <input type="checkbox" id="chkid" name="chkA@(items.ID)" value="@items.C1" class="checkBox_">
                                                             <label id="txtMCOne">@items.C1</label>
                                                         </label>
                                                     </div>
@@ -70,13 +63,14 @@
                                             </div>
                                         </td>
                                     </tr>
+
                                     <tr>
                                         <td>
                                             <div class="row">
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" id="@items.C2" class="checkBox_">
+                                                            <input type="checkbox" id="chkid" name="chkB@(items.ID)" value="@items.C2" class="checkBox_">
                                                             <label id="txtMCTwo">@items.C2</label>
                                                         </label>
                                                     </div>
@@ -90,7 +84,7 @@
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" id="@items.C3" class="checkBox_">
+                                                            <input type="checkbox" id="chkid" name="chkC@(items.ID)" value="@items.C3" class="checkBox_">
                                                             <label id="txtMCThree">@items.C3</label>
                                                         </label>
                                                     </div>
@@ -104,7 +98,7 @@
                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                     <div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox" id="@items.C4" class="checkBox_">
+                                                            <input type="checkbox" id="chkid" name="chkD@(items.ID)" value="@items.C4" class="checkBox_">
                                                             <label id="txtMCFour">@items.C4</label>
                                                         </label>
                                                     </div>
@@ -119,7 +113,7 @@
                                         <td>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="@items.C1" id="@items.C1" value="option1" class="radio_">
+                                                    <input type="radio" id="radioid" name="rdA@(items.ID)" value="@items.C1" class="radio_">
                                                     <label id="answer1">@items.C1</label>
                                                 </label>
                                             </div>
@@ -129,7 +123,7 @@
                                         <td>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="@items.C1" id="@items.C2" value="option2" class="radio_">
+                                                    <input type="radio" id="radioid" name="rdB@(items.ID)" value="@items.C2" class="radio_">
                                                     <label id="answer2">@items.C2</label>
                                                 </label>
                                             </div>
@@ -139,7 +133,7 @@
                                         <td>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="@items.C1" id="@items.C3" value="option3" class="radio_">
+                                                    <input type="radio" id="radioid" name="rdC@(items.ID)" value="@items.C3" class="radio_">
                                                     <label id="answer3">@items.C3</label>
                                                 </label>
                                             </div>
@@ -149,7 +143,7 @@
                                         <td>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" name="@items.C1" id="@items.C4" value="option4" class="radio_"> <!--optionsRadios-->
+                                                    <input type="radio" id="radioid" name="rdD@(items.ID)" value="@items.C4" class="radio_">
                                                     <label id="answer4">@items.C4</label>
                                                 </label>
                                             </div>
@@ -173,27 +167,51 @@
         <div class="box box-primary" id="divVIDEO" style="display:none;">
             <div class="box-header with-border">
                 <h3 class="box-title" id="boxTitleVideo"></h3>
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" title="Previous" data-widget="collapse"><i class="fa fa-arrow-left"></i></button>
-                    <button type="button" class="btn btn-box-tool" title="Next" data-widget="remove"><i class="fa fa-arrow-right"></i></button>
-                </div>
             </div>
             <div class="box-body text-center">
-                <video id="videoTuitorial" controls width="890" height="500"></video>
+                <video id="videoTuitorial" controls width="1000" height="500"></video>
             </div>
         </div>
 
         <div class="box box-primary" id="divPDF" style="display:none;">
             <div class="box-header with-border">
                 <h3 class="box-title" id="boxTitlePDF"></h3>
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" title="Previous" data-widget="collapse"><i class="fa fa-arrow-left"></i></button>
-                    <button type="button" class="btn btn-box-tool" title="Next" data-widget="remove"><i class="fa fa-arrow-right"></i></button>
-                </div>
             </div>
             <div class="box-body">
                 <div class="text-center">
                     <iframe id="framePDF" width="1000" height="500"></iframe> <!-- src="~/Content/CROSSFIRE.PDF"-->
+                </div>
+            </div>
+        </div>
+
+        <div class="box box-primary" id="divScoring" style="display:none;">
+            <div class="box-header with-border">
+                <h3 class="box-title" id="boxTitleScoring"></h3>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                        <label style="font-size:large;font-weight:400">You completed this course on </label><label id="labelDateCompleted" style="font-size:large;font-weight:400"> 3-18-2019 4:15pm</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
+                        <h4>Total # of questions: </h4>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-left">
+                        <h4 id="labelNoQuestion">15</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                        <label style="font-size:large;font-weight:400">Your score is </label><label id="labelDateCompleted" style="font-size:large;font-weight:400">89%</label>
+                    </div>
+                </div>
+                <div class="panel panel-success" id="panelPositive">
+                    <p style="padding:10px">Congratulations! You are ready to start creating your own courses.</p>
+                </div>
+                <div class="panel panel-danger" id="panelNegative">
+                    <p style="padding:10px">Maybe you should watch the video tutorials again. If you have any questions please feel free to contact the support team through the Help section! You can redo this test as many times as you want.</p>
                 </div>
             </div>
         </div>
@@ -202,7 +220,9 @@
         <div class="row">
             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10"></div>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <button class="btn btn-success btn-block" id="btnNext" onclick="getQuestionID()">Save</button>
+                <button class="btn btn-success btn-block" id="btnProceedVideo" style="display:none" onclick="getNextDataToLoad()">Proceed</button>
+                <button class="btn btn-success btn-block" id="btnProceedPDF" style="display:none" onclick="getNextDataToLoad()">Proceed</button>
+                <button class="btn btn-success btn-block" id="btnNext" onclick="confirmation()" style="display:none">Save</button>
             </div>
         </div>
     </div>
@@ -248,9 +268,30 @@
     </div>
 </div>
 
+<div class="modal fade" id="success">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <h3 class="text-center">Saved!</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="SaveAnswers()">Proceed</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="SectionOrderNo" />
 <script type="text/javascript">
 
     var answers = new Array();
+    var Arrayid = new Array();
 
     $(document).ready(function () {
         $(document).ready(function () {
@@ -271,11 +312,14 @@
     });
 
     function getAllUrlParams() {
+        var data = "";
         var vars = {};
         var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
             vars[key] = value;
             loadExamData(value);
+            data = value;
         });
+        return data;
     }
 
     var loadExamData = function (CourseID) {
@@ -289,17 +333,32 @@
         });
     }
 
-    var loadData = function (CourseID) {
+    var loadData = function (CourseID, SectionOrder) {
 
-        var dExam = document.getElementById("divEXAM");//$("#divEXAM").val();//
-        var dVideo = document.getElementById("divVIDEO");//$("#divVIDEO").val();//
-        var dPDF = document.getElementById("divPDF");//$("#divPDF").val();//
+        var dExam = document.getElementById("divEXAM");
+        var dVideo = document.getElementById("divVIDEO");
+        var dPDF = document.getElementById("divPDF");
+        var dScoring = document.getElementById("divScoring");
+
+        var btnExam = document.getElementById("btnNext");
+        var btnVideo = document.getElementById("btnProceedVideo");
+        var btnPDF = document.getElementById("btnProceedPDF");
+
+        var CourseSec = $("#CourSecID").val();
+        debugger
+        var OrderNo = $("#SectionOrderNo").val();
+        if (OrderNo == "") {
+            OrderNo = 0;
+        }
 
         $.ajax({
             type: "POST",
-            url: "/Exam/GetFirstDataToLoad",
-            data: { "CourseID": CourseID },
+            url: "/Exam/GetDataToLoad",
+            data: { "CourseID": CourseID, "PreviousOrderSec": OrderNo },
             success: function (response) {
+                debugger
+                $("#SectionOrderNo").val(response._currentSectionOrder);
+
                 if (response.res == "Video") {
                     $.ajax({
                         type: "POST",
@@ -309,6 +368,13 @@
                             dVideo.style.display = "block";
                             dPDF.style.display = "none";
                             dExam.style.display = "none";
+                            dScoring.style.display = "none";
+
+                            btnVideo.style.display = "block"
+                            btnExam.style.display = "none"
+                            btnPDF.style.display = "none";
+                            var text = "Save";
+                            document.getElementById("btnNext").innerHTML = text;
 
                             $("#boxTitleVideo").text(responseVideo.resTitleVideo);
                             document.getElementById("videoTuitorial").src = responseVideo.resVideo;
@@ -316,7 +382,7 @@
                     });
                 }
 
-                if (response.res == "PDF") {
+                else if (response.res == "PDF") {
                     $.ajax({
                         type: "POST",
                         url: "/Exam/loadPDF",
@@ -325,6 +391,11 @@
                             dPDF.style.display = "block";
                             dVideo.style.display = "none";
                             dExam.style.display = "none";
+                            dScoring.style.display = "none";
+
+                            btnPDF.style.display = "block"
+                            btnExam.style.display = "none"
+                            btnVideo.style.display = "none";
 
                             $("#boxTitlePDF").text(responsePDF.resTitlePDF);
                             document.getElementById("framePDF").src = responsePDF.resPDF;
@@ -332,10 +403,34 @@
                     });
                 }
 
-                if (response.res == "Test") {
+                else if (response.res == "Test") {
+                    $("#modal-info").modal("show");
                     dPDF.style.display = "none";
                     dVideo.style.display = "none";
                     dExam.style.display = "block";
+                    dScoring.style.display = "none";
+
+                    btnExam.style.display = "block"
+                    btnVideo.style.display = "none";
+                    btnPDF.style.display = "none";
+                    getQuestionID();
+                }
+
+                //For scoring
+                else {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Exam/getScoreofEmployeeExam",
+                        data: { "CourseID": CourseID, "CourseSectionID": CourseSec },
+                        success: function (response) {
+
+                        }
+                    });
+
+                    dPDF.style.display = "none";
+                    dVideo.style.display = "none";
+                    dExam.style.display = "none";
+                    dScoring.style.display = "block";
                 }
             },
         });
@@ -343,77 +438,119 @@
     }
 
     var getNextDataToLoad = function () {
+        debugger
         var dVideo = document.getElementById("divVIDEO");
         var dPDF = document.getElementById("divPDF");
         var dExam = document.getElementById("divEXAM");
+        var OrderNo = $("#SectionOrderNo").val();
+        var data = getAllUrlParams();
+        //alert(data + ' - ' + OrderNo);
 
-        var getSRC = "";
-
-        debugger
-
-        if (dVideo.style.display == "block") {
-            getSRC = document.getElementById("videoTuitorial").src;
-        }
-
-        if (dPDF.style.display == "block") {
-            getSRC = document.getElementById("framePDF").src;
-        }
-
+        loadData(data, OrderNo);
     }
 
     $(".checkBox_").change(function () {
-        //if ($(".checkBox_:checked").length == $("checkBox_").length) {
-        //if (answers == "" || answers == " " || answers == null) {
-            answers.push(this.id);//answers = this.id;
-        //}
-        //else {
-        //    answers = answers + ',' + this.id;
-        //}
-        //}
+        debugger
+        var a;
+        for (a = 0; a <= answers.length; a++) {
+            if (this.value == answers[a]) {
+                // do nothing
+            }
+            else { answers.push(this.value); break; }
+        }
     });
 
     $(".radio_").change(function () {
-        //if ($(".checkBox_:checked").length == $("checkBox_").length) {
-        //if (answers == "" || answers == " " || answers == null) {
-            answers.push(this.id);
-        //}
-        //else {
-        //    answers = answers + ',' + this.id;
-        //}
-        //}
+        debugger
+        // for employe who change their answer
+        var a;
+        for (a = 0; a <= answers.length; a++) {
+            if (this.value == answers[a]) {
+                // do nothing
+            }
+            else { answers.push(this.value); break; }
+        }
     });
 
     var confirmation = function () {
-        if (answers == "" || answers == null) {
-            alert("Please answer all the questions");
-        }
-        else { $("#modal-Confirmation").modal('show'); }
+        debugger
+        var xPDF = document.getElementById("divPDF");
+        var xVideo = document.getElementById("divVIDEO");
+        var xExam = document.getElementById("divEXAM");
 
+        if (xExam.style.display == "block") {
+            if (answers == "" || answers == null) {
+                alert("Please answer all the questions");
+            }
+            else { $("#modal-Confirmation").modal('show'); }
+        }
+        else if (xVideo.style.display == "block") {
+            loadData();
+        }
+        else if (xPDF.style.display == "block") {
+            loadData();
+        }
     }
 
     var cancelSaving = function () {
-        answers = "";
+        //answers = "";
         $("#modal-Confirmation").modal('hide');
     }
 
     var SaveAnswers = function () {
         $("#modal-Confirmation").modal('hide')
         debugger
-        //var qID = new Array();//questionIDs;
-        //qID.push(questionIDs);
-        //var ansList = answers.split();
+        //for QuestionID
+        let unique = [...new Set(Arrayid)];
 
         $.ajax({
             type: "POST",
             url: "/Exam/SaveEmployeeAnswers",
-            data: { "QuestionID": questionIDs, "Answers": answers },
+            data: { "QuestionID": unique, "Answers": answers },
             success: function (response) {
                 alert(response.res);
+                getNextDataToLoad();
             }
         });
     }
 
     var getQuestionID = function () {
-        alert(questionIDs); //+ "\n" + answers
+        //debugger
+        var rows = document.getElementsByTagName("tbody")[0].rows; //document.getElementById("tbody").rows.length; //
+
+        for (var i = 0; i < rows.length; i++) {
+
+            var chk = document.getElementsByTagName("input")[i].getAttribute("name");
+
+            //Check if chk is null
+            if (chk == null || chk == "" || chk == " ") { }
+
+            else {
+                var value = chk.slice(-1);
+
+                for (var data = 0; data <= Arrayid.length; data++) {
+                    if (value == Arrayid[data]) {
+                        //do nothing because same data already inserted
+                    }
+                    else {
+                        if (chk.startsWith("chk") == true) {
+                            //Arrayid.every((value, i, Arrayid) => value === Arrayid[0]);
+
+                            Arrayid.push(value);
+                        }
+                        else if (chk.startsWith("rd") == true) {
+                            Arrayid.push(value);
+                        }
+
+                        //not checkbox and radiobutton
+                        else {
+                            //Arrayid.push(chk+' -TRASH');
+                        }
+                    }
+                    break;
+                }
+            }
+        }
     }
+
 </script>

@@ -88,21 +88,18 @@
 
                     <hr />
                     <div class="row">
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2 text-center">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-info btn-md" onclick="ocUpdateCourse()">Update Course</button>
                             </div>
                             or <a href="/Home/ViewCourse">cancel</a>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt-2"></div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 mt-2">
+                            <button type="button" class="btn btn-info btn-block" onclick="ApplyCourse()">Apply</button>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 mt-2">
-                            <div class="form-inline">
-                                <button type="button" class="btn btn-info" onclick="ApplyCourse()">Apply Course</button>
-                                <button type="button" class="btn btn-info" onclick="ExamList()">Go to Course</button>
-                            </div>
-
+                            <button type="button" class="btn btn-info btn-block" onclick="ExamList()">Go to Course</button>
                         </div>
                     </div>
                 </div>
@@ -142,9 +139,7 @@
 
         });
     });
-
-
-
+    
     var CourseDetailReport = function ()
     { window.location.href = '@Url.Action("CourseDetailReport", "Course")'; }
 
@@ -153,8 +148,7 @@
         var cid = $("#cID").val();
         window.location.href = '/Exam/ExamList?CourseID=' + cid + '';
     }
-
-
+    
     var ocUpdateCourse = function () {
         debugger
         var isAct = false;
@@ -185,7 +179,6 @@
         }
     }
 
-
     var ApplyCourse = function () {
         var cid = $("#cID").val();
         if (cid != "" || cid != undefined || cid != null) {
@@ -213,6 +206,4 @@
         }
 
     }
-
-
 </script>

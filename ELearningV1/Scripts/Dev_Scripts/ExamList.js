@@ -390,7 +390,7 @@ $("#chckMCOne").change(function () {
             totalAns = $("#txtMCOne").val();//this.id;
         }
         else {
-            totalAns = totalAns + "&" + $("#txtMCOne").val();//this.id;
+            totalAns = totalAns + "," + $("#txtMCOne").val();//this.id;
         }
     }
 });
@@ -401,7 +401,7 @@ $("#chckMCTwo").change(function () {
             totalAns = $("#txtMCTwo").val();//this.id;
         }
         else {
-            totalAns = totalAns + "&" + $("#txtMCTwo").val();//this.id;
+            totalAns = totalAns + "," + $("#txtMCTwo").val();//this.id;
         }
     }
 });
@@ -412,7 +412,7 @@ $("#chckMCThree").change(function () {
             totalAns = $("#txtMCThree").val();//this.id;
         }
         else {
-            totalAns = totalAns + "&" + $("#txtMCThree").val();//this.id;
+            totalAns = totalAns + "," + $("#txtMCThree").val();//this.id;
         }
     }
 });
@@ -423,7 +423,7 @@ $("#chckMCFour").change(function () {
             totalAns = $("#txtMCFour").val();//this.id;
         }
         else {
-            totalAns = totalAns + "&" + $("#txtMCFour").val();//this.id;
+            totalAns = totalAns + "," + $("#txtMCFour").val();//this.id;
         }
     }
 });
@@ -646,7 +646,7 @@ var BindQuestionTable = function () {
 
 var EditQuestion = function (ID, Question, Type, C1, C2, C3, C4, CAns, CourSecID, CouID) {
     //alert("Edit: " + " ID: " + ID + ' & ' + "Question: " + Question + ' & ' + "Type: " + Type + ' & ' + "Choice1: " + C1 + ' & ' + "Choice2: " + C2 + ' & ' + "Choice3: " + C3 + ' & ' + "Choice4: " + C4 + ' & ' + "Correct Answer: " + CAns + ' & ' + "CourSecID: " + CourSecID + ' & ' + "CourID: " + CouID);
-
+    debugger
     document.getElementById("chckMCOne").checked = false;
     document.getElementById("chckMCTwo").checked = false;
     document.getElementById("chckMCThree").checked = false;
@@ -674,7 +674,7 @@ var EditQuestion = function (ID, Question, Type, C1, C2, C3, C4, CAns, CourSecID
         $("#txtMCFour").val(C4);
 
         var temp = new Array();
-        temp = CAns.split("&");
+        temp = CAns.split(",");
 
         for (var data in temp) {
             //alert(temp[data]);
@@ -873,6 +873,6 @@ var StartTuitorialExam = function () {
     var secID = $("#sectionID").val();
     //alert(getCourseID);
 
-    var testURL = "../Exam/Exam?CourseID=" + getCourseID;// + "&CourseSectionID=" + secID;
+    var testURL = "../Exam/Exam?CourseID=" + getCourseID;// "&CourseSectionID=" + secID;
     window.location.href = testURL;//'@Url.Action("Exam", "Exam")';
 }

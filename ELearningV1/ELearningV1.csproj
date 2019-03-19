@@ -205,10 +205,13 @@
     <Compile Include="Models\ViewModel\VMCourseSection.cs" />
     <Compile Include="Models\ViewModel\VMELearnEmpData.cs" />
     <Compile Include="Models\ViewModel\VMELearningCousesProgress.cs" />
+    <Compile Include="Models\ViewModel\VMGetAnswers.cs" />
     <Compile Include="Models\ViewModel\VMGetDataToLoadOneByOne.cs" />
     <Compile Include="Models\ViewModel\VMGetExamQuestion.cs" />
     <Compile Include="Models\ViewModel\VMGetExamQuestions.cs" />
     <Compile Include="Models\ViewModel\VMGetPDFPath.cs" />
+    <Compile Include="Models\ViewModel\VMGetQuestionID.cs" />
+    <Compile Include="Models\ViewModel\VMGetQuestionIDbyEmployeeAnswer.cs" />
     <Compile Include="Models\ViewModel\VMGetVideoPath.cs" />
     <Compile Include="Models\ViewModel\VMKioskLogInUser.cs" />
     <Compile Include="Models\ViewModel\VMLogHistory.cs" />
