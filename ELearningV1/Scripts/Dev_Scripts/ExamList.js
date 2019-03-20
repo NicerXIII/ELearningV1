@@ -117,6 +117,7 @@ var ocUploadExamPresentation = function () {
 }
 
 var ocSavePresentationData = function () {
+    debugger
     var title = $("#PresTitle").val();
     var cid = $("#courseID1").val();
 

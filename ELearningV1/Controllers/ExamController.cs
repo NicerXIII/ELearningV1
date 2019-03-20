@@ -507,6 +507,8 @@ namespace ELearningV1.Controllers
             { res = result };
             return responseReset;
         }
+
+
         /**
         public JsonResult loadQuestionaire(string CourseID)
         {

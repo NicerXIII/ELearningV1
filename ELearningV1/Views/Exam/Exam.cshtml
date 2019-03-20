@@ -2,6 +2,8 @@
 @{
     ViewBag.Title = "Exam";
     //Layout = "~/Views/Shared/_Layout.cshtml";
+    var endTime = DateTime.UtcNow.AddSeconds(65);
+    var timeRemaining = TimeSpan.FromTicks(endTime.Ticks - DateTime.UtcNow.Ticks).TotalSeconds;
 }
 <style>
     .margin {
@@ -29,6 +31,9 @@
     }
 </style>
 <div class="box">
+    <div class="box-header">
+        <div>Time Remaining: <span id="demo"></span></div>
+    </div>
     <div class="box-body">
         <div class="box box-primary" id="divEXAM" style="display:none;">
             <div class="box-header with-border">
@@ -295,7 +300,71 @@
 
 <input type="hidden" id="SectionOrderNo" />
 <script type="text/javascript">
+    // Set the date we're counting down to
+    var countDownDate = new Date("March 21, 2019 00:00:00").getTime();
 
+    // Update the count down every 1 second
+    var x = setInterval(function () {
+
+        // Get todays date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Output the result in an element with id="demo"
+        document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+            + minutes + "m " + seconds + "s ";
+
+        // If the count down is over, write some text 
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("demo").innerHTML = "EXPIRED";
+        }
+    }, 1000);
+    /**
+    //var remSeconds = timeRemaining;
+    var secondsCounter = remSeconds % 60;
+    var hoursCounter = secondsCounter % 60;
+
+    function formatNumber(number) {
+        if (number < 10) return '0' + number;
+        else return '' + number;
+    }
+
+    function startTick()
+    {
+        document.getElementById('secRemaining').innerText = formatNumber(secondsCounter);
+        document.getElementById('minRemaining').innerText = formatNumber(parseInt(remSeconds / 60));
+        document.getElementById('hourRemaining').innerText = formatNumber(parseInt(hoursCounter / 60));
+
+        var _tick = setInterval(function ()
+        {
+            if (remSeconds > 0) {
+                remSeconds = remSeconds - 1;
+                secondsCounter = secondsCounter - 1;
+                hoursCounter = hoursCounter - 1;
+                document.getElementById('secRemaining').innerText = formatNumber(secondsCounter);
+                document.getElementById('minRemaining').innerText = formatNumber(parseInt(remSeconds / 60));
+                document.getElementById('hourRemaining').innerText = formatNumber(parseInt(hoursCounter / 60));
+
+                if (secondsCounter == 0)
+                    secondsCounter = 60;
+            }
+            else {
+                clearInterval(_tick);
+            }
+        }, 1000);
+    }
+
+    startTick();
+    **/
     var answers = new Array();
     var Arrayid = new Array();
 
@@ -605,10 +674,8 @@
                         getQuestionID();
 
                         //Clearing checkbox and radio button
-                        document.getElementById("chckMCOne").checked = false;
-                        document.getElementById("chckMCTwo").checked = false;
-                        document.getElementById("chckMCThree").checked = false;
-                        document.getElementById("chckMCFour").checked = false;
+                        document.getElementById("chkid").checked = false;
+                        document.getElementById("radioid").checked = false;
                     }
                 }
             });
