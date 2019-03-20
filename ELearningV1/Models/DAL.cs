@@ -1146,5 +1146,50 @@ namespace ELearningV1.Models
             return null;
         }
         #endregion
+
+        #region Agent Status
+
+        public VMViewEmployeeCourseStatusList ViewEmployeeCourseStatus()
+        {
+            VMViewEmployeeCourseStatusList EmployeeCourseStatusList = new VMViewEmployeeCourseStatusList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("Select * From ViewEmployeeListStatus", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        SqlDataReader dr = cmd.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+                            VMViewEmployeeCourseStatus empstatus = new VMViewEmployeeCourseStatus();
+                            empstatus.EmployeeNumber = Convert.ToString(dr["EmployeeNumber"]);
+                            empstatus.EmpName = Convert.ToString(dr["EmpName"]);
+                            empstatus.Course = Convert.ToString(dr["Course"]);
+                            empstatus.Progress = Convert.ToInt32(dr["Progress"]);
+                            empstatus.Score = Convert.ToInt32(dr["Score"]);
+                            empstatus.Status1 = Convert.ToString(dr["Status1"]);
+                            empstatus.EnrolledDate = Convert.ToDateTime(dr["EnrolledDate"]);
+                            empstatus.CompletionDate = Convert.ToDateTime(dr["CompletionDate"]);
+                            EmployeeCourseStatusList.Add(empstatus);
+                        }
+                        return EmployeeCourseStatusList;
+                    }
+                    catch (Exception ex)
+                    { }
+                    finally
+                    { con.Close(); }
+                }
+            }
+
+            return null;
+        }
+
+
+        #endregion
+
+
     }
 }

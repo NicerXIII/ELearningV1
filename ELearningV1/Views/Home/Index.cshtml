@@ -229,7 +229,7 @@
             url: "/Home/LoadUserProgressAndStatus",
             data: { },
             success: function (response) {
-                var pieColors = ['#1E90FF', '#FFFFFF'];
+                var pieColors = ['#4fff63', '#dbdbdb'];
 
                 chart = new Highcharts.Chart({
                     chart: {
@@ -270,11 +270,6 @@
             error: function (response) { }
         });
 
-
-
-
-        
-
     }
     var otable;
     var BindDataTable = function () {
@@ -303,7 +298,19 @@
                         "mData": "Course",
                         "orderable": false,
                         "render": function (Course, type, full, meta) {
-                            return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\')" style="font-size:24px;">'+ Course +'</a>';
+                            debugger
+                            var comp = moment.tz(full.CompletionDate, 'Asia/Manila').format("MM/DD/YYYY");
+                            var now = moment.tz('Asia/Manila').format("MM/DD/YYYY");
+                            var dComp = new Date(comp);
+                            var dNow = new Date(now);
+                            if (full.Progress != 100 && dComp > dNow) {
+                                return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\')" style="font-size:24px;">' + Course + '</a>';
+                            } else if (full.Progress != 100 && dComp < dNow) {
+                                return '<a href="#/" style="font-size:24px; color:grey;">' + Course + '</a>';
+                            } else {
+                                return '<a href="#/" style="font-size:24px; color:green;">' + Course + ' <span class="fa fa-check"></span></a>';
+                            }
+                          
                         }
                     },
                     {
