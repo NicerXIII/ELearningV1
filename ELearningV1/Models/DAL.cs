@@ -1145,10 +1145,46 @@ namespace ELearningV1.Models
             }
             return null;
         }
+
+        public getEmployeeDateEnrolledList getEnrolledDate(string EmployeeNumber)
+        {
+            getEmployeeDateEnrolledList listDateEnrolled = new getEmployeeDateEnrolledList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningGetEnrolledDate", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                VMGetEmployeeEnrollDate date = new VMGetEmployeeEnrollDate();
+                                date.DateEnrolled = DateTime.Parse(dr["EnrolledDate"].ToString());
+                                listDateEnrolled.Add(date);
+                            }
+                            return listDateEnrolled;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+            return null;
+        }
         #endregion
 
         #region Agent Status
-
         public VMViewEmployeeCourseStatusList ViewEmployeeCourseStatus()
         {
             VMViewEmployeeCourseStatusList EmployeeCourseStatusList = new VMViewEmployeeCourseStatusList();
@@ -1186,10 +1222,6 @@ namespace ELearningV1.Models
 
             return null;
         }
-
-
         #endregion
-
-
     }
 }

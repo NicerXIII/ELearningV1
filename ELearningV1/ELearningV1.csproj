@@ -209,6 +209,7 @@
     <Compile Include="Models\ViewModel\VMGetAnswers.cs" />
     <Compile Include="Models\ViewModel\VMGetDataToLoadOneByOne.cs" />
     <Compile Include="Models\ViewModel\VMGetEmployeeAnswers.cs" />
+    <Compile Include="Models\ViewModel\VMGetEmployeeEnrollDate.cs" />
     <Compile Include="Models\ViewModel\VMGetExamQuestion.cs" />
     <Compile Include="Models\ViewModel\VMGetExamQuestions.cs" />
     <Compile Include="Models\ViewModel\VMGetPDFPath.cs" />
