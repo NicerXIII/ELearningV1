@@ -181,7 +181,7 @@
             {
                 if (Session["EmployeePositionName"].ToString() == "Web Developer" || Session["EmployeePositionName"].ToString() == "Senior QA")
                 {
-                    <li><a href="#/"><i class="fa fa-group" style="color:forestgreen;"></i> <span>AGENTS DATA</span></a></li>
+                    <li><a href="#/" onclick="viewAgentsData()"><i class="fa fa-group" style="color:forestgreen;"></i> <span>EMPLOYEES DATA</span></a></li>
                 }
             }
             catch (Exception ex) { }
@@ -320,5 +320,9 @@
             alert(response.res);
         }
     });
+    }
+
+    var viewAgentsData = function () {
+         window.location.href = '@Url.Action("Index", "Agent")';
     }
 </script>

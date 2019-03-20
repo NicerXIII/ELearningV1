@@ -191,6 +191,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AgentController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\ExamController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="Models\ViewModel\VMLogHistory.cs" />
     <Compile Include="Models\ViewModel\VMViewCourses.cs" />
     <Compile Include="Models\ViewModel\VMViewCourseUser.cs" />
+    <Compile Include="Models\ViewModel\VMViewEmployeeCourseStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -2767,6 +2769,7 @@
     <Content Include="Views\Course\CourseDetailReport.cshtml" />
     <Content Include="Views\Exam\ExamQuestionList.cshtml" />
     <Content Include="Views\Course\EmployeeCourseDetail.cshtml" />
+    <Content Include="Views\Agent\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
