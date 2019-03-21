@@ -118,7 +118,7 @@
                                         <td>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" id="radioid" name="rdA@(items.ID)" value="@items.C1" class="radio_">
+                                                    <input type="radio" id="radioid" name="rd@(items.ID)" value="@items.C1" class="radio_">
                                                     <label id="answer1">@items.C1</label>
                                                 </label>
                                             </div>
@@ -128,7 +128,7 @@
                                         <td>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" id="radioid" name="rdB@(items.ID)" value="@items.C2" class="radio_">
+                                                    <input type="radio" id="radioid" name="rd@(items.ID)" value="@items.C2" class="radio_">
                                                     <label id="answer2">@items.C2</label>
                                                 </label>
                                             </div>
@@ -138,7 +138,7 @@
                                         <td>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" id="radioid" name="rdC@(items.ID)" value="@items.C3" class="radio_">
+                                                    <input type="radio" id="radioid" name="rd@(items.ID)" value="@items.C3" class="radio_">
                                                     <label id="answer3">@items.C3</label>
                                                 </label>
                                             </div>
@@ -148,7 +148,7 @@
                                         <td>
                                             <div class="radio">
                                                 <label>
-                                                    <input type="radio" id="radioid" name="rdD@(items.ID)" value="@items.C4" class="radio_">
+                                                    <input type="radio" id="radioid" name="rd@(items.ID)" value="@items.C4" class="radio_">
                                                     <label id="answer4">@items.C4</label>
                                                 </label>
                                             </div>
@@ -301,13 +301,45 @@
 <input type="hidden" id="SectionOrderNo" />
 <script type="text/javascript">
     // Set the date we're counting down to
-    var countDownDate = new Date("March 21, 2019 00:00:00").getTime();
+    var FirstCountDownDate = "";//new Date("March 21, 2019 00:00:00").getTime();
+
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Home/GetSession",
+            data: {},
+            success: function (response) {
+                getAllUrlParams();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Exam/GetDateEnrolled",
+                    data: {},
+                    success: function (response) {
+                        debugger
+                        FirstCountDownDate = response._res;
+                    },
+                    error: function (response) { alert(responseDate._res); }
+                });
+            },
+            error: function (response) {
+                window.location.href = '/LogIn/Index';
+            }
+
+        });
+    });
 
     // Update the count down every 1 second
     var x = setInterval(function () {
-
         // Get todays date and time
         var now = new Date().getTime();
+        var countDownDate = "";
+        if (FirstCountDownDate == "Expired") {
+
+        }
+        else {
+            countDownDate = new Date(FirstCountDownDate).getTime();
+        }
 
         // Find the distance between now and the count down date
         var distance = countDownDate - now;
@@ -322,69 +354,15 @@
         document.getElementById("demo").innerHTML = days + "d " + hours + "h "
             + minutes + "m " + seconds + "s ";
 
-        // If the count down is over, write some text 
+        // If the count down is over, write some text
         if (distance < 0) {
             clearInterval(x);
             document.getElementById("demo").innerHTML = "EXPIRED";
         }
     }, 1000);
-    /**
-    //var remSeconds = timeRemaining;
-    var secondsCounter = remSeconds % 60;
-    var hoursCounter = secondsCounter % 60;
 
-    function formatNumber(number) {
-        if (number < 10) return '0' + number;
-        else return '' + number;
-    }
-
-    function startTick()
-    {
-        document.getElementById('secRemaining').innerText = formatNumber(secondsCounter);
-        document.getElementById('minRemaining').innerText = formatNumber(parseInt(remSeconds / 60));
-        document.getElementById('hourRemaining').innerText = formatNumber(parseInt(hoursCounter / 60));
-
-        var _tick = setInterval(function ()
-        {
-            if (remSeconds > 0) {
-                remSeconds = remSeconds - 1;
-                secondsCounter = secondsCounter - 1;
-                hoursCounter = hoursCounter - 1;
-                document.getElementById('secRemaining').innerText = formatNumber(secondsCounter);
-                document.getElementById('minRemaining').innerText = formatNumber(parseInt(remSeconds / 60));
-                document.getElementById('hourRemaining').innerText = formatNumber(parseInt(hoursCounter / 60));
-
-                if (secondsCounter == 0)
-                    secondsCounter = 60;
-            }
-            else {
-                clearInterval(_tick);
-            }
-        }, 1000);
-    }
-
-    startTick();
-    **/
     var answers = new Array();
     var Arrayid = new Array();
-
-    $(document).ready(function () {
-        $(document).ready(function () {
-            $.ajax({
-                type: "POST",
-                url: "/Home/GetSession",
-                data: {},
-                success: function (response) {
-                    getAllUrlParams();
-                    //$("#modal-info").modal();
-                },
-                error: function (response) {
-                    window.location.href = '/LogIn/Index';
-                }
-
-            });
-        });
-    });
 
     function getAllUrlParams() {
         var data = "";

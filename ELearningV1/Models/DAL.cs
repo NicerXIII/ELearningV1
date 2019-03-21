@@ -840,6 +840,46 @@ namespace ELearningV1.Models
             return null;
         }
 
+        public getDataToLoadList CountCourseSection(string CourseID)
+        {
+            getDataToLoadList loadList = new getDataToLoadList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningCountCourseSection", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@CourseID", CourseID);
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+
+                            if (dt.Rows.Count > 0)
+                            {
+                                foreach (DataRow dr in dt.Rows)
+                                {
+                                    VMGetDataToLoadOneByOne loadData = new VMGetDataToLoadOneByOne();
+                                    loadData.ID = dr["ID"].ToString();
+                                    loadList.Add(loadData);
+                                }
+                            }
+                            return loadList;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+            return null;
+        }
+
         public getVideoPathList getVideoPath(string CourseID)
         {
             getVideoPathList videoPathList = new getVideoPathList();
@@ -1168,7 +1208,8 @@ namespace ELearningV1.Models
                             foreach (DataRow dr in dt.Rows)
                             {
                                 VMGetEmployeeEnrollDate date = new VMGetEmployeeEnrollDate();
-                                date.DateEnrolled = DateTime.Parse(dr["EnrolledDate"].ToString());
+                                date.EnrolledDate = DateTime.Parse(dr["EnrolledDate"].ToString());
+                                date.CompletionDate = DateTime.Parse(dr["CompletionDate"].ToString());
                                 listDateEnrolled.Add(date);
                             }
                             return listDateEnrolled;
@@ -1181,6 +1222,53 @@ namespace ELearningV1.Models
                 }
             }
             return null;
+        }
+
+        public string SaveEmployeeScore(string EmployeeNumber, string CourseID, string CourseSecID, string Score)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand com = new SqlCommand("ELearningSaveScore", con))
+                {
+                    try
+                    {
+                        com.CommandType = CommandType.StoredProcedure;
+                        com.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                        com.Parameters.AddWithValue("@CourseID", CourseID);
+                        com.Parameters.AddWithValue("@CourseSectionID", CourseSecID);
+                        com.Parameters.AddWithValue("@Score", Score);
+                        con.Open();
+                        com.ExecuteNonQuery();
+                        con.Close();
+                    }
+                    catch (Exception ex)
+                    { return ex.Message; }
+                }
+            }
+            return "Success";
+        }
+
+        public string SaveCourseProgress(string EmployeeNumber, string CourseID, string Progress)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand com = new SqlCommand("ELearningSaveEmployeeProgress", con))
+                {
+                    try
+                    {
+                        com.CommandType = CommandType.StoredProcedure;
+                        com.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                        com.Parameters.AddWithValue("@CourseID", CourseID);
+                        com.Parameters.AddWithValue("@Progress", Progress);
+                        con.Open();
+                        com.ExecuteNonQuery();
+                        con.Close();
+                    }
+                    catch (Exception ex)
+                    { return ex.Message; }
+                }
+            }
+            return "Success";
         }
         #endregion
 

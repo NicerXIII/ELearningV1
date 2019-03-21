@@ -63,42 +63,44 @@
                 <ul class="nav navbar-nav">
                     <!-- Messages: style can be found in dropdown.less-->
                     @*<li class="dropdown messages-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-address-book-o"></i>
-                            <span class="label label-success">4</span>
-                        </a>
-                        <ul class="dropdown-menu customSAccProf">
-                            <li class="">
-                                <!-- inner menu: contains the actual data -->
-                                <ul class="menu" align="center">
-                                    <li>
-                                        <a href="#" class="text-black">
-                                            <i class="fa fa-users"></i> Agent Status
-                                        </a>
-                                    </li>
-                                    <!-- end message -->
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>*@
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-address-book-o"></i>
+                                <span class="label label-success">4</span>
+                            </a>
+                            <ul class="dropdown-menu customSAccProf">
+                                <li class="">
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu" align="center">
+                                        <li>
+                                            <a href="#" class="text-black">
+                                                <i class="fa fa-users"></i> Agent Status
+                                            </a>
+                                        </li>
+                                        <!-- end message -->
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>*@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="@try { @Session["UserProfilePic"].ToString(); }catch (Exception ex) {  } " class="user-image" alt="User Image">
-                            <span class="hidden-xs">@try
-                            {@Session["EmployeeName"].ToString();
-                        }
-                        catch (Exception ex) { }</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <!-- User image -->
-                            <li class="user-header">
-                                <img src="@try { @Session["UserProfilePic"].ToString(); } catch (Exception ex) { } " class="img-circle" alt="User Image">
-                                <p>
-                                    @try
-                                    {@Session["EmployeeName"].ToString();
-                                }
-                                catch (Exception ex) { }
+                            <span class="hidden-xs">
+                                @try
+                                {@Session["EmployeeName"].ToString();
+                            }
+                            catch (Exception ex) { }
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <!-- User image -->
+                        <li class="user-header">
+                            <img src="@try { @Session["UserProfilePic"].ToString(); } catch (Exception ex) { } " class="img-circle" alt="User Image">
+                            <p>
+                                @try
+                                {@Session["EmployeeName"].ToString();
+                            }
+                            catch (Exception ex) { }
                                 <small>
                                     @try
                                     {@Session["EmployeePositionName"].ToString();
@@ -133,60 +135,62 @@
                 <img src="@try { @Session["UserProfilePic"].ToString(); } catch (Exception ex) { } " class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p>@try
-                {@Session["EmployeeName"].ToString();
-            }
-            catch (Exception ex) { }</p>
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-            </div>
-        </div>
-        <!-- search form -->
-        <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Search...">
-                <span class="input-group-btn">
-                    <button type="submit" name="search" id="search-btn" class="btn btn-flat">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </span>
-            </div>
-        </form>
-        <!-- /.search form -->
-        <!-- sidebar menu: : style can be found in sidebar.less -->
-        <ul class="sidebar-menu" data-widget="tree">
-            <li class="header">MAIN NAVIGATION</li>
-            <li><a href="#/" onclick="Home()"><i class="fa fa-home" style="font-size:20px; color:red;"></i> <span> HOME</span></a></li>
-            <li class="treeview">
-                <a href="#/">
-                    <i class="fa fa-book" style="font-size:20px; color:dodgerblue"></i> <span>COURSES</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
+                <p>
                     @try
-                    {
-                        if (Session["EmployeePositionName"].ToString() == "Web Developer" || Session["EmployeePositionName"].ToString() == "Senior QA")
-                        {
-                            <li><a href="#/" onclick="addCourse()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> New Course</a></li>
-                        }
-                    }
-                    catch (Exception ex) { }
-
-                    <li><a href="#/" onclick="viewCourse()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> View Courses</a></li>
-                    <!--<li><a href="#/" onclick="Exams()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> Exams</a></li>-->
-                </ul>
-            </li>
-            @try
-            {
-                if (Session["EmployeePositionName"].ToString() == "Web Developer" || Session["EmployeePositionName"].ToString() == "Senior QA")
-                {
-                    <li><a href="#/" onclick="viewAgentsData()"><i class="fa fa-group" style="color:forestgreen;"></i> <span>EMPLOYEES DATA</span></a></li>
+                    {@Session["EmployeeName"].ToString();
                 }
-            }
-            catch (Exception ex) { }
+                catch (Exception ex) { }
+            </p>
+            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        </div>
+    </div>
+    <!-- search form -->
+    <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Search...">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+    <!-- /.search form -->
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header">MAIN NAVIGATION</li>
+        <li><a href="#/" onclick="Home()"><i class="fa fa-home" style="font-size:20px; color:red;"></i> <span> HOME</span></a></li>
+        <li class="treeview">
+            <a href="#/">
+                <i class="fa fa-book" style="font-size:20px; color:dodgerblue"></i> <span>COURSES</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                @try
+                {
+                    if (Session["EmployeePositionName"].ToString() == "Web Developer" || Session["EmployeePositionName"].ToString() == "Senior QA")
+                    {
+                        <li><a href="#/" onclick="addCourse()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> New Course</a></li>
+                    }
+                }
+                catch (Exception ex) { }
 
-            @*<li class="treeview">
+                <li><a href="#/" onclick="viewCourse()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> View Courses</a></li>
+                <!--<li><a href="#/" onclick="Exams()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> Exams</a></li>-->
+            </ul>
+        </li>
+        @try
+        {
+            if (Session["EmployeePositionName"].ToString() == "Web Developer" || Session["EmployeePositionName"].ToString() == "Senior QA")
+            {
+                <li><a href="#/" onclick="viewAgentsData()"><i class="fa fa-group" style="color:forestgreen;"></i> <span>EMPLOYEES DATA</span></a></li>
+            }
+        }
+        catch (Exception ex) { }
+
+        @*<li class="treeview">
                 <a href="#/">
                     <i class="fa fa-cloud"></i> <span>DISCUSSION</span>
                     <span class="pull-right-container">
@@ -198,9 +202,9 @@
                     <li><a href="#/"><i class="fa fa-arrow-circle-o-right"></i> View Discussion</a></li>
                 </ul>
             </li>*@
-        </ul>
-    </section>
-    <!-- /.sidebar -->
+    </ul>
+</section>
+<!-- /.sidebar -->
 </aside>
 <!-- =============================================== -->
 <!-- Content Wrapper. Contains page content -->
@@ -292,37 +296,35 @@
 <script src="~/Scripts/Dev_Scripts/AddNewCourse.js"></script>
 
 <script>
-    var Home = function () {
-        window.location.href = '@Url.Action("Index", "Home")';
-    }
+    var Home = function ()
+    {   window.location.href = '@Url.Action("Index", "Home")';  }
 
-    var Exams = function () {
-        window.location.href = '@Url.Action("ExamList", "Exam")';
-    }
+    var Exams = function ()
+    {   window.location.href = '@Url.Action("ExamList", "Exam")';   }
 
-    var viewCourse = function () {
-           window.location.href = '@Url.Action("ViewCourse", "Home")';
-    }
+    var viewCourse = function ()
+    {   window.location.href = '@Url.Action("ViewCourse", "Home")'; }
 
-    var addCourse = function () {
-        $("#modalAddCourse").modal('show');
-    }
+    var addCourse = function ()
+    {   $("#modalAddCourse").modal('show'); }
 
-    var ocSignOut = function () {
+    var viewAgentsData = function ()
+    { window.location.href = '@Url.Action("Index", "Agent")'; }
+
+    var ocSignOut = function ()
+    {
        $.ajax({
-        type: "POST",
-        url: "/LogIn/LogOutAccount",
-        data: {},
-        success: function (response) {
-            window.location.href = '@Url.Action("Index", "LogIn")';
-        },
-        error: function (response) {
-            alert(response.res);
-        }
-    });
+            type: "POST",
+            url: "/LogIn/LogOutAccount",
+            data: {},
+           success: function (response) {
+                window.location.href = '@Url.Action("Index", "LogIn")';
+            },
+            error: function (response) {
+                alert(response.res);
+            }
+        });
     }
 
-    var viewAgentsData = function () {
-         window.location.href = '@Url.Action("Index", "Agent")';
-    }
+
 </script>

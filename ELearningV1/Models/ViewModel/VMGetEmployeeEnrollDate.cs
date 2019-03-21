@@ -7,7 +7,8 @@ namespace ELearningV1.Models.ViewModel
 {
     public class VMGetEmployeeEnrollDate
     {
-        public DateTime DateEnrolled { get; set; }
+        public DateTime EnrolledDate { get; set; }
+        public DateTime CompletionDate { get; set; }
     }
     public class getEmployeeDateEnrolledList : List<VMGetEmployeeEnrollDate> { };
 }
