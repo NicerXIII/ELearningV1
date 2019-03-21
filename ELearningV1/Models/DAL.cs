@@ -1222,6 +1222,42 @@ namespace ELearningV1.Models
 
             return null;
         }
+
+        public VMEmpStatsCountList GetEmployeeStatusCount()
+        {
+            VMEmpStatsCountList EmpCourseStatusCount = new VMEmpStatsCountList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningGetCourseExamStatus", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        SqlDataReader dr = cmd.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+                            VMEmpStatsCount empstatus = new VMEmpStatsCount();
+                            empstatus.Passed = Convert.ToInt32(dr["Passed"]);
+                            empstatus.Failed = Convert.ToInt32(dr["Failed"]);
+                            empstatus.InProgress = Convert.ToInt32(dr["InProgress"]);
+                            EmpCourseStatusCount.Add(empstatus);
+                        }
+                        return EmpCourseStatusCount;
+                    }
+                    catch (Exception ex)
+                    { }
+                    finally
+                    { con.Close(); }
+                }
+            }
+
+            return null;
+        }
+
+
+
         #endregion
     }
 }

@@ -78,7 +78,7 @@
                             <div class="nav-tabs-custom">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a href="#CourseEmployeeListStatus" data-toggle="tab" style="font-weight:600;">Employee List Status <span class="fa fa-hourglass-1"></span></a></li>
-                                    <li><a href="#CourseReports" data-toggle="tab" style="font-weight:600;">Reports <span class="fa fa-folder-open"></span></a></li>
+                                    <li><a href="#CourseReports" onclick="ocCourseReports()" data-toggle="tab" style="font-weight:600;">Reports <span class="fa fa-folder-open"></span></a></li>
                                     <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear"></i></a></li>
                                 </ul>
                                 <div class="tab-content">
@@ -101,7 +101,9 @@
                                     </div>
                                     <!-- /.tab-pane -->
                                     <div class="tab-pane" id="CourseReports">
-                                        <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+                                        <div class="col-md-6 col-lg-6 col-xs-12">
+                                            <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+                                        </div>
 
                                     </div>
                                 </div>
@@ -125,7 +127,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
         PanelBoxStatus();
-        BindDataTable();
     });
 
     var PanelBoxStatus = function () {
@@ -138,6 +139,7 @@
                 $("#CC").text(response._cc);
                 $("#PA").text(response._pa);
                 $("#INC").text(response._inc);
+                BindDataTable();
             },
             error: function (response) { }
         });
@@ -225,7 +227,6 @@
                 responsive: true,
                 select: { style: 'single' },
                 "bInfo": true,
-                "searching": false,
                 "bPaginate": false,
                 "sScrollY": "300",
                 "scrollX": true,
@@ -234,63 +235,84 @@
             });
         }
     }
+
+
+    var ocCourseReports = function () {
+        $.ajax({
+            type: "POST",
+            url: "/Agent/GetEmployeeStatusForBarChart",
+            data: {},
+            success: function (response) {
+                var BarColors = ['#4fff63', '#ff9b9b', '#91f9ff'];
+                var now = moment.tz('Asia/Manila').format("YYYY");
+                Highcharts.chart('container', {
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: 'Employee Exam Result of ' + now
+                    },
+                    subtitle: {
+                        text: 'Click the columns to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>'
+                    },
+                    xAxis: {
+                        type: 'category'
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Total percent market share'
+                        }
+
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        series: {
+                            colors: BarColors,
+                            borderWidth: 0,
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.y:.1f}%'
+                            }
+                        }
+                    },
+
+                    tooltip: {
+                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+                    },
+
+                    "series": [
+                        {
+                            "name": "Browsers",
+                            "colorByPoint": true,
+                            "data": [
+                                {
+                                    "name": "Passed",
+                                    "y": response.passed
+                                },
+                                {
+                                    "name": "Failed",
+                                    "y": response.failed
+                                },
+                                {
+                                    "name": "InProgress",
+                                    "y": response.inprog
+                                }
+                            ]
+                        }
+                    ]
+                });
+            },
+            error: function (response) { }
+        });
+    }
+
+
+
     // Create the chart
-    Highcharts.chart('container', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'Employee Exam Result'
-        },
-        subtitle: {
-            text: 'Click the columns to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>'
-        },
-        xAxis: {
-            type: 'category'
-        },
-        yAxis: {
-            title: {
-                text: 'Total percent market share'
-            }
 
-        },
-        legend: {
-            enabled: false
-        },
-        plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.y:.1f}%'
-                }
-            }
-        },
-
-        tooltip: {
-            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
-        },
-
-        "series": [
-            {
-                "name": "Browsers",
-                "colorByPoint": true,
-                "data": [
-                    {
-                        "name": "Passed",
-                        "y": 62.74
-                    },
-                    {
-                        "name": "Failed",
-                        "y": 10.57
-                    },
-                    {
-                        "name": "InProgress",
-                        "y": 7.23
-                    }
-                ]
-            }
-        ]
-    });
+   
+   
 </script>

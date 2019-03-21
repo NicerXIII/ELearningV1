@@ -206,6 +206,7 @@
     <Compile Include="Models\ViewModel\VMCourseSection.cs" />
     <Compile Include="Models\ViewModel\VMELearnEmpData.cs" />
     <Compile Include="Models\ViewModel\VMELearningCousesProgress.cs" />
+    <Compile Include="Models\ViewModel\VMEmpStatsCount.cs" />
     <Compile Include="Models\ViewModel\VMGetAnswers.cs" />
     <Compile Include="Models\ViewModel\VMGetDataToLoadOneByOne.cs" />
     <Compile Include="Models\ViewModel\VMGetEmployeeAnswers.cs" />

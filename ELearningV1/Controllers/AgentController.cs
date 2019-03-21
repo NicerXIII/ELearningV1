@@ -93,5 +93,18 @@ namespace ELearningV1.Controllers
             };
             return response;
         }
+
+        public ActionResult GetEmployeeStatusForBarChart() {
+            DAL SQLcon = new DAL();
+
+            var data = SQLcon.GetEmployeeStatusCount().SingleOrDefault();
+            var response = new JsonResult();
+            response.Data = new {
+                passed = data.Passed,
+                failed = data.Failed,
+                inprog = data.InProgress
+            };
+            return response;
+        }
     }
 }
