@@ -16,7 +16,7 @@ namespace ELearningV1.Controllers
     public class ExamController : Controller
     {
         DAL SQLcon = new DAL();
-        
+
         string QuestOrder = "";
 
         #region Done by boss Tiqius
@@ -342,21 +342,32 @@ namespace ELearningV1.Controllers
 
         public ActionResult GetDataToLoad(string CourseID, int PreviousOrderSec)
         {
+            var user = Session["EmployeeNumber"].ToString();
             var loadData = "";
             var CourseSectionOrder = "";
-            var dataCount = SQLcon.getDataToLoad(CourseID, PreviousOrderSec).Count();
+            decimal Progress = 0;
+            decimal totalProgress = 0;
+            int totalCourseSection = SQLcon.CountCourseSection(CourseID).Count();
+            int dataCount = SQLcon.getDataToLoad(CourseID, PreviousOrderSec).Count();
 
-            if(dataCount > 0)
+            if (dataCount > 0)
             {
                 loadData = SQLcon.getDataToLoad(CourseID, PreviousOrderSec).OrderBy(x => x.OrderSec).Select(x => x.Type).FirstOrDefault().ToString();
                 CourseSectionOrder = SQLcon.getDataToLoad(CourseID, PreviousOrderSec).OrderBy(x => x.OrderSec).Select(x => x.OrderSec).FirstOrDefault().ToString();
+
+                Progress = Decimal.Divide(Int32.Parse(CourseSectionOrder), totalCourseSection);
+                totalProgress = Progress * 100;
+                double totalA = Math.Round(Convert.ToDouble(totalProgress));
+
+                SQLcon.SaveCourseProgress(user, CourseID, totalA.ToString());
             }
             else
-            {   loadData = "Scoring"; CourseSectionOrder = null; }
+            { loadData = "Scoring"; CourseSectionOrder = null; }
 
             var response = new JsonResult();
             response.Data = new
-            {   res = loadData,
+            {
+                res = loadData,
                 _currentSectionOrder = CourseSectionOrder
             };
             return response;
@@ -407,9 +418,9 @@ namespace ELearningV1.Controllers
                 foreach (var ans in Answers)
                 {
                     if (AnswersfromDB.Contains(ans))
-                    {   result = SQLcon.saveAnswers(qID,user,ans,"Y");   }
+                    { result = SQLcon.saveAnswers(qID, user, ans, "Y"); }
                     else
-                    {   result = SQLcon.saveAnswers(qID, user, ans, "N");}
+                    { result = SQLcon.saveAnswers(qID, user, ans, "N"); }
                 }
             }
 
@@ -433,12 +444,13 @@ namespace ELearningV1.Controllers
             };
             return response;
         }
-        
+
         public ActionResult getScoreofEmployeeExam(string CourseID, string CourseSectionID)
         {
+            #region Declarations
             List<VMGetAnswers> GetCorrectAnswerFromDB = new List<VMGetAnswers>();
             List<VMGetEmployeeAnswers> GetEmployeeAnswer = new List<VMGetEmployeeAnswers>();
-            List<VMGetQuestionID> QuestionID = SQLcon.getQuestListByCourseSec(CourseSectionID).Select(x => new VMGetQuestionID{   QuestionID = x.QuestionID  }).ToList();
+            List<VMGetQuestionID> QuestionID = SQLcon.getQuestListByCourseSec(CourseSectionID).Select(x => new VMGetQuestionID { QuestionID = x.QuestionID }).ToList();
 
             List<string> QuestIDFromDB = new List<string>();
             List<string> CorrectAnsFromDB = new List<string>();
@@ -446,6 +458,7 @@ namespace ELearningV1.Controllers
             List<int> IsCorrect = new List<int>();
 
             string user = Session["EmployeeNumber"].ToString();
+            #endregion
 
             #region Getting QuestionID | Correct Answer | Employee Answer
             //Get the list of QUESTION ID
@@ -456,13 +469,16 @@ namespace ELearningV1.Controllers
             foreach (var questID in QuestIDFromDB)
             {
                 GetCorrectAnswerFromDB = SQLcon.getAnsList(questID).Select(x => new VMGetAnswers { Answers = x.Answers }).ToList();
-                GetEmployeeAnswer = SQLcon.getEmployeeAnswer(user,questID).Select(x => new VMGetEmployeeAnswers { EmployeeAnswer = x.EmployeeAnswer }).ToList();
+                GetEmployeeAnswer = SQLcon.getEmployeeAnswer(user, questID).Select(x => new VMGetEmployeeAnswers { EmployeeAnswer = x.EmployeeAnswer }).ToList();
 
                 foreach (var a in GetCorrectAnswerFromDB)
                 {
+                    CorrectAnsFromDB.Add(a.Answers.ToString());
+                    /**
                     var result = a.Answers.Split(',');
                     foreach (var result2 in result)
                     { CorrectAnsFromDB.Add(result2); }
+                    **/
                 }
 
                 //To avoid redundancy of inserting answers
@@ -470,19 +486,32 @@ namespace ELearningV1.Controllers
                 {
                     foreach (var b in GetEmployeeAnswer)
                     { EmployeeAns.Add(b.EmployeeAnswer.ToString()); }
-                }                
+                }
             }
             #endregion
 
-            foreach (var EmpAns in EmployeeAns)
+            //Checking if the answer of employee is equal to the correct answer
+            for (int a = 0; a <= CorrectAnsFromDB.Count; a++)
             {
-                if (CorrectAnsFromDB.Contains(EmpAns))
-                {   IsCorrect.Add(1);   }
+                foreach (var EmpAns in EmployeeAns)
+                {
+                    string[] data = new string[] { };
+                    if (CorrectAnsFromDB[a].Contains(','))
+                    {
+                        data = CorrectAnsFromDB[a].Split(',');
+                    }
+                    //if (EmpAns.StartsWith(CorrectAnsFromDB[a])/**CorrectAnsFromDB.Contains(EmpAns)**/)
+                    //{   IsCorrect.Add(1);   }
+                    //else if (EmpAns.EndsWith(CorrectAnsFromDB[a]))
+                    //{   IsCorrect.Add(1);   }
+                }
             }
 
             int sum = IsCorrect.Sum();
-            decimal score = Decimal.Divide(sum,QuestIDFromDB.Count());//(sum / QuestIDFromDB.Count());
+            decimal score = Decimal.Divide(sum, QuestIDFromDB.Count());//(sum / QuestIDFromDB.Count());
             decimal finalScore = score * 100;
+
+            SQLcon.SaveEmployeeScore(user, CourseID, CourseSectionID, finalScore.ToString());
 
             var responseScore = new JsonResult();
             responseScore.Data = new
@@ -508,6 +537,24 @@ namespace ELearningV1.Controllers
             return responseReset;
         }
 
+        public ActionResult GetDateEnrolled()
+        {
+            string user = Session["EmployeeNumber"].ToString();
+            string result = "";
+            DateTime dateEnrolledresult = DateTime.Parse(SQLcon.getEnrolledDate(user).Select(x => x.EnrolledDate).FirstOrDefault().ToString());
+            DateTime dateCompletionresult = DateTime.Parse(SQLcon.getEnrolledDate(user).Select(x => x.CompletionDate).FirstOrDefault().ToString());
+            //DateTime Add2Days = dateEnrolledresult.AddHours(48);
+
+            if (DateTime.Now > dateCompletionresult)
+            { result = "Expired"; }
+            else
+            { result = dateEnrolledresult.AddHours(48).ToString("MMMM dd, yyyy HH:mm:ss"); }
+
+            var response = new JsonResult();
+            response.Data = new
+            { _res = result };
+            return response;
+        }
 
         /**
         public JsonResult loadQuestionaire(string CourseID)
