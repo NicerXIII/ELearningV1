@@ -1256,7 +1256,44 @@ namespace ELearningV1.Models
             return null;
         }
 
+        public VMViewEmployeeCourseStatusList ViewEmployeeByStatusAndDateRange(string Status,string DFrom,string DTo)
+        {
+            VMViewEmployeeCourseStatusList EmployeeCourseStatusList = new VMViewEmployeeCourseStatusList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("GetEmployeeByStatusAndDateRange", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Status", Status);
+                        cmd.Parameters.AddWithValue("@DFrom", DFrom);
+                        cmd.Parameters.AddWithValue("@DTo", DTo);
+                        SqlDataReader dr = cmd.ExecuteReader();
 
+                        while (dr.Read())
+                        {
+                            VMViewEmployeeCourseStatus empstatus = new VMViewEmployeeCourseStatus();
+                            empstatus.EmployeeNumber = Convert.ToString(dr["EmployeeNumber"]);
+                            empstatus.EmpName = Convert.ToString(dr["EmpName"]);
+                            empstatus.Score = Convert.ToInt32(dr["Score"]);
+                            empstatus.Status1 = Convert.ToString(dr["Status1"]);
+                            empstatus.EnrolledDate = Convert.ToDateTime(dr["CampaignName"]);
+                            empstatus.EnrolledDate = Convert.ToDateTime(dr["EnrolledDate"]);
+                            EmployeeCourseStatusList.Add(empstatus);
+                        }
+                        return EmployeeCourseStatusList;
+                    }
+                    catch (Exception ex)
+                    { }
+                    finally
+                    { con.Close(); }
+                }
+            }
+
+            return null;
+        }
 
         #endregion
     }

@@ -63,7 +63,7 @@
         <!-- ./col -->
     </div>
     <!-- /.row -->
-    
+
     <div class="row">
         <div class="col-md-12">
             <div class="box">
@@ -101,6 +101,36 @@
                                     </div>
                                     <!-- /.tab-pane -->
                                     <div class="tab-pane" id="CourseReports">
+                                        <div class="col-md-6 col-lg-6 col-xs-12">
+                                            <form class="form-inline">
+                                                <label>Select Status:</label>
+                                                <select class="form-control">
+                                                    <option>PASSED</option>
+                                                    <option>FAILED</option>
+                                                    <option>INPROGRESS</option>
+                                                </select>
+                                                <div class="pull-right">
+                                                    <label>Date Range:  From</label>
+                                                    <input type="date" class="form-control" id="dFrom">
+                                                    <label> To</label>
+                                                    <input type="date" class="form-control" id="dTo">
+                                                </div>
+
+                                            </form>
+                                            <table id="tblEmpListStatus" class="table table-bordered table-striped" style="width:100%; min-height:100px; min-width:600px; font-size:18px; font-weight:700;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Emp#</th>
+                                                        <th>Name</th>
+                                                        <th>Score</th>
+                                                        <th>Status</th>
+                                                        <th>Campiagn</th>
+                                                        <th>Enrolled On</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody style="font-size:18px; font-weight:500;"></tbody>
+                                            </table>
+                                        </div>
                                         <div class="col-md-6 col-lg-6 col-xs-12">
                                             <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
                                         </div>
@@ -142,6 +172,110 @@
                 BindDataTable();
             },
             error: function (response) { }
+        });
+    }
+
+    var ocCourseReports = function () {
+        $.ajax({
+            type: "POST",
+            url: "/Agent/GetEmployeeStatusForBarChart",
+            data: {},
+            success: function (response) {
+                getDateRange();
+            },
+            error: function (response) { }
+        });
+    }
+
+    function getDateRange() {
+        $.ajax({
+            type: "POST",
+            url: "/Agent/GetDateRange",
+            data: {},
+            success: function (response) {
+
+                var dateFrom = response._dateFrom;
+                var dateTo = response._dateTo;
+
+                var FromDate = new Date(dateFrom);
+                var Fday = ("0" + FromDate.getDate()).slice(-2);
+                var Fmonth = ("0" + (FromDate.getMonth() + 1)).slice(-2);
+                var Ftoday = FromDate.getFullYear() + "-" + (Fmonth) + "-" + (Fday);
+
+                var ToDate = new Date(dateTo);
+                var Tday = ("0" + ToDate.getDate()).slice(-2);
+                var Tmonth = ("0" + (ToDate.getMonth() + 1)).slice(-2);
+                var Ttoday = ToDate.getFullYear() + "-" + (Tmonth) + "-" + (Tday);
+
+                $("#dFrom").val(Ftoday);
+                $("#dTo").val(Ttoday);
+                HChartEmployeeStatus();
+                EmpStatusDataTable();
+            }
+        });
+    }
+
+    function HChartEmployeeStatus() {
+        var BarColors = ['#4fff63', '#ff9b9b', '#91f9ff'];
+        var now = moment.tz('Asia/Manila').format("YYYY");
+        Highcharts.chart('container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Employee Exam Result of ' + now
+            },
+            subtitle: {
+                text: 'Click the columns to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>'
+            },
+            xAxis: {
+                type: 'category'
+            },
+            yAxis: {
+                title: {
+                    text: 'Total percent market share'
+                }
+
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    colors: BarColors,
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y:.1f}%'
+                    }
+                }
+            },
+
+            tooltip: {
+                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+            },
+
+            "series": [
+                {
+                    "name": "Browsers",
+                    "colorByPoint": true,
+                    "data": [
+                        {
+                            "name": "Passed",
+                            "y": response.passed
+                        },
+                        {
+                            "name": "Failed",
+                            "y": response.failed
+                        },
+                        {
+                            "name": "InProgress",
+                            "y": response.inprog
+                        }
+                    ]
+                }
+            ]
         });
     }
 
@@ -236,83 +370,82 @@
         }
     }
 
+    var stable;
+    var EmpStatusDataTable = function () {
+        //if table exist
+        if ($.fn.DataTable.isDataTable("#tblEmpListStatus")) {
+            //Clear table for redraw
+            stable.draw();
+        } else {
+            moment.tz.add("Asia/Manila|+08 +09|-80 -90|010101010|-1kJI0 AL0 cK10 65X0 mXB0 vX0 VK10 1db0|24e6");
+            stable = $("#tblEmpListStatus").DataTable({
+                "bServerSide": true,
+                "processing": true,
+                "sAjaxSource": "/Agent/LoadEmployeeByStatusAndDateRange",
+                "fnServerData": function (sSource, aoData, fnCallback) {
 
-    var ocCourseReports = function () {
-        $.ajax({
-            type: "POST",
-            url: "/Agent/GetEmployeeStatusForBarChart",
-            data: {},
-            success: function (response) {
-                var BarColors = ['#4fff63', '#ff9b9b', '#91f9ff'];
-                var now = moment.tz('Asia/Manila').format("YYYY");
-                Highcharts.chart('container', {
-                    chart: {
-                        type: 'column'
-                    },
-                    title: {
-                        text: 'Employee Exam Result of ' + now
-                    },
-                    subtitle: {
-                        text: 'Click the columns to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>'
-                    },
-                    xAxis: {
-                        type: 'category'
-                    },
-                    yAxis: {
-                        title: {
-                            text: 'Total percent market share'
+                    var 
+
+
+                    $.ajax({
+                        type: "Get",
+                        data: aoData,
+                        url: sSource,
+                        success: fnCallback
+                    });
+                },
+                "aoColumns": [
+                    {
+                        "mData": "EmployeeNumber",
+                        "orderable": false,
+                        "width": "150px",
+                        "className": "text-center", "targets": "_all",
+                        "render": function (EmployeeNumber, type, full, meta) {
+                            return '<a href="#/">' + EmployeeNumber + '</a>';
                         }
-
                     },
-                    legend: {
-                        enabled: false
+                    {
+                        "mData": "EmpName",
+                        "orderable": false
                     },
-                    plotOptions: {
-                        series: {
-                            colors: BarColors,
-                            borderWidth: 0,
-                            dataLabels: {
-                                enabled: true,
-                                format: '{point.y:.1f}%'
+                    {
+                        "mData": "Score",
+                        "orderable": false,
+                        "className": "dt-center", "targets": "_all"
+                    },
+                    {
+                        "mData": "Status1",
+                        "orderable": false,
+                        "className": "dt-center", "targets": "_all"
+                    },
+                    {
+                        "mData": "CampaignName",
+                        "orderable": false,
+                        "className": "dt-center", "targets": "_all"
+                    },
+                    {
+                        "mData": "EnrolledDate",
+                        "orderable": false,
+                        render: function (EnrolledDate, type, row) {
+                            if (type === "sort" || type === "type") {
+                                return EnrolledDate;
                             }
+                            return moment.tz(EnrolledDate, 'Asia/Manila').format("MM/DD/YYYY");
                         }
                     },
-
-                    tooltip: {
-                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
-                    },
-
-                    "series": [
-                        {
-                            "name": "Browsers",
-                            "colorByPoint": true,
-                            "data": [
-                                {
-                                    "name": "Passed",
-                                    "y": response.passed
-                                },
-                                {
-                                    "name": "Failed",
-                                    "y": response.failed
-                                },
-                                {
-                                    "name": "InProgress",
-                                    "y": response.inprog
-                                }
-                            ]
-                        }
-                    ]
-                });
-            },
-            error: function (response) { }
-        });
+                ],
+                responsive: true,
+                select: { style: 'single' },
+                "bInfo": true,
+                "bPaginate": false,
+                "sScrollY": "300",
+                "scrollX": true,
+                "bScrollCollapse": false,
+                "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]]
+            });
+        }
     }
 
 
 
-    // Create the chart
-
-   
-   
 </script>
