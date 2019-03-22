@@ -168,12 +168,14 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        LoadingData();
         $.ajax({
             type: "POST",
             url: "/Home/GetSession",
             data: {},
             success: function (response) {
                 $("#reloadViewCourse").load("/Home/LoadCourseData #reloadViewCourse");
+                EndLoading();
             },
             error: function (response) {
                 window.location.href = '/LogIn/Index';

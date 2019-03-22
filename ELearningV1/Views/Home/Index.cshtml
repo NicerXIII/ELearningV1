@@ -132,6 +132,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        LoadingData();
         $.ajax({
             type: "POST",
             url: "/Home/GetSession",
@@ -361,7 +362,9 @@
                 "bScrollCollapse": false,
                 "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]]
             });
+            EndLoading();
         }
+     
     }
 
     var ocSelectThisCourse = function (CID) {
