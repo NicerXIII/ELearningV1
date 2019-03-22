@@ -1367,7 +1367,7 @@ namespace ELearningV1.Models
                             empstatus.EmpName = Convert.ToString(dr["EmpName"]);
                             empstatus.Score = Convert.ToInt32(dr["Score"]);
                             empstatus.Status1 = Convert.ToString(dr["Status1"]);
-                            empstatus.EnrolledDate = Convert.ToDateTime(dr["CampaignName"]);
+                            empstatus.CampiagnName = Convert.ToString(dr["CampaignName"]);
                             empstatus.EnrolledDate = Convert.ToDateTime(dr["EnrolledDate"]);
                             EmployeeCourseStatusList.Add(empstatus);
                         }

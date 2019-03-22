@@ -2772,6 +2772,7 @@
     <Content Include="Views\Exam\ExamQuestionList.cshtml" />
     <Content Include="Views\Course\EmployeeCourseDetail.cshtml" />
     <Content Include="Views\Agent\Index.cshtml" />
+    <Content Include="Views\Course\ViewCourseList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

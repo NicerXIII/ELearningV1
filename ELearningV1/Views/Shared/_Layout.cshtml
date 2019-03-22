@@ -159,10 +159,10 @@
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li><a href="#/" onclick="Home()"><i class="fa fa-home" style="font-size:20px; color:red;"></i> <span> HOME</span></a></li>
+        <li><a href="#/" onclick="Home()"><i class="fa fa-home" style="font-size:20px;"></i> <span> HOME</span></a></li>
         <li class="treeview">
             <a href="#/">
-                <i class="fa fa-book" style="font-size:20px; color:dodgerblue"></i> <span>COURSES</span>
+                <i class="fa fa-book" style="font-size:20px;"></i> <span>COURSES</span>
                 <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                 </span>
@@ -178,6 +178,15 @@
                 catch (Exception ex) { }
 
                 <li><a href="#/" onclick="viewCourse()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> View Courses</a></li>
+
+                @try
+                {
+                    if (Session["EmployeePositionName"].ToString() == "Web Developer" || Session["EmployeePositionName"].ToString() == "Senior QA")
+                    {
+                        <li><a href="#/" onclick="viewCourseList()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> View Course List</a></li>
+                    }
+                }
+                catch (Exception ex) { }
                 <!--<li><a href="#/" onclick="Exams()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> Exams</a></li>-->
             </ul>
         </li>
@@ -185,7 +194,7 @@
         {
             if (Session["EmployeePositionName"].ToString() == "Web Developer" || Session["EmployeePositionName"].ToString() == "Senior QA")
             {
-                <li><a href="#/" onclick="viewAgentsData()"><i class="fa fa-group" style="color:forestgreen;"></i> <span>EMPLOYEES DATA</span></a></li>
+                <li><a href="#/" onclick="viewAgentsData()"><i class="fa fa-group"></i> <span>EMPLOYEES DATA</span></a></li>
             }
         }
         catch (Exception ex) { }
@@ -310,6 +319,10 @@
 
     var viewAgentsData = function ()
     { window.location.href = '@Url.Action("Index", "Agent")'; }
+
+    var viewCourseList = function () {
+        window.location.href = '@Url.Action("ViewCourseList", "Course")';
+    }
 
     var ocSignOut = function ()
     {

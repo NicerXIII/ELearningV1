@@ -166,6 +166,12 @@ namespace ELearningV1.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult ViewCourseList()
+        {
+
+            return View();
+        }
+
 
 
     }
