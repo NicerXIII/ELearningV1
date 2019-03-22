@@ -76,8 +76,8 @@
                     <h3 class="box-title" style="font-size:20px; font-weight:700;">Course List</h3>
                 </div>
                 <div class="box-body">
-                    <div class="col-md-5">
-                        <table id="courseProgTable" class="table table-bordered table-striped" style="width:100%; min-height:100px; min-width:600px; font-size:18px; font-weight:700;">
+                    <div class="col-md-12">
+                        <table id="tblCourse" class="table table-bordered table-striped" style="width:100%; min-height:100px; min-width:500px; font-size:18px; font-weight:700;">
                             <thead>
                                 <tr>
                                     <th></th>
@@ -100,11 +100,11 @@
                     <h3 class="box-title" style="font-size:20px; font-weight:700;">Employee Enrolled</h3>
                 </div>
                 <div class="box-body">
-                    <div class="col-md-5">
-                        <table id="courseProgTable" class="table table-bordered table-striped" style="width:100%; min-height:100px; min-width:600px; font-size:18px; font-weight:700;">
+                    <div class="col-md-12">
+                        <table id="tblEmployeeEnrolled" class="table table-bordered table-striped" style="width:100%; min-height:100px; min-width:600px; font-size:18px; font-weight:700;">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th></th>
                                     <th>Name</th>
                                     <th>Campaign</th>
                                     <th>Progress</th>
@@ -133,6 +133,37 @@
 </section>
 
 <input type="hidden" id="LogDate" />
+<input type="hidden" id="cID" />
+<input type="hidden" id="eID" />
+
+<div class="modal fade" id="modalDeleteCourseListData">
+    <div class="modal-dialog" style="margin-top:300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" style="font-weight:700;">Question</h4>
+            </div>
+            <div class="modal-body">
+                <div align="center">
+                    <label class="fa fa-question-circle" style="font-size:100px; color:red;"></label>
+                    <label id="lblDelCourse" class="hidden" style="font-size:20px;">Are you sure you want to delete this course? All employee enrolled in this course will be deleted??</label>
+                    <br /><label id="lblDelEmp" class="hidden" style="font-size:20px;">Are you sure you want to remove this employee??</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnDeleteCourse" onclick="ocDeleteCourse()" class="btn btn-danger hidden" style="min-width:100px;">Yes</button>
+                <button type="button" id="btnDeleteEmployee" onclick="ocRemoveEmployee()" class="btn btn-danger hidden" style="min-width:100px;">Yes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
 
 
 <script type="text/javascript">
@@ -155,18 +186,202 @@
         $.ajax({
             type: "POST",
             url: "/Home/LoadPanelBoxData",
-            data: { },
+            data: {},
             success: function (response) {
                 $("#CIP").text(response._cip);
                 $("#CC").text(response._cc);
                 $("#PA").text(response._pa);
                 $("#INC").text(response._inc);
+                CourseDataTable();
             },
             error: function (response) { }
         });
     }
 
+    var ctable;
+    var CourseDataTable = function () {
+        //if table exist
+        if ($.fn.DataTable.isDataTable("#tblCourse")) {
+            //Clear table for redraw
+            ctable.draw();
+        } else {
+            moment.tz.add("Asia/Manila|+08 +09|-80 -90|010101010|-1kJI0 AL0 cK10 65X0 mXB0 vX0 VK10 1db0|24e6");
+            ctable = $("#tblCourse").DataTable({
+                "bServerSide": true,
+                "processing": true,
+                "sAjaxSource": "/Course/LoadCourseDetails",
+                "fnServerData": function (sSource, aoData, fnCallback) {
 
 
+                    $.ajax({
+                        type: "Get",
+                        data: aoData,
+                        url: sSource,
+                        success: fnCallback
+                    });
+                },
+                "aoColumns": [
+                    {
+                        "mData": "ID",
+                        "orderable": false,
+                        "className": "text-center", "targets": "_all",
+                        "render": function (ID, type, full, meta) {
+                            return '<a href="#/" onclick="ocSelectThisCourse(\'' + ID + '\')"> <span class="fa fa-mouse-pointer">Select</span></a> | <a href="#/" onclick="ocDeleteThisCourse(\'' + ID + '\')" style="color:red;"> <span class="fa fa-trash"> Remove</span></a>';
+                        }
+                    },
+                    {
+                        "mData": "Course",
+                        "orderable": false
+
+                    },
+                    {
+                        "mData": "Description",
+                        "orderable": false
+                    }
+                ],
+                responsive: true,
+                select: { style: 'single' },
+                "bInfo": true,
+                "searching": false,
+                "bPaginate": false,
+                "sScrollY": "300",
+                "scrollX": true,
+                "bScrollCollapse": false,
+                "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]]
+            });
+        }
+    }
+
+    var etable;
+    var EmployeeDataTable = function () {
+        //if table exist
+        if ($.fn.DataTable.isDataTable("#tblEmployeeEnrolled")) {
+            //Clear table for redraw
+            etable.draw();
+        } else {
+            moment.tz.add("Asia/Manila|+08 +09|-80 -90|010101010|-1kJI0 AL0 cK10 65X0 mXB0 vX0 VK10 1db0|24e6");
+            etable = $("#tblEmployeeEnrolled").DataTable({
+                "bServerSide": true,
+                "processing": true,
+                "sAjaxSource": "/Course/LoadEmployeeByCourseID",
+                "fnServerData": function (sSource, aoData, fnCallback) {
+
+                    var courseID = $("#cID").val();
+                    aoData.push({ "name": "CourseID", "value": courseID });
+
+                    $.ajax({
+                        type: "Get",
+                        data: aoData,
+                        url: sSource,
+                        success: fnCallback
+                    });
+                },
+                "aoColumns": [
+                    {
+                        "mData": "EmployeeNumber",
+                        "orderable": false,
+                        "render": function (EmployeeNumber, type, full, meta) {
+                            return '<a href="#/" onclick="ocKickOutEmployee(\'' + EmployeeNumber + '\')" style="color:red;"> <span class="fa fa-trash"> Remove</span></a>';
+                        }
+                    },
+                    {
+                        "mData": "EmpName",
+                        "orderable": false
+
+                    },
+                    {
+                        "mData": "CampiagnName",
+                        "orderable": false
+                    },
+                    {
+                        "mData": "Progress",
+                        "orderable": false
+                    },
+                    {
+                        "mData": "Score",
+                        "orderable": false
+                    }
+                ],
+                responsive: true,
+                select: { style: 'single' },
+                "bInfo": true,
+                "searching": false,
+                "bPaginate": false,
+                "sScrollY": "300",
+                "scrollX": true,
+                "bScrollCollapse": false,
+                "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]]
+            });
+        }
+    }
+
+
+    var ocSelectThisCourse = function (cid) {
+        $("#cID").val(cid);
+        EmployeeDataTable();
+    }
+
+    var ocDeleteThisCourse = function (cid) {
+        $("#cID").val(cid);
+        $("#lblDelCourse").removeClass('hidden');
+        $("#lblDelEmp").addClass('hidden');
+        $("#btnDeleteCourse").removeClass('hidden');
+        $("#btnDeleteEmployee").addClass('hidden');
+        $("#modalDeleteCourseListData").modal('show');
+    }
+
+    var ocDeleteCourse = function () {
+        var cid = $("#cID").val();
+        if (cid != "") {
+            $.ajax({
+                type: "POST",
+                url: "/Course/DeleteCourseByCourseID",
+                data: { "CourseID": cid },
+                success: function (response) {
+                    var r = response.res;
+                    if (r == true) {
+                        alert("Course is successfully deleted");
+                        $("#modalDeleteCourseListData").modal('hide');
+                        CourseDataTable();
+                    } else {
+                        alert("Error: Please try again");
+                    }
+                },
+                error: function (response) { }
+            });
+        }
+
+    }
+
+    var ocKickOutEmployee = function (eid) {
+        $("#eID").val(eid);
+        $("#lblDelCourse").addClass('hidden');
+        $("#lblDelEmp").removeClass('hidden');
+        $("#btnDeleteCourse").addClass('hidden');
+        $("#btnDeleteEmployee").removeClass('hidden');
+        $("#modalDeleteCourseListData").modal('show');
+    }
+
+    var ocRemoveEmployee = function () {
+        var eid = $("#eID").val();
+        if (eid != "") {
+            $.ajax({
+                type: "POST",
+                url: "/Course/RemoveEmployeeFromCourseByEMployeeNumber",
+                data: { "EmployeeNumber": eid },
+                success: function (response) {
+                    var r = response.res;
+                    if (r == true) {
+                        alert("Employe removed successfully");
+                        $("#modalDeleteCourseListData").modal('hide');
+                        EmployeeDataTable();
+                    } else {
+                        alert("Error: Please try again");
+                    }
+                },
+                error: function (response) { }
+            });
+        }
+    }
 
 </script>
