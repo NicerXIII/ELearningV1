@@ -11,8 +11,7 @@
                 success: function (response) {
                     if (response._res === "Expired")
                     {
-                        var a = document.getElementById("btnStart");
-                        a.style.display = "none";
+                        document.getElementById("btnStart").style.display = "none";
                         document.getElementById("btnStart").disabled = true;
                         //window.location.href = "../Home/Index";                        
                     }
