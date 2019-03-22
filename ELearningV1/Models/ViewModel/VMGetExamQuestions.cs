@@ -14,7 +14,10 @@ namespace ELearningV1.Models.ViewModel
         public string C2 { get; set; }
         public string C3 { get; set; }
         public string C4 { get; set; }
-        public string CAnswer { get; set; }
+        public string CAnswer1 { get; set; }
+        public string CAnswer2 { get; set; }
+        public string CAnswer3 { get; set; }
+        public string CAnswer4 { get; set; }
         public string CourseSectionID { get; set; }
         public string CourseID { get; set; }
         public int OrderNumber { get; set; }

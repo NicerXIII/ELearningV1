@@ -576,7 +576,7 @@ namespace ELearningV1.Models
         #endregion
 
         #region Creating Exam
-        public string SaveExamAndQuestion(string Question, string QuestType, string Ans1, string Ans2, string Ans3, string Ans4, string CorAns, string EmployeeNumber, string CourseSecID, string CourseID)
+        public string SaveExamAndQuestion(string Question, string QuestType, string Ans1, string Ans2, string Ans3, string Ans4, string CorAns,/**1, string CorAn2, string CorAn3, string CorAn4,**/ string EmployeeNumber, string CourseSecID, string CourseID)
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {
@@ -595,7 +595,11 @@ namespace ELearningV1.Models
                         com.Parameters.AddWithValue("@Choice3", Ans3);
                         com.Parameters.AddWithValue("@Choice4", Ans4);
                         com.Parameters.AddWithValue("@ChoiceAns", CorAns);
-
+                        /**
+                        com.Parameters.AddWithValue("@ChoiceAns2", CorAn2);
+                        com.Parameters.AddWithValue("@ChoiceAns3", CorAn3);
+                        com.Parameters.AddWithValue("@ChoiceAns4", CorAn4);
+                        **/
                         con.Open();
                         com.ExecuteNonQuery();
                         con.Close();
@@ -751,7 +755,10 @@ namespace ELearningV1.Models
                                 question.C2 = dr["C2"].ToString();
                                 question.C3 = dr["C3"].ToString();
                                 question.C4 = dr["C4"].ToString();
-                                question.CAnswer = dr["CAnswer"].ToString();
+                                question.CAnswer1 = dr["CAnswer1"].ToString();
+                                question.CAnswer2 = dr["CAnswer2"].ToString();
+                                question.CAnswer3 = dr["CAnswer3"].ToString();
+                                question.CAnswer4 = dr["CAnswer4"].ToString();
                                 question.CourseSectionID = dr["CourseSectionID"].ToString();
                                 question.CourseID = dr["CourseID"].ToString();
                                 question.OrderNumber = Int32.Parse(dr["OrderNumber"].ToString());

@@ -321,15 +321,9 @@ var ocCloseCreateNewTest = function () {
 
 $("#ddquestionType").change(function () {
     var selected = $("#ddquestionType option:selected").val();
-    //var a = document.getElementById("fitb");
     var b = document.getElementById("mc");
     var c = document.getElementById("mcoa");
-
-    //if (selected === "1") {
-    //    a.style.display = "block";
-    //    b.style.display = "none";
-    //    c.style.display = "none";
-    //}
+    
     if (selected === "2") {
         b.style.display = "block";
         //a.style.display = "none";
@@ -606,7 +600,25 @@ var BindQuestionTable = function () {
                     "className": "dt-center", "targets": "_all"
                 },
                 {
-                    "mData": "CAnswer",
+                    "mData": "CAnswer1",
+                    "orderable": false,
+                    "visible": false,
+                    "className": "dt-center", "targets": "_all"
+                },
+                {
+                    "mData": "CAnswer2",
+                    "orderable": false,
+                    "visible": false,
+                    "className": "dt-center", "targets": "_all"
+                },
+                {
+                    "mData": "CAnswer3",
+                    "orderable": false,
+                    "visible": false,
+                    "className": "dt-center", "targets": "_all"
+                },
+                {
+                    "mData": "CAnswer4",
                     "orderable": false,
                     "visible": false,
                     "className": "dt-center", "targets": "_all"
@@ -628,7 +640,7 @@ var BindQuestionTable = function () {
                     "orderable": false,
                     "width": "100px",
                     "render": function (ID, type, full, meta) {
-                        return '<a href="#/" onclick="EditQuestion(\'' + ID + '\',\'' + full.Question + '\',\'' + full.QuestionType + '\',\'' + full.C1 + '\',\'' + full.C2 + '\',\'' + full.C3 + '\',\'' + full.C4 + '\',\'' + full.CAnswer + '\',\'' + full.CourseSectionID + '\',\'' + full.CourseID + '\')"> <i class="fa fa-pencil" title="Edit"></i> ' + " " + "Edit" + '</a> | <a href="#/" onclick="DeleteSelectedQuestion(\'' + ID + '\')"> <i class="fa fa-times" title="Delete"></i> ' + " " + "Delete" + '</a>';
+                        return '<a href="#/" onclick="EditQuestion(\'' + ID + '\',\'' + full.Question + '\',\'' + full.QuestionType + '\',\'' + full.C1 + '\',\'' + full.C2 + '\',\'' + full.C3 + '\',\'' + full.C4 + '\',\'' + full.CAnswer1 + '\',\'' + full.CAnswer2 + '\',\'' + full.CAnswer3 + '\',\'' + full.CAnswer4 + '\',\'' + full.CourseSectionID + '\',\'' + full.CourseID + '\')"> <i class="fa fa-pencil" title="Edit"></i> ' + " " + "Edit" + '</a> | <a href="#/" onclick="DeleteSelectedQuestion(\'' + ID + '\')"> <i class="fa fa-times" title="Delete"></i> ' + " " + "Delete" + '</a>';
                     }
                 },
             ],

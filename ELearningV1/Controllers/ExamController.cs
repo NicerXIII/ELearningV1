@@ -25,9 +25,7 @@ namespace ELearningV1.Controllers
         {
             VMViewCourses courseData = new VMViewCourses();
             try
-            {
-                courseData = SQLcon.ViewCoursesByID(CourseID).SingleOrDefault();
-            }
+            {   courseData = SQLcon.ViewCoursesByID(CourseID).SingleOrDefault();    }
             catch (Exception ex) { }
 
             return View(courseData);
@@ -50,10 +48,9 @@ namespace ELearningV1.Controllers
                     catch (Exception ex) { }
                 }
                 else
-                {
-                    result = false;
-                }
+                {   result = false; }
             }
+
             var response = new JsonResult();
             response.Data = new
             {
@@ -80,9 +77,7 @@ namespace ELearningV1.Controllers
                     catch (Exception ex) { }
                 }
                 else
-                {
-                    result = false;
-                }
+                {   result = false; }
             }
             var response = new JsonResult();
             response.Data = new
@@ -132,14 +127,10 @@ namespace ELearningV1.Controllers
                 result = SQLcon.UpdateSectionOrdering(SID, OrderVal);
             }
             catch (Exception ex)
-            {
-                result = false;
-            }
+            {   result = false; }
             var response = new JsonResult();
             response.Data = new
-            {
-                res = result
-            };
+            {   res = result    };
             return response;
         }
 
@@ -152,28 +143,20 @@ namespace ELearningV1.Controllers
                 result = SQLcon.DeleteSectionById(SID);
             }
             catch (Exception ex)
-            {
-                result = false;
-            }
+            {   result = false; }
             var response = new JsonResult();
             response.Data = new
-            {
-                res = result
-            };
+            {   res = result    };
             return response;
         }
         #endregion
 
         #region Creating Test Name and Question
         public ActionResult CreateExam()
-        {
-            return View();
-        }
+        {   return View();  }
 
         public ActionResult ExamQuestionList()
-        {
-            return View();
-        }
+        {   return View();  }
 
         public ActionResult SaveTestTitle(string CID, string Title)
         {
@@ -185,45 +168,41 @@ namespace ELearningV1.Controllers
                 result = SQLcon.SaveTestName(Title, "Test", CID);
             }
             catch (Exception ex)
-            {
-                result = "false";
-            }
+            {   result = "false";   }
             var response = new JsonResult();
             response.Data = new
-            {
-                res = result
-            };
+            {   res = result    };
             return response;
         }
 
-        public ActionResult saveQuestion(string Question, string QuestionType, string Answer1, string Answer2, string Answer3, string Answer4, string CorrectAns1, string CourseSecID, string CourseID)
+        public ActionResult saveQuestion(string Question, string QuestionType, string Answer1, string Answer2, string Answer3, string Answer4, string CorrectAns, string CourseSecID, string CourseID)
         {
-
             string EmployeeNumber = Session["EmployeeNumber"].ToString();
+
+            #region Condition
             if (Answer1 == "" || Answer1 == null)
-            {
-
-            }
+            { }
             else if (Answer2 == "" || Answer2 == null)
-            {
-
-            }
+            { }
             else if (Answer3 == "" || Answer3 == null)
-            {
-
-            }
+            { }
             else if (Answer4 == "" || Answer4 == null)
-            {
+            { }
+            #endregion
 
-            }
+            //List<string> Arraydata = new List<string> { };
+            //Arraydata.Add(CorrectAns.Split(','));
 
-            string result = SQLcon.SaveExamAndQuestion(Question, QuestionType, Answer1, Answer2, Answer3, Answer4, CorrectAns1, EmployeeNumber, CourseSecID, CourseID);
+            string[] Arraydata = new string[] { };
+            Arraydata = CorrectAns.Split(',');
+            string result = "";
+
+            foreach (string a in Arraydata)
+            {   result = SQLcon.SaveExamAndQuestion(Question, QuestionType, Answer1, Answer2, Answer3, Answer4, CorrectAns, EmployeeNumber, CourseSecID, CourseID); }            
 
             var response = new JsonResult();
             response.Data = new
-            {
-                res = result
-            };
+            {   res = result    };
             return response;
         }
 
@@ -293,6 +272,10 @@ namespace ELearningV1.Controllers
             { pageNo = (param.iDisplayStart / param.iDisplayLength) + 1; }
 
             totalCount = SQLcon.getQuestionList(CourSecID).Count();
+
+            if (totalCount == 0)
+            {   totalCount = 0; }
+
             QuestList = SQLcon.getQuestionList(CourSecID).OrderBy(x => x.OrderNumber).Select(x => new VMGetExamQuestions
             {
                 ID = x.ID,
@@ -302,7 +285,10 @@ namespace ELearningV1.Controllers
                 C2 = x.C2,
                 C3 = x.C3,
                 C4 = x.C4,
-                CAnswer = x.CAnswer,
+                CAnswer1 = x.CAnswer1,
+                CAnswer2 = x.CAnswer2,
+                CAnswer3 = x.CAnswer3,
+                CAnswer4 = x.CAnswer4,
                 CourseSectionID = x.CourseSectionID,
                 CourseID = x.CourseID,
                 OrderNumber = x.OrderNumber,
@@ -454,6 +440,7 @@ namespace ELearningV1.Controllers
 
             List<string> QuestIDFromDB = new List<string>();
             List<string> CorrectAnsFromDB = new List<string>();
+            List<string> CorrectAnsFromDBNOSPLIT = new List<string>();
             List<string> EmployeeAns = new List<string>();
             List<int> IsCorrect = new List<int>();
 
@@ -473,12 +460,10 @@ namespace ELearningV1.Controllers
 
                 foreach (var a in GetCorrectAnswerFromDB)
                 {
-                    CorrectAnsFromDB.Add(a.Answers.ToString());
-                    /**
+                    CorrectAnsFromDBNOSPLIT.Add(a.Answers.ToString());
                     var result = a.Answers.Split(',');
                     foreach (var result2 in result)
                     { CorrectAnsFromDB.Add(result2); }
-                    **/
                 }
 
                 //To avoid redundancy of inserting answers
@@ -491,22 +476,25 @@ namespace ELearningV1.Controllers
             #endregion
 
             //Checking if the answer of employee is equal to the correct answer
-            for (int a = 0; a <= CorrectAnsFromDB.Count; a++)
+            foreach (var a in CorrectAnsFromDBNOSPLIT)
             {
-                foreach (var EmpAns in EmployeeAns)
+                if (a != null || a != "")
                 {
-                    string[] data = new string[] { };
-                    if (CorrectAnsFromDB[a].Contains(','))
-                    {
-                        data = CorrectAnsFromDB[a].Split(',');
-                    }
-                    //if (EmpAns.StartsWith(CorrectAnsFromDB[a])/**CorrectAnsFromDB.Contains(EmpAns)**/)
-                    //{   IsCorrect.Add(1);   }
-                    //else if (EmpAns.EndsWith(CorrectAnsFromDB[a]))
-                    //{   IsCorrect.Add(1);   }
-                }
-            }
+                    List<string> datawithTWOanswers = new List<string>();
+                    List<string> datawithONEanswers = new List<string>();
 
+                    if (a.Contains(','))
+                    {   datawithTWOanswers.Add(a.Substring(0, a.LastIndexOf(',')).Split(',').Last()); }
+                    else
+                    {   datawithONEanswers.Add(a);  }
+                }                
+                /**foreach (var EmpAns in EmployeeAns)
+                {
+                    //if (CorrectAnsFromDB.Contains(EmpAns))
+                    //{   IsCorrect.Add(1);   }
+                }**/
+            }
+            
             int sum = IsCorrect.Sum();
             decimal score = Decimal.Divide(sum, QuestIDFromDB.Count());//(sum / QuestIDFromDB.Count());
             decimal finalScore = score * 100;

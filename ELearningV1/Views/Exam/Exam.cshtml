@@ -316,10 +316,9 @@
                     url: "/Exam/GetDateEnrolled",
                     data: {},
                     success: function (response) {
-                        debugger
                         FirstCountDownDate = response._res;
                     },
-                    error: function (response) { alert(responseDate._res); }
+                    error: function (response) { alert(response._res); }
                 });
             },
             error: function (response) {
@@ -514,14 +513,39 @@
     }
 
     var getNextDataToLoad = function () {
-        var dVideo = document.getElementById("divVIDEO");
-        var dPDF = document.getElementById("divPDF");
-        var dExam = document.getElementById("divEXAM");
+        debugger
         var OrderNo = $("#SectionOrderNo").val();
         var data = getAllUrlParams();
-        //alert(data + ' - ' + OrderNo);
 
         loadData(data, OrderNo);
+    }
+
+    var getQuestionID = function () {
+        var rows = document.getElementsByTagName("tbody")[0].rows; //document.getElementById("tbody").rows.length; //
+
+        for (var i = 0; i < rows.length; i++) {
+
+            var chk = document.getElementsByTagName("input")[i].getAttribute("name");
+
+            //Check if chk is null
+            if (chk == null || chk == "" || chk == " ") { }
+
+            else {
+                if (chk == "q") {
+
+                }
+                else {
+                    var value = chk.match(/\d/g);//chk.slice(-1);
+                    value = value.join("");
+
+                    var result = Arrayid.includes(value);
+                    if (result == false) {
+                        Arrayid.push(value);
+                    }
+                    else { }
+                }
+            }
+        }
     }
 
     $(".checkBox_").change(function () {
@@ -565,40 +589,6 @@
         }
     }
 
-    var cancelSaving = function () {
-        //answers = "";
-        $("#modal-Confirmation").modal('hide');
-    }
-
-    var getQuestionID = function () {
-        debugger
-        var rows = document.getElementsByTagName("tbody")[0].rows; //document.getElementById("tbody").rows.length; //
-
-        for (var i = 0; i < rows.length; i++) {
-
-            var chk = document.getElementsByTagName("input")[i].getAttribute("name");
-
-            //Check if chk is null
-            if (chk == null || chk == "" || chk == " ") { }
-
-            else {
-                if (chk == "q") {
-
-                }
-                else {
-                    var value = chk.match(/\d/g);//chk.slice(-1);
-                    value = value.join("");
-
-                    var result = Arrayid.includes(value);
-                    if (result == false) {
-                        Arrayid.push(value);
-                    }
-                    else { }
-                }
-            }
-        }
-    }
-
     var SaveAnswers = function () {
         $("#modal-Confirmation").modal('hide')
         debugger
@@ -616,6 +606,11 @@
         });
     }
 
+    var cancelSaving = function () {
+        //answers = "";
+        $("#modal-Confirmation").modal('hide');
+    }
+    
     var Decision = function () {
         var selected = $("#ddChoices option:selected").val();
         var CourseSec = $("#CourSecID").val();
