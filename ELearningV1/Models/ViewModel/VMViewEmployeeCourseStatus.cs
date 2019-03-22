@@ -15,6 +15,8 @@ namespace ELearningV1.Models.ViewModel
         public string Status1 { get; set; }
         public DateTime EnrolledDate { get; set; }
         public DateTime? CompletionDate { get; set; }
+
+        public string CampiagnName { get; set; }
     }
 
     public class VMViewEmployeeCourseStatusList : List<VMViewEmployeeCourseStatus> { }

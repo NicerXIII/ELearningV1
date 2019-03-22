@@ -17,6 +17,30 @@ namespace ELearningV1.Controllers
             return View();
         }
 
+        public ActionResult GetDateRange()
+        {
+            var DateFrom = "";
+            var DateTo = "";
+            if ((DateTime.Now.Day >= 1) && (DateTime.Now.Day <= 15))
+            {
+                DateFrom = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).ToString("MM/dd/yyyy");
+                DateTo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 15).ToString("MM/dd/yyyy");
+            }
+            else
+            {
+                DateFrom = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 16).ToString("MM/dd/yyyy");
+                DateTo = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1).ToString("MM/dd/yyyy");
+
+            }
+            var response = new JsonResult();
+            response.Data = new
+            {
+                _dateFrom = DateFrom,
+                _dateTo = DateTo
+            };
+            return response;
+        }
+
         public ActionResult LoadEmployeeCourseStatus(DataTablesParam param)
         {
             List<VMViewEmployeeCourseStatus> EmpCStats = new List<VMViewEmployeeCourseStatus>();
@@ -30,8 +54,8 @@ namespace ELearningV1.Controllers
 
             if (param.sSearch != null)
             {
-                totalCount = SQLcon.ViewEmployeeCourseStatus().Where(x => x.EmpName.ToString().Contains(param.sSearch.ToUpper()) || x.Course.Contains(param.sSearch.ToUpper())).Count();
-                EmpCStats = SQLcon.ViewEmployeeCourseStatus().Where(x => x.EmpName.ToString().Contains(param.sSearch.ToUpper()) || x.Course.Contains(param.sSearch.ToUpper())).Select(x => new VMViewEmployeeCourseStatus
+                totalCount = SQLcon.ViewEmployeeCourseStatus().Where(x => x.EmpName.ToString().Contains(param.sSearch) || x.Course.Contains(param.sSearch)).Count();
+                EmpCStats = SQLcon.ViewEmployeeCourseStatus().Where(x => x.EmpName.ToString().Contains(param.sSearch) || x.Course.Contains(param.sSearch)).Select(x => new VMViewEmployeeCourseStatus
                 {
                     EmployeeNumber = x.EmployeeNumber,
                     EmpName = x.EmpName,
@@ -105,6 +129,53 @@ namespace ELearningV1.Controllers
                 inprog = data.InProgress
             };
             return response;
+        }
+
+
+        public ActionResult LoadEmployeeByStatusAndDateRange(DataTablesParam param,string Status,string DFrom,string DTo)
+        {
+            List<VMViewEmployeeCourseStatus> EmpCStats = new List<VMViewEmployeeCourseStatus>();
+            DAL SQLcon = new DAL();
+            int pageNo = 1;
+            int totalCount = 0;
+
+            if (param.iDisplayStart >= param.iDisplayLength)
+            { pageNo = (param.iDisplayStart / param.iDisplayLength) + 1; }
+
+
+            if (param.sSearch != null)
+            {
+                totalCount = SQLcon.ViewEmployeeByStatusAndDateRange(Status,DFrom,DTo).Where(x => x.EmpName.ToString().Contains(param.sSearch) || x.CampiagnName.Contains(param.sSearch)).Count();
+                EmpCStats = SQLcon.ViewEmployeeByStatusAndDateRange(Status, DFrom, DTo).Where(x => x.EmpName.ToString().Contains(param.sSearch) || x.CampiagnName.Contains(param.sSearch)).Select(x => new VMViewEmployeeCourseStatus
+                {
+                    EmployeeNumber = x.EmployeeNumber,
+                    EmpName = x.EmpName,
+                    Score = x.Score,
+                    Status1 = x.Status1,
+                    CampiagnName = x.CampiagnName,
+                    EnrolledDate = x.EnrolledDate
+                }).AsEnumerable().ToList();
+            }
+            else
+            {
+                totalCount = SQLcon.ViewEmployeeByStatusAndDateRange(Status, DFrom, DTo).Count();
+                EmpCStats = SQLcon.ViewEmployeeByStatusAndDateRange(Status, DFrom, DTo).Select(x => new VMViewEmployeeCourseStatus
+                {
+                    EmployeeNumber = x.EmployeeNumber,
+                    EmpName = x.EmpName,
+                    Score = x.Score,
+                    Status1 = x.Status1,
+                    CampiagnName = x.CampiagnName,
+                    EnrolledDate = x.EnrolledDate
+                }).AsEnumerable().ToList();
+            }
+            return Json(new
+            {
+                aaData = EmpCStats,
+                eEcho = param.sEcho,
+                iTotalDisplayRecords = totalCount,
+                iTotalRecords = EmpCStats.Count()
+            }, JsonRequestBehavior.AllowGet);
         }
     }
 }

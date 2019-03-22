@@ -1,0 +1,172 @@
+﻿
+@{
+    ViewBag.Title = "ViewCourseList";
+}
+<section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3 id="CIP">8</h3>
+                    <p>Course in Progress</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-book text-black"></i>
+                </div>
+                <a href="#" class="small-box-footer text-black">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3 id="CC">0</h3>
+                    <p>Completed Courses</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-check-circle text-black"></i>
+                </div>
+                <a href="#" class="small-box-footer text-black">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3 id="PA">44</h3>
+                    <p>Passed Agent</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-address-book text-black"></i>
+                </div>
+                <a href="#" class="small-box-footer text-black">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3 id="INC">1</h3>
+                    <p>Incompleted Course</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-exclamation-triangle text-black"></i>
+                </div>
+                <a href="#" class="small-box-footer text-black">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+    </div>
+    <!-- /.row -->
+    @*<div class="row">
+            <div class="col-md-2">
+                <button type="button" class="btn btn-default btn-flat" style="background-color:#ffffff" onclick="addCourse()"><span class="fa fa-plus"></span> Add Course</button>
+            </div>
+        </div>*@
+
+    <div class="row">
+        <div class="col-md-5 col-lg-5 col-xs-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title" style="font-size:20px; font-weight:700;">Course List</h3>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-5">
+                        <table id="courseProgTable" class="table table-bordered table-striped" style="width:100%; min-height:100px; min-width:600px; font-size:18px; font-weight:700;">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Course</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size:18px; font-weight:500;"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="box-footer clearfix">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7 col-lg-7 col-xs-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title" style="font-size:20px; font-weight:700;">Employee Enrolled</h3>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-5">
+                        <table id="courseProgTable" class="table table-bordered table-striped" style="width:100%; min-height:100px; min-width:600px; font-size:18px; font-weight:700;">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Campaign</th>
+                                    <th>Progress</th>
+                                    <th>Score</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size:18px; font-weight:500;"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="box-footer clearfix">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 col-xs-12">
+            <div id="UserActivity"></div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <div id="ProGressAct"></div>
+        </div>
+    </div>
+</section>
+
+<input type="hidden" id="LogDate" />
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Home/GetSession",
+            data: {},
+            success: function (response) {
+                PanelBoxStatus();
+            },
+            error: function (response) {
+                window.location.href = '/LogIn/Index';
+            }
+
+        });
+    });
+
+    var PanelBoxStatus = function () {
+        $.ajax({
+            type: "POST",
+            url: "/Home/LoadPanelBoxData",
+            data: { },
+            success: function (response) {
+                $("#CIP").text(response._cip);
+                $("#CC").text(response._cc);
+                $("#PA").text(response._pa);
+                $("#INC").text(response._inc);
+            },
+            error: function (response) { }
+        });
+    }
+
+
+
+
+</script>
