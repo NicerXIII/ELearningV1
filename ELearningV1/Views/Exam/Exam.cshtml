@@ -316,6 +316,9 @@
                     url: "/Exam/GetDateEnrolled",
                     data: {},
                     success: function (response) {
+                        if (response._res == "Expired") {
+                            window.location.href = "../Home/Index";
+                        }
                         FirstCountDownDate = response._res;
                     },
                     error: function (response) { alert(response._res); }
@@ -598,7 +601,7 @@
         $.ajax({
             type: "POST",
             url: "/Exam/SaveEmployeeAnswers",
-            data: { "QuestionID": unique, "Answers": answers },
+            data: { "QuestionID": unique, "EmployeeAnswers": answers },
             success: function (response) {
                 alert(response.res);
                 getNextDataToLoad();

@@ -689,7 +689,7 @@ namespace ELearningV1.Models
         #endregion
 
         #region Creating Exam
-        public string SaveExamAndQuestion(string Question, string QuestType, string Ans1, string Ans2, string Ans3, string Ans4, string CorAns,/**1, string CorAn2, string CorAn3, string CorAn4,**/ string EmployeeNumber, string CourseSecID, string CourseID)
+        public string SaveExamAndQuestion(string Question, string QuestType, string Ans1, string Ans2, string Ans3, string Ans4, string CorAns1, string CorAn2, string CorAn3, string CorAn4, string EmployeeNumber, string CourseSecID, string CourseID)
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {
@@ -707,12 +707,10 @@ namespace ELearningV1.Models
                         com.Parameters.AddWithValue("@Choice2", Ans2);
                         com.Parameters.AddWithValue("@Choice3", Ans3);
                         com.Parameters.AddWithValue("@Choice4", Ans4);
-                        com.Parameters.AddWithValue("@ChoiceAns", CorAns);
-                        /**
+                        com.Parameters.AddWithValue("@ChoiceAns", CorAns1);
                         com.Parameters.AddWithValue("@ChoiceAns2", CorAn2);
                         com.Parameters.AddWithValue("@ChoiceAns3", CorAn3);
                         com.Parameters.AddWithValue("@ChoiceAns4", CorAn4);
-                        **/
                         con.Open();
                         com.ExecuteNonQuery();
                         con.Close();
@@ -768,7 +766,7 @@ namespace ELearningV1.Models
             return "Success";
         }
 
-        public string UpdateQuestion(string ID, string Question, string C1, string C2, string C3, string C4, string CorAns)
+        public string UpdateQuestion(string ID, string Question, string C1, string C2, string C3, string C4, string CorAns1, string CorAns2, string CorAns3, string CorAns4)
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {
@@ -783,7 +781,10 @@ namespace ELearningV1.Models
                         com.Parameters.AddWithValue("@C2", C2);
                         com.Parameters.AddWithValue("@C3", C3);
                         com.Parameters.AddWithValue("@C4", C4);
-                        com.Parameters.AddWithValue("@CAnswer", CorAns);
+                        com.Parameters.AddWithValue("@CAnswer1", CorAns1);
+                        com.Parameters.AddWithValue("@CAnswer2", CorAns2);
+                        com.Parameters.AddWithValue("@CAnswer3", CorAns3);
+                        com.Parameters.AddWithValue("@CAnswer4", CorAns4);
                         con.Open();
                         com.ExecuteNonQuery();
                         con.Close();
@@ -1116,7 +1117,10 @@ namespace ELearningV1.Models
                                 quest.C2 = dr["C2"].ToString();
                                 quest.C3 = dr["C3"].ToString();
                                 quest.C4 = dr["C4"].ToString();
-                                quest.CAnswer = dr["CAnswer"].ToString();
+                                quest.CAnswer1 = dr["CAnswer1"].ToString();
+                                quest.CAnswer2 = dr["CAnswer2"].ToString();
+                                quest.CAnswer3 = dr["CAnswer3"].ToString();
+                                quest.CAnswer4 = dr["CAnswer4"].ToString();
                                 PDFPathList.Add(quest);
                             }
                             return PDFPathList;
@@ -1191,8 +1195,10 @@ namespace ELearningV1.Models
                             foreach (DataRow dr in dt.Rows)
                             {
                                 VMGetAnswers quest = new VMGetAnswers();
-                                //quest.QuestionID = dr["ID"].ToString();
-                                quest.Answers = dr["CAnswer"].ToString();
+                                quest.Answer1 = dr["CAnswer1"].ToString();
+                                quest.Answer2 = dr["CAnswer2"].ToString();
+                                quest.Answer3 = dr["CAnswer3"].ToString();
+                                quest.Answer4 = dr["CAnswer4"].ToString();
                                 questID.Add(quest);
                             }
                             return questID;

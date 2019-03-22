@@ -8,7 +8,10 @@ namespace ELearningV1.Models.ViewModel
     public class VMGetAnswers
     {
         //public string QuestionID { get; set; }
-        public string Answers { get; set; }
+        public string Answer1 { get; set; }
+        public string Answer2 { get; set; }
+        public string Answer3 { get; set; }
+        public string Answer4 { get; set; }
     }
     public class getAnswersList : List<VMGetAnswers> { };
 }
