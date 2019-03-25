@@ -25,7 +25,7 @@ namespace ELearningV1.Controllers
         {
             VMViewCourses courseData = new VMViewCourses();
             try
-            {   courseData = SQLcon.ViewCoursesByID(CourseID).SingleOrDefault();    }
+            { courseData = SQLcon.ViewCoursesByID(CourseID).SingleOrDefault(); }
             catch (Exception ex) { }
 
             return View(courseData);
@@ -48,7 +48,7 @@ namespace ELearningV1.Controllers
                     catch (Exception ex) { }
                 }
                 else
-                {   result = false; }
+                { result = false; }
             }
 
             var response = new JsonResult();
@@ -77,7 +77,7 @@ namespace ELearningV1.Controllers
                     catch (Exception ex) { }
                 }
                 else
-                {   result = false; }
+                { result = false; }
             }
             var response = new JsonResult();
             response.Data = new
@@ -127,10 +127,10 @@ namespace ELearningV1.Controllers
                 result = SQLcon.UpdateSectionOrdering(SID, OrderVal);
             }
             catch (Exception ex)
-            {   result = false; }
+            { result = false; }
             var response = new JsonResult();
             response.Data = new
-            {   res = result    };
+            { res = result };
             return response;
         }
 
@@ -143,20 +143,20 @@ namespace ELearningV1.Controllers
                 result = SQLcon.DeleteSectionById(SID);
             }
             catch (Exception ex)
-            {   result = false; }
+            { result = false; }
             var response = new JsonResult();
             response.Data = new
-            {   res = result    };
+            { res = result };
             return response;
         }
         #endregion
 
         #region Creating Test Name and Question
         public ActionResult CreateExam()
-        {   return View();  }
+        { return View(); }
 
         public ActionResult ExamQuestionList()
-        {   return View();  }
+        { return View(); }
 
         public ActionResult SaveTestTitle(string CID, string Title)
         {
@@ -168,10 +168,10 @@ namespace ELearningV1.Controllers
                 result = SQLcon.SaveTestName(Title, "Test", CID);
             }
             catch (Exception ex)
-            {   result = "false";   }
+            { result = "false"; }
             var response = new JsonResult();
             response.Data = new
-            {   res = result    };
+            { res = result };
             return response;
         }
 
@@ -195,22 +195,22 @@ namespace ELearningV1.Controllers
             Arraydata = CorrectAns.Split(',');
 
             List<string> CorrectData = new List<string>() { };
-            
+
             foreach (string a in Arraydata)
-            {   CorrectData.Add(a);    }           
-            
-            if(CorrectData.ElementAtOrDefault(1) == null)
+            { CorrectData.Add(a); }
+
+            if (CorrectData.ElementAtOrDefault(1) == null)
             { CorrectData.Add("NULL");/**CorrectData[1] = "Null";**/ }
             if (CorrectData.ElementAtOrDefault(2) == null)
             { CorrectData.Add("NULL");/**CorrectData[2] = "Null";**/ }
             if (CorrectData.ElementAtOrDefault(3) == null)
             { CorrectData.Add("NULL");/**CorrectData[3] = "Null";**/ }
 
-            result = SQLcon.SaveExamAndQuestion(Question, QuestionType, Answer1, Answer2, Answer3, Answer4, CorrectData[0].ToString(), CorrectData[1].ToString(), CorrectData[2].ToString(), CorrectData[3].ToString(), EmployeeNumber, CourseSecID, CourseID);        
+            result = SQLcon.SaveExamAndQuestion(Question, QuestionType, Answer1, Answer2, Answer3, Answer4, CorrectData[0].ToString(), CorrectData[1].ToString(), CorrectData[2].ToString(), CorrectData[3].ToString(), EmployeeNumber, CourseSecID, CourseID);
 
             var response = new JsonResult();
             response.Data = new
-            {   res = result    };
+            { res = result };
             return response;
         }
 
@@ -233,16 +233,17 @@ namespace ELearningV1.Controllers
             var result = "";
             try
             {
-                if(CorAns1 == "")
-                {   CorAns1 = "NULL";   }
+                if (CorAns1 == "")
+                { CorAns1 = "NULL"; }
                 if (CorAns2 == "")
-                {   CorAns2 = "NULL";   }
+                { CorAns2 = "NULL"; }
                 if (CorAns3 == "")
-                {   CorAns3 = "NULL";   }
+                { CorAns3 = "NULL"; }
                 if (CorAns4 == "")
-                {   CorAns4 = "NULL";   }
+                { CorAns4 = "NULL"; }
 
-                result = SQLcon.UpdateQuestion(ID, Question, C1, C2, C3, C4, CorAns1, CorAns2, CorAns3, CorAns4); }
+                result = SQLcon.UpdateQuestion(ID, Question, C1, C2, C3, C4, CorAns1, CorAns2, CorAns3, CorAns4);
+            }
             catch (Exception ex)
             { result = "false"; }
 
@@ -292,7 +293,7 @@ namespace ELearningV1.Controllers
             totalCount = SQLcon.getQuestionList(CourSecID).Count();
 
             if (totalCount == 0)
-            {   totalCount = 0; }
+            { totalCount = 0; }
 
             QuestList = SQLcon.getQuestionList(CourSecID).OrderBy(x => x.OrderNumber).Select(x => new VMGetExamQuestions
             {
@@ -417,33 +418,61 @@ namespace ELearningV1.Controllers
             var CorAnswerFromDB3 = "";
             var CorAnswerFromDB4 = "";
 
+            List<string> GetAnswer1 = new List<string>();
+            List<string> EmpAnswer1 = new List<string>();
             try
             {
                 foreach (var qID in QuestionID)
                 {
-                    CorAnswerFromDB1 = SQLcon.getAnsList(qID).Select(x => x.Answer1).FirstOrDefault().ToString();
-                    CorAnswerFromDB2 = SQLcon.getAnsList(qID).Select(x => x.Answer2).FirstOrDefault().ToString();
-                    CorAnswerFromDB3 = SQLcon.getAnsList(qID).Select(x => x.Answer3).FirstOrDefault().ToString();
-                    CorAnswerFromDB4 = SQLcon.getAnsList(qID).Select(x => x.Answer4).FirstOrDefault().ToString();
+                    //CorAnswerFromDB1 = SQLcon.getAnsList(qID).Select(x => x.Answer1).FirstOrDefault().ToString();
+                    //CorAnswerFromDB2 = SQLcon.getAnsList(qID).Select(x => x.Answer2).FirstOrDefault().ToString();
+                    //CorAnswerFromDB3 = SQLcon.getAnsList(qID).Select(x => x.Answer3).FirstOrDefault().ToString();
+                    //CorAnswerFromDB4 = SQLcon.getAnsList(qID).Select(x => x.Answer4).FirstOrDefault().ToString();
+                    GetAnswer1.Add(SQLcon.getAnsList(qID).Select(x => x.Answer1).SingleOrDefault());
+                    GetAnswer1.Add(SQLcon.getAnsList(qID).Select(x => x.Answer2).SingleOrDefault());
+                    GetAnswer1.Add(SQLcon.getAnsList(qID).Select(x => x.Answer3).SingleOrDefault());
+                    GetAnswer1.Add(SQLcon.getAnsList(qID).Select(x => x.Answer4).SingleOrDefault());
 
-                    foreach (var ans in EmployeeAnswers)
-                    {
-                        if (ans == CorAnswerFromDB1)
-                        { result = SQLcon.saveAnswers(qID, user, ans, "Y"); }
-                        if (ans == CorAnswerFromDB2)
-                        { result = SQLcon.saveAnswers(qID, user, ans, "Y"); }
-                        if (ans == CorAnswerFromDB3)
-                        { result = SQLcon.saveAnswers(qID, user, ans, "Y"); }
-                        if (ans == CorAnswerFromDB4)
-                        { result = SQLcon.saveAnswers(qID, user, ans, "Y"); }
-                        //else
-                        //{ result = SQLcon.saveAnswers(qID, user, ans, "N"); }
+                    foreach (var ans in EmployeeAnswers) {
+                        if (ans.IndexOf(qID.ToString()) > -1) {
+                            EmpAnswer1.Add(ans.Replace(qID.ToString(),""));
+                        }
                     }
+
+                    
+                    foreach (var i in EmpAnswer1) {
+                        if (GetAnswer1.Contains(i))
+                        {
+                            result = SQLcon.saveAnswers(qID, user, i, "Y");
+                            //EmpAnswer1.Remove(i);
+                        }
+                        else {
+                            result = SQLcon.saveAnswers(qID, user, i, "N");
+                        }
+                    }
+
+
+                    //    foreach (var ans in EmployeeAnswers)
+                    //{
+                    //    if (ans == CorAnswerFromDB1)
+                    //    {
+                    //        result = SQLcon.saveAnswers(qID, user, ans, "Y");
+                    //      //  EmployeeAnswers.Remove(CorAnswerFromDB1);
+                    //    }
+                    //    else if (ans == CorAnswerFromDB2)
+                    //    { result = SQLcon.saveAnswers(qID, user, ans, "Y"); }
+                    //    else if (ans == CorAnswerFromDB3)
+                    //    { result = SQLcon.saveAnswers(qID, user, ans, "Y"); }
+                    //    else if (ans == CorAnswerFromDB4)
+                    //    { result = SQLcon.saveAnswers(qID, user, ans, "Y"); }
+                    //    else
+                    //    { result = SQLcon.saveAnswers(qID, user, ans, "N"); }
+                    //}
                 }
             }
             catch (Exception ex)
             { result = ex.Message; }
-            
+
             var response = new JsonResult();
             response.Data = new
             {
@@ -457,43 +486,88 @@ namespace ELearningV1.Controllers
             #region Declarations
             string user = Session["EmployeeNumber"].ToString();
             var AnsFromDB1 = "";
-            var AnsFromDB2 = "";
-            var AnsFromDB3 = "";
-            var AnsFromDB4 = "";
 
             List<VMGetEmployeeAnswers> GetEmployeeAnswer = new List<VMGetEmployeeAnswers>();
+            List<VMGetEmployeeAnswers> IdentIC = new List<VMGetEmployeeAnswers>();
             List<VMGetQuestionID> QuestionID = SQLcon.getQuestListByCourseSec(CourseSectionID).Select(x => new VMGetQuestionID { QuestionID = x.QuestionID }).ToList();
 
             List<string> EmployeeAns = new List<string>();
+            List<string> ListAnswerFromDB = new List<string>();
             List<int> IsCorrect = new List<int>();
             #endregion
-            
+
             #region Getting QuestionID | Correct Answer | Employee Answer
             //Get the CORRECT ANSWER from DB
             foreach (var questID in QuestionID)
             {
-                AnsFromDB1 = SQLcon.getAnsList(questID.QuestionID).Select(x => x.Answer1).FirstOrDefault().ToString();
-                AnsFromDB2 = SQLcon.getAnsList(questID.QuestionID).Select(x => x.Answer2).FirstOrDefault().ToString();
-                AnsFromDB3 = SQLcon.getAnsList(questID.QuestionID).Select(x => x.Answer3).FirstOrDefault().ToString();
-                AnsFromDB4 = SQLcon.getAnsList(questID.QuestionID).Select(x => x.Answer4).FirstOrDefault().ToString();
+                AnsFromDB1 += SQLcon.getAnsList(questID.QuestionID).Select(x => x.Answer1).FirstOrDefault().ToString() == "NULL" ? "" : SQLcon.getAnsList(questID.QuestionID).Select(x => x.Answer1).FirstOrDefault().ToString() + ",";
+                AnsFromDB1 += SQLcon.getAnsList(questID.QuestionID).Select(x => x.Answer2).FirstOrDefault().ToString() == "NULL" ? "" : SQLcon.getAnsList(questID.QuestionID).Select(x => x.Answer2).FirstOrDefault().ToString() + ",";
+                AnsFromDB1 += SQLcon.getAnsList(questID.QuestionID).Select(x => x.Answer3).FirstOrDefault().ToString() == "NULL" ? "" : SQLcon.getAnsList(questID.QuestionID).Select(x => x.Answer3).FirstOrDefault().ToString() + ",";
+                AnsFromDB1 += SQLcon.getAnsList(questID.QuestionID).Select(x => x.Answer4).FirstOrDefault().ToString() == "NULL" ? "" : SQLcon.getAnsList(questID.QuestionID).Select(x => x.Answer4).FirstOrDefault().ToString() + ",";
 
-                GetEmployeeAnswer = SQLcon.getEmployeeAnswer(user, questID.QuestionID).Select(x => new VMGetEmployeeAnswers { EmployeeAnswer = x.EmployeeAnswer }).ToList();
+                GetEmployeeAnswer = SQLcon.getEmployeeAnswer(user, questID.QuestionID).Select(x => new VMGetEmployeeAnswers
+                {
+                    QuestionID = x.QuestionID,
+                    EmployeeAnswer = x.EmployeeAnswer,
+                    IsCorrect = x.IsCorrect
 
-                //Checking if the answer of employee is equal to the correct answer           
+                }).ToList();
+
+                //var ansCount = AnsFromDB1.Count(x => x == ',');
+                var ansStats = "";
+                var ansCount1 = 0;
+
                 foreach (var EmpAns in GetEmployeeAnswer)
                 {
-                    if (AnsFromDB1 == EmpAns.EmployeeAnswer)
-                    { IsCorrect.Add(1); }
-                    if (AnsFromDB2 == EmpAns.EmployeeAnswer)
-                    { IsCorrect.Add(1); }
-                    if (AnsFromDB3 == EmpAns.EmployeeAnswer)
-                    { IsCorrect.Add(1); }
-                    if (AnsFromDB4 == EmpAns.EmployeeAnswer)
-                    { IsCorrect.Add(1); }
+                    if (EmpAns.IsCorrect.Contains("N"))
+                    {
+                        ansStats = "InCorrect";
+                        break;
+                    }
+                    else
+                    {
+                        ansStats = "Correct";
+                    }
                 }
+
+                if (ansStats == "Correct")
+                {
+                    ansCount1 += 1;
+                }
+
+
+                AnsFromDB1 = "";
+                //IdentIC = SQLcon.getEmployeeAnswer(user, questID.QuestionID).Select(x => new VMGetEmployeeAnswers { EmployeeAnswer = x.EmployeeAnswer }).ToList();
+
+
+
+                #region Code commented
+                //    AnsFromDB1 = SQLcon.getAnsList(questID.QuestionID).Select(x => x.Answer1).FirstOrDefault().ToString();
+                //    AnsFromDB2 = SQLcon.getAnsList(questID.QuestionID).Select(x => x.Answer2).FirstOrDefault().ToString();
+                //    AnsFromDB3 = SQLcon.getAnsList(questID.QuestionID).Select(x => x.Answer3).FirstOrDefault().ToString();
+                //    AnsFromDB4 = SQLcon.getAnsList(questID.QuestionID).Select(x => x.Answer4).FirstOrDefault().ToString();
+
+                //    GetEmployeeAnswer = SQLcon.getEmployeeAnswer(user, questID.QuestionID).Select(x => new VMGetEmployeeAnswers { EmployeeAnswer = x.EmployeeAnswer }).ToList();
+
+                //    Checking if the answer of employee is equal to the correct answer
+                //foreach (var EmpAns in GetEmployeeAnswer)
+                //    {
+                //        if (AnsFromDB1 == EmpAns.EmployeeAnswer)
+                //        { IsCorrect.Add(1); }
+                //        if (AnsFromDB2 == EmpAns.EmployeeAnswer)
+                //        { IsCorrect.Add(1); }
+                //        if (AnsFromDB3 == EmpAns.EmployeeAnswer)
+                //        { IsCorrect.Add(1); }
+                //        if (AnsFromDB4 == EmpAns.EmployeeAnswer)
+                //        { IsCorrect.Add(1); }
+                //    }
+                #endregion
+
             }
             #endregion
-            
+
+
+
             int sum = IsCorrect.Sum();
             decimal score = Decimal.Divide(sum, QuestionID.Count());
             decimal finalScore = score * 100;

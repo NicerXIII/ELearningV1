@@ -90,8 +90,8 @@ var loadExamData = function (CourseID) {
     });
 }
 
-var loadData = function (CourseID, SectionOrder) {
-
+var loadData = function (CourseID) {
+    debugger
     var dExam = document.getElementById("divEXAM");
     var dVideo = document.getElementById("divVIDEO");
     var dPDF = document.getElementById("divPDF");
@@ -105,7 +105,7 @@ var loadData = function (CourseID, SectionOrder) {
 
     var CourseSec = $("#CourSecID").val();
     var OrderNo = $("#SectionOrderNo").val();
-    if (OrderNo == "") {
+    if (OrderNo === "") {
         OrderNo = 0;
     }
 
@@ -114,14 +114,16 @@ var loadData = function (CourseID, SectionOrder) {
         url: "/Exam/GetDataToLoad",
         data: { "CourseID": CourseID, "PreviousOrderSec": OrderNo },
         success: function (response) {
+            debugger
             $("#SectionOrderNo").val(response._currentSectionOrder);
 
-            if (response.res == "Video") {
+            if (response.res === "Video") {
                 $.ajax({
                     type: "POST",
                     url: "/Exam/loadVideo",
                     data: { "CourseID": CourseID },
                     success: function (responseVideo) {
+                        debugger
                         LoadingData();
                         dVideo.style.display = "block";
                         btnVideo.style.display = "block";
@@ -143,12 +145,13 @@ var loadData = function (CourseID, SectionOrder) {
                 });
             }
 
-            else if (response.res == "PDF") {
+            else if (response.res === "PDF") {
                 $.ajax({
                     type: "POST",
                     url: "/Exam/loadPDF",
                     data: { "CourseID": CourseID },
                     success: function (responsePDF) {
+                        debugger
                         LoadingData();
                         iFrameVideo.pause();
 
@@ -169,7 +172,7 @@ var loadData = function (CourseID, SectionOrder) {
                 });
             }
 
-            else if (response.res == "Test") {
+            else if (response.res === "Test") {
                 LoadingData();
                 $("#modal-info").modal("show");
                 dPDF.style.display = "none";
@@ -187,7 +190,7 @@ var loadData = function (CourseID, SectionOrder) {
             }
 
             //For scoring
-            else if (response.res == "Scoring") {
+            else if (response.res === "Scoring") {
                 LoadingData();
                 iFrameVideo.pause();
                 dScoring.style.display = "block";
@@ -204,6 +207,7 @@ var loadData = function (CourseID, SectionOrder) {
                     url: "/Exam/getScoreofEmployeeExam",
                     data: { "CourseID": CourseID, "CourseSectionID": CourseSec },
                     success: function (responseScore) {
+                        debugger
                         var a = document.getElementById("panelPositive");
                         var b = document.getElementById("panelNegative");
 
@@ -230,7 +234,7 @@ var getNextDataToLoad = function () {
     var OrderNo = $("#SectionOrderNo").val();
     var data = getAllUrlParams();
 
-    loadData(data, OrderNo);
+    loadData(data); //, OrderNo
 }
 
 var getQuestionID = function () {
@@ -260,23 +264,27 @@ var getQuestionID = function () {
 }
 
 $(".checkBox_").change(function () {
-    var a;
-    for (a = 0; a <= answers.length; a++) {
-        if (this.value === answers[a]) {
-            // do nothing
+    debugger
+    //var id = document.getElementById("chkid");
+    var value = this.value;
+    if (this.id.checked === true) {
+        if (answers.includes(this.value)) {
+            answers.splice(answers.findIndex(x => x === value), 1);
         }
-        else { answers.push(this.value); break; }
+        else {
+            answers.push(this.value);
+        }
     }
 });
 
 $(".radio_").change(function () {
+    debugger
     // for employe who change their answer
-    var a;
-    for (a = 0; a <= answers.length; a++) {
-        if (this.value === answers[a]) {
-            // do nothing
-        }
-        else { answers.push(this.value); break; }
+    if (answers.includes(this.value)) {
+        // do nothing
+    }
+    else {
+        answers.push(this.value);
     }
 });
 
@@ -285,18 +293,12 @@ var confirmation = function () {
     var xPDF = document.getElementById("divPDF");
     var xVideo = document.getElementById("divVIDEO");
     var xExam = document.getElementById("divEXAM");
-
+    var data = getAllUrlParams();
     if (xExam.style.display === "block") {
         if (answers === "" || answers === null) {
             alert("Please answer all the questions");
         }
         else { $("#modal-Confirmation").modal('show'); }
-    }
-    else if (xVideo.style.display === "block") {
-        loadData();
-    }
-    else if (xPDF.style.display === "block") {
-        loadData();
     }
 }
 
@@ -336,37 +338,46 @@ var Decision = function () {
     var btnExam = document.getElementById("btnNext");
     var btnVideo = document.getElementById("btnProceedVideo");
     var btnPDF = document.getElementById("btnProceedPDF");
-
-    if (selected == "1") {
+    //re-take exam
+    if (selected === "1") {
         $.ajax({
             type: "POST",
             url: "/Exam/EmpResetAnswer",
             data: { "CourseSecID": CourseSec },
             success: function (responseReset) {
                 LoadingData();
-                if (responseReset.res == "true") {
-                    $("#modal-info").modal("show");
-                    dExam.style.display = "block";
-                    dPDF.style.display = "none";
-                    dVideo.style.display = "none";
-                    dScoring.style.display = "none";
+                if (responseReset.res === "true") {
+                    window.location.reload(true);
+                    //$("#modal-info").modal("show");
+                    //dExam.style.display = "block";
+                    //dPDF.style.display = "none";
+                    //dVideo.style.display = "none";
+                    //dScoring.style.display = "none";
 
-                    iFrameVideo.pause();
+                    //iFrameVideo.pause();
 
-                    btnExam.style.display = "block"
-                    btnVideo.style.display = "none";
-                    btnPDF.style.display = "none";
-                    getQuestionID();
+                    ////Clearing checkbox and radio button
+                    //document.getElementById("chkid").checked = false;
+                    //var rad = document.getElementById("radioid");
+                    //for (var i = 0; i < rad.length; i++) {
+                    //    if (rad[i].checked) rad[i].checked = false;
+                    //}
 
-                    //Clearing checkbox and radio button
-                    document.getElementById("chkid").checked = false;
-                    document.getElementById("radioid").checked = false;
-                    EndLoading();
+                    //$("#chkid").prop("checked", false);
+                    //$("#radioid").prop("checked", false);
+                    ////document.getElementById("radioid").checked = false;
+
+                    //btnExam.style.display = "block";
+                    //btnVideo.style.display = "none";
+                    //btnPDF.style.display = "none";
+                    //getQuestionID();
                 }
+                EndLoading();
             }
         });
     }
-    else if (selected == "2") {
+    //go home
+    else if (selected === "2") {
         window.location.href = "../Home/Index";
     }
 }

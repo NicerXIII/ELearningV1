@@ -1199,6 +1199,7 @@ namespace ELearningV1.Models
                                 quest.Answer2 = dr["CAnswer2"].ToString();
                                 quest.Answer3 = dr["CAnswer3"].ToString();
                                 quest.Answer4 = dr["CAnswer4"].ToString();
+
                                 questID.Add(quest);
                             }
                             return questID;
@@ -1297,7 +1298,9 @@ namespace ELearningV1.Models
                             foreach (DataRow dr in dt.Rows)
                             {
                                 VMGetEmployeeAnswers question = new VMGetEmployeeAnswers();
+                                question.QuestionID = dr["QuestionID"].ToString();
                                 question.EmployeeAnswer = dr["EmployeeAnswer"].ToString();
+                                question.IsCorrect = dr["IsCorrect"].ToString();
                                 AnswerList.Add(question);
                             }
                             return AnswerList;
