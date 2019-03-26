@@ -233,13 +233,13 @@ namespace ELearningV1.Controllers
             var result = "";
             try
             {
-                if (CorAns1 == "")
+                if (CorAns1 == "" || CorAns1 == null)
                 { CorAns1 = "NULL"; }
-                if (CorAns2 == "")
+                if (CorAns2 == "" || CorAns2 == null)
                 { CorAns2 = "NULL"; }
-                if (CorAns3 == "")
+                if (CorAns3 == "" || CorAns3 == null)
                 { CorAns3 = "NULL"; }
-                if (CorAns4 == "")
+                if (CorAns4 == "" || CorAns4 == null)
                 { CorAns4 = "NULL"; }
 
                 result = SQLcon.UpdateQuestion(ID, Question, C1, C2, C3, C4, CorAns1, CorAns2, CorAns3, CorAns4);

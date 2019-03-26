@@ -792,7 +792,11 @@ var DeleteSelectedQuestion = function (ID) {
 }
 
 var UpdateSeletedQuestion = function () {
-    //var totalAnswer1 = "";
+    debugger
+    var radioAnswer1 = "";
+    var radioAnswer2 = "";
+    var radioAnswer3 = "";
+    var radioAnswer4 = "";
     //var totalAnswer2 = "";
     var CorAns1 = "";
     var CorAns2 = "";
@@ -814,32 +818,75 @@ var UpdateSeletedQuestion = function () {
         ans4 = $("#txtMCFour").val();
 
         if (document.getElementById("chckMCOne").checked) {
-            //if (totalAnswer1 === "" || totalAnswer1 === null || totalAnswer1 === " ") {
+            if (CorAns1 === "" || CorAns1 === null || CorAns1 === " ") {
                 CorAns1 = $("#txtMCOne").val(); //totalAnswer1 = $("#txtMCOne").val();
+            }
+            //else if (CorAns2 === "" || CorAns2 === null || CorAns2 === " ") {
+            //    CorAns2 = $("#txtMCOne").val();
             //}
-            //else
-            //{   totalAnswer1 = totalAnswer1 + "&" + $("#txtMCOne").val();   }
+            //else if (CorAns3 === "" || CorAns3 === null || CorAns3 === " ") {
+            //    CorAns3 = $("#txtMCOne").val();
+            //}
+            //else if (CorAns4 === "" || CorAns4 === null || CorAns4 === " ") {
+            //    CorAns4 = $("#txtMCOne").val();
+            //}
         }
         if (document.getElementById("chckMCTwo").checked) {
-            //if (totalAnswer1 === "" || totalAnswer1 === null || totalAnswer1 === " ") {
-                CorAns2 = $("#txtMCTwo").val();//totalAnswer1 = $("#txtMCTwo").val();
+            if (CorAns2 === "" || CorAns2 === null || CorAns2 === " ") {
+                CorAns2 = $("#txtMCTwo").val(); //totalAnswer1 = $("#txtMCOne").val();
+            }
+            //else if (CorAns2 === "" || CorAns2 === null || CorAns2 === " ") {
+            //    CorAns2 = $("#txtMCTwo").val();
             //}
-            //else
-            //{   totalAnswer1 = totalAnswer1 + "&" + $("#txtMCTwo").val();   }
+            //else if (CorAns3 === "" || CorAns3 === null || CorAns3 === " ") {
+            //    CorAns3 = $("#txtMCTwo").val();
+            //}
+            //else if (CorAns4 === "" || CorAns4 === null || CorAns4 === " ") {
+            //    CorAns4 = $("#txtMCTwo").val();
+            //}
+            ////if (totalAnswer1 === "" || totalAnswer1 === null || totalAnswer1 === " ") {
+            //    //CorAns2 = $("#txtMCTwo").val();//totalAnswer1 = $("#txtMCTwo").val();
+            ////}
+            ////else
+            ////{   totalAnswer1 = totalAnswer1 + "&" + $("#txtMCTwo").val();   }
         }
         if (document.getElementById("chckMCThree").checked) {
-            //if (totalAnswer1 === "" || totalAnswer1 === null || totalAnswer1 === " ") {
-                CorAns3 = $("#txtMCThree").val();//totalAnswer1 = $("#txtMCThree").val();
+            if (CorAns3 === "" || CorAns3 === null || CorAns3 === " ") {
+                CorAns3 = $("#txtMCThree").val(); //totalAnswer1 = $("#txtMCOne").val();
+            }
+            //else if (CorAns2 === "" || CorAns2 === null || CorAns2 === " ") {
+            //    CorAns2 = $("#txtMCThree").val();
             //}
-            //else
-            //{   totalAnswer1 = totalAnswer1 + "&" + $("#txtMCThree").val(); }
+            //else if (CorAns3 === "" || CorAns3 === null || CorAns3 === " ") {
+            //    CorAns3 = $("#txtMCThree").val();
+            //}
+            //else if (CorAns4 === "" || CorAns4 === null || CorAns4 === " ") {
+            //    CorAns4 = $("#txtMCThree").val();
+            //}
+            ////if (totalAnswer1 === "" || totalAnswer1 === null || totalAnswer1 === " ") {
+            //    //CorAns3 = $("#txtMCThree").val();//totalAnswer1 = $("#txtMCThree").val();
+            ////}
+            ////else
+            ////{   totalAnswer1 = totalAnswer1 + "&" + $("#txtMCThree").val(); }
         }
         if (document.getElementById("chckMCFour").checked) {
-            //if (totalAnswer1 === "" || totalAnswer1 === null || totalAnswer1 === " ") {
-                CorAns4 = $("#txtMCFour").val();//totalAnswer1 = $("#txtMCFour").val();
+            if (CorAns4 === "" || CorAns4 === null || CorAns4 === " ") {
+                CorAns4 = $("#txtMCFour").val(); //totalAnswer1 = $("#txtMCOne").val();
+            }
+            //else if (CorAns2 === "" || CorAns2 === null || CorAns2 === " ") {
+            //    CorAns2 = $("#txtMCFour").val();
             //}
-            //else
-            //{   totalAnswer1 = totalAnswer1 + "&" + $("#txtMCFour").val();  }
+            //else if (CorAns3 === "" || CorAns3 === null || CorAns3 === " ") {
+            //    CorAns3 = $("#txtMCFour").val();
+            //}
+            //else if (CorAns4 === "" || CorAns4 === null || CorAns4 === " ") {
+            //    CorAns4 = $("#txtMCFour").val();
+            //}
+            ////if (totalAnswer1 === "" || totalAnswer1 === null || totalAnswer1 === " ") {
+            //    //CorAns4 = $("#txtMCFour").val();//totalAnswer1 = $("#txtMCFour").val();
+            ////}
+            ////else
+            ////{   totalAnswer1 = totalAnswer1 + "&" + $("#txtMCFour").val();  }
         }
 
         $.ajax({
@@ -859,18 +906,18 @@ var UpdateSeletedQuestion = function () {
         ans4 = $("#txtMCOA4").val();
 
         if (document.getElementById("chckMCOA1").checked)
-        {   totalAnswer2 = $("#txtMCOA1").val();    }
+        { radioAnswer1 = $("#txtMCOA1").val();    }
         if (document.getElementById("chckMCOA2").checked)
-        {   totalAnswer2 = $("#txtMCOA2").val();    }
+        { radioAnswer2 = $("#txtMCOA2").val();    }
         if (document.getElementById("chckMCOA3").checked)
-        {   totalAnswer2 = $("#txtMCOA3").val();    }
+        { radioAnswer3 = $("#txtMCOA3").val();    }
         if (document.getElementById("chckMCOA4").checked)
-        {   totalAnswer2 = $("#txtMCOA4").val();    }
+        { radioAnswer4 = $("#txtMCOA4").val();    }
 
         $.ajax({
             type: "POST",
             url: "/Exam/updateQuestion",
-            data: { "ID": questionID, "Question": question, "C1": ans1, "C2": ans2, "C3": ans3, "C4": ans4, "CorAns": totalAnswer2 },
+            data: { "ID": questionID, "Question": question, "C1": ans1, "C2": ans2, "C3": ans3, "C4": ans4, "CorAns1": radioAnswer1, "CorAns2": radioAnswer2, "CorAns3": radioAnswer3, "CorAns4": radioAnswer4 },
             success: function (response) {
             },
             error: function (response) { }
