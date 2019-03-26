@@ -1085,6 +1085,57 @@ namespace ELearningV1.Models
             return null;
         }
 
+        public getQuestionList GetQuestByCourseIDAndSectionID(string CourseID,string SectionID)
+        {
+            getQuestionList PDFPathList = new getQuestionList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningGetQuestionsByCourseAndSection", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@CourseID", CourseID);
+                            cmd.Parameters.AddWithValue("@SectionID", SectionID);
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                VMGetExamQuestion quest = new VMGetExamQuestion();
+                                quest.ID = dr["ID"].ToString();
+                                quest.CourseID = dr["CourseID"].ToString();
+                                quest.CourseSectionID = dr["CourseSectionID"].ToString();
+                                quest.OrderNumber = Int32.Parse(dr["OrderNumber"].ToString());
+                                quest.Question = dr["Question"].ToString();
+                                quest.QuestionType = dr["QuestionType"].ToString();
+                                quest.C1 = dr["C1"].ToString();
+                                quest.C2 = dr["C2"].ToString();
+                                quest.C3 = dr["C3"].ToString();
+                                quest.C4 = dr["C4"].ToString();
+                                quest.CAnswer1 = dr["CAnswer1"].ToString();
+                                quest.CAnswer2 = dr["CAnswer2"].ToString();
+                                quest.CAnswer3 = dr["CAnswer3"].ToString();
+                                quest.CAnswer4 = dr["CAnswer4"].ToString();
+                                PDFPathList.Add(quest);
+                            }
+                            return PDFPathList;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+            return null;
+        }
+
         public getQuestionList getQuest(string CourseID)
         {
             getQuestionList PDFPathList = new getQuestionList();

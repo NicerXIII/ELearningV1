@@ -205,6 +205,7 @@
     <Compile Include="Models\ViewModel\DataTablesParam.cs" />
     <Compile Include="Models\ViewModel\VMCourseSection.cs" />
     <Compile Include="Models\ViewModel\VMELearnEmpData.cs" />
+    <Compile Include="Models\ViewModel\VMElearningCourseSection.cs" />
     <Compile Include="Models\ViewModel\VMELearningCousesProgress.cs" />
     <Compile Include="Models\ViewModel\VMEmpStatsCount.cs" />
     <Compile Include="Models\ViewModel\VMGetAnswers.cs" />
@@ -1937,6 +1938,7 @@
     <Content Include="Ionicons\scss\_ionicons-variables.scss" />
     <Content Include="Scripts\Dev_Scripts\AddNewCourse.js" />
     <Content Include="Scripts\Dev_Scripts\Exam.js" />
+    <Content Include="Scripts\Dev_Scripts\Exam2.js" />
     <Content Include="Scripts\Dev_Scripts\ExamList.js" />
     <Content Include="Scripts\highcharts\6.2.0\css\highcharts.css" />
     <Content Include="Scripts\highcharts\6.2.0\css\themes\dark-unica.css" />

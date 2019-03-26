@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ELearningV1.Models.ViewModel.VMGetExamQuestion>
+﻿@model IEnumerable<ELearningV1.Models.ViewModel.VMElearningCourseSection>
 @{
     ViewBag.Title = "Exam";
     //Layout = "~/Views/Shared/_Layout.cshtml";
@@ -35,159 +35,180 @@
         <div>Time Remaining: <span id="demo"></span></div>
     </div>
     <div class="box-body">
-        <div class="box box-primary" id="divEXAM" style="display:none;">
-            <div class="box-header with-border">
-                <h3 class="box-title">Questions</h3>
-            </div>
-            <div class="box-body">
-                <table class="table table-hover table-bordered table-responsive table-striped">
-                    <tbody>
-                        @if (Model != null)
-                        {
-                            foreach (var items in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        <input type="hidden" id="CourSecID" value="@items.CourseSectionID" />
-                                        <p id="@items.ID">@items.ID ) @items.Question</p>
-                                    </td>
-                                </tr>
-                                if (items.QuestionType == "2")
-                                {
-                                    <tr>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" id="chkid" name="chkA@(items.ID)" value="@items.ID@items.C1" class="checkBox_">
-                                                            <label id="txtMCOne">@items.C1</label>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" id="chkid" name="chkB@(items.ID)" value="@items.ID@items.C2" class="checkBox_">
-                                                            <label id="txtMCTwo">@items.C2</label>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" id="chkid" name="chkC@(items.ID)" value="@items.ID@items.C3" class="checkBox_">
-                                                            <label id="txtMCThree">@items.C3</label>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" id="chkid" name="chkD@(items.ID)" value="@items.ID@items.C4" class="checkBox_">
-                                                            <label id="txtMCFour">@items.C4</label>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                }
-                                else
-                                {
-                                    <tr>
-                                        <td>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" id="radioid" name="rd@(items.ID)" value="@items.ID@items.C1" class="radio_">
-                                                    <label id="answer1">@items.C1</label>
-                                                </label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" id="radioid" name="rd@(items.ID)" value="@items.ID@items.C2" class="radio_">
-                                                    <label id="answer2">@items.C2</label>
-                                                </label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" id="radioid" name="rd@(items.ID)" value="@items.ID@items.C3" class="radio_">
-                                                    <label id="answer3">@items.C3</label>
-                                                </label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" id="radioid" name="rd@(items.ID)" value="@items.ID@items.C4" class="radio_">
-                                                    <label id="answer4">@items.C4</label>
-                                                </label>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <!--<div class="form-group margin"></div>-->
-                                }
-                            }
-                        }
-                    </tbody>
-                </table>
-            </div>
-            <div class="box-footer">
-                <input type="text" class="form-control" style="display:none" id="txtCourseID" />
-                <input type="text" class="form-control" style="display:none" id="txtCourseSectionID" />
-                <input type="text" class="form-control" style="display:none" id="txtQuestionID" />
-                <input type="text" class="form-control" style="display:none" id="txtOrderNumber" />
-            </div>
-        </div>
+        @{
+            if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    if (@item.Type == "PDF")
+                    {
+                        var idPDF = "divPDF" + item.OrderSec;
+                        <div class="box box-primary hidden" id="@idPDF">
+                            <div class="box-header with-border">
+                                <h3 class="box-title" id="boxTitlePDF">@item.Title</h3>
+                            </div>
+                            <div class="box-body">
+                                <div class="text-center">
+                                    <embed id="framePDF" src="@item.SourceFile" width="100%" height="500" name="plugin" type="application/pdf" /> <!-- src="~/Content/CROSSFIRE.PDF"-->
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else if (@item.Type == "Test")
+                    {
+                        var idTest = "divEXAM" + item.OrderSec;
+                        <div class="box box-primary hidden" id="@idTest">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">@item.Title</h3>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover table-bordered table-responsive table-striped">
+                                    <tbody>
+                                        @if (item.Quiz != null)
+                                        {
+                                            foreach (var q in item.Quiz)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <input type="hidden" id="CourSecID" value="@q.CourseSectionID" />
+                                                        <p id="@q.ID">@q.ID ) @q.Question</p>
+                                                    </td>
+                                                </tr>
+                                                if (q.QuestionType == "2")
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <div class="row">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                    <div class="checkbox">
+                                                                        <label>
+                                                                            <input type="checkbox" id="chkid@(q.ID)" name="chkA@(q.ID)" value="@q.ID@q.C1" class="checkBox_"  onclick="add_checked(this)">
+                                                                            <label id="txtMCOne">@q.C1</label>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="row">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                    <div class="checkbox">
+                                                                        <label>
+                                                                            <input type="checkbox" id="chkid@(q.ID)" name="chkB@(q.ID)" value="@q.ID@q.C2" class="checkBox_"  onclick="add_checked(this)">
+                                                                            <label id="txtMCTwo">@q.C2</label>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="row">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                    <div class="checkbox">
+                                                                        <label>
+                                                                            <input type="checkbox" id="chkid@(q.ID)" name="chkC@(q.ID)" value="@q.ID@q.C3" class="checkBox_"  onclick="add_checked(this)">
+                                                                            <label id="txtMCThree">@q.C3</label>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="row">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                    <div class="checkbox">
+                                                                        <label>
+                                                                            <input type="checkbox" id="chkid@(q.ID)" name="chkD@(q.ID)" value="@q.ID@q.C4" class="checkBox_"  onclick="add_checked(this)">
+                                                                            <label id="txtMCFour">@q.C4</label>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" id="radioid" name="rd@(q.ID)" value="@q.ID@q.C1" class="radio_">
+                                                                    <label id="answer1">@q.C1</label>
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" id="radioid" name="rd@(q.ID)" value="@q.ID@q.C2" class="radio_">
+                                                                    <label id="answer2">@q.C2</label>
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" id="radioid" name="rd@(q.ID)" value="@q.ID@q.C3" class="radio_">
+                                                                    <label id="answer3">@q.C3</label>
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" id="radioid"name="rd@(q.ID)" value="@q.ID@q.C4" class="radio_">
+                                                                    <label id="answer4">@q.C4</label>
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <div class="form-group margin"></div>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="box-footer">
+                                <input type="text" class="form-control" style="display:none" id="txtCourseID" />
+                                <input type="text" class="form-control" style="display:none" id="txtCourseSectionID" />
+                                <input type="text" class="form-control" style="display:none" id="txtQuestionID" />
+                                <input type="text" class="form-control" style="display:none" id="txtOrderNumber" />
+                            </div>
+                        </div>
+                    }
+                    else if (@item.Type == "Video")
+                    {
+                        var idVideo = "divVIDEO" + item.OrderSec;
+                        <div class="box box-primary hidden" id="@idVideo">
+                            <div class="box-header with-border">
+                                <h3 class="box-title" id="boxTitlePDF">@item.Title</h3>
+                            </div>
+                            <div class="box-body text-center">
+                                <video id="videoTuitorial" src="@item.SourceFile" controls width="1000" height="500"></video>
+                            </div>
+                        </div>
+                    }
+            
+                }
+            }
+            
 
-        <div class="box box-primary" id="divVIDEO" style="display:none;">
-            <div class="box-header with-border">
-                <h3 class="box-title" id="boxTitleVideo"></h3>
-            </div>
-            <div class="box-body text-center">
-                <video id="videoTuitorial" controls width="1000" height="500"></video>
-            </div>
-        </div>
-        <div class="box box-primary" id="divPDF" style="display:none;">
-            <div class="box-header with-border">
-                <h3 class="box-title" id="boxTitlePDF"></h3>
-            </div>
-            <div class="box-body">
-                <div class="text-center">
-                    <embed id="framePDF" width="100%" height="500" name="plugin" type="application/pdf" /> <!-- src="~/Content/CROSSFIRE.PDF"-->
-                </div>
-            </div>
-        </div>
-
-        <div class="box box-primary" id="divScoring" style="display:none;">
+        }
+        <div class="box box-primary" id="divScoring">
             <div class="box-header with-border">
                 <h3 class="box-title" id="boxTitleScoring"></h3>
             </div>
@@ -230,9 +251,8 @@
         <div class="row">
             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10"></div>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <button class="btn btn-success btn-block" id="btnProceedVideo" style="display:none" onclick="getNextDataToLoad()">Proceed</button>
-                <button class="btn btn-success btn-block" id="btnProceedPDF" style="display:none" onclick="getNextDataToLoad()">Proceed</button>
-                <button class="btn btn-success btn-block" id="btnNext" onclick="confirmation()" style="display:none">Save</button>
+                <button class="btn btn-success btn-block" id="btnProceed" onclick="ocProceedNextProcess()">Proceed</button>
+                <button class="btn btn-success btn-block hidden" id="btnProceedTest" onclick="ocProceedNextTestProcess()">Proceed</button>
             </div>
         </div>
     </div>
@@ -296,6 +316,115 @@
         </div>
     </div>
 </div>
+<input type="hidden" id="CourseID1" value="@Model.Select(x=>x.CourseID).FirstOrDefault()"/>
+<input type="hidden" id="SectionOrderNo"/>
+@*<script src="~/Scripts/Dev_Scripts/Exam.js"></script>*@
 
-<input type="hidden" id="SectionOrderNo" />
-<script src="~/Scripts/Dev_Scripts/Exam.js"></script>
+<script src="~/Scripts/Dev_Scripts/Exam2.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var cid = $("#CourseID1").val();
+        $("#SectionOrderNo").val(1);
+        loadSectionData(cid,1);
+    });
+
+    var empAns = new Array();
+
+    function loadSectionData(cid,orderN) {
+        $.ajax({
+            type: "POST",
+            url: "/Exam/GetSectionDataByCourseIDAndOrderSec",
+            data: { "CourseID": cid,"OrderSec": orderN },
+            success: function (response) {
+                var rType = response.Type;
+                var rOrderSec = response.OrderSec;
+
+                var pdfID = "divPDF" + rOrderSec;
+                var testID = "divEXAM" + rOrderSec;
+                var vidID = "divVIDEO" + rOrderSec;
+
+                if (rType == "PDF") {
+                    $("#" + pdfID).removeClass('hidden');
+                    //Hide 
+                    pdfID = "divPDF" + (orderN - 1);
+                    testID = "divEXAM" + (orderN - 1);
+                    vidID = "divVIDEO" + (orderN - 1);
+                    $("#" + testID).addClass('hidden');
+                    $("#" + vidID).addClass('hidden');
+                    $("#" + pdfID).addClass('hidden');
+                    $("#btnProceedTest").addClass('hidden');
+                    $("#btnProceed").removeClass('hidden');
+                }
+                else if (rType == "Test") {
+                    $("#" + testID).removeClass('hidden');
+                    //Hide 
+                    testID = "divEXAM" + (orderN - 1);
+                    pdfID = "divPDF" + (orderN - 1);
+                    vidID = "divVIDEO" + (orderN - 1);
+                    $("#" + pdfID).addClass('hidden');
+                    $("#" + vidID).addClass('hidden');
+                    $("#" + testID).addClass('hidden');
+                    $("#btnProceed").addClass('hidden');
+                    $("#btnProceedTest").removeClass('hidden');
+                }
+                else {
+                    $("#" + vidID).removeClass('hidden');
+                    //Hide
+                    vidID = "divVIDEO" + (orderN - 1);
+                    pdfID = "divPDF" + (orderN - 1);
+                    testID = "divEXAM" + (orderN - 1);
+                    $("#" + testID).addClass('hidden');
+                    $("#" + pdfID).addClass('hidden');
+                    $("#" + vidID).addClass('hidden');
+                    $("#btnProceedTest").addClass('hidden');
+                    $("#btnProceed").removeClass('hidden');
+                }
+            },
+            error: function (response) {
+
+            }
+        });
+    }
+
+    var ocProceedNextProcess = function () {
+        var cid = $("#CourseID1").val();
+        var sec1 = $("#SectionOrderNo").val();
+        var secCon = parseInt(sec1) + 1;
+        $("#SectionOrderNo").val(secCon);
+
+        loadSectionData(cid, secCon);
+    }
+
+    var ocProceedNextTestProcess = function () {
+        debugger
+         var radios = document.getElementById('radioid');
+        for (var i = 0, length = radios.length; i < length; i++) {
+            if (radios[i].checked) {
+                // do whatever you want with the checked radio
+                alert(radios[i].value);
+
+                // only one radio can be logically checked, don't check the rest
+                break;
+            }
+        }
+        
+    }
+
+    //$(".checkBox_").change(function () {
+    //    alert("asdads");
+    //})
+
+    var add_checked = function (checked1) {
+        var checkBoxID = checked1.id;
+        var checkBoxValue = checked1.value;
+
+        alert(checkBoxID + " = " + checkBoxValue);
+        if ($("#" + checkBoxID).prop("checked")) {
+            alert("true");
+        } else {
+            alert("false");
+        }
+
+    }
+
+</script>

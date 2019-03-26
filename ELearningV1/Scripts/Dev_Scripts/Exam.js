@@ -7,8 +7,6 @@ $(document).ready(function () {
         url: "/Home/GetSession",
         data: {},
         success: function (response) {
-            getAllUrlParams();
-
             $.ajax({
                 type: "POST",
                 url: "/Exam/GetDateEnrolled",
@@ -25,6 +23,7 @@ $(document).ready(function () {
                 },
                 error: function (response) { alert(response._res); }
             });
+            getAllUrlParams();
         },
         error: function (response) {
             window.location.href = '/LogIn/Index';
@@ -233,7 +232,6 @@ var getNextDataToLoad = function () {
     debugger
     var OrderNo = $("#SectionOrderNo").val();
     var data = getAllUrlParams();
-
     loadData(data); //, OrderNo
 }
 

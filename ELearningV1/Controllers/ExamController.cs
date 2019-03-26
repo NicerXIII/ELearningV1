@@ -327,22 +327,34 @@ namespace ELearningV1.Controllers
         public ActionResult Exam(string CourseID)
         {
             DAL SQLcon = new DAL();
-            List<VMGetExamQuestion> cList = SQLcon.getQuest(CourseID).Select(x => new VMGetExamQuestion
+            //List<VMGetExamQuestion> cList = SQLcon.getQuest(CourseID).Select(x => new VMGetExamQuestion
+            //{
+            //    ID = x.ID,
+            //    CourseID = x.CourseID,
+            //    CourseSectionID = x.CourseSectionID,
+            //    OrderNumber = x.OrderNumber,
+            //    Question = x.Question,
+            //    QuestionType = x.QuestionType,
+            //    C1 = x.C1,
+            //    C2 = x.C2,
+            //    C3 = x.C3,
+            //    C4 = x.C4,
+            //    CAnswer1 = x.CAnswer1,
+            //    CAnswer2 = x.CAnswer2,
+            //    CAnswer3 = x.CAnswer3,
+            //    CAnswer4 = x.CAnswer4,
+            //}).ToList();
+
+
+            List<VMElearningCourseSection> cList = SQLcon.ViewCourseSectionByID(CourseID).OrderBy(x=>x.OrderSec).Select(x => new VMElearningCourseSection
             {
                 ID = x.ID,
+                Title = x.Title,
+                Type = x.Type,
+                SourceFile = x.SrcFile,
                 CourseID = x.CourseID,
-                CourseSectionID = x.CourseSectionID,
-                OrderNumber = x.OrderNumber,
-                Question = x.Question,
-                QuestionType = x.QuestionType,
-                C1 = x.C1,
-                C2 = x.C2,
-                C3 = x.C3,
-                C4 = x.C4,
-                CAnswer1 = x.CAnswer1,
-                CAnswer2 = x.CAnswer2,
-                CAnswer3 = x.CAnswer3,
-                CAnswer4 = x.CAnswer4,
+                OrderSec = x.OrderSec,
+                Quiz = SQLcon.GetQuestByCourseIDAndSectionID(CourseID, x.ID.ToString())
             }).ToList();
 
             return View("Exam", cList);
@@ -614,6 +626,13 @@ namespace ELearningV1.Controllers
             var response = new JsonResult();
             response.Data = new
             { _res = result };
+            return response;
+        }
+
+        public ActionResult GetSectionDataByCourseIDAndOrderSec(string CourseID,string OrderSec) {
+            var response = new JsonResult();
+            DAL SQLcon = new DAL();
+            response.Data = SQLcon.ViewCourseSectionByID(CourseID).Where(x=>x.OrderSec == Convert.ToInt32(OrderSec)).OrderBy(x => x.OrderSec).SingleOrDefault();
             return response;
         }
 
