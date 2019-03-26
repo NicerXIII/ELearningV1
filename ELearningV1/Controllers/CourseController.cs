@@ -254,13 +254,13 @@ namespace ELearningV1.Controllers
             return response;
          }
 
-        public ActionResult RemoveEmployeeFromCourseByEMployeeNumber(string EmployeeNumber)
+        public ActionResult RemoveEmployeeFromCourseByEMployeeNumber(string EmployeeNumber,string CourseID)
         {
             DAL SQLcon = new DAL();
             var response = new JsonResult();
             response.Data = new
             {
-                res = SQLcon.RemoveEmployeeFromCourseByEmpID(EmployeeNumber)
+                res = SQLcon.RemoveEmployeeFromCourseByEmpID(EmployeeNumber, CourseID)
             };
             return response;
         }

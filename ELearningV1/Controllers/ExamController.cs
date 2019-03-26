@@ -346,7 +346,7 @@ namespace ELearningV1.Controllers
             //}).ToList();
 
 
-            List<VMElearningCourseSection> cList = SQLcon.ViewCourseSectionByID(CourseID).OrderBy(x=>x.OrderSec).Select(x => new VMElearningCourseSection
+            List<VMElearningCourseSection> cList = SQLcon.ViewCourseSectionByID(CourseID).OrderBy(x => x.OrderSec).Select(x => new VMElearningCourseSection
             {
                 ID = x.ID,
                 Title = x.Title,
@@ -425,67 +425,97 @@ namespace ELearningV1.Controllers
         {
             var user = Session["EmployeeNumber"].ToString();
             var result = "";
-            var CorAnswerFromDB1 = "";
-            var CorAnswerFromDB2 = "";
-            var CorAnswerFromDB3 = "";
-            var CorAnswerFromDB4 = "";
 
             List<string> GetAnswer1 = new List<string>();
             List<string> EmpAnswer1 = new List<string>();
+            var response = new JsonResult();
             try
             {
+                //Get answer by question ID
                 foreach (var qID in QuestionID)
                 {
-                    //CorAnswerFromDB1 = SQLcon.getAnsList(qID).Select(x => x.Answer1).FirstOrDefault().ToString();
-                    //CorAnswerFromDB2 = SQLcon.getAnsList(qID).Select(x => x.Answer2).FirstOrDefault().ToString();
-                    //CorAnswerFromDB3 = SQLcon.getAnsList(qID).Select(x => x.Answer3).FirstOrDefault().ToString();
-                    //CorAnswerFromDB4 = SQLcon.getAnsList(qID).Select(x => x.Answer4).FirstOrDefault().ToString();
                     GetAnswer1.Add(SQLcon.getAnsList(qID).Select(x => x.Answer1).SingleOrDefault());
                     GetAnswer1.Add(SQLcon.getAnsList(qID).Select(x => x.Answer2).SingleOrDefault());
                     GetAnswer1.Add(SQLcon.getAnsList(qID).Select(x => x.Answer3).SingleOrDefault());
                     GetAnswer1.Add(SQLcon.getAnsList(qID).Select(x => x.Answer4).SingleOrDefault());
 
-                    foreach (var ans in EmployeeAnswers) {
-                        if (ans.IndexOf(qID.ToString()) > -1) {
-                            EmpAnswer1.Add(ans.Replace(qID.ToString(),""));
-                        }
+                    //Get all null values to remove
+                    var countNull = 0;
+                    foreach (var i in GetAnswer1.Where(x => x.Contains("NULL")))
+                    {
+                        countNull += 1;
+                    }
+                    while (countNull > 0)
+                    {
+                        GetAnswer1.Remove("NULL");
+                        countNull--;
                     }
 
-                    
-                    foreach (var i in EmpAnswer1) {
+                    //Get all EmployeeAnswer and Remove its ID
+                    if (EmployeeAnswers != null)
+                    {
+                        foreach (var ans in EmployeeAnswers)
+                        {
+                            if (ans.IndexOf(qID.ToString()) > -1)
+                            {
+                                EmpAnswer1.Add(ans.Replace(qID.ToString(), ""));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        response.Data = new
+                        {
+                            res = "No Data"
+                        };
+                        return response;
+                    }
+
+                    var ansResultStatus = "";
+                    var empAnsToBeSave = "";
+
+                    //Store all employee answer in one string variable and identify if the answer is correct if not it 
+                    //will store "N" char in ansResultStatus variable;
+
+                    foreach (var i in EmpAnswer1)
+                    {
+                        empAnsToBeSave += i + ",";
                         if (GetAnswer1.Contains(i))
                         {
-                            result = SQLcon.saveAnswers(qID, user, i, "Y");
-                            //EmpAnswer1.Remove(i);
+                            ansResultStatus += "Y";
                         }
-                        else {
-                            result = SQLcon.saveAnswers(qID, user, i, "N");
+                        else
+                        {
+                            ansResultStatus += "N";
                         }
                     }
 
+                    //identfy if user answert is incomplete
+                    if (EmpAnswer1.Count() < GetAnswer1.Count())
+                    {
+                        empAnsToBeSave += "InComplete";
+                        ansResultStatus += "N";
+                    }
 
-                    //    foreach (var ans in EmployeeAnswers)
-                    //{
-                    //    if (ans == CorAnswerFromDB1)
-                    //    {
-                    //        result = SQLcon.saveAnswers(qID, user, ans, "Y");
-                    //      //  EmployeeAnswers.Remove(CorAnswerFromDB1);
-                    //    }
-                    //    else if (ans == CorAnswerFromDB2)
-                    //    { result = SQLcon.saveAnswers(qID, user, ans, "Y"); }
-                    //    else if (ans == CorAnswerFromDB3)
-                    //    { result = SQLcon.saveAnswers(qID, user, ans, "Y"); }
-                    //    else if (ans == CorAnswerFromDB4)
-                    //    { result = SQLcon.saveAnswers(qID, user, ans, "Y"); }
-                    //    else
-                    //    { result = SQLcon.saveAnswers(qID, user, ans, "N"); }
-                    //}
+                    //Identify if in ansResultStatus variable has a "N" character
+                    //if it has an "N" char then it will save in IsCorrect comlumn N
+                    if (ansResultStatus.IndexOf("N") > -1)
+                    {
+                        result = SQLcon.saveAnswers(qID, user, empAnsToBeSave, "N");
+                    }
+                    else
+                    {
+                        result = SQLcon.saveAnswers(qID, user, empAnsToBeSave, "Y");
+                    }
+
+                    GetAnswer1.Clear();
+                    EmpAnswer1.Clear();
+
                 }
-            }
-            catch (Exception ex)
-            { result = ex.Message; }
 
-            var response = new JsonResult();
+                //Get 
+            }
+            catch (Exception ex) { result = ex.Message; }
             response.Data = new
             {
                 res = result
@@ -629,10 +659,11 @@ namespace ELearningV1.Controllers
             return response;
         }
 
-        public ActionResult GetSectionDataByCourseIDAndOrderSec(string CourseID,string OrderSec) {
+        public ActionResult GetSectionDataByCourseIDAndOrderSec(string CourseID, string OrderSec)
+        {
             var response = new JsonResult();
             DAL SQLcon = new DAL();
-            response.Data = SQLcon.ViewCourseSectionByID(CourseID).Where(x=>x.OrderSec == Convert.ToInt32(OrderSec)).OrderBy(x => x.OrderSec).SingleOrDefault();
+            response.Data = SQLcon.ViewCourseSectionByID(CourseID).Where(x => x.OrderSec == Convert.ToInt32(OrderSec)).OrderBy(x => x.OrderSec).SingleOrDefault();
             return response;
         }
 
@@ -702,5 +733,46 @@ namespace ELearningV1.Controllers
         }
         **/
         #endregion
+
+        public ActionResult GetQuizRadioIDbyCourseID(string CourseID, string SectionID)
+        {
+            DAL SQLcon = new DAL();
+            var response = new JsonResult();
+            if (CourseID != "")
+            {
+                response.Data = SQLcon.GetRadioIDByCourseIDAndQType(CourseID, SectionID).Select(x => new VMGetExamQuestion
+                {
+                    ID = x.ID,
+                    QuestionType = x.QuestionType
+                }).ToList();
+            }
+            return response;
+        }
+
+        public ActionResult UpdateCourseProgess(string CourseID, string SectionCount)
+        {
+            DAL SQLcon = new DAL();
+            var response = new JsonResult();
+            var userID = Session["EmployeeNumber"].ToString();
+            var secPercent = (int)1 / Convert.ToDouble(SectionCount);
+            var secResult = secPercent * 100;
+
+            var currentProgress = SQLcon.SelectEmployeeProgressByEmpIDAndCourseID(userID,CourseID).Select(x=>x.Progress).SingleOrDefault();
+            var TotalPercent = (int)currentProgress + secResult;
+
+            if (CourseID != "" && SectionCount != "")
+            {
+                try
+                {
+                    response.Data = new { res = SQLcon.SaveCourseProgress(userID, CourseID, Convert.ToString(TotalPercent)) };
+                }
+                catch (Exception ex) { }
+            }
+            else
+            {
+                response.Data = new { res = "false" };
+            }
+            return response;
+        }
     }
 }

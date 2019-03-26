@@ -82,7 +82,7 @@
                                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                                     <div class="checkbox">
                                                                         <label>
-                                                                            <input type="checkbox" id="chkid@(q.ID)" name="chkA@(q.ID)" value="@q.ID@q.C1" class="checkBox_"  onclick="add_checked(this)">
+                                                                            <input type="checkbox" id="chkid@(q.ID)" name="chkA@(q.ID)" value="@q.ID@q.C1" class="checkBox_" onclick="add_checked(this)">
                                                                             <label id="txtMCOne">@q.C1</label>
                                                                         </label>
                                                                     </div>
@@ -96,7 +96,7 @@
                                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                                     <div class="checkbox">
                                                                         <label>
-                                                                            <input type="checkbox" id="chkid@(q.ID)" name="chkB@(q.ID)" value="@q.ID@q.C2" class="checkBox_"  onclick="add_checked(this)">
+                                                                            <input type="checkbox" id="chkid@(q.ID)" name="chkB@(q.ID)" value="@q.ID@q.C2" class="checkBox_" onclick="add_checked(this)">
                                                                             <label id="txtMCTwo">@q.C2</label>
                                                                         </label>
                                                                     </div>
@@ -110,7 +110,7 @@
                                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                                     <div class="checkbox">
                                                                         <label>
-                                                                            <input type="checkbox" id="chkid@(q.ID)" name="chkC@(q.ID)" value="@q.ID@q.C3" class="checkBox_"  onclick="add_checked(this)">
+                                                                            <input type="checkbox" id="chkid@(q.ID)" name="chkC@(q.ID)" value="@q.ID@q.C3" class="checkBox_" onclick="add_checked(this)">
                                                                             <label id="txtMCThree">@q.C3</label>
                                                                         </label>
                                                                     </div>
@@ -124,7 +124,7 @@
                                                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                                     <div class="checkbox">
                                                                         <label>
-                                                                            <input type="checkbox" id="chkid@(q.ID)" name="chkD@(q.ID)" value="@q.ID@q.C4" class="checkBox_"  onclick="add_checked(this)">
+                                                                            <input type="checkbox" id="chkid@(q.ID)" name="chkD@(q.ID)" value="@q.ID@q.C4" class="checkBox_" onclick="add_checked(this)">
                                                                             <label id="txtMCFour">@q.C4</label>
                                                                         </label>
                                                                     </div>
@@ -169,7 +169,7 @@
                                                         <td>
                                                             <div class="radio">
                                                                 <label>
-                                                                    <input type="radio" id="radioid"name="rd@(q.ID)" value="@q.ID@q.C4" class="radio_">
+                                                                    <input type="radio" id="radioid" name="rd@(q.ID)" value="@q.ID@q.C4" class="radio_">
                                                                     <label id="answer4">@q.C4</label>
                                                                 </label>
                                                             </div>
@@ -202,13 +202,13 @@
                             </div>
                         </div>
                     }
-            
+
                 }
             }
-            
+
 
         }
-        <div class="box box-primary" id="divScoring">
+        <div class="box box-primary hidden" id="divScoring">
             <div class="box-header with-border">
                 <h3 class="box-title" id="boxTitleScoring"></h3>
             </div>
@@ -291,8 +291,8 @@
                 <h3 class="text-center">Are you sure about your answers?</h3>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" onclick="SaveAnswers()">Yes</button>
-                <button type="button" class="btn btn-default pull-right" onclick="cancelSaving()">No</button>
+                <button type="button" class="btn btn-success" onclick="SaveEmployeeAnswers1()">Yes</button>
+                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">No</button>
             </div>
         </div>
     </div>
@@ -316,8 +316,11 @@
         </div>
     </div>
 </div>
-<input type="hidden" id="CourseID1" value="@Model.Select(x=>x.CourseID).FirstOrDefault()"/>
-<input type="hidden" id="SectionOrderNo"/>
+<input type="hidden" id="CourseID1" value="@Model.Select(x=>x.CourseID).FirstOrDefault()" />
+<input type="hidden" id="SectionOrderNo" />
+<input type="hidden" id="SectionID" />
+<input type="hidden" id="SectionCount" value="@Model.Count()"/>
+
 @*<script src="~/Scripts/Dev_Scripts/Exam.js"></script>*@
 
 <script src="~/Scripts/Dev_Scripts/Exam2.js"></script>
@@ -325,27 +328,39 @@
     $(document).ready(function () {
         var cid = $("#CourseID1").val();
         $("#SectionOrderNo").val(1);
-        loadSectionData(cid,1);
+        loadSectionData(cid, 1);
     });
 
     var empAns = new Array();
+    var questID = new Array();
 
-    function loadSectionData(cid,orderN) {
+    var ocProceedNextProcess = function () {
+        var cid = $("#CourseID1").val();
+        var sec1 = $("#SectionOrderNo").val();
+        var secCon = parseInt(sec1) + 1;
+        $("#SectionOrderNo").val(secCon);
+
+        loadSectionData(cid, secCon);
+    }
+
+    function loadSectionData(cid, orderN) {
         $.ajax({
             type: "POST",
             url: "/Exam/GetSectionDataByCourseIDAndOrderSec",
-            data: { "CourseID": cid,"OrderSec": orderN },
+            data: { "CourseID": cid, "OrderSec": orderN },
             success: function (response) {
                 var rType = response.Type;
                 var rOrderSec = response.OrderSec;
+                var secID = response.ID
 
                 var pdfID = "divPDF" + rOrderSec;
                 var testID = "divEXAM" + rOrderSec;
                 var vidID = "divVIDEO" + rOrderSec;
 
+                $("#SectionID").val(secID);
                 if (rType == "PDF") {
                     $("#" + pdfID).removeClass('hidden');
-                    //Hide 
+                    //Hide
                     pdfID = "divPDF" + (orderN - 1);
                     testID = "divEXAM" + (orderN - 1);
                     vidID = "divVIDEO" + (orderN - 1);
@@ -354,10 +369,11 @@
                     $("#" + pdfID).addClass('hidden');
                     $("#btnProceedTest").addClass('hidden');
                     $("#btnProceed").removeClass('hidden');
+                    UpdateUserCurrentProgress();
                 }
                 else if (rType == "Test") {
                     $("#" + testID).removeClass('hidden');
-                    //Hide 
+                    //Hide
                     testID = "divEXAM" + (orderN - 1);
                     pdfID = "divPDF" + (orderN - 1);
                     vidID = "divVIDEO" + (orderN - 1);
@@ -366,6 +382,7 @@
                     $("#" + testID).addClass('hidden');
                     $("#btnProceed").addClass('hidden');
                     $("#btnProceedTest").removeClass('hidden');
+                    UpdateUserCurrentProgress();
                 }
                 else {
                     $("#" + vidID).removeClass('hidden');
@@ -378,53 +395,106 @@
                     $("#" + vidID).addClass('hidden');
                     $("#btnProceedTest").addClass('hidden');
                     $("#btnProceed").removeClass('hidden');
+                    UpdateUserCurrentProgress();
                 }
+               
             },
             error: function (response) {
-
+                var orderN1 = $("#SectionID").val();
+                vidID = "divVIDEO" + (orderN1 - 1);
+                pdfID = "divPDF" + (orderN1 - 1);
+                testID = "divEXAM" + (orderN1 - 1);
+                $("#" + testID).addClass('hidden');
+                $("#" + pdfID).addClass('hidden');
+                $("#" + vidID).addClass('hidden');
+                $("#btnProceed").addClass('hidden');
+                $("#btnProceedTest").addClass('hidden');
+                $("#divScoring").removeClass('hidden');
+                
             }
         });
     }
 
-    var ocProceedNextProcess = function () {
+    function UpdateUserCurrentProgress() {
         var cid = $("#CourseID1").val();
-        var sec1 = $("#SectionOrderNo").val();
-        var secCon = parseInt(sec1) + 1;
-        $("#SectionOrderNo").val(secCon);
+        var sic = $("#SectionCount").val();
+        
+        $.ajax({
+            type: "POST",
+            url: "/Exam/UpdateCourseProgess",
+            data: { "CourseID": cid,"SectionCount":sic},
+            success: function (response) {
 
-        loadSectionData(cid, secCon);
+            },
+            error: function (response) { }
+        });
     }
 
     var ocProceedNextTestProcess = function () {
-        debugger
-         var radios = document.getElementById('radioid');
-        for (var i = 0, length = radios.length; i < length; i++) {
-            if (radios[i].checked) {
-                // do whatever you want with the checked radio
-                alert(radios[i].value);
-
-                // only one radio can be logically checked, don't check the rest
-                break;
-            }
-        }
-        
+        $("#modal-Confirmation").modal('show');
     }
-
-    //$(".checkBox_").change(function () {
-    //    alert("asdads");
-    //})
 
     var add_checked = function (checked1) {
-        var checkBoxID = checked1.id;
+        debugger
+        var checkBoxName = checked1.name;
         var checkBoxValue = checked1.value;
-
-        alert(checkBoxID + " = " + checkBoxValue);
-        if ($("#" + checkBoxID).prop("checked")) {
-            alert("true");
+        if ($('input[name=' + checkBoxName + ']').is(':checked')) {
+            empAns.push(checkBoxValue);
         } else {
-            alert("false");
+            empAns.splice($.inArray(checkBoxValue, empAns), 1);
+            for (a in empAns) {
+                if (empAns[a] == checkBoxValue) {
+                    empAns.splice(a, 1);
+                }
+            }
         }
-
     }
+
+    var SaveEmployeeAnswers1 = function () {
+        var cid = $("#CourseID1").val();
+        var sid = $("#SectionID").val();
+        $.ajax({
+            type: "POST",
+            url: "/Exam/GetQuizRadioIDbyCourseID",
+            data: { "CourseID": cid, "SectionID": sid },
+            success: function (response) {
+                for (i in response) {
+                    debugger
+                    questID.push(response[i].ID);
+                    if (response[i].QuestionType == "3") {
+                        var radioName = "rd" + response[i].ID;
+                        var radioData = $("input[name=" + radioName + "]:checked").val();
+                        empAns.push(radioData);
+                    }
+                }
+                ExecuteSaveingProcess1();
+            },
+            error: function (response) { }
+        });
+    }
+
+    function ExecuteSaveingProcess1() {
+        $.ajax({
+            type: "POST",
+            url: "/Exam/SaveEmployeeAnswers",
+            data: { "QuestionID": questID, "EmployeeAnswers": empAns },
+            success: function (response) {
+                var result = response.res;
+                if (result != "No Data") {
+                    var cid = $("#CourseID1").val();
+                    var sec1 = $("#SectionOrderNo").val();
+                    var secCon = parseInt(sec1) + 1;
+                    $("#SectionOrderNo").val(secCon);
+                    $("#modal-Confirmation").modal('hide');
+                    loadSectionData(cid, secCon);
+                } else {
+                    alert("Please atleast answer one question.");
+                }
+
+               
+            }
+        });
+    }
+
 
 </script>

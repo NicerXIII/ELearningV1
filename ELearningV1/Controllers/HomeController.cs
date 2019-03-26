@@ -203,6 +203,38 @@ namespace ELearningV1.Controllers
             return response;
         }
 
+        public ActionResult CheckCurrentStatus(string CourseID) {
+            DAL SQLcon = new DAL();
+            var response = new JsonResult();
+            var userID = Session["EmployeeNumber"].ToString();
+            try {
+                response.Data = new { res = SQLcon.SelectEmployeeProgressByEmpIDAndCourseID(userID, CourseID).Select(x => x.Progress).SingleOrDefault()
+            };
+            } catch (Exception ex) { }
+            return response;
+        }
+
+        public ActionResult ResetUserCourseProgress(string CourseID)
+        {
+            DAL SQLcon = new DAL();
+            var response = new JsonResult();
+            var userID = Session["EmployeeNumber"].ToString();
+            var UserStats = SQLcon.SelectEmployeeProgressByEmpIDAndCourseID(userID, CourseID).Select(x => x.Status1).SingleOrDefault();
+
+            try
+            {
+                if (UserStats != "")
+                {
+                    response.Data = new{ res = false};
+                }
+                else {
+                    response.Data = new {  res = SQLcon.ResetCourseProgressByCourseIDAndUserID(userID, CourseID) };
+                }
+               
+            }
+            catch (Exception ex) { }
+            return response;
+        }
 
     }
 }

@@ -143,6 +143,29 @@ namespace ELearningV1.Models
 
             return null;
         }
+
+        public bool ResetCourseProgressByCourseIDAndUserID(string EmployeeNumber, string CourseID)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand com = new SqlCommand("Update ELearningCourseProgress SET Progress='0',Score='0' Where EmployeeNumber='" + EmployeeNumber + "' And CourseID='" + CourseID + "' And Status1 is null", con))
+                {
+                    try
+                    {
+                        com.CommandType = CommandType.Text;
+                        con.Open();
+                        com.ExecuteNonQuery();
+                        con.Close();
+
+                        return true;
+                    }
+                    catch (Exception ex)
+                    { }
+                }
+            }
+            return false;
+        }
+
         #endregion
 
         #region Course
@@ -665,11 +688,11 @@ namespace ELearningV1.Models
             }
         }
 
-        public bool RemoveEmployeeFromCourseByEmpID(string EmployeeNumber)
+        public bool RemoveEmployeeFromCourseByEmpID(string EmployeeNumber,string CourseID)
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {
-                using (SqlCommand cmd = new SqlCommand("Delete From ELearningCourseProgress Where EmployeeNumber='" + EmployeeNumber + "'", con))
+                using (SqlCommand cmd = new SqlCommand("Delete From ELearningCourseProgress Where EmployeeNumber='" + EmployeeNumber + "' AND CourseID='" + CourseID + "'", con))
                 {
                     try
                     {
@@ -1449,6 +1472,79 @@ namespace ELearningV1.Models
                 }
             }
             return "Success";
+        }
+
+        public getQuestionList GetRadioIDByCourseIDAndQType(string CourseID,string SectionID)
+        {
+            getQuestionList RadioIDList = new getQuestionList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("Select ID,QuestionType From ELearningQuiz Where CourseID='" + CourseID + "' AND  CourseSectionID='" + SectionID + "'", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+                            cmd.CommandType = CommandType.Text;
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                VMGetExamQuestion rID = new VMGetExamQuestion();
+                                rID.ID = dr["ID"].ToString();
+                                rID.QuestionType = dr["QuestionType"].ToString();
+                                RadioIDList.Add(rID);
+                            }
+                            return RadioIDList;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+            return null;
+        }
+
+
+        public VMViewEmployeeCourseStatusList SelectEmployeeProgressByEmpIDAndCourseID(string EmpID, string CourseID)
+        {
+            VMViewEmployeeCourseStatusList EmployeeCourseStatusList = new VMViewEmployeeCourseStatusList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("Select * From ELearningCourseProgress Where EmployeeNumber='" + EmpID + "' AND CourseID='" + CourseID + "'", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        SqlDataReader dr = cmd.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+                            VMViewEmployeeCourseStatus empstatus = new VMViewEmployeeCourseStatus();
+                            empstatus.EmployeeNumber = Convert.ToString(dr["EmployeeNumber"]);
+                            empstatus.Score = Convert.ToInt32(dr["Score"]);
+                            empstatus.Progress = Convert.ToInt32(dr["Progress"]);
+                            empstatus.Status1 = Convert.ToString(dr["Status1"]);
+                            empstatus.EnrolledDate = Convert.ToDateTime(dr["EnrolledDate"]);
+                            EmployeeCourseStatusList.Add(empstatus);
+                        }
+                        return EmployeeCourseStatusList;
+                    }
+                    catch (Exception ex)
+                    { }
+                    finally
+                    { con.Close(); }
+                }
+            }
+
+            return null;
         }
         #endregion
 

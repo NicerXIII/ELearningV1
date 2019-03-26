@@ -364,11 +364,12 @@
 
     var ocRemoveEmployee = function () {
         var eid = $("#eID").val();
-        if (eid != "") {
+        var cid = $("#cID").val();
+        if (eid != "" && cid != "") {
             $.ajax({
                 type: "POST",
                 url: "/Course/RemoveEmployeeFromCourseByEMployeeNumber",
-                data: { "EmployeeNumber": eid },
+                data: { "EmployeeNumber": eid, "CourseID": cid },
                 success: function (response) {
                     var r = response.res;
                     if (r == true) {
