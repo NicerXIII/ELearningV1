@@ -455,9 +455,7 @@
                     debugger
                     var result = response.res;
                     if (result == true) {
-                        alert("Data reset successfully");
-                        $("#modalDeleteUserProgress").modal('hide');
-                        BindDataTable();
+                        EraseEmployeeAnswers(CID);
                     } else {
                         alert("ERROR: The exam result is already set, please contact your administrator if you want to retake the exam.");
                         $("#modalDeleteUserProgress").modal('hide');
@@ -469,6 +467,28 @@
             alert("ERROR: Please try again");
         }
     }
+
+    function EraseEmployeeAnswers(CID) {
+        $.ajax({
+            type: "POST",
+            url: "/Home/EraseEmployeeAswerByCourseID",
+            data: { "CourseID": CID },
+            success: function (response) {
+                debugger
+                var result = response.res;
+                if (result == true) {
+                    alert("Data reset successfully");
+                    $("#modalDeleteUserProgress").modal('hide');
+                    BindDataTable();
+                } else {
+                    alert("ERROR: The exam result is already set, please contact your administrator if you want to retake the exam.");
+                    $("#modalDeleteUserProgress").modal('hide');
+                }
+            },
+            error: function (response) { }
+        });
+    }
+
 
     var ocYesTakeExam = function () {
         var CID = $("#CourseID").val();

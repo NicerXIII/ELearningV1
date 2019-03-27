@@ -236,5 +236,17 @@ namespace ELearningV1.Controllers
             return response;
         }
 
+        public ActionResult EraseEmployeeAswerByCourseID(string CourseID) {
+            DAL SQLcon = new DAL();
+            var response = new JsonResult();
+            var userID = Session["EmployeeNumber"].ToString();
+
+            try {
+                response.Data = new { res = SQLcon.EraseEmployeeAnswerByCourseIDAndUserID(userID, CourseID) };
+            } catch (Exception ex) { }
+
+            return response;
+        }
+
     }
 }

@@ -166,6 +166,27 @@ namespace ELearningV1.Models
             return false;
         }
 
+        public bool EraseEmployeeAnswerByCourseIDAndUserID(string EmployeeNumber, string CourseID)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand com = new SqlCommand("Delete From ELearningEmpAnswer Where EmployeeNumber='" + EmployeeNumber + "' And CourseID='" + CourseID + "'", con))
+                {
+                    try
+                    {
+                        com.CommandType = CommandType.Text;
+                        con.Open();
+                        com.ExecuteNonQuery();
+                        con.Close();
+
+                        return true;
+                    }
+                    catch (Exception ex)
+                    { }
+                }
+            }
+            return false;
+        }
         #endregion
 
         #region Course
