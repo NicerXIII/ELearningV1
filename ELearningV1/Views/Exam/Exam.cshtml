@@ -423,7 +423,8 @@
 
             },
             error: function (response) {
-                var orderN1 = $("#SectionID").val();
+                
+                var orderN1 = $("#SectionOrderNo").val();
                 vidID = "divVIDEO" + (orderN1 - 1);
                 pdfID = "divPDF" + (orderN1 - 1);
                 testID = "divEXAM" + (orderN1 - 1);
@@ -528,17 +529,28 @@
             success: function (response) {
                 var result = response.res;
                 if (result != "No Data") {
-                    var cid = $("#CourseID1").val();
+                    questID = [];
+                    empAns = [];
+                    ExecuteSaveScoreOfUser();
+                } else {
+                    alert("Please atleast answer one question.");
+                }
+            }
+        });
+    }
+
+    function ExecuteSaveScoreOfUser() {
+        var cid = $("#CourseID1").val();
+        $.ajax({
+            type: "POST",
+            url: "/Exam/UpdateEmployeeScoreByCourseIDSectionIDAndEmployeeNumber",
+            data: { "CourseID": cid },
+            success: function (response) {
                     var sec1 = $("#SectionOrderNo").val();
                     var secCon = parseInt(sec1) + 1;
                     $("#SectionOrderNo").val(secCon);
                     $("#modal-Confirmation").modal('hide');
                     loadSectionData(cid, secCon);
-                } else {
-                    alert("Please atleast answer one question.");
-                }
-
-
             }
         });
     }

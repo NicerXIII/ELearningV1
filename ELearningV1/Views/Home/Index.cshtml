@@ -283,7 +283,12 @@
             data: {},
             success: function (response) {
                 var pieColors = ['#4fff63', '#dbdbdb'];
-
+                var prog = 0; 
+                if (response._tCurrentPer >= 100) {
+                    prog = 100;
+                } else {
+                    prog = response._tCurrentPer;
+                }
                 chart = new Highcharts.Chart({
                     chart: {
                         renderTo: 'ProGressAct',
@@ -310,7 +315,7 @@
                     },
                     series: [{
                         name: 'Browsers',
-                        data: [["Progress", response._tCurrentPer], ["Remaining", response._tRemnainPer]],
+                        data: [["Progress", prog], ["Remaining", response._tRemnainPer]],
                         size: '60%',
                         innerSize: '50%',
                         showInLegend: true,
@@ -356,9 +361,9 @@
                             var now = moment.tz('Asia/Manila').format("MM/DD/YYYY");
                             //var dComp = new Date(comp);
                             // dNow = new Date(now);
-                            if (full.Progress != 100 && comp > now) {
+                            if (full.Progress < 100 && comp > now) {
                                 return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\')" style="font-size:24px;">' + Course + '</a>';
-                            } else if (full.Progress != 100 && comp < now) {
+                            } else if (full.Progress < 100 && comp < now) {
                                 return '<a href="#/" style="font-size:24px; color:grey;">' + Course + '</a>';
                             } else {
                                 return '<a href="#/" style="font-size:24px; color:green;">' + Course + ' <span class="fa fa-check"></span></a>';
