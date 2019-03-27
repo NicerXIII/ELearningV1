@@ -4,24 +4,22 @@
         url: "/Home/GetSession",
         data: {},
         success: function (response) {
-            $.ajax({
-                type: "POST",
-                url: "/Exam/GetDateEnrolled",
-                data: {},
-                success: function (response) {
-                    if (response._res === "Expired")
-                    {
-                        document.getElementById("btnStart").style.display = "none";
-                        document.getElementById("btnStart").disabled = true;
-                        //window.location.href = "../Home/Index";                        
-                    }
-                    else
-                    {
-                        BindDataTable();//FirstCountDownDate = response._res;
-                    }
-                },
-                error: function (response) { alert(response._res); }
-            });
+            BindDataTable();
+            //$.ajax({
+            //    type: "POST",
+            //    url: "/Exam/GetDateEnrolled",
+            //    data: {},
+            //    success: function (response) {
+            //        if (response._res === "Expired")
+            //        {
+            //            document.getElementById("btnStart").style.display = "none";
+            //            document.getElementById("btnStart").disabled = true;
+            //            //window.location.href = "../Home/Index";                        
+            //        }
+            //        else
+            //        {   }
+            //    },
+            //});
         },
         error: function (response) {
             window.location.href = '/LogIn/Index';
@@ -177,7 +175,8 @@ var BindDataTable = function () {
     if ($.fn.DataTable.isDataTable("#tblSection")) {
         //Clear table for redraw
         otable.draw();
-    } else {
+    }
+    else {
 
         otable = $("#tblSection").DataTable({
             "bServerSide": true,
