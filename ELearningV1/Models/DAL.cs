@@ -1588,6 +1588,51 @@ namespace ELearningV1.Models
 
             return null;
         }
+
+        public VMEmpAnswerList GetEmpAnswersByEmployeeNumberAndCourseID(string EmployeeNumber, string CourseID)
+        {
+            VMEmpAnswerList EmpAnswerList = new VMEmpAnswerList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ElearningGetEmployeeAnswerByEmployeeNumberAndCourseID", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+
+                            con.Open();
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                            cmd.Parameters.AddWithValue("@CourseID", CourseID);
+                            SqlDataReader dr = cmd.ExecuteReader();
+
+                            while (dr.Read())
+                            {
+                                VMEmpAnswer EmpAns = new VMEmpAnswer();
+                                EmpAns.ID = Convert.ToInt32(dr["ID"]);
+                                EmpAns.CourseID = Convert.ToInt32(dr["CourseID"]);
+                                EmpAns.CourseSecID = Convert.ToInt32(dr["CourseSecID"]);
+                                EmpAns.QuestionID = Convert.ToInt32(dr["QuestionID"]);
+                                EmpAns.EmployeeNumber = Convert.ToString(dr["EmployeeNumber"]);
+                                EmpAns.EmployeeAnswer = Convert.ToString(dr["EmployeeAnswer"]);
+                                EmpAns.IsCorrect = Convert.ToString(dr["IsCorrect"]);
+                                EmpAns.DateAnswered = Convert.ToDateTime(dr["DateAnswered"]);
+                                EmpAnswerList.Add(EmpAns);
+                            }
+
+                            return EmpAnswerList;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+            return null;
+        }
+
         #endregion
 
         #region Agent Status

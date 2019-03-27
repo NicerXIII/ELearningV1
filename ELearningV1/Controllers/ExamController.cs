@@ -850,5 +850,12 @@ namespace ELearningV1.Controllers
 
             return response;
         }
+
+        public ActionResult UpdateEmployeeScoreByCourseIDSectionIDAndEmployeeNumber() {
+
+            return View();
+        }
+
+
     }
 }
