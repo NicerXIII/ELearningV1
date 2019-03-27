@@ -1495,6 +1495,27 @@ namespace ELearningV1.Models
             return "Success";
         }
 
+        public bool UpdateEMployeeTimeConsumed(string EmployeeNumber, string CourseID, string TimeConsumed)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand com = new SqlCommand("Update ELearningCourseProgress SET ConsumedTime='" + TimeConsumed + "' Where EmployeeNumber='" + EmployeeNumber + "' And CourseID='" + CourseID + "'", con))
+                {
+                    try
+                    {
+                        com.CommandType = CommandType.Text;
+                        con.Open();
+                        com.ExecuteNonQuery();
+                        con.Close();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {  }
+                }
+            }
+            return false;
+        }
+
         public getQuestionList GetRadioIDByCourseIDAndQType(string CourseID,string SectionID)
         {
             getQuestionList RadioIDList = new getQuestionList();

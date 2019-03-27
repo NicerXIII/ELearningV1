@@ -786,5 +786,69 @@ namespace ELearningV1.Controllers
             }
             return response;
         }
+
+
+        public ActionResult UpdateUserConsumedTime(string CourseID, string StrHours,string StrMinutes,string StrSeconds) {
+
+            DAL SQLcon = new DAL();
+            var userID = Session["EmployeeNumber"].ToString();
+            var TimeFormat = "";
+            var result1 = false;
+            if (StrHours != "0")
+            {
+                if (StrHours.Length > 1)
+                {
+                    TimeFormat = StrHours;
+                }
+                else
+                {
+                    TimeFormat = "0" + StrHours;
+                }
+            }
+            else {
+                TimeFormat = "00";
+            }
+
+            if (StrMinutes != "0")
+            {
+                if (StrMinutes.Length > 1)
+                {
+                    TimeFormat = TimeFormat + ":" + StrMinutes;
+                }
+                else
+                {
+                    TimeFormat = TimeFormat + ":0" + StrMinutes;
+                }
+            }
+            else {
+                TimeFormat = TimeFormat + ":00";
+            }
+
+            if (StrSeconds != "0")
+            {
+                if (StrSeconds.Length > 1)
+                {
+                    TimeFormat = TimeFormat + ":" + StrSeconds;
+                }
+                else
+                {
+                    TimeFormat = TimeFormat + ":0" + StrSeconds;
+                }
+            }
+            else {
+                TimeFormat = TimeFormat + ":00";
+            }
+
+            try {
+                result1 = SQLcon.UpdateEMployeeTimeConsumed(userID,CourseID,TimeFormat);
+            } catch (Exception ex) { }
+
+            var response = new JsonResult();
+            response.Data = new {
+                res = result1
+            };
+
+            return response;
+        }
     }
 }
