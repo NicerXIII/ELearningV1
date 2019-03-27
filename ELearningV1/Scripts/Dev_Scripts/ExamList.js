@@ -254,7 +254,7 @@ var BindDataTable = function () {
             "bInfo": true,
             "searching": false,
             "bPaginate": false,
-            "sScrollY": "300",
+            "sScrollY": "250",
             "scrollX": true,
             "bScrollCollapse": false,
             "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]]
