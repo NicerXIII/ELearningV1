@@ -534,7 +534,7 @@ namespace ELearningV1.Models
                             courseprog.Score = (float)Convert.ToDouble(dr["Score"]);
                             courseprog.EnrolledDate = Convert.ToDateTime(dr["EnrolledDate"]);
                             courseprog.CompletionDate = Convert.ToDateTime(dr["CompletionDate"]);
-                            courseprog.ConsumedTime = (float)Convert.ToDouble(dr["ConsumedTime"]);
+                            courseprog.ConsumedTime = Convert.ToString(dr["ConsumedTime"]);
                             CourseProgList.Add(courseprog);
                         }
                         return CourseProgList;
@@ -603,7 +603,7 @@ namespace ELearningV1.Models
                             courseProg.Score = Convert.ToInt32(dr["Score"]);
                             courseProg.EnrolledDate = Convert.ToDateTime(dr["EnrolledDate"]);
                             courseProg.CompletionDate = Convert.ToDateTime(dr["CompletionDate"]);
-                            courseProg.ConsumedTime = Convert.ToInt32(dr["ConsumedTime"]);
+                            courseProg.ConsumedTime = Convert.ToString(dr["ConsumedTime"]);
                             CourseProgressList.Add(courseProg);
                         }
                         return CourseProgressList;

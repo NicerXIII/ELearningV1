@@ -16,7 +16,7 @@ namespace ELearningV1.Models.ViewModel
         public float? Score { get; set; }
         public DateTime EnrolledDate { get; set; }
         public DateTime? CompletionDate { get; set; }
-        public float? ConsumedTime { get; set; }
+        public string ConsumedTime { get; set; }
     }
 
     public class VMELearningCousesProgressList : List<VMELearningCousesProgress> { }

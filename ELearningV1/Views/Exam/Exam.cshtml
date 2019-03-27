@@ -33,6 +33,7 @@
 <div class="box">
     <div class="box-header">
         <div>Time Remaining: <span id="demo"></span></div>
+        <div id="countdown2" class="pull-right" style="font-size:24px;"></div>
     </div>
     <div class="box-body">
         @{
@@ -418,11 +419,12 @@
     function UpdateUserCurrentProgress() {
         var cid = $("#CourseID1").val();
         var sic = $("#SectionCount").val();
+        var sec1 = $("#SectionOrderNo").val();
         
         $.ajax({
             type: "POST",
             url: "/Exam/UpdateCourseProgess",
-            data: { "CourseID": cid,"SectionCount":sic},
+            data: { "CourseID": cid,"SectionCount":sic,"CurSection": sec1},
             success: function (response) {
 
             },
@@ -496,5 +498,25 @@
         });
     }
 
+    var input = {
+        year: 0,
+        month: 0,
+        day: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0
+    };
+
+    var timestamp = new Date(input.year, input.month, input.day,
+        input.hours, input.minutes, input.seconds);
+
+    var interval = 1;
+
+    setInterval(function () {
+        timestamp = new Date(timestamp.getTime() + interval * 1000);
+        document.getElementById('countdown2').innerHTML = timestamp.getHours() + 'h:' + timestamp.getMinutes() + 'm:' + timestamp.getSeconds() + 's';
+    }, Math.abs(interval) * 1000);
+
+    
 
 </script>

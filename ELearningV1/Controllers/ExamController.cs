@@ -749,16 +749,28 @@ namespace ELearningV1.Controllers
             return response;
         }
 
-        public ActionResult UpdateCourseProgess(string CourseID, string SectionCount)
+        public ActionResult UpdateCourseProgess(string CourseID, string SectionCount,string CurSection)
         {
             DAL SQLcon = new DAL();
             var response = new JsonResult();
             var userID = Session["EmployeeNumber"].ToString();
             var secPercent = (int)1 / Convert.ToDouble(SectionCount);
+            var CurMustPer = (int) Convert.ToDouble(CurSection) / Convert.ToDouble(SectionCount);
+
+
             var secResult = secPercent * 100;
+            var CurMustPerResult = CurMustPer * 100;
 
             var currentProgress = SQLcon.SelectEmployeeProgressByEmpIDAndCourseID(userID,CourseID).Select(x=>x.Progress).SingleOrDefault();
-            var TotalPercent = (int)currentProgress + secResult;
+            var TotalPercent = 0;
+
+            if (CurMustPerResult > currentProgress) {
+                TotalPercent = (int)currentProgress + (int)secResult;
+            }
+            else{
+                TotalPercent = currentProgress;
+            }
+
 
             if (CourseID != "" && SectionCount != "")
             {
