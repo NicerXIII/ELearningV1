@@ -101,10 +101,12 @@ var ocSaveVideoData = function () {
                         BindDataTable();
                     } else {
                         alert("Video upload failed");
+                        EndLoading();
                     }
                 },
                 error: function (response) {
                     alert("ERROR: please select video again.");
+                    EndLoading();
                 }
             });
         } else {
@@ -157,10 +159,12 @@ var ocSavePresentationData = function () {
                         BindDataTable();
                     } else {
                         alert("File upload failed");
+                        EndLoading();
                     }
                 },
                 error: function (response) {
                     alert("ERROR: please select pdf file again..");
+                    EndLoading();
                 }
             });
         } else {

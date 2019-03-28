@@ -717,7 +717,7 @@ namespace ELearningV1.Controllers
             if (SectionCountEmpAnswer == SectionCountQuiz)
             {
                //Identify the status
-                if (TotalScore >= 75)
+                if (TotalScore >= 92)
                 {
                     Status1 = "PASSED";
                 }
