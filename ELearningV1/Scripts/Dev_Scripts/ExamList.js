@@ -110,9 +110,11 @@ var ocSaveVideoData = function () {
                 }
             });
         } else {
+            EndLoading();
             alert('ERROR: File format not supported');
         }
     } else {
+        EndLoading();
         alert("Please fill up all fields");
     }
 }
@@ -124,6 +126,7 @@ var ocCloseUploadVideoModal = function () {
 }
 
 var ocUploadExamPresentation = function () {
+    $("#pdfPres").addClass('hidden');
     $("#modalUploadPresentation").modal('show');
 }
 
@@ -169,8 +172,10 @@ var ocSavePresentationData = function () {
             });
         } else {
             alert("ERROR: Invalid pdf format.");
+            EndLoading();
         }
     } else {
+        EndLoading();
         alert("Please fill up all fields");
     }
 
@@ -363,6 +368,8 @@ var ocSaveTestTitle = function () {
             data: { "CID": cid, "Title": title },
             success: function (response) {
                 alert(response.res);
+                $("#modalTestTitle").modal('hide');
+                $("#TestTitle").val("");
                 $("#modalTestTitle").modal('hide');
                 BindDataTable();
             },

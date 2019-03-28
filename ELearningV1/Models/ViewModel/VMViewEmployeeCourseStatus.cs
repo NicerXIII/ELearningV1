@@ -10,7 +10,7 @@ namespace ELearningV1.Models.ViewModel
         public string EmployeeNumber { get; set; }
         public string EmpName { get; set; }
         public string Course { get; set; }
-        public int Progress { get; set; }
+        public double Progress { get; set; }
         public float? Score { get; set; }
         public string Status1 { get; set; }
         public DateTime EnrolledDate { get; set; }

@@ -592,13 +592,13 @@ namespace ELearningV1.Controllers
 
 
             var secResult = secPercent * 100;
-            var CurMustPerResult = Math.Round(CurMustPer * 100);
+            var CurMustPerResult = CurMustPer * 100;
 
             var currentProgress = SQLcon.SelectEmployeeProgressByEmpIDAndCourseID(userID,CourseID).Select(x=>x.Progress).SingleOrDefault();
-            var TotalPercent = 0;
+            var TotalPercent = 0.0;
 
             if (CurMustPerResult > currentProgress) {
-                TotalPercent = (int)currentProgress + (int) Math.Round(secResult);
+                TotalPercent = (double)currentProgress + secResult;
             }
             else{
                 TotalPercent = currentProgress;
@@ -609,7 +609,7 @@ namespace ELearningV1.Controllers
             {
                 try
                 {
-                    response.Data = new { res = SQLcon.SaveCourseProgress(userID, CourseID, Convert.ToString(TotalPercent)) };
+                    response.Data = new { res = SQLcon.SaveCourseProgress(userID, CourseID,Convert.ToString(TotalPercent)) };
                 }
                 catch (Exception ex) { }
             }
