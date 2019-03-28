@@ -72,7 +72,7 @@
                                                 <tr>
                                                     <td>
                                                         <input type="hidden" id="CourSecID" value="@q.CourseSectionID" />
-                                                        <p id="@q.ID">@q.ID ) @q.Question</p>
+                                                        <p id="@q.ID">@q.OrderNumber ) @q.Question</p>
                                                     </td>
                                                 </tr>
                                                 if (q.QuestionType == "2")
@@ -190,6 +190,7 @@
                                 <input type="text" class="form-control" style="display:none" id="txtOrderNumber" />
                             </div>
                         </div>
+                       
                     }
                     else if (@item.Type == "Video")
                     {
@@ -203,7 +204,6 @@
                             </div>
                         </div>
                     }
-
                 }
             }
 
@@ -216,12 +216,12 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-                        <label style="font-size:large;font-weight:400">Total # of questions: </label> <label id="labelNoQuestion" style="font-size:large;font-weight:400"></label>
+                        <label style="font-size:24px; ;font-weight:700">Total # of questions: </label> <label id="labelNoQuestion" style="font-size:24px;font-weight:700">0</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-                        <label style="font-size:large;font-weight:400">Your score is </label> <label id="labelScore" style="font-size:large;font-weight:400"></label>
+                        <label style="font-size:24px;font-weight:700">Your score is: </label> <label id="labelScore" style="font-size:24px;font-weight:700">0</label>
                     </div>
                 </div>
                 <div class="panel panel-success" id="panelPositive" style="display:none;">
@@ -235,14 +235,14 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8"></div>
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                        <select id="ddChoices" class="form-control select2" style="width: 100%;">
-                            <option value="0" selected>Select action</option>
-                            <option value="1">Re-take exam</option>
-                            <option value="2">Exit</option>
-                        </select>
+                        @*<select id="ddChoices" class="form-control select2" style="width: 100%;">
+                                <option value="0" selected>Select action</option>
+                                <option value="1">Re-take exam</option>
+                                <option value="2">Exit</option>
+                            </select>*@
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                        <button type="button" class="btn btn-success btn-block" onclick="Decision()">Ok</button>
+                        <button type="button" class="btn btn-success btn-block" onclick="ocOkFinished()">Ok</button>
                     </div>
                 </div>
             </div>
@@ -327,6 +327,7 @@
 <script src="~/Scripts/Dev_Scripts/Exam2.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+        debugger
         var cid = $("#CourseID1").val();
         $("#SectionOrderNo").val(1);
         loadSectionData(cid, 1);
@@ -424,7 +425,6 @@
 
             },
             error: function (response) {
-                
                 var orderN1 = $("#SectionOrderNo").val();
                 vidID = "divVIDEO" + (orderN1 - 1);
                 pdfID = "divPDF" + (orderN1 - 1);
@@ -473,7 +473,7 @@
                     alert("ERROR: Saving timestamp");
                     EndLoading();
                 }
-               
+
             },
             error: function (response) { }
         });
@@ -547,11 +547,14 @@
             url: "/Exam/UpdateEmployeeScoreByCourseIDSectionIDAndEmployeeNumber",
             data: { "CourseID": cid },
             success: function (response) {
-                    var sec1 = $("#SectionOrderNo").val();
-                    var secCon = parseInt(sec1) + 1;
-                    $("#SectionOrderNo").val(secCon);
-                    $("#modal-Confirmation").modal('hide');
-                    loadSectionData(cid, secCon);
+                var sec1 = $("#SectionOrderNo").val();
+                var secCon = parseInt(sec1) + 1;
+                $("#SectionOrderNo").val(secCon);
+                $("#labelNoQuestion").text(response.mscore);
+                $("#labelScore").text(response.tscore);
+
+                $("#modal-Confirmation").modal('hide');
+                loadSectionData(cid, secCon);
             }
         });
     }
@@ -578,6 +581,10 @@
             },
             error: function (response) { }
         });
+    }
+
+    var ocOkFinished = function () {
+         window.location.href = '@Url.Action("Index", "Home")';
     }
 
 
