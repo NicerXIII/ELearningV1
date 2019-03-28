@@ -219,6 +219,9 @@
                         "orderable": false,
                         "className": "dt-center", "targets": "_all",
                         "render": function (Progress, type, full, meta) {
+                            if (Progress >= 100) {
+                                return '<div class="progress progress-striped"><div class="progress-bar progress-bar-green" style="width: 100%; border-radius:5px; color:black;" align="center">100%</div></div>';
+                            }
                             return '<div class="progress progress-striped"><div class="progress-bar progress-bar-green" style="width: ' + Progress + '%; border-radius:5px; color:black;" align="center">' + Progress + '%</div></div>';
                         }
                     },

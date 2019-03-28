@@ -1633,6 +1633,79 @@ namespace ELearningV1.Models
             return null;
         }
 
+        public getExamQuestionList GetQuestionListByCourseID(string CourseID)
+        {
+            getExamQuestionList QuestionList = new getExamQuestionList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningGetQuizByCourseID", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+                            con.Open();
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@CourseID", CourseID);
+                            SqlDataReader dr = cmd.ExecuteReader();
+
+                            while (dr.Read())
+                            {
+                                VMGetExamQuestions question = new VMGetExamQuestions();
+                                question.ID = dr["ID"].ToString();
+                                question.Question = dr["Question"].ToString();
+                                question.QuestionType = dr["QuestionType"].ToString();
+                                question.C1 = dr["C1"].ToString();
+                                question.C2 = dr["C2"].ToString();
+                                question.C3 = dr["C3"].ToString();
+                                question.C4 = dr["C4"].ToString();
+                                question.CAnswer1 = dr["CAnswer1"].ToString();
+                                question.CAnswer2 = dr["CAnswer2"].ToString();
+                                question.CAnswer3 = dr["CAnswer3"].ToString();
+                                question.CAnswer4 = dr["CAnswer4"].ToString();
+                                question.CourseSectionID = dr["CourseSectionID"].ToString();
+                                question.CourseID = dr["CourseID"].ToString();
+                                question.OrderNumber = Int32.Parse(dr["OrderNumber"].ToString());
+                                QuestionList.Add(question);
+                            }
+                            return QuestionList;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public bool UpdateEmployeeCourseProgressScoreAndStatus(string EmployeeNumber, string CourseID,int Score,string Status1)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("UpdateEmployeeCourseProgressScoreAndStatus", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                        cmd.Parameters.AddWithValue("@CourseID", CourseID);
+                        cmd.Parameters.AddWithValue("@Score", Score);
+                        cmd.Parameters.AddWithValue("@Status1", Status1);
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    { return false; }
+                    finally
+                    { con.Close(); }
+                }
+            }
+        }
+
         #endregion
 
         #region Agent Status

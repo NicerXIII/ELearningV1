@@ -295,7 +295,13 @@
                     },
                     {
                         "mData": "Progress",
-                        "orderable": false
+                        "orderable": false,
+                        "render": function (Progress, type, full, meta) {
+                            if (Progress >= 100) {
+                                return 100;
+                            }
+                            return Progress;
+                        }
                     },
                     {
                         "mData": "Score",
@@ -369,6 +375,25 @@
             $.ajax({
                 type: "POST",
                 url: "/Course/RemoveEmployeeFromCourseByEMployeeNumber",
+                data: { "EmployeeNumber": eid, "CourseID": cid },
+                success: function (response) {
+                    var r = response.res;
+                    if (r == true) {
+                        DeleteAllEmployeeAnswerByCourseID(eid, cid);
+                    } else {
+                        alert("Error: Please try again");
+                    }
+                },
+                error: function (response) { }
+            });
+        }
+    }
+
+    function DeleteAllEmployeeAnswerByCourseID(eid, cid) {
+        if (eid != "" && cid != "") {
+            $.ajax({
+                type: "POST",
+                url: "/Course/EraseEmployeeAswerByCourseID",
                 data: { "EmployeeNumber": eid, "CourseID": cid },
                 success: function (response) {
                     var r = response.res;
