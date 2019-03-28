@@ -1706,6 +1706,27 @@ namespace ELearningV1.Models
             }
         }
 
+        public bool ResetEmployeeScoreByEmpIDAndCourseID(string EmployeeNumber, string CourseID)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("Update ELearningCourseProgress SET Score='0' Where EmployeeNumber='" + EmployeeNumber + "' And CourseID='" + CourseID + "'", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    { return false; }
+                    finally
+                    { con.Close(); }
+                }
+            }
+        }
+
         #endregion
 
         #region Agent Status

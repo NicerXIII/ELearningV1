@@ -330,6 +330,7 @@
         var cid = $("#CourseID1").val();
         $("#SectionOrderNo").val(1);
         loadSectionData(cid, 1);
+        EraseEmployeeAnswersOnRefreshOrOnLoad(cid);
     });
 
     var empAns = new Array();
@@ -555,7 +556,29 @@
         });
     }
 
+    function EraseEmployeeAnswersOnRefreshOrOnLoad(CID) {
+        $.ajax({
+            type: "POST",
+            url: "/Home/EraseEmployeeAswerByCourseID",
+            data: { "CourseID": CID },
+            success: function (response) {
+                ResetEmployeeScore(CID)
+            },
+            error: function (response) { }
+        });
+    }
 
+    function ResetEmployeeScore(CID) {
+        $.ajax({
+            type: "POST",
+            url: "/Home/ResetEmployeeScoreByCourseID",
+            data: { "CourseID": CID },
+            success: function (response) {
+
+            },
+            error: function (response) { }
+        });
+    }
 
 
 </script>

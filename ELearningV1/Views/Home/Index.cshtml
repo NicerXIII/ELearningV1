@@ -391,7 +391,14 @@
                     {
                         "mData": "Score",
                         "orderable": false,
-                        "className": "dt-center", "targets": "_all"
+                        "className": "dt-center", "targets": "_all",
+                        "render": function (Score, type, full, meta) {
+                            if (full.Progress >= 100) {
+                                return Score;
+                            } else {
+                                return 0;
+                            }
+                        }
                     },
                     {
                         "mData": "EnrolledDate",
