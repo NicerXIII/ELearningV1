@@ -226,7 +226,7 @@
                         "orderable": false,
                         "className": "text-center", "targets": "_all",
                         "render": function (ID, type, full, meta) {
-                            return '<a href="#/" onclick="ocSelectThisCourse(\'' + ID + '\')"> <span class="fa fa-mouse-pointer">Select</span></a> | <a href="#/" onclick="ocDeleteThisCourse(\'' + ID + '\')" style="color:red;"> <span class="fa fa-trash"> Remove</span></a>';
+                            return '<a href="#/" onclick="ocSelectThisCourse(\'' + ID + '\')"> <span class="fa fa-check-circle" title="Select this course">Select</span></a> | <a href="#/" onclick="ocDeleteThisCourse(\'' + ID + '\')" style="color:#cc0000;"> <span class="fa fa-minus-circle" title="Delete this course"> Delete</span></a>';
                         }
                     },
                     {
@@ -281,7 +281,7 @@
                         "mData": "EmployeeNumber",
                         "orderable": false,
                         "render": function (EmployeeNumber, type, full, meta) {
-                            return '<a href="#/" onclick="ocKickOutEmployee(\'' + EmployeeNumber + '\')" style="color:red;"> <span class="fa fa-trash"> Remove</span></a>';
+                            return '<a href="#/" onclick="ocKickOutEmployee(\'' + EmployeeNumber + '\')" style="color:#cc0000;"> <span class="fa fa-user-times" title="Delete user"></span></a>';
                         }
                     },
                     {
