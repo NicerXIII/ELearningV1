@@ -739,7 +739,9 @@ namespace ELearningV1.Controllers
 
             var response = new JsonResult();
             response.Data = new {
-                res = result
+                res = result,
+                tscore = TotalScore,
+                mscore = ScoreMust
             };
 
             return response;
