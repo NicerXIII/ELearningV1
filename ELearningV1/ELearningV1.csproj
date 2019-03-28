@@ -1938,6 +1938,7 @@
     <Content Include="Ionicons\scss\_ionicons-icons.scss" />
     <Content Include="Ionicons\scss\_ionicons-variables.scss" />
     <Content Include="Scripts\Dev_Scripts\AddNewCourse.js" />
+    <Content Include="Scripts\Dev_Scripts\AgentIndex.js" />
     <Content Include="Scripts\Dev_Scripts\Exam.js" />
     <Content Include="Scripts\Dev_Scripts\Exam2.js" />
     <Content Include="Scripts\Dev_Scripts\ExamList.js" />

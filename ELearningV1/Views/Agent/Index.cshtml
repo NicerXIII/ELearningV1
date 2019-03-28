@@ -3,10 +3,8 @@
     ViewBag.Title = "Index";
 }
 <section class="content">
-    <!-- Small boxes (Stat box) -->
     <div class="row">
         <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
                     <h3 id="CIP">8</h3>
@@ -15,12 +13,10 @@
                 <div class="icon">
                     <i class="fa fa-book text-black"></i>
                 </div>
-                <a href="#" class="small-box-footer text-black">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <label class="small-box-footer text-black"><i class="fa fa-bars"></i></label>
             </div>
         </div>
-        <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
                     <h3 id="CC">0</h3>
@@ -29,12 +25,10 @@
                 <div class="icon">
                     <i class="fa fa-check-circle text-black"></i>
                 </div>
-                <a href="#" class="small-box-footer text-black">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <label class="small-box-footer text-black"><i class="fa fa-bars"></i></label>
             </div>
         </div>
-        <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
                     <h3 id="PA">44</h3>
@@ -43,12 +37,10 @@
                 <div class="icon">
                     <i class="fa fa-address-book text-black"></i>
                 </div>
-                <a href="#" class="small-box-footer text-black">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <label class="small-box-footer text-black"><i class="fa fa-bars"></i></label>
             </div>
         </div>
-        <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
                     <h3 id="INC">1</h3>
@@ -57,12 +49,10 @@
                 <div class="icon">
                     <i class="fa fa-exclamation-triangle text-black"></i>
                 </div>
-                <a href="#" class="small-box-footer text-black">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <label class="small-box-footer text-black"><i class="fa fa-bars"></i></label>
             </div>
         </div>
-        <!-- ./col -->
     </div>
-    <!-- /.row -->
 
     <div class="row">
         <div class="col-md-12">
@@ -70,11 +60,9 @@
                 <div class="box-header with-border">
                     <h3 class="box-title" style="font-size:20px; font-weight:700;">Course Information</h3>
                 </div>
-                <!-- /.box-header -->
                 <div class="box-body" style="min-height:800px;">
                     <div class="row">
                         <div class="col-md-12">
-                            <!-- Custom Tabs -->
                             <div class="nav-tabs-custom">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a href="#CourseEmployeeListStatus" data-toggle="tab" style="font-weight:600;">Employee List Status <span class="fa fa-hourglass-1"></span></a></li>
@@ -99,7 +87,6 @@
                                             <tbody style="font-size:18px; font-weight:500;"></tbody>
                                         </table>
                                     </div>
-                                    <!-- /.tab-pane -->
                                     <div class="tab-pane" id="CourseReports">
                                         <div class="col-md-6 col-lg-6 col-xs-12">
                                             <form class="form-inline" style="margin-bottom:10px;">
@@ -111,7 +98,7 @@
                                                 </select>
                                                 <div class="pull-right">
                                                     <label>Date Range: &nbsp;&nbsp; From: </label>
-                                                    <input type="date" class="form-control" id="dFrom"  onchange="ocDFrom()">
+                                                    <input type="date" class="form-control" id="dFrom" onchange="ocDFrom()">
                                                     <label> &nbsp;&nbsp; To: </label>
                                                     <input type="date" class="form-control" id="dTo" onchange="ocDTo()">
                                                 </div>
@@ -136,14 +123,10 @@
 
                                     </div>
                                 </div>
-                                <!-- /.tab-content -->
                             </div>
-                            <!-- nav-tabs-custom -->
                         </div>
-                        <!-- /.col -->
                     </div>
                 </div>
-                <!-- /.box-body -->
                 <div class="box-footer clearfix">
 
                 </div>
@@ -153,7 +136,8 @@
 
 </section>
 
-<script type="text/javascript">
+<!--<script src="~/Scripts/Dev_Scripts/AgentIndex.js"></script>-->
+<script>
     $(document).ready(function () {
         PanelBoxStatus();
     });
@@ -368,7 +352,7 @@
             }
         });
     }
-   
+
 
     var stable;
     var EmpStatusDataTable = function () {
@@ -458,8 +442,4 @@
     var ocDTo = function () {
         EmpStatusDataTable();
     }
-
-
-
-
 </script>
