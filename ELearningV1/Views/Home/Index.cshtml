@@ -1,8 +1,6 @@
 ﻿<section class="content">
-    <!-- Small boxes (Stat box) -->
     <div class="row">
         <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
                     <h3 id="CIP">8</h3>
@@ -14,9 +12,7 @@
                 <label class="small-box-footer text-black"><i class="fa fa-bars"></i></label>
             </div>
         </div>
-        <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
                     <h3 id="CC">0</h3>
@@ -28,9 +24,7 @@
                 <label class="small-box-footer text-black"><i class="fa fa-bars"></i></label>
             </div>
         </div>
-        <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
                     <h3 id="PA">44</h3>
@@ -42,9 +36,7 @@
                 <label class="small-box-footer text-black"><i class="fa fa-bars"></i></label>
             </div>
         </div>
-        <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
                     <h3 id="INC">1</h3>
@@ -56,22 +48,13 @@
                 <label class="small-box-footer text-black"><i class="fa fa-bars"></i></label>
             </div>
         </div>
-        <!-- ./col -->
     </div>
-    <!-- /.row -->
-    @*<div class="row">
-            <div class="col-md-2">
-                <button type="button" class="btn btn-default btn-flat" style="background-color:#ffffff" onclick="addCourse()"><span class="fa fa-plus"></span> Add Course</button>
-            </div>
-        </div>*@
-
     <div class="row">
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title" style="font-size:20px; font-weight:700;">Select Course</h3>
                 </div>
-                <!-- /.box-header -->
                 <div class="box-body">
                     <table id="courseProgTable" class="table table-bordered table-striped" style="width:100%; min-height:100px; min-width:1170px; font-size:18px; font-weight:700;">
                         <thead>
@@ -85,26 +68,10 @@
                             </tr>
                         </thead>
                         <tbody style="font-size:18px; font-weight:500;">
-                            @*<tr>
-                                    <td><a href="#/" class="text-black" style="font-weight:700">Introduction to TalentLMS</a></td>
-                                    <td>
-                                        <div class="progress progress-striped">
-                                            <div class="progress-bar progress-bar-light-blue" style="width: 100%; border-radius:5px;">100%</div>
-                                        </div>
-                                    </td>
-                                    <td align="center"><b>99</b></td>
-                                    <td align="center"><b>01/01/2019</b></td>
-                                    <td align="center"><b>01/10/2019</b></td>
-                                    <td align="center"><b>35 mins</b></td>
-                                </tr>*@
                         </tbody>
-
                     </table>
                 </div>
-                <!-- /.box-body -->
-                <div class="box-footer clearfix">
-
-                </div>
+                <div class="box-footer clearfix"></div>
             </div>
         </div>
     </div>
@@ -117,8 +84,6 @@
                         <button type="button" class="btn btn-default pull-right">Next <span class="fa fa-arrow-right"></span></button>
                     </form>
                 </div>*@
-
-
             <div id="UserActivity"></div>
         </div>
         <div class="col-md-4 col-xs-12">
@@ -140,19 +105,15 @@
             <div class="modal-body">
                 <div align="center">
                     <label class="fa fa-question-circle" style="font-size:100px; color:red;"></label>
-                    <label id="lblDelCourse" class="" style="font-size:20px;">You have already take this course. Do you want to take this again? All your progress will reset?</label>
+                    <label id="lblDelCourse" class="" style="font-size:20px;">You have already take this course. Do you want to take this again? Note: All your progress will reset.</label>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" id="btnDeleteCourse" onclick="ocDeleteUserProgress()" class="btn btn-danger" style="min-width:100px;">Yes</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
-
 
 <div class="modal fade" id="modalProceedToExam">
     <div class="modal-dialog" style="margin-top:300px;">
@@ -173,18 +134,14 @@
                     <div align="center">
                         <label id="lblDelCourse" class="" style="font-size:20px;">Do you want to take the exam?</label>
                     </div>
-                </div>                
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" id="btnDeleteCourse" onclick="ocYesTakeExam()" class="btn btn-primary" style="min-width:100px;">Yes</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
-
 
 <input type="hidden" id="LogDate" />
 <input type="hidden" id="CourseID" />
@@ -289,7 +246,7 @@
             data: {},
             success: function (response) {
                 var pieColors = ['#4fff63', '#dbdbdb'];
-                var prog = 0; 
+                var prog = 0;
                 if (response._tCurrentPer >= 100) {
                     prog = 100;
                 } else {
@@ -341,7 +298,8 @@
         if ($.fn.DataTable.isDataTable("#courseProgTable")) {
             //Clear table for redraw
             otable.draw();
-        } else {
+        }
+        else {
             moment.tz.add("Asia/Manila|+08 +09|-80 -90|010101010|-1kJI0 AL0 cK10 65X0 mXB0 vX0 VK10 1db0|24e6");
             otable = $("#courseProgTable").DataTable({
                 "bServerSide": true,
@@ -437,7 +395,6 @@
             });
             EndLoading();
         }
-
     }
 
     var ocSelectThisCourse = function (CID) {
@@ -458,8 +415,6 @@
             },
             error: function (response) { }
         });
-
-
     }
 
     var ocDeleteUserProgress = function () {
@@ -506,12 +461,10 @@
             error: function (response) { }
         });
     }
-
-
+    
     var ocYesTakeExam = function () {
         var CID = $("#CourseID").val();
         $("#modalProceedToExam").modal('hide');
         window.location.href = "/Exam/Exam?CourseID=" + CID + ""
     }
-
 </script>

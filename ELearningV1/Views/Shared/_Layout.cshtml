@@ -38,6 +38,17 @@
         .customSAccProf {
             max-width: 120px;
         }
+        #CourseImage {
+            position: absolute;
+            z-index: 2;
+            top: 0;
+            left: 0;
+            filter: alpha(opacity=0);
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+            opacity: 0;
+            background-color: transparent;
+            color: transparent;
+        }
     </style>
 
 </head>
@@ -90,153 +101,153 @@
                                 {@Session["EmployeeName"].ToString();
                             }
                             catch (Exception ex) { }
-                        </span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <!-- User image -->
-                        <li class="user-header">
-                            <img src="@try { @Session["UserProfilePic"].ToString(); } catch (Exception ex) { } " class="img-circle" alt="User Image">
-                            <p>
-                                @try
-                                {@Session["EmployeeName"].ToString();
-                            }
-                            catch (Exception ex) { }
-                                <small>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- User image -->
+                            <li class="user-header">
+                                <img src="@try { @Session["UserProfilePic"].ToString(); } catch (Exception ex) { } " class="img-circle" alt="User Image">
+                                <p>
                                     @try
-                                    {@Session["EmployeePositionName"].ToString();
+                                    {@Session["EmployeeName"].ToString();
                                 }
                                 catch (Exception ex) { }
-                                </small>
-                            </p>
-                        </li>
-                        <!-- Menu Footer-->
-                        <li class="user-footer">
-                            <div class="pull-left">
-                                @*<a href="#" class="btn btn-default btn-flat">Profile</a>*@
-                            </div>
-                            <div class="pull-right">
-                                <a href="#" onclick="ocSignOut()" class="btn btn-default btn-flat">Sign out</a>
-                            </div>
-                        </li>
+                                    <small>
+                                        @try
+                                        {@Session["EmployeePositionName"].ToString();
+                                    }
+                                    catch (Exception ex) { }
+                                    </small>
+                                </p>
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    @*<a href="#" class="btn btn-default btn-flat">Profile</a>*@
+                                </div>
+                                <div class="pull-right">
+                                    <a href="#" onclick="ocSignOut()" class="btn btn-default btn-flat">Sign out</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- Left side column. contains the sidebar -->
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- Sidebar user panel -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="@try { @Session["UserProfilePic"].ToString(); } catch (Exception ex) { } " class="img-circle" alt="User Image">
+                </div>
+                <div class="pull-left info">
+                    <p>
+                        @try
+                        {@Session["EmployeeName"].ToString();
+                    }
+                    catch (Exception ex) { }
+                    </p>
+                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                </div>
+            </div>
+            <!-- search form -->
+            <form action="#" method="get" class="sidebar-form">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search...">
+                    <span class="input-group-btn">
+                        <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </form>
+            <!-- /.search form -->
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="header">MAIN NAVIGATION</li>
+                <li><a href="#/" onclick="Home()"><i class="fa fa-home" style="font-size:20px;"></i> <span> HOME</span></a></li>
+                <li class="treeview">
+                    <a href="#/">
+                        <i class="fa fa-book" style="font-size:20px;"></i> <span>COURSES</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        @try
+                        {
+                            if (Session["EmployeePositionName"].ToString() == "Web Developer" || Session["EmployeePositionName"].ToString() == "Senior QA")
+                            {
+                                <li><a href="#/" onclick="addCourse()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> New Course</a></li>
+                            }
+                        }
+                        catch (Exception ex) { }
+
+                        <li><a href="#/" onclick="viewCourse()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> View Courses</a></li>
+
+                        @try
+                        {
+                            if (Session["EmployeePositionName"].ToString() == "Web Developer" || Session["EmployeePositionName"].ToString() == "Senior QA")
+                            {
+                                <li><a href="#/" onclick="viewCourseList()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> View Course List</a></li>
+                            }
+                        }
+                        catch (Exception ex) { }
+                        <!--<li><a href="#/" onclick="Exams()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> Exams</a></li>-->
                     </ul>
                 </li>
-
-            </ul>
-        </div>
-    </nav>
-</header>
-<!-- Left side column. contains the sidebar -->
-<aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-        <!-- Sidebar user panel -->
-        <div class="user-panel">
-            <div class="pull-left image">
-                <img src="@try { @Session["UserProfilePic"].ToString(); } catch (Exception ex) { } " class="img-circle" alt="User Image">
-            </div>
-            <div class="pull-left info">
-                <p>
-                    @try
-                    {@Session["EmployeeName"].ToString();
-                }
-                catch (Exception ex) { }
-            </p>
-            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-        </div>
-    </div>
-    <!-- search form -->
-    <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-            <input type="text" name="q" class="form-control" placeholder="Search...">
-            <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
-                    <i class="fa fa-search"></i>
-                </button>
-            </span>
-        </div>
-    </form>
-    <!-- /.search form -->
-    <!-- sidebar menu: : style can be found in sidebar.less -->
-    <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>
-        <li><a href="#/" onclick="Home()"><i class="fa fa-home" style="font-size:20px;"></i> <span> HOME</span></a></li>
-        <li class="treeview">
-            <a href="#/">
-                <i class="fa fa-book" style="font-size:20px;"></i> <span>COURSES</span>
-                <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
                 @try
                 {
                     if (Session["EmployeePositionName"].ToString() == "Web Developer" || Session["EmployeePositionName"].ToString() == "Senior QA")
                     {
-                        <li><a href="#/" onclick="addCourse()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> New Course</a></li>
+                        <li><a href="#/" onclick="viewAgentsData()"><i class="fa fa-group"></i> <span>EMPLOYEES DATA</span></a></li>
                     }
                 }
                 catch (Exception ex) { }
 
-                <li><a href="#/" onclick="viewCourse()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> View Courses</a></li>
-
-                @try
-                {
-                    if (Session["EmployeePositionName"].ToString() == "Web Developer" || Session["EmployeePositionName"].ToString() == "Senior QA")
-                    {
-                        <li><a href="#/" onclick="viewCourseList()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> View Course List</a></li>
-                    }
-                }
-                catch (Exception ex) { }
-                <!--<li><a href="#/" onclick="Exams()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> Exams</a></li>-->
+                @*<li class="treeview">
+                        <a href="#/">
+                            <i class="fa fa-cloud"></i> <span>DISCUSSION</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="#/"><i class="fa fa-arrow-circle-o-right"></i> New Discussion</a></li>
+                            <li><a href="#/"><i class="fa fa-arrow-circle-o-right"></i> View Discussion</a></li>
+                        </ul>
+                    </li>*@
             </ul>
-        </li>
-        @try
-        {
-            if (Session["EmployeePositionName"].ToString() == "Web Developer" || Session["EmployeePositionName"].ToString() == "Senior QA")
-            {
-                <li><a href="#/" onclick="viewAgentsData()"><i class="fa fa-group"></i> <span>EMPLOYEES DATA</span></a></li>
-            }
-        }
-        catch (Exception ex) { }
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+    <!-- =============================================== -->
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
 
-        @*<li class="treeview">
-                <a href="#/">
-                    <i class="fa fa-cloud"></i> <span>DISCUSSION</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="#/"><i class="fa fa-arrow-circle-o-right"></i> New Discussion</a></li>
-                    <li><a href="#/"><i class="fa fa-arrow-circle-o-right"></i> View Discussion</a></li>
-                </ul>
-            </li>*@
-    </ul>
-</section>
-<!-- /.sidebar -->
-</aside>
-<!-- =============================================== -->
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+        <section class="content-header">
 
-    <section class="content-header">
+            @RenderBody()
 
-        @RenderBody()
-
-    </section>
-    <!-- Main content -->
-</div>
-<footer class="main-footer">
-    <div class="pull-right hidden-xs">
-        <b>Version</b> 1.0.0
+        </section>
+        <!-- Main content -->
     </div>
-    <strong>Copyright &copy; 2019 <a href="http://trecnetkiosk:94/">Trec Pacific Corp.</a>.</strong> All rights
-    reserved.
-</footer>
-<div class="control-sidebar-bg"></div>
-<!-- ./wrapper -->
-@RenderSection("scripts", required: false)
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>Version</b> 1.0.0
+        </div>
+        <strong>Copyright &copy; 2019 <a href="http://trecnetkiosk:94/">Trec Pacific Corp.</a>.</strong> All rights
+        reserved.
+    </footer>
+    <div class="control-sidebar-bg">
+    </div>
+    @RenderSection("scripts", required: false)
 </body>
 </html>
 <div id="spin" class="spinner hidden">
@@ -256,50 +267,56 @@
                 <h4 class="modal-title">Add Course</h4>
             </div>
             <div class="modal-body">
-                <!-- form start -->
-
-                <form role="form">
-                    <div class="row">
-                        <div class="col-md-6 col-xs-12">
-                            <div class="form-group" align="center">
-                                <img src="~/UpLoadedImages/imagesaaaaa.jpg" id="CoursePic" class="img-thumbnail" alt="Cinque Terre" style="width:150px; height:150px;">
+                <!--<form role="form">-->
+                <div class="row">
+                    <div class="col-md-6 col-xs-12">
+                        <div class="form-group" align="center">
+                            <img src="~/UpLoadedImages/imagesaaaaa.jpg" id="CoursePic" class="img-thumbnail" alt="Cinque Terre" style="width:150px; height:150px;">
+                            <br /><br />
+                            <div style="position:relative;">
+                                <a class='btn btn-primary' href='javascript:;'>
+                                    Choose file
+                                    <input type="file" id="CourseImage" name="file_source" size="40" onchange='$("#upload-file-info").html($(this).val());><!--'-->
+                                </a>
+                                &nbsp;
+                                <span class='label label-info' id="upload-file-info"></span>
+                            </div>
+                            <!--
+                            <label class="btn btn-info">
                                 <input type="file" id="CourseImage" />
-                            </div>
-                        </div>
-                        <div class="col-md-6  col-xs-12">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Enter Course Name:</label>
-                                <input type="email" class="form-control" id="CName" placeholder="Enter email">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Description:</label>
-                                <input type="email" class="form-control" id="CDesc" placeholder="Description">
-                            </div>
-                            <div class="form-group">
-                                <label>Select Minimum Day(s)</label>
-                                <select class="form-control" id="MinDay">
-                                    <option value="1" selected>1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
-                            </div>
+                            </label>
+                            -->
                         </div>
                     </div>
-                </form>
-
-                <!-- /.box -->
+                    <div class="col-md-6  col-xs-12">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Enter Course Name:</label>
+                            <input type="email" class="form-control" id="CName" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Description:</label>
+                            <input type="email" class="form-control" id="CDesc" placeholder="Description">
+                        </div>
+                        <div class="form-group">
+                            <label>Select Minimum Day(s)</label>
+                            <select class="form-control" id="MinDay">
+                                <option value="1" selected>1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!--</form>-->
             </div>
             <div class="modal-footer">
                 <button type="button" onclick="ocAddNewCourse()" class="btn btn-primary">Add</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
 
 <input id="imageName" class="hidden" />
 <script src="~/Scripts/Dev_Scripts/AddNewCourse.js"></script>
