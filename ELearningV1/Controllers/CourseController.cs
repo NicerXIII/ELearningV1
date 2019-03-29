@@ -228,7 +228,7 @@ namespace ELearningV1.Controllers
                 EmployeeNumber = x.EmployeeNumber,
                 EmpName = x.EmpName,
                 CampiagnName = x.CampiagnName,
-                Progress = x.Progress,
+                Progress = Math.Round(x.Progress),
                 Score = x.Score
             }).AsEnumerable().ToList();
 

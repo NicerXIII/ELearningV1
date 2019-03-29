@@ -6,10 +6,9 @@
     <!-- Small boxes (Stat box) -->
     <div class="row">
         <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>8</h3>
+                    <h3 id="CIP">8</h3>
                     <p>Course in Progress</p>
                 </div>
                 <div class="icon">
@@ -18,12 +17,10 @@
                 <label class="small-box-footer text-black"><i class="fa fa-bars"></i></label>
             </div>
         </div>
-        <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>0</h3>
+                    <h3 id="CC">0</h3>
                     <p>Completed Courses</p>
                 </div>
                 <div class="icon">
@@ -32,35 +29,30 @@
                 <label class="small-box-footer text-black"><i class="fa fa-bars"></i></label>
             </div>
         </div>
-        <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>44 mins</h3>
-                    <p>Training Time</p>
+                    <h3 id="PA">44</h3>
+                    <p>Passed Agent</p>
                 </div>
                 <div class="icon">
-                    <i class="fa fa-clock-o text-black"></i>
+                    <i class="fa fa-address-book text-black"></i>
                 </div>
                 <label class="small-box-footer text-black"><i class="fa fa-bars"></i></label>
             </div>
         </div>
-        <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>1</h3>
-                    <p>Groups</p>
+                    <h3 id="INC">1</h3>
+                    <p>Incompleted Course</p>
                 </div>
                 <div class="icon">
-                    <i class="fa fa-group text-black"></i>
+                    <i class="fa fa-exclamation-triangle text-black"></i>
                 </div>
                 <label class="small-box-footer text-black"><i class="fa fa-bars"></i></label>
             </div>
         </div>
-        <!-- ./col -->
     </div>
 
     <div class="row">
@@ -164,6 +156,7 @@
             data: {},
             success: function (response) {
                 $("#reloadViewCourse").load("/Home/LoadCourseData #reloadViewCourse");
+                PanelBoxStatus();
                 EndLoading();
             },
             error: function (response) {
@@ -172,6 +165,21 @@
 
         });
     });
+
+    var PanelBoxStatus = function () {
+        $.ajax({
+            type: "POST",
+            url: "/Home/LoadPanelBoxData",
+            data: {},
+            success: function (response) {
+                $("#CIP").text(response._cip);
+                $("#CC").text(response._cc);
+                $("#PA").text(response._pa);
+                $("#INC").text(response._inc);
+            },
+            error: function (response) { }
+        });
+    }
 
     var ocViewDetails = function (courseID) {
         //courseID.String.hashCode();

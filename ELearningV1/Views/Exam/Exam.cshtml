@@ -72,7 +72,7 @@
                                                 <tr>
                                                     <td>
                                                         <input type="hidden" id="CourSecID" value="@q.CourseSectionID" />
-                                                        <p id="@q.ID">@q.OrderNumber ) @q.Question</p>
+                                                        <p id="@q.ID" style="font-size:18px; font-weight:500;">@q.OrderNumber ) @q.Question</p>
                                                     </td>
                                                 </tr>
                                                 if (q.QuestionType == "2")
@@ -84,7 +84,7 @@
                                                                     <div class="checkbox">
                                                                         <label>
                                                                             <input type="checkbox" id="chkid@(q.ID)" name="chkA@(q.ID)" value="@q.ID@q.C1" class="checkBox_" onclick="add_checked(this)">
-                                                                            <label id="txtMCOne">@q.C1</label>
+                                                                            <label id="txtMCOne"  style="font-size:16px; font-weight:500;">@q.C1</label>
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -98,7 +98,7 @@
                                                                     <div class="checkbox">
                                                                         <label>
                                                                             <input type="checkbox" id="chkid@(q.ID)" name="chkB@(q.ID)" value="@q.ID@q.C2" class="checkBox_" onclick="add_checked(this)">
-                                                                            <label id="txtMCTwo">@q.C2</label>
+                                                                            <label id="txtMCTwo" style="font-size:16px; font-weight:500;">@q.C2</label>
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -112,7 +112,7 @@
                                                                     <div class="checkbox">
                                                                         <label>
                                                                             <input type="checkbox" id="chkid@(q.ID)" name="chkC@(q.ID)" value="@q.ID@q.C3" class="checkBox_" onclick="add_checked(this)">
-                                                                            <label id="txtMCThree">@q.C3</label>
+                                                                            <label id="txtMCThree" style="font-size:16px; font-weight:500;">@q.C3</label>
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -126,7 +126,7 @@
                                                                     <div class="checkbox">
                                                                         <label>
                                                                             <input type="checkbox" id="chkid@(q.ID)" name="chkD@(q.ID)" value="@q.ID@q.C4" class="checkBox_" onclick="add_checked(this)">
-                                                                            <label id="txtMCFour">@q.C4</label>
+                                                                            <label id="txtMCFour" style="font-size:16px; font-weight:500;">@q.C4</label>
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -141,7 +141,7 @@
                                                             <div class="radio">
                                                                 <label>
                                                                     <input type="radio" id="radioid" name="rd@(q.ID)" value="@q.ID@q.C1" class="radio_">
-                                                                    <label id="answer1">@q.C1</label>
+                                                                    <label id="answer1" style="font-size:16px; font-weight:500;">@q.C1</label>
                                                                 </label>
                                                             </div>
                                                         </td>
@@ -151,7 +151,7 @@
                                                             <div class="radio">
                                                                 <label>
                                                                     <input type="radio" id="radioid" name="rd@(q.ID)" value="@q.ID@q.C2" class="radio_">
-                                                                    <label id="answer2">@q.C2</label>
+                                                                    <label id="answer2" style="font-size:16px; font-weight:500;">@q.C2</label>
                                                                 </label>
                                                             </div>
                                                         </td>
@@ -161,7 +161,7 @@
                                                             <div class="radio">
                                                                 <label>
                                                                     <input type="radio" id="radioid" name="rd@(q.ID)" value="@q.ID@q.C3" class="radio_">
-                                                                    <label id="answer3">@q.C3</label>
+                                                                    <label id="answer3" style="font-size:16px; font-weight:500;">@q.C3</label>
                                                                 </label>
                                                             </div>
                                                         </td>
@@ -171,7 +171,7 @@
                                                             <div class="radio">
                                                                 <label>
                                                                     <input type="radio" id="radioid" name="rd@(q.ID)" value="@q.ID@q.C4" class="radio_">
-                                                                    <label id="answer4">@q.C4</label>
+                                                                    <label id="answer4" style="font-size:16px; font-weight:500;">@q.C4</label>
                                                                 </label>
                                                             </div>
                                                         </td>

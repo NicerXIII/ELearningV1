@@ -530,7 +530,7 @@ namespace ELearningV1.Models
                             courseprog.EmployeeNumber = Convert.ToString(dr["EmployeeNumber"]);
                             courseprog.CourseID = Convert.ToInt32(dr["CourseID"]);
                             courseprog.Course = Convert.ToString(dr["Course"]);
-                            courseprog.Progress = Convert.ToInt32(dr["Progress"]);
+                            courseprog.Progress = Convert.ToDouble(dr["Progress"]);
                             courseprog.Score = (float)Convert.ToDouble(dr["Score"]);
                             courseprog.EnrolledDate = Convert.ToDateTime(dr["EnrolledDate"]);
                             courseprog.CompletionDate = Convert.ToDateTime(dr["CompletionDate"]);
@@ -599,7 +599,7 @@ namespace ELearningV1.Models
                             courseProg.ID = Convert.ToInt32(dr["ID"]);
                             courseProg.EmployeeNumber = Convert.ToString(dr["EmployeeNumber"]);
                             courseProg.CourseID = Convert.ToInt32(dr["CourseID"]);
-                            courseProg.Progress = Convert.ToInt32(dr["Progress"]);
+                            courseProg.Progress = Convert.ToDouble(dr["Progress"]);
                             courseProg.Score = Convert.ToInt32(dr["Score"]);
                             courseProg.EnrolledDate = Convert.ToDateTime(dr["EnrolledDate"]);
                             courseProg.CompletionDate = Convert.ToDateTime(dr["CompletionDate"]);
@@ -671,7 +671,7 @@ namespace ELearningV1.Models
                             empcourse.EmployeeNumber = Convert.ToString(dr["EmployeeNumber"]);
                             empcourse.EmpName = Convert.ToString(dr["EmpName"]);
                             empcourse.CampiagnName = Convert.ToString(dr["CampaignName"]);
-                            empcourse.Progress = Convert.ToInt32(dr["Progress"]);
+                            empcourse.Progress = Convert.ToDouble(dr["Progress"]);
                             empcourse.Score = Convert.ToInt32(dr["Score"]);
                             EmployeeCourseList.Add(empcourse);
                         }
@@ -1572,7 +1572,7 @@ namespace ELearningV1.Models
                             VMViewEmployeeCourseStatus empstatus = new VMViewEmployeeCourseStatus();
                             empstatus.EmployeeNumber = Convert.ToString(dr["EmployeeNumber"]);
                             empstatus.Score = Convert.ToInt32(dr["Score"]);
-                            empstatus.Progress = Convert.ToInt32(dr["Progress"]);
+                            empstatus.Progress = Convert.ToDouble(dr["Progress"]);
                             empstatus.Status1 = Convert.ToString(dr["Status1"]);
                             empstatus.EnrolledDate = Convert.ToDateTime(dr["EnrolledDate"]);
                             EmployeeCourseStatusList.Add(empstatus);
@@ -1749,7 +1749,7 @@ namespace ELearningV1.Models
                             empstatus.EmployeeNumber = Convert.ToString(dr["EmployeeNumber"]);
                             empstatus.EmpName = Convert.ToString(dr["EmpName"]);
                             empstatus.Course = Convert.ToString(dr["Course"]);
-                            empstatus.Progress = Convert.ToInt32(dr["Progress"]);
+                            empstatus.Progress = Convert.ToDouble(dr["Progress"]);
                             empstatus.Score = Convert.ToInt32(dr["Score"]);
                             empstatus.Status1 = Convert.ToString(dr["Status1"]);
                             empstatus.EnrolledDate = Convert.ToDateTime(dr["EnrolledDate"]);

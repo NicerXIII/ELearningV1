@@ -29,10 +29,13 @@
 });
 
 var ocUploadExamVid = function () {
+    $("#vidPlayer").addClass('hidden');
     $("#modalUploadVid").modal("show");
 }
 
 $("#VidImage").change(function () {
+    debugger
+    LoadingData();
     var File = this.files;
     if (File && File[0]) {
         VideoImage(File[0]);
@@ -40,6 +43,7 @@ $("#VidImage").change(function () {
 })
 
 $("#PreImage").change(function () {
+    LoadingData();
     var File = this.files;
     if (File && File[0]) {
         VideoImage(File[0]);
@@ -55,13 +59,16 @@ var VideoImage = function (file) {
     reader.onload = function (_file) {
         image.src = _file.target.result;
         image.onload = function () {
+
         }
+        EndLoading();
     }
 
 }
 
 var ocSaveVideoData = function () {
     debugger
+    LoadingData();
     var title = $("#SourceTitle").val();
     var cid = $("#courseID1").val();
 
@@ -81,6 +88,8 @@ var ocSaveVideoData = function () {
                     var res = response.res;
                     if (res == true) {
                         alert("Video uploaded successfully.");
+                        EndLoading();
+                        $("#vidPlayer").removeClass('hidden');
                         var getVideo = document.getElementById("vidPlayer");
                         $("#vidSource").attr('src', response.vName);
                         getVideo.load()
@@ -92,16 +101,20 @@ var ocSaveVideoData = function () {
                         BindDataTable();
                     } else {
                         alert("Video upload failed");
+                        EndLoading();
                     }
                 },
                 error: function (response) {
                     alert("ERROR: please select video again.");
+                    EndLoading();
                 }
             });
         } else {
+            EndLoading();
             alert('ERROR: File format not supported');
         }
     } else {
+        EndLoading();
         alert("Please fill up all fields");
     }
 }
@@ -113,11 +126,13 @@ var ocCloseUploadVideoModal = function () {
 }
 
 var ocUploadExamPresentation = function () {
+    $("#pdfPres").addClass('hidden');
     $("#modalUploadPresentation").modal('show');
 }
 
 var ocSavePresentationData = function () {
     debugger
+    LoadingData();
     var title = $("#PresTitle").val();
     var cid = $("#courseID1").val();
 
@@ -143,19 +158,24 @@ var ocSavePresentationData = function () {
                         $("#pdfPres").removeClass("hidden");
                         $("#PresTitle").val("");
                         $("#PreImage").val("");
+                        EndLoading();
                         BindDataTable();
                     } else {
                         alert("File upload failed");
+                        EndLoading();
                     }
                 },
                 error: function (response) {
                     alert("ERROR: please select pdf file again..");
+                    EndLoading();
                 }
             });
         } else {
             alert("ERROR: Invalid pdf format.");
+            EndLoading();
         }
     } else {
+        EndLoading();
         alert("Please fill up all fields");
     }
 
@@ -324,7 +344,7 @@ $("#ddquestionType").change(function () {
     var selected = $("#ddquestionType option:selected").val();
     var b = document.getElementById("mc");
     var c = document.getElementById("mcoa");
-    
+
     if (selected === "2") {
         b.style.display = "block";
         //a.style.display = "none";
@@ -348,6 +368,8 @@ var ocSaveTestTitle = function () {
             data: { "CID": cid, "Title": title },
             success: function (response) {
                 alert(response.res);
+                $("#modalTestTitle").modal('hide');
+                $("#TestTitle").val("");
                 $("#modalTestTitle").modal('hide');
                 BindDataTable();
             },
@@ -382,17 +404,13 @@ var addQuestion = function () {
 $("#chckMCOne").change(function () {
     var data1 = $("#txtMCOne").val();//this.id;
     if (document.getElementById("chckMCOne").checked) {
-        if (totalAns === "" || totalAns === null || totalAns === " ")
-        {
-            if (totalAns.includes(data1))
-            {   }
+        if (totalAns === "" || totalAns === null || totalAns === " ") {
+            if (totalAns.includes(data1)) { }
             else { totalAns = data1; }
         }
         else {
-            if (totalAns.includes(data1))
-            {   }
-            else
-            {   totalAns = totalAns + "," + data1;  }            
+            if (totalAns.includes(data1)) { }
+            else { totalAns = totalAns + "," + data1; }
         }
     }
 });
@@ -400,10 +418,8 @@ $("#chckMCOne").change(function () {
 $("#chckMCTwo").change(function () {
     var data2 = $("#txtMCTwo").val();//this.id;
     if (document.getElementById("chckMCTwo").checked) {
-        if (totalAns === "" || totalAns === null || totalAns === " ")
-        {
-            if (totalAns.includes(data2))
-            {   }
+        if (totalAns === "" || totalAns === null || totalAns === " ") {
+            if (totalAns.includes(data2)) { }
             else { totalAns = data2; }
         }
         else {
@@ -415,19 +431,14 @@ $("#chckMCTwo").change(function () {
 $("#chckMCThree").change(function () {
     var data3 = $("#txtMCThree").val();//this.id;
     if (document.getElementById("chckMCThree").checked) {
-        if (totalAns === "" || totalAns === null || totalAns === " ")
-        {
-            if (totalAns.includes(data3))
-            {   }
-            else
-            { totalAns = data3; }
+        if (totalAns === "" || totalAns === null || totalAns === " ") {
+            if (totalAns.includes(data3)) { }
+            else { totalAns = data3; }
         }
         else {
-            if (totalAns.includes(data3))
-            {   }
-            else
-            {   totalAns = totalAns + "," + data3;  }
-            
+            if (totalAns.includes(data3)) { }
+            else { totalAns = totalAns + "," + data3; }
+
         }
     }
 });
@@ -435,18 +446,13 @@ $("#chckMCThree").change(function () {
 $("#chckMCFour").change(function () {
     var data4 = $("#txtMCFour").val();
     if (document.getElementById("chckMCFour").checked) {
-        if (totalAns === "" || totalAns === null || totalAns === " ")
-        {
-            if (totalAns.includes(data4))
-            {   }
-            else
-            {   totalAns = data4;   }
+        if (totalAns === "" || totalAns === null || totalAns === " ") {
+            if (totalAns.includes(data4)) { }
+            else { totalAns = data4; }
         }
         else {
-            if (totalAns.includes(data4))
-            {   }
-            else
-            {   totalAns = totalAns + "," + data4;  }
+            if (totalAns.includes(data4)) { }
+            else { totalAns = totalAns + "," + data4; }
         }
     }
 });
@@ -456,32 +462,28 @@ $("#chckMCFour").change(function () {
 $("#chckMCOA1").change(function () {
     var data1 = $("#txtMCOA1").val();
 
-    if (totalAns2.includes(data1))
-    { }
+    if (totalAns2.includes(data1)) { }
     else { totalAns2 = data1; }
 });
 
 $("#chckMCOA2").change(function () {
     var data2 = $("#txtMCOA2").val();
 
-    if (totalAns2.includes(data2))
-    { }
+    if (totalAns2.includes(data2)) { }
     else { totalAns2 = data2; }
 });
 
 $("#chckMCOA3").change(function () {
     var data3 = $("#txtMCOA3").val();
 
-    if (totalAns2.includes(data3))
-    { }
+    if (totalAns2.includes(data3)) { }
     else { totalAns2 = data3; }
 });
 
 $("#chckMCOA4").change(function () {
     var data4 = $("#txtMCOA4").val();
 
-    if (totalAns2.includes(data4))
-    { }
+    if (totalAns2.includes(data4)) { }
     else { totalAns2 = data4; }
 });
 ////////////FOR ONE ANSWER ONLY////////////////
@@ -904,14 +906,10 @@ var UpdateSeletedQuestion = function () {
         ans3 = $("#txtMCOA3").val();
         ans4 = $("#txtMCOA4").val();
 
-        if (document.getElementById("chckMCOA1").checked)
-        { radioAnswer1 = $("#txtMCOA1").val();    }
-        if (document.getElementById("chckMCOA2").checked)
-        { radioAnswer2 = $("#txtMCOA2").val();    }
-        if (document.getElementById("chckMCOA3").checked)
-        { radioAnswer3 = $("#txtMCOA3").val();    }
-        if (document.getElementById("chckMCOA4").checked)
-        { radioAnswer4 = $("#txtMCOA4").val();    }
+        if (document.getElementById("chckMCOA1").checked) { radioAnswer1 = $("#txtMCOA1").val(); }
+        if (document.getElementById("chckMCOA2").checked) { radioAnswer2 = $("#txtMCOA2").val(); }
+        if (document.getElementById("chckMCOA3").checked) { radioAnswer3 = $("#txtMCOA3").val(); }
+        if (document.getElementById("chckMCOA4").checked) { radioAnswer4 = $("#txtMCOA4").val(); }
 
         $.ajax({
             type: "POST",
@@ -927,7 +925,7 @@ var UpdateSeletedQuestion = function () {
     $.ajax({
         type: "POST",
         url: "/Exam/updateTestName",
-        data: { "ID": testID, "TestName": TestName},
+        data: { "ID": testID, "TestName": TestName },
         success: function (response) {
             debugger
             alert(response.res);
