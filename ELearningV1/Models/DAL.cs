@@ -19,7 +19,7 @@ namespace ELearningV1.Models
             VMKioskLogInUserList UserDataList = new VMKioskLogInUserList();
             using (SqlConnection con = new SqlConnection(Cons))
             {
-                using (SqlCommand cmd = new SqlCommand("EmployeeKioskLoginUser", con))
+                using (SqlCommand cmd = new SqlCommand("EmployeeELearningLoginUser", con))
                 {
                     try
                     {

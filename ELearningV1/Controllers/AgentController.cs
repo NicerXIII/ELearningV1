@@ -104,7 +104,7 @@ namespace ELearningV1.Controllers
 
             var CIP = data.Where(x => x.Progress < 100).Count();
             var CC = data.Where(x => x.Progress == 100).Count();
-            var PA = data.Where(x => x.Progress == 100).Count();
+            var PA = data.Where(x => x.Progress == 100 && x.Score >= 92).Count();
             var INC = data.Where(x => x.Progress < 100 && x.CompletionDate < DateTime.Now).Count();
 
             var response = new JsonResult();
