@@ -2,6 +2,47 @@
 @{
     ViewBag.Title = "Index";
 }
+<style>
+    .mt-1 {
+        margin-top: 5px;
+    }
+
+    .mt-2 {
+        margin-top: 10px;
+    }
+
+    .mt-3 {
+        margin-top: 15px;
+    }
+
+    .mt-4 {
+        margin-top: 20px;
+    }
+
+    .mt-5 {
+        margin-top: 25px;
+    }
+
+    .vdivider {
+        width: 1px;
+        margin: 6px 0;
+        background: gray;
+        /*border-left: 1px solid gray;
+        height: auto;
+        max-height:500px;*/
+    }
+
+    #row1 {
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+        margin: 0 -8px;
+    }
+
+    #row1 > * {
+        margin: 0 8px;
+    }
+</style>
 <section class="content">
     <div class="row">
         <div class="col-lg-3 col-xs-6">
@@ -60,7 +101,8 @@
                 <div class="box-header with-border">
                     <h3 class="box-title" style="font-size:20px; font-weight:700;">Course Information</h3>
                 </div>
-                <div class="box-body" style="min-height:800px;">
+                <div class="box-body" style="min-height:auto">
+                    <!--800px;-->
                     <div class="row">
                         <div class="col-md-12">
                             <div class="nav-tabs-custom">
@@ -88,52 +130,67 @@
                                         </table>
                                     </div>
                                     <div class="tab-pane" id="CourseReports">
-                                        <div class="col-md-6 col-lg-6 col-xs-12">
-                                            <form class="form-inline" style="margin-bottom:10px;">
-                                                <label>Select Status:</label>
-                                                <select class="form-control" id="EmpStatus">
-                                                    <option value="PASSED">PASSED</option>
-                                                    <option value="FAILED">FAILED</option>
-                                                    <option value="INPROGRESS">INPROGRESS</option>
-                                                </select>
-                                                <div class="pull-right">
-                                                    <label>Date Range: &nbsp;&nbsp; From: </label>
-                                                    <input type="date" class="form-control" id="dFrom" onchange="ocDFrom()">
-                                                    <label> &nbsp;&nbsp; To: </label>
-                                                    <input type="date" class="form-control" id="dTo" onchange="ocDTo()">
+                                        <!--<form class="form-inline" style="margin-bottom:10px;">-->
+                                        <!--</form>-->
+                                        <div class="row" id="row1">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                <div class="row">
+                                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 mt-2">
+                                                        <label>Select Status:</label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                        <select class="form-control" id="EmpStatus">
+                                                            <option value="PASSED">PASSED</option>
+                                                            <option value="FAILED">FAILED</option>
+                                                            <option value="INPROGRESS">INPROGRESS</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-
-                                            </form>
-                                            <table id="tblEmpStatusByDate" class="table table-bordered table-striped table-responsive" style="width:100%; min-height:100px; min-width:600px; font-size:18px; font-weight:700;">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Emp#</th>
-                                                        <th>Name</th>
-                                                        <th>Score</th>
-                                                        <th>Campiagn</th>
-                                                        <th>Enrolled On</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody style="font-size:18px; font-weight:500;"></tbody>
-                                            </table>
+                                                <div class="row mt-1">
+                                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 mt-2">
+                                                        <label>Date From: </label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                        <input type="date" class="form-control" id="dFrom" onchange="ocDFrom()">
+                                                    </div>
+                                                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt-2">
+                                                        <label>To: </label>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                        <input type="date" class="form-control" id="dTo" onchange="ocDTo()">
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-3">
+                                                    <table id="tblEmpStatusByDate" class="table table-bordered table-striped table-responsive" style="width:100%; min-height:100px; min-width:600px; font-size:18px; font-weight:700;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Emp#</th>
+                                                                <th>Name</th>
+                                                                <th>Score</th>
+                                                                <th>Campiagn</th>
+                                                                <th>Enrolled On</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody style="font-size:18px; font-weight:500;"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="vdivider"></div>
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6 col-lg-6 col-xs-12">
-                                            <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="box-footer clearfix">
-
-                </div>
             </div>
         </div>
+        <div class="box-footer clearfix">
+        </div>
     </div>
-
 </section>
 
 <!--<script src="~/Scripts/Dev_Scripts/AgentIndex.js"></script>-->
@@ -426,6 +483,7 @@
                 "sScrollY": "300",
                 "scrollX": true,
                 "bScrollCollapse": false,
+                "searching": false,
                 "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]]
             });
         }
