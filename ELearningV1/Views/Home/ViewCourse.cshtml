@@ -81,17 +81,16 @@
                             {
                                 if (Session["EmployeePositionName"].ToString() == "Web Developer" || Session["EmployeePositionName"].ToString() == "Senior QA")
                                 {
-                                    <!--<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">-->
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                         <div class="panel panel-default">
-                                            <div class="panel-body">
+                                            <div class="panel-body" style="m">
                                                 <a href="#/" target="_blank">
                                                     <img src="~/UpLoadedImages/@item.Image" alt="Nature" style="width:100%; height:250px;">
                                                 </a>
                                                 <form class="form-inline" style="margin-top:20px;">
                                                     <label style="font-size:18px;">Course:</label>&nbsp;@item.Course
                                                 </form>
-                                                <form class="form-inline">
+                                                <form class="form-inline" style="overflow:scroll; height:100px;">
                                                     <label style="font-size:18px;">Description:</label>&nbsp;@item.Description
                                                 </form>
                                             </div>
@@ -113,7 +112,7 @@
                                                 <form class="form-inline" style="margin-top:20px;">
                                                     <label style="font-size:18px;">Course:</label>&nbsp;@item.Course
                                                 </form>
-                                                <form class="form-inline">
+                                                <form class="form-inline" style="overflow:scroll; height:100px;">
                                                     <label style="font-size:18px;">Description:</label>&nbsp;@item.Description
                                                 </form>
                                             </div>
