@@ -77,110 +77,138 @@
                                                 </tr>
                                                 if (q.QuestionType == "2")
                                                 {
-                                                    <tr>
-                                                        <td>
-                                                            <div class="row">
-                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                    <div class="checkbox">
-                                                                        <label>
-                                                                            <input type="checkbox" id="chkid@(q.ID)" name="chkA@(q.ID)" value="@q.ID@q.C1" class="checkBox_" onclick="add_checked(this)">
-                                                                            <label id="txtMCOne"  style="font-size:16px; font-weight:500;">@q.C1</label>
-                                                                        </label>
+                                                    if (q.C1 != "")
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <div class="row">
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" id="chkid@(q.ID)" name="chkA@(q.ID)" value="@q.ID@q.C1" class="checkBox_" onclick="add_checked(this)">
+                                                                                <label id="txtMCOne" style="font-size:16px; font-weight:500;">@q.C1</label>
+                                                                            </label>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="row">
-                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                    <div class="checkbox">
-                                                                        <label>
-                                                                            <input type="checkbox" id="chkid@(q.ID)" name="chkB@(q.ID)" value="@q.ID@q.C2" class="checkBox_" onclick="add_checked(this)">
-                                                                            <label id="txtMCTwo" style="font-size:16px; font-weight:500;">@q.C2</label>
-                                                                        </label>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    if (q.C2 != "")
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <div class="row">
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" id="chkid@(q.ID)" name="chkB@(q.ID)" value="@q.ID@q.C2" class="checkBox_" onclick="add_checked(this)">
+                                                                                <label id="txtMCTwo" style="font-size:16px; font-weight:500;">@q.C2</label>
+                                                                            </label>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="row">
-                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                    <div class="checkbox">
-                                                                        <label>
-                                                                            <input type="checkbox" id="chkid@(q.ID)" name="chkC@(q.ID)" value="@q.ID@q.C3" class="checkBox_" onclick="add_checked(this)">
-                                                                            <label id="txtMCThree" style="font-size:16px; font-weight:500;">@q.C3</label>
-                                                                        </label>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    if (q.C3 != "")
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <div class="row">
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                        <div class="checkbox">
+                                                                            <label>
+                                                                                <input type="checkbox" id="chkid@(q.ID)" name="chkC@(q.ID)" value="@q.ID@q.C3" class="checkBox_" onclick="add_checked(this)">
+                                                                                <label id="txtMCThree" style="font-size:16px; font-weight:500;">@q.C3</label>
+                                                                            </label>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="row">
-                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                    <div class="checkbox">
-                                                                        <label>
-                                                                            <input type="checkbox" id="chkid@(q.ID)" name="chkD@(q.ID)" value="@q.ID@q.C4" class="checkBox_" onclick="add_checked(this)">
-                                                                            <label id="txtMCFour" style="font-size:16px; font-weight:500;">@q.C4</label>
-                                                                        </label>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    if (q.C4 != "")
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <div class="row">
+                                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                        <div class="checkbox">
+                                                                            <label>
+
+                                                                                <input type="checkbox" id="chkid@(q.ID)" name="chkD@(q.ID)" value="@q.ID@q.C4" class="checkBox_" onclick="add_checked(this)">
+                                                                                <label id="txtMCFour" style="font-size:16px; font-weight:500;">@q.C4</label>
+
+                                                                            </label>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                            </td>
+                                                        </tr>
+                                                    }
                                                 }
                                                 else
                                                 {
-                                                    <tr>
-                                                        <td>
-                                                            <div class="radio">
-                                                                <label>
-                                                                    <input type="radio" id="radioid" name="rd@(q.ID)" value="@q.ID@q.C1" class="radio_">
-                                                                    <label id="answer1" style="font-size:16px; font-weight:500;">@q.C1</label>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="radio">
-                                                                <label>
-                                                                    <input type="radio" id="radioid" name="rd@(q.ID)" value="@q.ID@q.C2" class="radio_">
-                                                                    <label id="answer2" style="font-size:16px; font-weight:500;">@q.C2</label>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="radio">
-                                                                <label>
-                                                                    <input type="radio" id="radioid" name="rd@(q.ID)" value="@q.ID@q.C3" class="radio_">
-                                                                    <label id="answer3" style="font-size:16px; font-weight:500;">@q.C3</label>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="radio">
-                                                                <label>
-                                                                    <input type="radio" id="radioid" name="rd@(q.ID)" value="@q.ID@q.C4" class="radio_">
-                                                                    <label id="answer4" style="font-size:16px; font-weight:500;">@q.C4</label>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <div class="form-group margin"></div>
+                                                    if (q.C1 != "")
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" id="radioid" name="rd@(q.ID)" value="@q.ID@q.C1" class="radio_">
+                                                                        <label id="answer1" style="font-size:16px; font-weight:500;">@q.C1</label>
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    if (q.C2 != "")
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" id="radioid" name="rd@(q.ID)" value="@q.ID@q.C2" class="radio_">
+                                                                        <label id="answer2" style="font-size:16px; font-weight:500;">@q.C2</label>
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    if (q.C3 != "")
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" id="radioid" name="rd@(q.ID)" value="@q.ID@q.C3" class="radio_">
+                                                                        <label id="answer3" style="font-size:16px; font-weight:500;">@q.C3</label>
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    if (q.C4 != "")
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <div class="radio">
+                                                                    <label>
+
+                                                                        <input type="radio" id="radioid" name="rd@(q.ID)" value="@q.ID@q.C4" class="radio_">
+                                                                        <label id="answer4" style="font-size:16px; font-weight:500;">@q.C4</label>
+                                                                       
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                        <div class="form-group margin"></div>
                                                 }
                                             }
                                         }
-                                    </tbody>
+                                        </tbody>
                                 </table>
                             </div>
                             <div class="box-footer">
@@ -190,7 +218,7 @@
                                 <input type="text" class="form-control" style="display:none" id="txtOrderNumber" />
                             </div>
                         </div>
-                       
+
                     }
                     else if (@item.Type == "Video")
                     {
@@ -324,7 +352,7 @@
 
 @*<script src="~/Scripts/Dev_Scripts/Exam.js"></script>*@
 
-<script src="~/Scripts/Dev_Scripts/Exam2.js"></script>
+<script src="~/Scripts/Dev_Scripts/Exam2.js?vers=1.0"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         debugger
