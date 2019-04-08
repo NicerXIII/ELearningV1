@@ -172,7 +172,7 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">MAIN NAVIGATION</li>
-                <li><a href="#/" onclick="Home()"><i class="fa fa-home" style="font-size:20px;"></i> <span> HOME</span></a></li>
+                <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home" style="font-size:20px;"></i> <span> HOME</span></a></li>
                 <li class="treeview">
                     <a href="#/">
                         <i class="fa fa-book" style="font-size:20px;"></i> <span>COURSES</span>
@@ -181,49 +181,38 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        @try
-                        {
-                            if (Session["EmployeePositionName"].ToString() == "Web Developer" || Session["EmployeePositionName"].ToString() == "Senior QA")
-                            {
-                                <li><a href="#/" onclick="addCourse()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> New Course</a></li>
-                            }
-                        }
-                        catch (Exception ex) { }
-
-                        <li><a href="#/" onclick="viewCourse()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> View Courses</a></li>
-
-                        @try
-                        {
-                            if (Session["EmployeePositionName"].ToString() == "Web Developer" || Session["EmployeePositionName"].ToString() == "Senior QA")
-                            {
-                                <li><a href="#/" onclick="viewCourseList()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> View Course List</a></li>
-                            }
-                        }
-                        catch (Exception ex) { }
-                        <!--<li><a href="#/" onclick="Exams()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> Exams</a></li>-->
+                        <li><a href="@Url.Action("ViewCourse", "Home")"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> View Courses</a></li>
                     </ul>
                 </li>
                 @try
                 {
                     if (Session["EmployeePositionName"].ToString() == "Web Developer" || Session["EmployeePositionName"].ToString() == "Senior QA")
                     {
-                        <li><a href="#/" onclick="viewAgentsData()"><i class="fa fa-group"></i> <span>EMPLOYEES DATA</span></a></li>
+                        <li><a href="@Url.Action("Index", "Agent")"><i class="fa fa-address-card"></i> <span>REPORTS</span></a></li>
+                    }
+                }
+                catch (Exception ex) { }
+                @try
+                {
+                    if (Session["EmployeePositionName"].ToString() == "Web Developer" || Session["EmployeePositionName"].ToString() == "Senior QA")
+                    {
+                        <li class="treeview">
+                            <a href="#/">
+                                <i class="fa fa-gears" style="font-size:20px;"></i> <span>SETTINGS</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="#/" onclick="addCourse()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> New Course</a></li>
+                                <li><a href="@Url.Action("ViewCourseList", "Course")"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> View Course List</a></li>
+                                <li><a href="@Url.Action("IndexCourseAssign", "Course")"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> Assign Course</a></li>
+                            </ul>
+                        </li>
                     }
                 }
                 catch (Exception ex) { }
 
-                @*<li class="treeview">
-                        <a href="#/">
-                            <i class="fa fa-cloud"></i> <span>DISCUSSION</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="#/"><i class="fa fa-arrow-circle-o-right"></i> New Discussion</a></li>
-                            <li><a href="#/"><i class="fa fa-arrow-circle-o-right"></i> View Discussion</a></li>
-                        </ul>
-                    </li>*@
             </ul>
         </section>
         <!-- /.sidebar -->
@@ -278,7 +267,7 @@
                             <div style="position:relative;">
                                 <a class='btn btn-primary' href='javascript:;'>
                                     Choose file
-                                    <input type="file" id="CourseImage" name="file_source" size="40" onchange='$("#upload-file-info").html($(this).val());'/>
+                                    <input type="file" id="CourseImage" name="file_source" size="40" onchange='$("#upload-file-info").html($(this).val());' />
                                 </a>
                                 &nbsp;
                                 <span class='label label-info' id="upload-file-info"></span>
@@ -324,24 +313,13 @@
 <script src="~/Scripts/Dev_Scripts/AddNewCourse.js"></script>
 
 <script>
-    var Home = function ()
-    {   window.location.href = '@Url.Action("Index", "Home")';  }
-
     var Exams = function ()
     {   window.location.href = '@Url.Action("ExamList", "Exam")';   }
-
-    var viewCourse = function ()
-    {   window.location.href = '@Url.Action("ViewCourse", "Home")'; }
+    
 
     var addCourse = function ()
     {   $("#modalAddCourse").modal('show'); }
 
-    var viewAgentsData = function ()
-    { window.location.href = '@Url.Action("Index", "Agent")'; }
-
-    var viewCourseList = function () {
-        window.location.href = '@Url.Action("ViewCourseList", "Course")';
-    }
 
     var ocSignOut = function ()
     {

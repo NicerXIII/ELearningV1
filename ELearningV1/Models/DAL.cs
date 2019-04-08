@@ -709,7 +709,7 @@ namespace ELearningV1.Models
             }
         }
 
-        public bool RemoveEmployeeFromCourseByEmpID(string EmployeeNumber,string CourseID)
+        public bool RemoveEmployeeFromCourseByEmpID(string EmployeeNumber, string CourseID)
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {
@@ -1129,7 +1129,7 @@ namespace ELearningV1.Models
             return null;
         }
 
-        public getQuestionList GetQuestByCourseIDAndSectionID(string CourseID,string SectionID)
+        public getQuestionList GetQuestByCourseIDAndSectionID(string CourseID, string SectionID)
         {
             getQuestionList PDFPathList = new getQuestionList();
             using (SqlConnection con = new SqlConnection(Cons))
@@ -1510,13 +1510,13 @@ namespace ELearningV1.Models
                         return true;
                     }
                     catch (Exception ex)
-                    {  }
+                    { }
                 }
             }
             return false;
         }
 
-        public getQuestionList GetRadioIDByCourseIDAndQType(string CourseID,string SectionID)
+        public getQuestionList GetRadioIDByCourseIDAndQType(string CourseID, string SectionID)
         {
             getQuestionList RadioIDList = new getQuestionList();
             using (SqlConnection con = new SqlConnection(Cons))
@@ -1681,7 +1681,7 @@ namespace ELearningV1.Models
             return null;
         }
 
-        public bool UpdateEmployeeCourseProgressScoreAndStatus(string EmployeeNumber, string CourseID,int Score,string Status1)
+        public bool UpdateEmployeeCourseProgressScoreAndStatus(string EmployeeNumber, string CourseID, int Score, string Status1)
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {
@@ -1801,7 +1801,7 @@ namespace ELearningV1.Models
             return null;
         }
 
-        public VMViewEmployeeCourseStatusList ViewEmployeeByStatusAndDateRange(string Status,string DFrom,string DTo)
+        public VMViewEmployeeCourseStatusList ViewEmployeeByStatusAndDateRange(string Status, string DFrom, string DTo)
         {
             VMViewEmployeeCourseStatusList EmployeeCourseStatusList = new VMViewEmployeeCourseStatusList();
             using (SqlConnection con = new SqlConnection(Cons))
@@ -1838,6 +1838,145 @@ namespace ELearningV1.Models
             }
 
             return null;
+        }
+
+        public VMELearnEmpDataList ViewEmployee1()
+        {
+            VMELearnEmpDataList EmployeeList = new VMELearnEmpDataList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("Select EmployeeNumber,EmpName From fuzeEmpData1", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        SqlDataReader dr = cmd.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+                            VMELearnEmpData emps = new VMELearnEmpData();
+                            emps.EmployeeNumber = Convert.ToString(dr["EmployeeNumber"]);
+                            emps.EmpName = Convert.ToString(dr["EmpName"]);
+                            EmployeeList.Add(emps);
+                        }
+                        return EmployeeList;
+                    }
+                    catch (Exception ex)
+                    { }
+                    finally
+                    { con.Close(); }
+                }
+            }
+
+            return null;
+        }
+        public VMViewCoursesList ViewCourseAvailable(string EmployeeNumber)
+        {
+            VMViewCoursesList CourseList = new VMViewCoursesList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("LoadEmployeeAvailableCourse", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@EmpNum", EmployeeNumber);
+                        SqlDataReader dr = cmd.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+                            VMViewCourses course = new VMViewCourses();
+                            course.ID = Convert.ToInt32(dr["ID"]);
+                            course.Course = Convert.ToString(dr["Course"]);
+                            CourseList.Add(course);
+                        }
+                        return CourseList;
+                    }
+                    catch (Exception ex)
+                    { }
+                    finally
+                    { con.Close(); }
+                }
+            }
+
+            return null;
+        }
+
+        public bool AddEmployeeToCourse(string EmployeeNumber, string CourseID, DateTime Date1)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("INSERT INTO ELearningEmployeeCourseApplied VALUES('" + CourseID + "','" + EmployeeNumber + "','" + Date1.ToString() + "')", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    { return false; }
+                    finally
+                    { con.Close(); }
+                }
+            }
+        }
+
+        public VMViewCoursesList ViewEmployeeCourseApplied(string EmployeeNumber)
+        {
+            VMViewCoursesList CourseList = new VMViewCoursesList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("LoadEmployeeCourseApplied", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                        SqlDataReader dr = cmd.ExecuteReader();
+
+                        while (dr.Read())
+                        {
+                            VMViewCourses course = new VMViewCourses();
+                            course.ID = Convert.ToInt32(dr["ID"]);
+                            course.Course = Convert.ToString(dr["Course"]);
+                            CourseList.Add(course);
+                        }
+                        return CourseList;
+                    }
+                    catch (Exception ex)
+                    { }
+                    finally
+                    { con.Close(); }
+                }
+            }
+
+            return null;
+        }
+
+        public bool RemoveCourseFromEmployeeCourseApplied(string ID)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("DELETE FROM ELearningEmployeeCourseApplied WHERE ID = '" + ID + "'", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    { return false; }
+                    finally
+                    { con.Close(); }
+                }
+            }
         }
 
         #endregion

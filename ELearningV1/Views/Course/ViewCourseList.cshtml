@@ -70,17 +70,17 @@
         </div>*@
 
     <div class="row">
-        <div class="col-md-5 col-lg-5 col-xs-12">
+        <div class="col-md-6 col-lg-6 col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title" style="font-size:20px; font-weight:700;">Course List</h3>
                 </div>
                 <div class="box-body">
                     <div class="col-md-12">
-                        <table id="tblCourse" class="table table-bordered table-striped" style="width:100%; min-height:100px; min-width:500px; font-size:18px; font-weight:700;">
+                        <table id="tblCourse" class="table table-bordered table-striped" style="width:100%; min-height:100px; min-width:600px; font-size:18px; font-weight:700;">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <th style="width:130px;"></th>
                                     <th>Course</th>
                                     <th>Description</th>
                                 </tr>
@@ -94,7 +94,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-7 col-lg-7 col-xs-12">
+        <div class="col-md-6 col-lg-6 col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title" style="font-size:20px; font-weight:700;">Employee Enrolled</h3>
@@ -226,7 +226,7 @@
                         "orderable": false,
                         "className": "text-center", "targets": "_all",
                         "render": function (ID, type, full, meta) {
-                            return '<a href="#/" onclick="ocSelectThisCourse(\'' + ID + '\')"> <span class="fa fa-check-circle" title="Select this course">Select</span></a> | <a href="#/" onclick="ocDeleteThisCourse(\'' + ID + '\')" style="color:#cc0000;"> <span class="fa fa-minus-circle" title="Delete this course"> Delete</span></a>';
+                            return '<a href="#/" onclick="ocSelectThisCourse(\'' + ID + '\')" class="fa fa-check-circle">Select</a> | <a href="#/" onclick="ocDeleteThisCourse(\'' + ID + '\')" style="color:#cc0000;" class="fa fa-minus-circle">Delete</a>';
                         }
                     },
                     {

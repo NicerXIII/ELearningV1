@@ -278,5 +278,158 @@ namespace ELearningV1.Controllers
             return response;
         }
 
+        public ActionResult IndexCourseAssign() {
+            return View();
+        }
+
+        public ActionResult GetAllEpmployees(DataTablesParam param) {
+            List<VMELearnEmpData> Emps = new List<VMELearnEmpData>();
+            DAL SQLcon = new DAL();
+            int pageNo = 1;
+            int totalCount = 0;
+
+            if (param.iDisplayStart >= param.iDisplayLength)
+            { pageNo = (param.iDisplayStart / param.iDisplayLength) + 1; }
+
+
+            if (param.sSearch != null)
+            {
+                totalCount = SQLcon.ViewEmployee1().Where(x => x.EmpName.ToString().Contains(param.sSearch)).Count();
+                Emps = SQLcon.ViewEmployee1().Where(x => x.EmpName.ToString().Contains(param.sSearch)).Select(x => new VMELearnEmpData
+                {
+                    EmployeeNumber = x.EmployeeNumber,
+                    EmpName = x.EmpName
+                }).AsEnumerable().ToList();
+            }
+            else
+            {
+                totalCount = SQLcon.ViewEmployee1().Count();
+                Emps = SQLcon.ViewEmployee1().Select(x => new VMELearnEmpData
+                {
+                    EmployeeNumber = x.EmployeeNumber,
+                    EmpName = x.EmpName
+                }).AsEnumerable().ToList();
+            }
+
+            return Json(new
+            {
+                aaData = Emps,
+                eEcho = param.sEcho,
+                iTotalDisplayRecords = totalCount,
+                iTotalRecords = Emps.Count()
+            }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public ActionResult GetAllCourseAvailable(DataTablesParam param,string EmployeeNumber)
+        {
+            List<VMViewCourses> Course = new List<VMViewCourses>();
+            DAL SQLcon = new DAL();
+            int pageNo = 1;
+            int totalCount = 0;
+
+            if (param.iDisplayStart >= param.iDisplayLength)
+            { pageNo = (param.iDisplayStart / param.iDisplayLength) + 1; }
+
+
+            if (param.sSearch != null)
+            {
+                totalCount = SQLcon.ViewCourseAvailable(EmployeeNumber).Where(x => x.Course.ToString().Contains(param.sSearch)).Count();
+                Course = SQLcon.ViewCourseAvailable(EmployeeNumber).Where(x => x.Course.ToString().Contains(param.sSearch)).Select(x => new VMViewCourses
+                {
+                    ID = x.ID,
+                    Course = x.Course
+                }).AsEnumerable().ToList();
+            }
+            else
+            {
+                totalCount = SQLcon.ViewCourseAvailable(EmployeeNumber).Count();
+                Course = SQLcon.ViewCourseAvailable(EmployeeNumber).Select(x => new VMViewCourses
+                {
+                    ID = x.ID,
+                    Course = x.Course
+                }).AsEnumerable().ToList();
+            }
+
+            return Json(new
+            {
+                aaData = Course,
+                eEcho = param.sEcho,
+                iTotalDisplayRecords = totalCount,
+                iTotalRecords = Course.Count()
+            }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public ActionResult AddEmployeeToCourse(string EmployeeNumber,string CourseID) {
+            DAL SQLcon = new DAL();
+            var result = false;
+            try {
+                result = SQLcon.AddEmployeeToCourse(EmployeeNumber, CourseID, DateTime.Now);
+            } catch (Exception ex) { }
+            var response = new JsonResult();
+            response.Data = new {
+                res = result
+            };
+            return response;
+        }
+
+        public ActionResult GetAllCourseApplied(DataTablesParam param, string EmployeeNumber)
+        {
+            List<VMViewCourses> Course = new List<VMViewCourses>();
+            DAL SQLcon = new DAL();
+            int pageNo = 1;
+            int totalCount = 0;
+
+            if (param.iDisplayStart >= param.iDisplayLength)
+            { pageNo = (param.iDisplayStart / param.iDisplayLength) + 1; }
+
+
+            if (param.sSearch != null)
+            {
+                totalCount = SQLcon.ViewEmployeeCourseApplied(EmployeeNumber).Where(x => x.Course.ToString().Contains(param.sSearch)).Count();
+                Course = SQLcon.ViewEmployeeCourseApplied(EmployeeNumber).Where(x => x.Course.ToString().Contains(param.sSearch)).Select(x => new VMViewCourses
+                {
+                    ID = x.ID,
+                    Course = x.Course
+                }).AsEnumerable().ToList();
+            }
+            else
+            {
+                totalCount = SQLcon.ViewEmployeeCourseApplied(EmployeeNumber).Count();
+                Course = SQLcon.ViewEmployeeCourseApplied(EmployeeNumber).Select(x => new VMViewCourses
+                {
+                    ID = x.ID,
+                    Course = x.Course
+                }).AsEnumerable().ToList();
+            }
+
+            return Json(new
+            {
+                aaData = Course,
+                eEcho = param.sEcho,
+                iTotalDisplayRecords = totalCount,
+                iTotalRecords = Course.Count()
+            }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public ActionResult RemoveEmployeeCourse(string ID)
+        {
+            DAL SQLcon = new DAL();
+            var result = false;
+            try
+            {
+                result = SQLcon.RemoveCourseFromEmployeeCourseApplied(ID);
+            }
+            catch (Exception ex) { }
+            var response = new JsonResult();
+            response.Data = new
+            {
+                res = result
+            };
+            return response;
+        }
+
     }
 }
