@@ -31,7 +31,7 @@ namespace ELearningV1.Controllers
             return View(courseData);
         }
 
-        public ActionResult SaveVideoData(CourseImage model, string CID, string Title)
+        public ActionResult SaveVideoData(CourseImage model, string CID, string Title,string Type1)
         {
             var result = false;
             var file = model.ImageFile;
@@ -43,7 +43,14 @@ namespace ELearningV1.Controllers
                     try
                     {
                         DAL SQLcon = new DAL();
-                        result = SQLcon.UploadNewFile(Title, "Video", "/UploadedFiles/" + file.FileName, CID);
+                        if (Type1 == "Vid")
+                        {
+                            result = SQLcon.UploadNewFile(Title, "Video", "/UploadedFiles/" + file.FileName, CID);
+                        }
+                        else {
+                            result = SQLcon.UploadNewFile(Title, "VideoExam", "/UploadedFiles/" + file.FileName, CID);
+                        }
+                       
                     }
                     catch (Exception ex) { }
                 }

@@ -30,6 +30,15 @@
 
 var ocUploadExamVid = function () {
     $("#vidPlayer").addClass('hidden');
+    $("#VideoOnly").removeClass('hidden');
+    $("#VideoWithExam").addClass('hidden');
+    $("#modalUploadVid").modal("show");
+}
+
+var ocUploadExamVidWithExam = function () {
+    $("#vidPlayer").addClass('hidden');
+    $("#VideoWithExam").removeClass('hidden');
+    $("#VideoOnly").addClass('hidden');
     $("#modalUploadVid").modal("show");
 }
 
@@ -71,7 +80,7 @@ var ocSaveVideoData = function () {
     LoadingData();
     var title = $("#SourceTitle").val();
     var cid = $("#courseID1").val();
-
+    var type = "Vid";
     if (imageName != "" && title != "" && cid != "") {
         var file = $("#VidImage").get(0).files;
         var data = new FormData;
@@ -80,7 +89,60 @@ var ocSaveVideoData = function () {
         if (type1.includes("mp4")) {
             $.ajax({
                 type: "POST",
-                url: "/Exam/SaveVideoData?CID=" + cid + "&Title=" + title + "",
+                url: "/Exam/SaveVideoData?CID=" + cid + "&Title=" + title + "&Type1=" + type,
+                data: data,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    var res = response.res;
+                    if (res == true) {
+                        alert("Video uploaded successfully.");
+                        EndLoading();
+                        $("#vidPlayer").removeClass('hidden');
+                        var getVideo = document.getElementById("vidPlayer");
+                        $("#vidSource").attr('src', response.vName);
+                        getVideo.load()
+                        getVideo.play();
+                        getVideo.volume = 0.5;
+
+                        $("#SourceTitle").val("");
+                        $("#VidImage").val("");
+                        BindDataTable();
+                    } else {
+                        alert("Video upload failed");
+                        EndLoading();
+                    }
+                },
+                error: function (response) {
+                    alert("ERROR: please select video again.");
+                    EndLoading();
+                }
+            });
+        } else {
+            EndLoading();
+            alert('ERROR: File format not supported');
+        }
+    } else {
+        EndLoading();
+        alert("Please fill up all fields");
+    }
+}
+
+var ocSaveVideoWithExamData = function () {
+    debugger
+    LoadingData();
+    var title = $("#SourceTitle").val();
+    var cid = $("#courseID1").val();
+    var type = "VidExam";
+    if (imageName != "" && title != "" && cid != "") {
+        var file = $("#VidImage").get(0).files;
+        var data = new FormData;
+        data.append("ImageFile", file[0]);
+        var type1 = file[0].type;
+        if (type1.includes("mp4")) {
+            $.ajax({
+                type: "POST",
+                url: "/Exam/SaveVideoData?CID=" + cid + "&Title=" + title + "&Type1=" + type,
                 data: data,
                 contentType: false,
                 processData: false,
@@ -234,6 +296,9 @@ var BindDataTable = function () {
                             // INSIDE viewQuestionList nakalagay
                             //  \'' + full.ID + '\',\'' + full.CourseID + '\'
                             return '<a href="#/" onclick="viewQuestionList(\'' + full.ID + '\',\'' + full.CourseID + '\',\'' + Title + '\')"> <i class="glyphicon glyphicon-check"></i> ' + " " + Title + '</a>';
+                        } else if (full.Type != "Test" && full.Type != "Video" && full.Type == "VideoExam")
+                        {
+                            return '<a href="#/" onclick="viewQuestionList(\'' + full.ID + '\',\'' + full.CourseID + '\',\'' + Title + '\')"> <span class="fa fa-film">&nbsp;</span><i class="glyphicon glyphicon-check"></i> ' + " " + Title + '</a>';
                         }
                         else if (full.Type != "Test" && full.Type != "Video" && full.Type == "PDF") {
                             return '<a href="#/"><i class="fa fa-file-pdf-o"></i>' + " " + Title + '</a>';

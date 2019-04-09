@@ -72,6 +72,7 @@
                         <li><a href="#" onclick="ocUploadExamPresentation()"><i class="fa fa-television"></i> PDF | Document</a></li>
                         <li class="divider"></li>
                         <li><a href="#/" onclick="ocNewTest()"><i class="fa fa-edit"></i> Test</a></li>
+                        <li><a href="#" onclick="ocUploadExamVidWithExam()"><i class="fa fa-video-camera">&nbsp;<span class="fa fa-edit"></span></i> Video and Exam</a></li>
                     </ul>
                 </div>
             </div>
@@ -181,7 +182,8 @@
                         <label class="text-danger" style="font-size:medium">Note: The maximum file size is up to 700mb only</label>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                        <button type="button" class="btn btn-success pull-right btn-block" onclick="ocSaveVideoData()">Save</button>
+                        <button type="button" id="VideoOnly" class="btn btn-success pull-right btn-block hidden" onclick="ocSaveVideoData()">Save</button>
+                        <button type="button" id="VideoWithExam" class="btn btn-success pull-right btn-block hidden" onclick="ocSaveVideoWithExamData()">Save</button>
                     </div>
                 </div>                                
             </div>
@@ -519,4 +521,4 @@
     </div>
 </div>
 
-<script src="/Scripts/Dev_Scripts/ExamList.js"></script>
+<script src="/Scripts/Dev_Scripts/ExamList.js?verse=1.0"></script>
