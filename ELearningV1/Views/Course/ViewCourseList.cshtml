@@ -226,7 +226,7 @@
                         "orderable": false,
                         "className": "text-center", "targets": "_all",
                         "render": function (ID, type, full, meta) {
-                            return '<a href="#/" onclick="ocSelectThisCourse(\'' + ID + '\')" class="fa fa-check-circle">Select</a> | <a href="#/" onclick="ocDeleteThisCourse(\'' + ID + '\')" style="color:#cc0000;" class="fa fa-minus-circle">Delete</a>';
+                            return '<a href="#/" onclick="ocSelectThisCourse(\'' + ID + '\')">Select</a> | <a href="#/" onclick="ocDeleteThisCourse(\'' + ID + '\')" style="color:#fd4a81;">Delete</a>';
                         }
                     },
                     {
@@ -244,7 +244,7 @@
                 "bInfo": true,
                 "searching": false,
                 "bPaginate": false,
-                "sScrollY": "300",
+                "sScrollY": "500",
                 "scrollX": true,
                 "bScrollCollapse": false,
                 "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]]
@@ -280,8 +280,9 @@
                     {
                         "mData": "EmployeeNumber",
                         "orderable": false,
+                        "className": "text-center", "targets": "_all",
                         "render": function (EmployeeNumber, type, full, meta) {
-                            return '<a href="#/" onclick="ocKickOutEmployee(\'' + EmployeeNumber + '\')" style="color:#cc0000;"> <span class="fa fa-user-times" title="Delete user"></span></a>';
+                            return '<a href="#/" onclick="ocKickOutEmployee(\'' + EmployeeNumber + '\')" style="color:#fd4a81;"> <span></span>Remove</a>';
                         }
                     },
                     {
@@ -313,7 +314,7 @@
                 "bInfo": true,
                 "searching": false,
                 "bPaginate": false,
-                "sScrollY": "300",
+                "sScrollY": "500",
                 "scrollX": true,
                 "bScrollCollapse": false,
                 "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]]
