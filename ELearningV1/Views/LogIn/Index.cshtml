@@ -72,14 +72,14 @@
 
 
 <script type="text/javascript">
-
-
     history.pushState(null, null, document.URL);
+
     window.addEventListener('popstate', function () {
         history.pushState(null, null, document.URL);
     });
 
-    var ocSignIn = function () {
+    var ocSignIn = function ()
+    {
         var usernum = $("#EmpNumber").val();
         var pass = $("#Password").val();
         if (usernum.length != 0 && pass.length != 0) {
@@ -99,11 +99,10 @@
         } else {
             alert("Please full all required fields");
         }
-
-
     }
 
-    $("#ShowPassword").change(function () {
+    $("#ShowPassword").change(function ()
+    {
         if (this.checked) {
             $("#Password").prop('type', 'text');
         } else {
@@ -111,7 +110,8 @@
         }
     });
 
-    $('#Password').keypress(function (e) {
+    $('#Password').keypress(function (e)
+    {
         var key = e.which;
         if (key == 13)  // the enter key code
         {
@@ -137,10 +137,5 @@
             }
         }
     });
-
-
-
-
-
 </script>
 
