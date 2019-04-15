@@ -111,7 +111,7 @@ var BindDataTable = function () {
         });
     }
 }
-
+//Click the columns to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>
 
 var ocCourseReports = function () {
     $.ajax({
@@ -130,7 +130,7 @@ var ocCourseReports = function () {
                     text: 'Employee Exam Result of ' + now
                 },
                 subtitle: {
-                    text: 'Click the columns to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>'
+                    text: ''
                 },
                 xAxis: {
                     type: 'category'

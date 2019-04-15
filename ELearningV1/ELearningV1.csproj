@@ -2760,6 +2760,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\tether.js" />
     <Content Include="Scripts\tether.min.js" />
+    <Content Include="UpLoadedImages\elearning logo.png" />
     <Content Include="UpLoadedImages\imagesaaaaa.jpg" />
     <Content Include="UploadedFiles\trophy-png-2.png" />
     <Content Include="Web.config" />
