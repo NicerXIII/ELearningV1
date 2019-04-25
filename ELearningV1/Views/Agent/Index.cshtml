@@ -39,9 +39,9 @@
         margin: 0 -8px;
     }
 
-    #row1 > * {
-        margin: 0 8px;
-    }
+        #row1 > * {
+            margin: 0 8px;
+        }
 </style>
 <section class="content">
     <div class="row">
@@ -109,7 +109,7 @@
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a href="#CourseEmployeeListStatus" data-toggle="tab" style="font-weight:600;">Employee List Status <span class="fa fa-hourglass-1"></span></a></li>
                                     <li><a href="#CourseReports" onclick="ocCourseReports()" data-toggle="tab" style="font-weight:600;">Reports <span class="fa fa-folder-open"></span></a></li>
-                                    <li><a href="#CoursePersonalityReports" onclick="ocPersonalityReports()" data-toggle="tab" style="font-weight:600;">Personality Reports <span class="fa fa-file-excel-o"></span></a></li>
+                                    <li><a href="#CoursePersonalityReports" onclick="ocPersonalityReports()" data-toggle="tab" style="font-weight:600;display:none">Personality Reports <span class="fa fa-file-excel-o"></span></a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="CourseEmployeeListStatus">
@@ -182,9 +182,17 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="CoursePersonalityReports">
-                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                            <div id="container2" style="min-width: 500px; height: 400px; margin: 0 auto"></div>
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Employee Name</div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <select class="form-control" id="ddEmployeeList">
+                                                    <option value="PASSED">PASSED</option>
+                                                    <option value="FAILED">FAILED</option>
+                                                    <option value="INPROGRESS">INPROGRESS</option>
+                                                </select>
+                                            </div>
                                         </div>
+                                        <div id="container2" style="min-width: 500px; height: 400px; margin: 0 auto"></div>
                                     </div>
                                 </div>
                             </div>
