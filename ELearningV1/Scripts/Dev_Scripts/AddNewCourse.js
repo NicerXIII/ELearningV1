@@ -1,4 +1,5 @@
 ﻿var ocAddNewCourse = function () {
+    debugger
     var imageName = $("#imageName").val();
     var cname = $("#CName").val();
     var cdesc = $("#CDesc").val();

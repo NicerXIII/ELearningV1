@@ -17,18 +17,14 @@ namespace ELearningV1.Controllers
         {
             return View();
         }
-
-
+        
         [HttpGet]
         public ActionResult CourseDetail(string CourseID)
         {
-
             DAL SQLcon = new DAL();
             VMViewCourses courseData = new VMViewCourses();
             try
-            {
-                courseData = SQLcon.ViewCoursesByID(CourseID).SingleOrDefault();
-            }
+            {   courseData = SQLcon.ViewCoursesByID(CourseID).SingleOrDefault();    }
             catch (Exception ex) { }
 
             return View(courseData);
@@ -39,75 +35,65 @@ namespace ELearningV1.Controllers
             DAL SQLcon = new DAL();
             bool stats = false;
             try
-            {
-                stats = SQLcon.UpdateCourse(CourseID, CourseName, CourseDesc, IsActive);
-            }
+            {   stats = SQLcon.UpdateCourse(CourseID, CourseName, CourseDesc, IsActive);    }
             catch (Exception ex)
-            {
-                stats = false;
-            }
+            {   stats = false;  }
 
             var response = new JsonResult();
             response.Data = new
-            {
-                res = stats
-            };
+            {   res = stats };
 
             return response;
         }
 
         public ActionResult CourseDetailReport()
-        {
-            return View();
-        }
+        {   return View();  }
 
         public JsonResult ImageUpload(CourseImage model, string CName, string CDesc, string Days1)
         {
-            // var userID = Session["EmployeeNumber"].ToString().Trim();
-            var result = "False";
-            var file = model.ImageFile;
-            var dateNow = DateTime.Now.ToString("MM/dd/yyyy");
-            if (file != null)
-            {
-                if (!System.IO.File.Exists(Server.MapPath("/UpLoadedImages/" + file.FileName)))
-                {
-                    file.SaveAs(Server.MapPath("/UpLoadedImages/" + file.FileName));
-                    try
-                    {
-                        DAL SQLcon = new DAL();
-                        result = SQLcon.AddNewCourse(CName, CDesc, file.FileName, dateNow, Days1);
-                        result = "True";
-                    }
-                    catch (Exception ex) { }
-                }
-                else
-                {
-                    result = "False";
-                }
-            }
             var response = new JsonResult();
-            response.Data = new
+            try
             {
-                res = result,
-                iName = file.FileName
-            };
+                // var userID = Session["EmployeeNumber"].ToString().Trim();
+                var result = "False";
+                var file = model.ImageFile;
+                var dateNow = DateTime.Now.ToString("MM/dd/yyyy");
+                if (file != null)
+                {
+                    if (!System.IO.File.Exists(Server.MapPath("/UpLoadedImages/" + file.FileName)))
+                    {
+                        file.SaveAs(Server.MapPath("/UpLoadedImages/" + file.FileName));
+                        try
+                        {
+                            DAL SQLcon = new DAL();
+                            result = SQLcon.AddNewCourse(CName, CDesc, file.FileName, dateNow, Days1);
+                            result = "True";
+                        }
+                        catch (Exception ex) { }
+                    }
+                    else
+                    {   result = "False";  }
+                }
+                response.Data = new
+                {
+                    res = result,
+                    iName = file.FileName
+                };
+            }
+            catch (Exception ex)
+            {   }
             return response;
         }
 
         public ActionResult CreateCourse()
-        {
-
-            return View();
-        }
+        {   return View();  }
 
         public ActionResult EmployeeCourseDetail(string CourseID)
         {
             DAL SQLcon = new DAL();
             VMViewCourses courseData = new VMViewCourses();
             try
-            {
-                courseData = SQLcon.ViewCoursesByID(CourseID).SingleOrDefault();
-            }
+            {   courseData = SQLcon.ViewCoursesByID(CourseID).SingleOrDefault();    }
             catch (Exception ex) { }
 
             return View(courseData);
@@ -126,18 +112,14 @@ namespace ELearningV1.Controllers
 
                 var courseStats = SQLcon.CheckCourseIfAlreadyApplied(CourseID, userID);
                 if (courseStats == false)
-                {
-                    result = SQLcon.ApplyEmployeebyCourseID(CourseID, userID, DateTime.Now.ToString("MM/dd/yyyy"), CompDate.ToString("MM/dd/yyyy"));
-                }
+                {   result = SQLcon.ApplyEmployeebyCourseID(CourseID, userID, DateTime.Now.ToString("MM/dd/yyyy"), CompDate.ToString("MM/dd/yyyy"));   }
                 else
-                {
-                    Stats = "RE";
-                }
+                {   Stats = "RE";   }
 
             }
             catch (Exception ex)
-            {
-            }
+            {   }
+
             var response = new JsonResult();
             response.Data = new
             {
@@ -146,8 +128,7 @@ namespace ELearningV1.Controllers
             };
             return response;
         }
-
-
+        
         public JsonResult LoadUserEnrolledList(DataTablesParam param, string CourseID)
         {
             List<VMViewCourseUser> CourseUserList = new List<VMViewCourseUser>();
@@ -177,10 +158,7 @@ namespace ELearningV1.Controllers
         }
 
         public ActionResult ViewCourseList()
-        {
-
-            return View();
-        }
+        {   return View();  }
 
         public ActionResult LoadCourseDetails(DataTablesParam param)
         {
@@ -191,9 +169,7 @@ namespace ELearningV1.Controllers
 
             if (param.iDisplayStart >= param.iDisplayLength)
             { pageNo = (param.iDisplayStart / param.iDisplayLength) + 1; }
-
-
-
+            
             totalCount = SQLcon.ViewCoursesList().Count();
             CoursesD = SQLcon.ViewCoursesList().Select(x => new VMViewCourses
             {
@@ -201,8 +177,7 @@ namespace ELearningV1.Controllers
                 Course = x.Course,
                 Description = x.Description
             }).AsEnumerable().ToList();
-
-
+            
             return Json(new
             {
                 aaData = CoursesD,
@@ -231,8 +206,7 @@ namespace ELearningV1.Controllers
                 Progress = Math.Round(x.Progress),
                 Score = x.Score
             }).AsEnumerable().ToList();
-
-
+            
             return Json(new
             {
                 aaData = EmployeeD,
@@ -241,16 +215,13 @@ namespace ELearningV1.Controllers
                 iTotalRecords = EmployeeD.Count()
             }, JsonRequestBehavior.AllowGet);
         }
-
-
+        
         public ActionResult DeleteCourseByCourseID(string CourseID)
         {
             DAL SQLcon = new DAL();
             var response = new JsonResult();
             response.Data = new
-            {
-                res = SQLcon.DeleteCourseByCourseID(CourseID)
-            };
+            {   res = SQLcon.DeleteCourseByCourseID(CourseID)   };
             return response;
          }
 
@@ -259,9 +230,7 @@ namespace ELearningV1.Controllers
             DAL SQLcon = new DAL();
             var response = new JsonResult();
             response.Data = new
-            {
-                res = SQLcon.RemoveEmployeeFromCourseByEmpID(EmployeeNumber, CourseID)
-            };
+            {   res = SQLcon.RemoveEmployeeFromCourseByEmpID(EmployeeNumber, CourseID)  };
             return response;
         }
 
@@ -270,19 +239,17 @@ namespace ELearningV1.Controllers
             DAL SQLcon = new DAL();
             var response = new JsonResult();
             try
-            {
-                response.Data = new { res = SQLcon.EraseEmployeeAnswerByCourseIDAndUserID(EmployeeNumber, CourseID) };
-            }
+            {   response.Data = new { res = SQLcon.EraseEmployeeAnswerByCourseIDAndUserID(EmployeeNumber, CourseID) };  }
             catch (Exception ex) { }
 
             return response;
         }
 
-        public ActionResult IndexCourseAssign() {
-            return View();
-        }
+        public ActionResult IndexCourseAssign()
+        {   return View();  }
 
-        public ActionResult GetAllEpmployees(DataTablesParam param) {
+        public ActionResult GetAllEpmployees(DataTablesParam param)
+        {
             List<VMELearnEmpData> Emps = new List<VMELearnEmpData>();
             DAL SQLcon = new DAL();
             int pageNo = 1;
@@ -361,16 +328,18 @@ namespace ELearningV1.Controllers
 
         }
 
-        public ActionResult AddEmployeeToCourse(string EmployeeNumber,string CourseID) {
+        public ActionResult AddEmployeeToCourse(string EmployeeNumber,string CourseID)
+        {
             DAL SQLcon = new DAL();
             var result = false;
-            try {
-                result = SQLcon.AddEmployeeToCourse(EmployeeNumber, CourseID, DateTime.Now);
-            } catch (Exception ex) { }
+            try
+            {   result = SQLcon.AddEmployeeToCourse(EmployeeNumber, CourseID, DateTime.Now);    }
+            catch (Exception ex)
+            { }
+
             var response = new JsonResult();
-            response.Data = new {
-                res = result
-            };
+            response.Data = new
+            {   res = result   };
             return response;
         }
 
@@ -419,15 +388,12 @@ namespace ELearningV1.Controllers
             DAL SQLcon = new DAL();
             var result = false;
             try
-            {
-                result = SQLcon.RemoveCourseFromEmployeeCourseApplied(ID);
-            }
-            catch (Exception ex) { }
+            {   result = SQLcon.RemoveCourseFromEmployeeCourseApplied(ID);  }
+            catch (Exception ex)
+            { }
             var response = new JsonResult();
             response.Data = new
-            {
-                res = result
-            };
+            {   res = result    };
             return response;
         }
 
