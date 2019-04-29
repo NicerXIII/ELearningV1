@@ -28,11 +28,11 @@
                     $("#CoursePic").attr('src', '/UpLoadedImages/imagesaaaaa.jpg');
                     $("#reloadViewCourse").load("/Home/LoadCourseData #reloadViewCourse");
                 }
-                else {
-                    alert("ERROR: Adding new course failed");
-                }
+                else
+                {   alert("ERROR: Adding new course failed");   }
             },
-            error: function (response) { alert(response.res); }
+            error: function (response)
+            { alert(response.res); }
         });
     }
     else {
