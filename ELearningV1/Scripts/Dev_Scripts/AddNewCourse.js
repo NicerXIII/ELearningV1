@@ -4,7 +4,7 @@
     var cname = $("#CName").val();
     var cdesc = $("#CDesc").val();
     var days = $("#MinDay").val();
-    if (imageName != "" && cname != "" && cdesc != "") {
+    if (imageName !== "" && cname !== "" && cdesc !== "") {
         var file = $("#CourseImage").get(0).files;
         var data = new FormData;
         data.append("ImageFile", file[0]);
@@ -15,8 +15,9 @@
             contentType: false,
             processData: false,
             success: function (response) {
+                debugger
                 var result = response.res;
-                if (result == "True") {
+                if (result === "True") {
                     alert("New course successfully added");
                     $("#modalAddCourse").modal('hide');
                     $("#imageName").val("");
@@ -25,7 +26,8 @@
                     $("#CourseImage").val("");
                     $("#CoursePic").attr('src', '/UpLoadedImages/imagesaaaaa.jpg');
                     $("#reloadViewCourse").load("/Home/LoadCourseData #reloadViewCourse");
-                } else {
+                }
+                else {
                     alert("ERROR: Adding new course failed");
                 }
             },
