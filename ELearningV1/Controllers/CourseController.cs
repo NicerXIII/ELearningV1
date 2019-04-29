@@ -52,11 +52,11 @@ namespace ELearningV1.Controllers
         public JsonResult ImageUpload(CourseImage model, string CName, string CDesc, string Days1)
         {
             var response = new JsonResult();
+            var result = "False";
+            var file = model.ImageFile;
             try
             {
                 // var userID = Session["EmployeeNumber"].ToString().Trim();
-                var result = "False";
-                var file = model.ImageFile;
                 var dateNow = DateTime.Now.ToString("MM/dd/yyyy");
                 if (file != null)
                 {
@@ -69,19 +69,20 @@ namespace ELearningV1.Controllers
                             result = SQLcon.AddNewCourse(CName, CDesc, file.FileName, dateNow, Days1);
                             result = "True";
                         }
-                        catch (Exception ex) { }
+                        catch (Exception ex)
+                        {   result = ex.Message;    }
                     }
                     else
-                    {   result = "False";  }
+                    {   result = "False";   }
                 }
-                response.Data = new
-                {
-                    res = result,
-                    iName = file.FileName
-                };
             }
             catch (Exception ex)
-            {   }
+            {   result = ex.Message;    }
+            response.Data = new
+            {
+                res = result,
+                iName = file.FileName
+            };
             return response;
         }
 

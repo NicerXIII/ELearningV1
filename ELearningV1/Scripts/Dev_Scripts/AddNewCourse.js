@@ -4,6 +4,7 @@
     var cname = $("#CName").val();
     var cdesc = $("#CDesc").val();
     var days = $("#MinDay").val();
+
     if (imageName !== "" && cname !== "" && cdesc !== "") {
         var file = $("#CourseImage").get(0).files;
         var data = new FormData;
@@ -31,12 +32,13 @@
                     alert("ERROR: Adding new course failed");
                 }
             },
-            error: function () { }
+            error: function (response) { alert(response.res); }
         });
-    } else {
+    }
+    else {
         alert("Please enter all fields including the image of the course");
     }
-}
+};
 
 $("#CourseImage").change(function () {
     debugger
