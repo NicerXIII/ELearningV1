@@ -1871,6 +1871,7 @@ namespace ELearningV1.Models
 
             return null;
         }
+
         public VMViewCoursesList ViewCourseAvailable(string EmployeeNumber)
         {
             VMViewCoursesList CourseList = new VMViewCoursesList();
@@ -1979,6 +1980,85 @@ namespace ELearningV1.Models
             }
         }
 
+        public VMGetPersonalityTestResultList GetEmployeePersonalityResult(string EmployeeNumber)
+        {
+            VMGetPersonalityTestResultList EmpCourseStatusCount = new VMGetPersonalityTestResultList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningGetPersonalityExamResult", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+                            con.Open();
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                VMGetPersonalityTestResult empstatus = new VMGetPersonalityTestResult();
+                                empstatus.EmployeeNumber = dr["EmployeeNumber"].ToString();
+                                empstatus.Name = dr["Name"].ToString();
+                                empstatus.Extroversion = Convert.ToInt32(dr["E"]);
+                                empstatus.Agreeableness = Convert.ToInt32(dr["A"]);
+                                empstatus.Conscientiousness = Convert.ToInt32(dr["C"]);
+                                empstatus.Neuroticism = Convert.ToInt32(dr["N"]);
+                                empstatus.Openness = Convert.ToInt32(dr["O"]);
+                                EmpCourseStatusCount.Add(empstatus);
+                            }
+                            return EmpCourseStatusCount;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+            return null;
+        }
+
+        public VMGetAppliedEmployeesList getAppliedEmployees()
+        {
+            VMGetAppliedEmployeesList EmpCourseStatusCount = new VMGetAppliedEmployeesList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningGetEmployeeAppliedInPersonalityTest", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+                            con.Open();
+                            cmd.CommandType = CommandType.StoredProcedure;  
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                VMGetAppliedEmployees empstatus = new VMGetAppliedEmployees();
+                                empstatus.EmployeeNumber = dr["EmployeeNumber"].ToString();
+                                empstatus.Name = dr["Name"].ToString();
+                                EmpCourseStatusCount.Add(empstatus);
+                            }
+                            return EmpCourseStatusCount;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+            return null;
+        }
         #endregion
     }
 }

@@ -11,10 +11,20 @@ namespace ELearningV1.Controllers
 {
     public class AgentController : Controller
     {
+        DAL SQLcon = new DAL();
         // GET: Agent
         public ActionResult Index()
         {
-            return View();
+            List<VMGetAppliedEmployees> AppliedEmployees = new List<VMGetAppliedEmployees>();
+
+            AppliedEmployees = SQLcon.getAppliedEmployees().Select(x=> new VMGetAppliedEmployees {
+                EmployeeNumber = x.EmployeeNumber,
+                Name = x.Name
+            }).AsEnumerable().ToList();
+
+            ViewBag.AppliedEmployeelist = AppliedEmployees;
+            
+            return View("Index");
         }
 
         public ActionResult GetDateRange()
@@ -131,7 +141,6 @@ namespace ELearningV1.Controllers
             return response;
         }
 
-
         public ActionResult LoadEmployeeByStatusAndDateRange(DataTablesParam param,string Status,string DFrom,string DTo)
         {
             List<VMViewEmployeeCourseStatus> EmpCStats = new List<VMViewEmployeeCourseStatus>();
@@ -176,6 +185,24 @@ namespace ELearningV1.Controllers
                 iTotalDisplayRecords = totalCount,
                 iTotalRecords = EmpCStats.Count()
             }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult getPersonalityTestResult(string EmployeeNumber)
+        {
+            var data = SQLcon.GetEmployeePersonalityResult(EmployeeNumber).SingleOrDefault();
+            var response = new JsonResult();
+            response.Data = new
+            {
+                _EmpNo = data.EmployeeNumber,
+                _name = data.Name,
+                _e = data.Extroversion,
+                _a = data.Agreeableness,
+                _c = data.Conscientiousness,
+                _n = data.Neuroticism,
+                _o = data.Openness
+            };
+            return response;
+
         }
     }
 }

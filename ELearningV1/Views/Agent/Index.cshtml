@@ -1,6 +1,9 @@
 ﻿
 @{
     ViewBag.Title = "Agent Reports";
+
+    //newly added
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
     .mt-1 {
@@ -109,7 +112,7 @@
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a href="#CourseEmployeeListStatus" data-toggle="tab" style="font-weight:600;">Employee List Status <span class="fa fa-hourglass-1"></span></a></li>
                                     <li><a href="#CourseReports" onclick="ocCourseReports()" data-toggle="tab" style="font-weight:600;">Reports <span class="fa fa-folder-open"></span></a></li>
-                                    <li><a href="#CoursePersonalityReports" onclick="ocPersonalityReports()" data-toggle="tab" style="font-weight:600;display:none">Personality Reports <span class="fa fa-file-excel-o"></span></a></li>
+                                    <li><a href="#CoursePersonalityReports" data-toggle="tab" style="font-weight:600;">Personality Reports <span class="fa fa-file-excel-o"></span></a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="CourseEmployeeListStatus">
@@ -186,13 +189,17 @@
                                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Employee Name</div>
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                 <select class="form-control" id="ddEmployeeList">
-                                                    <option value="PASSED">PASSED</option>
-                                                    <option value="FAILED">FAILED</option>
-                                                    <option value="INPROGRESS">INPROGRESS</option>
+                                                    <option value="1">Select Employee</option>
+                                                    @foreach (var item in ViewBag.AppliedEmployeelist)
+                                                    {
+                                                        <option value="@item.EmployeeNumber.Trim()">@item.EmployeeNumber - @item.Name</option>
+                                                    }
                                                 </select>
                                             </div>
                                         </div>
-                                        <div id="container2" style="min-width: 500px; height: 400px; margin: 0 auto"></div>
+                                        <div class="row mt-2">
+                                            <div id="container2" style="width:100%; min-width: 500px; height: 400px; margin: 0 auto"></div>
+                                        </div>                                        
                                     </div>
                                 </div>
                             </div>
@@ -206,3 +213,100 @@
     </div>
 </section>
 <script src="~/Scripts/Dev_Scripts/AgentIndex.js"></script>
+<script>
+    $("#ddEmployeeList").change(function () {
+        debugger
+        var empNumber1 = $("#ddEmployeeList option:selected").val();
+        var empName1 = $("#ddEmployeeList option:selected").text();
+
+        if (empNumber1 == "1" || empNumber1 == null) {
+            document.getElementById("container2").style.display = "none";
+        }
+        else {
+            ocPersonalityReports(empNumber1, empName1);
+            document.getElementById("container2").style.display = "block";
+        }        
+    });
+
+    var ocPersonalityReports = function (empNumber, empName) {
+        $.ajax({
+            type: "POST",
+            url: "/Agent/getPersonalityTestResult",
+            data: { "EmployeeNumber": empNumber },
+            success: function (response) {
+
+                getDateRange();
+                var BarColors = ['#c6341d', '#e9ef3e', '#2cd129', '#23c6ab', '#1c78c9'];
+                var now = moment.tz('Asia/Manila').format("YYYY");
+
+                Highcharts.chart('container2', {
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: 'Personality Exam Result of ' + empName
+                    },
+                    subtitle: {
+                        text: ''
+                    },
+                    xAxis: {
+                        type: 'category'
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Personality Exam Result'
+                        }
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        series: {
+                            colors: BarColors,
+                            borderWidth: 0,
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.y:.1f}'
+                            }
+                        }
+                    },
+
+                    tooltip: {
+                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+                    },
+
+                    "series": [
+                        {
+                            "name": "Result",
+                            "colorByPoint": true,
+                            "data": [
+                                {
+                                    "name": "Extroversion",
+                                    "y": response._e
+                                },
+                                {
+                                    "name": "Agreeableness",
+                                    "y": response._a
+                                },
+                                {
+                                    "name": "Conscientiousness",
+                                    "y": response._c
+                                },
+                                {
+                                    "name": "Neuroticism",
+                                    "y": response._n
+                                },
+                                {
+                                    "name": "Openness",
+                                    "y": response._o
+                                }
+                            ]
+                        }
+                    ]
+                });
+            },
+            error: function (response) { }
+        });
+    }
+</script>

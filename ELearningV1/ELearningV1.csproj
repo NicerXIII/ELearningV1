@@ -210,12 +210,14 @@
     <Compile Include="Models\ViewModel\VMEmpAnswer.cs" />
     <Compile Include="Models\ViewModel\VMEmpStatsCount.cs" />
     <Compile Include="Models\ViewModel\VMGetAnswers.cs" />
+    <Compile Include="Models\ViewModel\VMGetAppliedEmployees.cs" />
     <Compile Include="Models\ViewModel\VMGetDataToLoadOneByOne.cs" />
     <Compile Include="Models\ViewModel\VMGetEmployeeAnswers.cs" />
     <Compile Include="Models\ViewModel\VMGetEmployeeEnrollDate.cs" />
     <Compile Include="Models\ViewModel\VMGetExamQuestion.cs" />
     <Compile Include="Models\ViewModel\VMGetExamQuestions.cs" />
     <Compile Include="Models\ViewModel\VMGetPDFPath.cs" />
+    <Compile Include="Models\ViewModel\VMGetPersonalityTestResult.cs" />
     <Compile Include="Models\ViewModel\VMGetQuestionID.cs" />
     <Compile Include="Models\ViewModel\VMGetQuestionIDbyEmployeeAnswer.cs" />
     <Compile Include="Models\ViewModel\VMGetVideoPath.cs" />
