@@ -78,19 +78,13 @@ var UserActivityChart = function () {
                         }
                     }]
                 }
-
             });
-
-
         },
         error: function (response) { }
     });
-
-
 }
 //-------------------------DONUT--------------------------------------//
 var UserProgressActivity = function () {
-
     $.ajax({
         type: "POST",
         url: "/Home/LoadUserProgressAndStatus",
@@ -157,8 +151,6 @@ var BindDataTable = function () {
             "processing": true,
             "sAjaxSource": "/Home/LoadUserCurrentCourse",
             "fnServerData": function (sSource, aoData, fnCallback) {
-
-
                 $.ajax({
                     type: "Get",
                     data: aoData,
@@ -178,11 +170,14 @@ var BindDataTable = function () {
                         // dNow = new Date(now);
                         if (full.Progress < 100 && comp >= now) {
                             return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\')" style="font-size:24px;">' + Course + '</a>';
-                        } else if (full.Progress <= 100 && comp >= now && full.Score == 0) {
+                        }
+                        else if (full.Progress <= 100 && comp >= now && full.Score == 0) {
                             return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\')" style="font-size:24px;">' + Course + ' <span class="fa fa-film"></span></a>';
-                        } else if (full.Progress <= 100 && comp < now) {
+                        }
+                        else if (full.Progress <= 100 && comp < now) {
                             return '<a href="#/" style="font-size:24px; color:grey;">' + Course + '</a>';
-                        } else {
+                        }
+                        else {
                             return '<a href="#/" style="font-size:24px; color:green;">' + Course + ' <span class="fa fa-check"></span></a>';
                         }
 

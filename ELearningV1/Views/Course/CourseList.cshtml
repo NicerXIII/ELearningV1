@@ -1,6 +1,6 @@
 ﻿@model  ELearningV1.Models.ViewModel.VMViewCourses
 @{
-    ViewBag.Title = "CourseList";
+    ViewBag.Title = "Course List | E-Learning";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
@@ -31,9 +31,9 @@
 <div class="box box-primary">
     <div class="box-header">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Courses</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Introduction to TalentLMS</li>
+            <li class="breadcrumb-item"><a href="~/Home/Index">Home</a></li>
+            <li class="breadcrumb-item"><a href="~/Home/ViewCourse">Courses</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Course</li>
         </ol>
     </div>
     <div class="box-body">
@@ -70,16 +70,12 @@
                     </div>
                 </div>
                 <div class="tab-pane" id="timeline">
-                    <!-- The timeline -->
                     <ul class="timeline timeline-inverse">
-                        <!-- timeline time label -->
                         <li class="time-label">
                             <span class="bg-red">
                                 10 Feb. 2014
                             </span>
                         </li>
-                        <!-- /.timeline-label -->
-                        <!-- timeline item -->
                         <li>
                             <i class="fa fa-envelope bg-blue"></i>
                             <div class="timeline-item">
@@ -97,8 +93,6 @@
                                 </div>
                             </div>
                         </li>
-                        <!-- END timeline item -->
-                        <!-- timeline item -->
                         <li>
                             <i class="fa fa-user bg-aqua"></i>
                             <div class="timeline-item">
@@ -108,8 +102,6 @@
                                 </h3>
                             </div>
                         </li>
-                        <!-- END timeline item -->
-                        <!-- timeline item -->
                         <li>
                             <i class="fa fa-comments bg-yellow"></i>
                             <div class="timeline-item">
@@ -125,15 +117,11 @@
                                 </div>
                             </div>
                         </li>
-                        <!-- END timeline item -->
-                        <!-- timeline time label -->
                         <li class="time-label">
                             <span class="bg-green">
                                 3 Jan. 2014
                             </span>
                         </li>
-                        <!-- /.timeline-label -->
-                        <!-- timeline item -->
                         <li>
                             <i class="fa fa-camera bg-purple"></i>
                             <div class="timeline-item">
@@ -147,7 +135,6 @@
                                 </div>
                             </div>
                         </li>
-                        <!-- END timeline item -->
                         <li>
                             <i class="fa fa-clock-o bg-gray"></i>
                         </li>

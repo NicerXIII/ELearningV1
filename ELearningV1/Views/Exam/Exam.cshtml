@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<ELearningV1.Models.ViewModel.VMElearningCourseSection>
 @{
-    ViewBag.Title = "Exam";
+    ViewBag.Title = "Exam | E-Learning";
     //Layout = "~/Views/Shared/_Layout.cshtml";
     var endTime = DateTime.UtcNow.AddSeconds(65);
     var timeRemaining = TimeSpan.FromTicks(endTime.Ticks - DateTime.UtcNow.Ticks).TotalSeconds;
@@ -32,7 +32,7 @@
 </style>
 <div class="box">
     <div class="box-header">
-        <div>Time Remaining: <span id="demo"></span></div>
+        <!--<div>Time Remaining: <span id="demo"></span></div>-->
         <div id="countdown2" class="pull-right" style="font-size:24px;"></div>
     </div>
     <div class="box-body">
@@ -433,10 +433,10 @@
                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8"></div>
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                         @*<select id="ddChoices" class="form-control select2" style="width: 100%;">
-                                <option value="0" selected>Select action</option>
-                                <option value="1">Re-take exam</option>
-                                <option value="2">Exit</option>
-                            </select>*@
+                            <option value="0" selected>Select action</option>
+                            <option value="1">Re-take exam</option>
+                            <option value="2">Exit</option>
+                        </select>*@
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                         <button type="button" class="btn btn-success btn-block" onclick="ocOkFinished()">Ok</button>
@@ -444,12 +444,444 @@
                 </div>
             </div>
         </div>
+
+        <div class="box box-primary hidden" id="divPersonalTest">
+            <div class="box-header with-border">
+                <h3 class="box-title" id="boxTitleScoring">Personality Test</h3>
+            </div>
+            <div class="box-body" align="center" style="min-height:600px;">
+                <table id="tblPersTest" class="table table-striped" style="width:800px;">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th style="width:20px">DisAgree</th>
+                            <th style="width:20px"></th>
+                            <th style="width:20px">Neutral</th>
+                            <th style="width:20px"></th>
+                            <th style="width:20px">Agree</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">1) I am the life of the party.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP1" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP1" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP1" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP1" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP1" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">2) I feel little concern for others.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP2" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP2" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP2" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP2" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP2" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">3) I am always prepared.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP3" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP3" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP3" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP3" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP3" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">4) I get stressed out easily.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP4" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP4" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP4" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP4" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP4" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">5) I have a rich vocabulary.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP5" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP5" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP5" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP5" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP5" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">6) I don't talk a lot.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP6" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP6" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP6" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP6" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP6" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">7) I am interested in people.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP7" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP7" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP7" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP7" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP7" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">8) I leave my belongings around.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP8" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP8" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP8" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP8" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP8" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">9) I am relaxed most of the time.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP9" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP9" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP9" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP9" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP9" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">10) I have difficulty understanding abstract ideas.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP10" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP10" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP10" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP10" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP10" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">11) I feel comfortable around people.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP11" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP11" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP11" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP11" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP11" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">12) I insult people.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP12" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP12" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP12" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP12" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP12" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">13) I pay attention to details.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP13" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP13" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP13" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP13" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP13" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">14) I worry about things.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP14" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP14" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP14" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP14" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP14" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">15) I have a vivid imagination.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP15" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP15" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP15" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP15" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP15" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">16) I keep in the background.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP16" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP16" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP16" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP16" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP16" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">17) I sympathize with others' feelings.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP17" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP17" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP17" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP17" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP17" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">18) I make a mess of things.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP18" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP18" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP18" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP18" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP18" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">19) I seldom feel blue.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP19" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP19" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP19" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP19" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP19" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">20) I am not interested in abstract ideas.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP20" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP20" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP20" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP20" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP20" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">21) I start conversations.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP21" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP21" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP21" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP21" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP21" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">22) I am not interested in other people's problems.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP22" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP22" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP22" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP22" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP22" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">23) I get chores done right away.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP23" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP23" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP23" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP23" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP23" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">24) I am easily disturbed.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP24" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP24" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP24" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP24" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP24" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">25) I have excellent ideas.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP25" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP25" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP25" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP25" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP25" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">26) I have little to say.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP26" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP26" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP26" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP26" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP26" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">27) I have a soft heart.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP27" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP27" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP27" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP27" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP27" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">28) I often forget to put things back in their proper place.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP28" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP28" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP28" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP28" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP28" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">29) I get upset easily.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP29" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP29" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP29" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP29" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP29" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">30) I do not have a good imagination.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP30" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP30" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP30" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP30" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP30" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">31) I talk to a lot of different people at parties.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP31" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP31" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP31" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP31" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP31" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">32) I am not really interested in others.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP32" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP32" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP32" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP32" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP32" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">33) I like order.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP33" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP33" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP33" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP33" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP33" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">34) I change my mood a lot.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP34" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP34" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP34" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP34" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP34" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">35) I am quick to understand things.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP35" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP35" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP35" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP35" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP35" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">36) I don't like to draw attention to myself.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP36" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP36" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP36" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP36" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP36" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">37) I take time out for others.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP37" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP37" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP37" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP37" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP37" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">38) I shirk my duties.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP38" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP38" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP38" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP38" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP38" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">39) I have frequent mood swings.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP39" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP39" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP39" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP39" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP39" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">40) I use difficult words.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP40" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP40" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP40" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP40" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP40" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">41) I don't mind being the center of attention.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP41" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP41" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP41" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP41" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP41" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">42) I feel others' emotions.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP42" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP42" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP42" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP42" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP42" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">43) I follow a schedule.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP43" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP43" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP43" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP43" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP43" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">44) I get irritated easily.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP44" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP44" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP44" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP44" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP44" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">45) I spend time reflecting on things.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP45" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP45" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP45" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP45" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP45" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">46) I am quiet around strangers.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP46" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP46" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP46" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP46" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP46" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">47) I make people feel at ease.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP47" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP47" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP47" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP47" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP47" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">48) I am exacting in my work.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP48" value="1" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP48" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP48" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP48" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP48" value="5" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">49) I often feel blue.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP49" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP49" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP49" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP49" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP49" value="1" class="radio_"></td>
+                        </tr>
+                        <tr>
+                            <td style="font-size:16px; font-weight:600;">50) I am full of ideas.</td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP50" value="5" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP50" value="4" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP50" value="3" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP50" value="2" class="radio_"></td>
+                            <td align="center"><input type="radio" id="radioid" name="rdP50" value="1" class="radio_"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8"></div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <button type="button" class="btn btn-success btn-block hidden" id="btnPersonalityTestDONE" onclick="ocPersonalityTestDone()">DONE</button>
+                </div>
+            </div>
+        </div>
+
     </div>
     <div class="box-footer">
         <div class="row">
             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10"></div>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <button class="btn btn-success btn-block" id="btnProceed" onclick="ocProceedNextProcess()">Proceed</button>
+                <button class="btn btn-success btn-block hidden" id="btnProceed" onclick="ocProceedNextProcess()">Proceed</button>
                 <button class="btn btn-success btn-block hidden" id="btnProceedTest" onclick="ocProceedNextTestProcess()">Proceed</button>
             </div>
         </div>
@@ -520,31 +952,127 @@
 <input type="hidden" id="SectionCount" value="@Model.Count()" />
 
 @*<script src="~/Scripts/Dev_Scripts/Exam.js"></script>*@
-
-<!--<script src="~/Scripts/Dev_Scripts/Exam2.js?vers=1.0"></script>-->
+<script src="~/Scripts/Dev_Scripts/Exam2.js?vers=1.0"></script>
 <!--<script type="text/javascript" src="~/Scripts/Dev_Scripts/Exam_FINAL.js"></script>-->
 
 <script type="text/javascript">
     $(document).ready(function () {
-        LoadingData();
+        debugger
+        var cid = $("#CourseID1").val();
+
+        if (cid != "16") {
+            $("#btnProceed").removeClass('hidden');
+            $("#SectionOrderNo").val(1);
+            loadSectionData(cid, 1);
+            EraseEmployeeAnswersOnRefreshOrOnLoad(cid);
+        } else {
+            $("#btnPersonalityTestDONE").removeClass('hidden');
+            $("#divPersonalTest").removeClass('hidden');
+        }
+        //LoadingData();
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/Home/GetSession",
+        //    data: {},
+        //    success: function (response) {
+        //        var cid = $("#CourseID1").val();
+        //        $("#SectionOrderNo").val(1);
+        //        loadSectionData(cid, 1);
+        //        EraseEmployeeAnswersOnRefreshOrOnLoad(cid);
+        //        EndLoading();
+        //    },
+        //    error: function (response) {
+        //        EndLoading();
+        //        window.location.href = '/LogIn/Index';
+        //    }
+
+        //});
+    });
+
+    //--Personality test functions START--//
+    var ocPersonalityTestDone = function () {
+        debugger
+        var i = 1;
+        var E = 20;
+        var A = 14;
+        var C = 14;
+        var N = 38;
+        var O = 8;
+        while (i <= 50) {
+            var radioName = "rdP" + i;
+            var radioData = $("input[name=" + radioName + "]:checked").val();
+
+            if (typeof radioData !== "undefined") {
+                if (i == 1 || i == 11 || i == 21 || i == 31 || i == 41 && radioData != "") {
+                    E = E + parseInt(radioData);
+                }
+                else if (i == 6 || i == 16 || i == 26 || i == 36 || i == 46 && radioData != "") {
+                    E = E - parseInt(radioData);
+                }
+                else if (i == 7 || i == 17 || i == 27 || i == 37 || i == 47 && radioData != "") {
+                    A = A + parseInt(radioData);
+                }
+                else if (i == 2 || i == 12 || i == 22 || i == 32 || i == 42 && radioData != "") {
+                    A = A - parseInt(radioData);
+                }
+                else if (i == 3 || i == 13 || i == 23 || i == 33 || i == 43 || i == 48 && radioData != "") {
+                    C = C + parseInt(radioData);
+                }
+                else if (i == 8 || i == 18 || i == 28 || i == 38 && radioData != "") {
+                    C = C - parseInt(radioData);
+                }
+                else if (i == 9 || i == 19 && radioData != "") {
+                    N = N + parseInt(radioData);
+                }
+                else if (i == 4 || i == 14 || i == 24 || i == 29 || i == 34 || i == 39 || i == 44 || i == 49 && radioData != "") {
+                    N = N - parseInt(radioData);
+                }
+                else if (i == 5 || i == 15 || i == 25 || i == 35 || i == 40 || i == 45 || i == 50 && radioData != "") {
+                    O = O + parseInt(radioData);
+                }
+                else if (i == 10 || i == 20 || i == 30 && radioData != "") {
+                    O = O - parseInt(radioData);
+                }
+            } else {
+                return alert("Please answer all required  fields.");
+            }
+            i++;
+        }
         $.ajax({
             type: "POST",
-            url: "/Home/GetSession",
-            data: {},
+            url: "/Exam/SavePersonalityTest",
+            data: { "E": E, "A": A, "C": C, "N": N, "O": O, },
             success: function (response) {
-                var cid = $("#CourseID1").val();
-                $("#SectionOrderNo").val(1);
-                loadSectionData(cid, 1);
-                EraseEmployeeAnswersOnRefreshOrOnLoad(cid);
-                EndLoading();
+                var result = response.res;
+                if (result == true) {
+                    UpdatePersonalityExamProgress();
+                }
             },
-            error: function (response) {
-                EndLoading();
-                window.location.href = '/LogIn/Index';
-            }
-
+            error: function (response) { }
         });
-    });
+    }
+
+    function UpdatePersonalityExamProgress() {
+        var cid = $("#CourseID1").val();
+        var hours = timestamp.getHours();
+        var mins = timestamp.getMinutes();
+        var secs = timestamp.getSeconds();
+        $.ajax({
+            type: "POST",
+            url: "/Exam/UpdatePersonalityProgress",
+            data: { "CourseID": cid, "StrHours": hours, "StrMinutes": mins, "StrSeconds": secs },
+            success: function (response) {
+                var result = response.res;
+                if (result == true) {
+                    alert("Personal Exam data successfully saved.");
+                     window.location.href = '@Url.Action("Index", "Home")';
+                }
+            },
+            error: function (response) { }
+        });
+    }
+
+    //--Personality test functions END--//
 
     var empAns = new Array();
     var questID = new Array();
