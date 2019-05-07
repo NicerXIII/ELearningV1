@@ -10,15 +10,13 @@ namespace ELearningV1.Controllers
 {
     public class LogInController : Controller
     {
+        DAL SQLcon = new DAL();
         // GET: LogIn
         public ActionResult Index()
-        {
-            return View();
-        }
+        {   return View();  }
 
         public ActionResult LogInAccount(string unum, string upass)
         {
-            DAL SQLcon = new DAL();
             bool stats = false;
             string path = "http://trecnetkiosk:94/UploadedImages/";
             try
@@ -56,13 +54,10 @@ namespace ELearningV1.Controllers
             }
             var response = new JsonResult();
             response.Data = new
-            {
-                result = stats
-            };
+            {   result = stats  };
             return response;
         }
-
-
+        
         public ActionResult LogOutAccount()
         {
             Session.Clear();
@@ -70,6 +65,5 @@ namespace ELearningV1.Controllers
             Session.RemoveAll();
             return Json(new { res = true });
         }
-
     }
 }

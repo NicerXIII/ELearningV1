@@ -11,11 +11,12 @@ namespace ELearningV1.Controllers
 {
     public class HomeController : Controller
     {
+        DAL SQLcon = new DAL();
+
         public ActionResult Index()
         {
             //Nice ONE BROTHER 2334
             ViewBag.Title = "Home Page";
-
             return View();
         }
 
@@ -36,21 +37,14 @@ namespace ELearningV1.Controllers
                 Pos = userPos,
                 ReportTo = userReportTo
             };
-
             return response;
         }
-
-
-
+        
         public ActionResult ViewCourse()
-        {
-
-            return View();
-        }
+        {   return View();  }
 
         public ActionResult LoadCourseData()
         {
-            DAL SQLcon = new DAL();
             var userID = Session["EmployeeNumber"].ToString();
             List<VMViewCourses> cList = SQLcon.ViewCourses(userID).Select(x => new VMViewCourses
             {
@@ -76,13 +70,9 @@ namespace ELearningV1.Controllers
                 Image = x.Image,
                 DateCreated = x.DateCreated
             }).ToList();
-
-
-
             return View("ViewCourse", cList);
         }
-
-
+        
         [HttpPost]
         public ActionResult LoadUserLogInHistoryByID1()
         {
@@ -94,15 +84,9 @@ namespace ELearningV1.Controllers
             try
             {
                 response.Data = new
-                {
-                    _s = SQLcon.LoadLogInHistoryByIDandDate(userID, Convert.ToString(sunday)).Select(x => x.Status1)
-                };
+                {   _s = SQLcon.LoadLogInHistoryByIDandDate(userID, Convert.ToString(sunday)).Select(x => x.Status1)    };
             }
             catch (Exception ex) { }
-
-
-
-
             return response;
         }
 
@@ -110,7 +94,6 @@ namespace ELearningV1.Controllers
         {
             List<VMELearningCousesProgress> QuestList = new List<VMELearningCousesProgress>();
             var userID = Session["EmployeeNumber"].ToString();
-            DAL SQLcon = new DAL();
             int pageNo = 1;
             int totalCount = 0;
 
@@ -144,7 +127,6 @@ namespace ELearningV1.Controllers
         {
             List<VMELearningCousesProgress> QuestList = new List<VMELearningCousesProgress>();
             var userID = Session["EmployeeNumber"].ToString();
-            DAL SQLcon = new DAL();
 
             QuestList = SQLcon.ViewCurrentEmployeeCoursebyEmployeeNumber(userID).Select(x => new VMELearningCousesProgress
             {
@@ -173,18 +155,14 @@ namespace ELearningV1.Controllers
                 _tCurrentPer = GetCurrentPercentage,
                 _tRemnainPer = GetRaminingPercentage
             };
-
             return response;
-
         }
 
-        public ActionResult LoadPanelBoxData() {
-
-            DAL SQLcon = new DAL();
-            String sDate = DateTime.Now.Year.ToString();
-            var data = SQLcon.ViewUserDataByYear(sDate);
-
+        public ActionResult LoadPanelBoxData()
+        {
             var userID = Session["EmployeeNumber"].ToString();
+            String sDate = DateTime.Now.Year.ToString();
+            var data = SQLcon.ViewUserDataByYear(sDate);            
 
             var CIP = data.Where(x => x.Progress < 100 && x.EmployeeNumber == userID).Count();
             var CC = data.Where(x => x.Progress == 100 && x.EmployeeNumber == userID).Count();
@@ -198,25 +176,21 @@ namespace ELearningV1.Controllers
                 _pa = PA,
                 _inc = INC
             };
-
-
             return response;
         }
 
-        public ActionResult CheckCurrentStatus(string CourseID) {
-            DAL SQLcon = new DAL();
+        public ActionResult CheckCurrentStatus(string CourseID)
+        {
             var response = new JsonResult();
             var userID = Session["EmployeeNumber"].ToString();
-            try {
-                response.Data = new { res = SQLcon.SelectEmployeeProgressByEmpIDAndCourseID(userID, CourseID).Select(x => x.Progress).SingleOrDefault()
-            };
-            } catch (Exception ex) { }
+            try
+            {   response.Data = new { res = SQLcon.SelectEmployeeProgressByEmpIDAndCourseID(userID, CourseID).Select(x => x.Progress).SingleOrDefault() };  }
+            catch (Exception ex) { }
             return response;
         }
 
         public ActionResult ResetUserCourseProgress(string CourseID)
         {
-            DAL SQLcon = new DAL();
             var response = new JsonResult();
             var userID = Session["EmployeeNumber"].ToString();
             var UserStats = SQLcon.SelectEmployeeProgressByEmpIDAndCourseID(userID, CourseID).Select(x => x.Status1).SingleOrDefault();
@@ -224,33 +198,28 @@ namespace ELearningV1.Controllers
             try
             {
                 if (UserStats != "")
-                {
-                    response.Data = new{ res = false};
-                }
-                else {
-                    response.Data = new {  res = SQLcon.ResetCourseProgressByCourseIDAndUserID(userID, CourseID) };
-                }
-               
+                {   response.Data = new{ res = false};  }
+                else
+                {   response.Data = new {  res = SQLcon.ResetCourseProgressByCourseIDAndUserID(userID, CourseID) }; }
             }
             catch (Exception ex) { }
             return response;
         }
 
-        public ActionResult EraseEmployeeAswerByCourseID(string CourseID) {
-            DAL SQLcon = new DAL();
+        public ActionResult EraseEmployeeAswerByCourseID(string CourseID)
+        {
             var response = new JsonResult();
             var userID = Session["EmployeeNumber"].ToString();
 
-            try {
-                response.Data = new { res = SQLcon.EraseEmployeeAnswerByCourseIDAndUserID(userID, CourseID) };
-            } catch (Exception ex) { }
+            try
+            {   response.Data = new { res = SQLcon.EraseEmployeeAnswerByCourseIDAndUserID(userID, CourseID) };  }
+            catch (Exception ex) { }
 
             return response;
         }
 
         public ActionResult ResetEmployeeScoreByCourseID(string CourseID)
         {
-            DAL SQLcon = new DAL();
             var response = new JsonResult();
             var userID = Session["EmployeeNumber"].ToString();
             try

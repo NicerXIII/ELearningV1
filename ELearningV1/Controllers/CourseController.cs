@@ -11,6 +11,7 @@ namespace ELearningV1.Controllers
 {
     public class CourseController : Controller
     {
+        DAL SQLcon = new DAL();
         // GET: Course
         [HttpGet]
         public ActionResult CourseList()
@@ -237,6 +238,19 @@ namespace ELearningV1.Controllers
 
         public ActionResult EraseEmployeeAswerByCourseID(string EmployeeNumber, string CourseID)
         {
+            var response = new JsonResult();
+            try
+            {
+                if (CourseID == "16")
+                {   response.Data = new { res = SQLcon.RemoveEmployeePersonalityTestData(EmployeeNumber) }; }
+                else
+                {   response.Data = new { res = SQLcon.EraseEmployeeAnswerByCourseIDAndUserID(EmployeeNumber, CourseID) };  }
+            }
+            catch (Exception ex) { }
+
+            return response;
+
+            /** OLD CODE
             DAL SQLcon = new DAL();
             var response = new JsonResult();
             try
@@ -244,6 +258,7 @@ namespace ELearningV1.Controllers
             catch (Exception ex) { }
 
             return response;
+            **/
         }
 
         public ActionResult IndexCourseAssign()

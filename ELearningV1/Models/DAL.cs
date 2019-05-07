@@ -2059,6 +2059,70 @@ namespace ELearningV1.Models
             }
             return null;
         }
+
+
+        public bool RemoveEmployeePersonalityTestData(string EmpID)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("DELETE FROM ELearningPersonalityResult WHERE EmployeeNumber='" + EmpID + "'", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    { return false; }
+                    finally
+                    { con.Close(); }
+                }
+            }
+        }
+
+        public bool SaveEmployeePersonalityExam(string EmpID, string EmpName, string E, string A, string C, string N, string O, string Date1)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("INSERT INTO ELearningPersonalityResult VALUES('" + EmpID + "','" + EmpName + "','" + E + "','" + A + "','" + C + "','" + N + "','" + O + "','" + Date1 + "')", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    { return false; }
+                    finally
+                    { con.Close(); }
+                }
+            }
+        }
+
+        public bool UpdateEmployeePersonalityProgress(string EmpID, string CourseID, string ConTime)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("UPDATE ELearningCourseProgress SET Progress='100',Score='100',ConsumedTime='" + ConTime + "',Status1='PASSED' WHERE EmployeeNumber='" + EmpID + "' AND CourseID='" + CourseID + "' ", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.Text;
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    { return false; }
+                    finally
+                    { con.Close(); }
+                }
+            }
+        }
         #endregion
     }
 }

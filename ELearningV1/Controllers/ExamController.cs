@@ -596,40 +596,31 @@ namespace ELearningV1.Controllers
             var userID = Session["EmployeeNumber"].ToString();
             var secPercent = (int)1 / Convert.ToDouble(SectionCount);
             var CurMustPer = (int) Convert.ToDouble(CurSection) / Convert.ToDouble(SectionCount);
-
-
+            
             var secResult = secPercent * 100;
             var CurMustPerResult = CurMustPer * 100;
 
             var currentProgress = SQLcon.SelectEmployeeProgressByEmpIDAndCourseID(userID,CourseID).Select(x=>x.Progress).SingleOrDefault();
             var TotalPercent = 0.0;
 
-            if (CurMustPerResult > currentProgress) {
-                TotalPercent = (double)currentProgress + secResult;
-            }
-            else{
-                TotalPercent = currentProgress;
-            }
-
+            if (CurMustPerResult > currentProgress)
+            {   TotalPercent = (double)currentProgress + secResult; }
+            else
+            {   TotalPercent = currentProgress; }
 
             if (CourseID != "" && SectionCount != "")
             {
                 try
-                {
-                    response.Data = new { res = SQLcon.SaveCourseProgress(userID, CourseID,Convert.ToString(TotalPercent)) };
-                }
+                {   response.Data = new { res = SQLcon.SaveCourseProgress(userID, CourseID,Convert.ToString(TotalPercent)) };   }
                 catch (Exception ex) { }
             }
             else
-            {
-                response.Data = new { res = "false" };
-            }
+            {   response.Data = new { res = "false" };  }
             return response;
         }
 
-
-        public ActionResult UpdateUserConsumedTime(string CourseID, string StrHours,string StrMinutes,string StrSeconds) {
-
+        public ActionResult UpdateUserConsumedTime(string CourseID, string StrHours,string StrMinutes,string StrSeconds)
+        {
             DAL SQLcon = new DAL();
             var userID = Session["EmployeeNumber"].ToString();
             var TimeFormat = "";
@@ -637,61 +628,46 @@ namespace ELearningV1.Controllers
             if (StrHours != "0")
             {
                 if (StrHours.Length > 1)
-                {
-                    TimeFormat = StrHours;
-                }
+                {   TimeFormat = StrHours;  }
                 else
-                {
-                    TimeFormat = "0" + StrHours;
-                }
+                {   TimeFormat = "0" + StrHours;    }
             }
-            else {
-                TimeFormat = "00";
-            }
+            else
+            {   TimeFormat = "00";  }
 
             if (StrMinutes != "0")
             {
                 if (StrMinutes.Length > 1)
-                {
-                    TimeFormat = TimeFormat + ":" + StrMinutes;
-                }
+                {   TimeFormat = TimeFormat + ":" + StrMinutes; }
                 else
-                {
-                    TimeFormat = TimeFormat + ":0" + StrMinutes;
-                }
+                {   TimeFormat = TimeFormat + ":0" + StrMinutes;    }
             }
-            else {
-                TimeFormat = TimeFormat + ":00";
-            }
+            else
+            {   TimeFormat = TimeFormat + ":00";    }
 
             if (StrSeconds != "0")
             {
                 if (StrSeconds.Length > 1)
-                {
-                    TimeFormat = TimeFormat + ":" + StrSeconds;
-                }
+                {   TimeFormat = TimeFormat + ":" + StrSeconds; }
                 else
-                {
-                    TimeFormat = TimeFormat + ":0" + StrSeconds;
-                }
+                {   TimeFormat = TimeFormat + ":0" + StrSeconds;    }
             }
-            else {
-                TimeFormat = TimeFormat + ":00";
-            }
+            else
+            {   TimeFormat = TimeFormat + ":00";    }
 
-            try {
-                result1 = SQLcon.UpdateEMployeeTimeConsumed(userID,CourseID,TimeFormat);
-            } catch (Exception ex) { }
+            try
+            {   result1 = SQLcon.UpdateEMployeeTimeConsumed(userID,CourseID,TimeFormat);    }
+            catch (Exception ex) { }
 
             var response = new JsonResult();
-            response.Data = new {
-                res = result1
-            };
+            response.Data = new
+            {   res = result1   };
 
             return response;
         }
 
-        public ActionResult UpdateEmployeeScoreByCourseIDSectionIDAndEmployeeNumber(string CourseID) {
+        public ActionResult UpdateEmployeeScoreByCourseIDSectionIDAndEmployeeNumber(string CourseID)
+        {
             DAL SQLcon = new DAL();
             var userID = Session["EmployeeNumber"].ToString();
             var result = false;
@@ -717,7 +693,6 @@ namespace ELearningV1.Controllers
             var Status1 = "";
 
             //Compare EmpAnswer table with Quiz table by section number
-
             var SectionCountEmpAnswer = EmpAnswerList.GroupBy(x => x.CourseSecID).Count();
             var SectionCountQuiz = QuizList.GroupBy(x => x.CourseSectionID).Count();
 
@@ -725,12 +700,9 @@ namespace ELearningV1.Controllers
             {
                //Identify the status
                 if (TotalScore >= 92)
-                {
-                    Status1 = "PASSED";
-                }
-                else {
-                    Status1 = "FAILED";
-                }
+                {   Status1 = "PASSED"; }
+                else
+                {   Status1 = "FAILED"; }
                 //Save Score and Status
                 result = SQLcon.UpdateEmployeeCourseProgressScoreAndStatus(userID,CourseID, TotalScore, Status1);
             }
@@ -739,10 +711,11 @@ namespace ELearningV1.Controllers
                 result = SQLcon.UpdateEmployeeCourseProgressScoreAndStatus(userID, CourseID, TotalScore, Status1);
             }
 
-
-            try {
-
-            } catch (Exception ex) { }
+            /**
+            try
+            {   }
+            catch (Exception ex) { }
+            **/
 
             var response = new JsonResult();
             response.Data = new {
@@ -754,6 +727,65 @@ namespace ELearningV1.Controllers
             return response;
         }
 
+        public ActionResult SavePersonalityTest(string E, string A, string C, string N, string O)
+        {
+            DAL SQLcon = new DAL();
+            var userID = Session["EmployeeNumber"].ToString();
+            var userName = Session["EmployeeName"].ToString();
+            var response = new JsonResult();
+            try
+            {
+                response.Data = new
+                {   res = SQLcon.SaveEmployeePersonalityExam(userID, userName, E, A, C, N, O, DateTime.Now.ToString())  };
+            }
+            catch (Exception ex) { }
+            return response;
+        }
 
+        public ActionResult UpdatePersonalityProgress(string CourseID, string StrHours, string StrMinutes, string StrSeconds)
+        {
+            DAL SQLcon = new DAL();
+            var userID = Session["EmployeeNumber"].ToString();
+            var response = new JsonResult();
+            var TimeFormat = "";
+
+            if (StrHours != "0")
+            {
+                if (StrHours.Length > 1)
+                {   TimeFormat = StrHours;  }
+                else
+                {   TimeFormat = "0" + StrHours;    }
+            }
+            else
+            {   TimeFormat = "00";  }
+
+            if (StrMinutes != "0")
+            {
+                if (StrMinutes.Length > 1)
+                {   TimeFormat = TimeFormat + ":" + StrMinutes; }
+                else
+                {   TimeFormat = TimeFormat + ":0" + StrMinutes;    }
+            }
+            else
+            {   TimeFormat = TimeFormat + ":00";    }
+
+            if (StrSeconds != "0")
+            {
+                if (StrSeconds.Length > 1)
+                {   TimeFormat = TimeFormat + ":" + StrSeconds; }
+                else
+                {   TimeFormat = TimeFormat + ":0" + StrSeconds;    }
+            }
+            else
+            {   TimeFormat = TimeFormat + ":00";    }
+
+            try
+            {
+                response.Data = new
+                {   res = SQLcon.UpdateEmployeePersonalityProgress(userID, CourseID, TimeFormat)    };
+            }
+            catch (Exception ex) { }
+            return response;
+        }
     }
 }
