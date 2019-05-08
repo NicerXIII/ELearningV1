@@ -220,6 +220,7 @@
     <Compile Include="Models\ViewModel\VMGetPersonalityTestResult.cs" />
     <Compile Include="Models\ViewModel\VMGetQuestionID.cs" />
     <Compile Include="Models\ViewModel\VMGetQuestionIDbyEmployeeAnswer.cs" />
+    <Compile Include="Models\ViewModel\VMGetQuestionsAndEmployeeAnswers.cs" />
     <Compile Include="Models\ViewModel\VMGetVideoPath.cs" />
     <Compile Include="Models\ViewModel\VMKioskLogInUser.cs" />
     <Compile Include="Models\ViewModel\VMLogHistory.cs" />

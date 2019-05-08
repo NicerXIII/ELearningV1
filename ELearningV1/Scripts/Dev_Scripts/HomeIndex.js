@@ -162,6 +162,7 @@ var BindDataTable = function () {
                 {
                     "mData": "Course",
                     "orderable": false,
+                    "width": "100px",
                     "render": function (Course, type, full, meta) {
                         debugger
                         var comp = moment.tz(full.CompletionDate, 'Asia/Manila').format("MM/DD/YYYY");
@@ -175,7 +176,8 @@ var BindDataTable = function () {
                             return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\')" style="font-size:24px;">' + Course + ' <span class="fa fa-film"></span></a>';
                         }
                         else if (full.Progress <= 100 && comp < now) {
-                            return '<a href="#/" style="font-size:24px; color:grey;">' + Course + '</a>';
+                             return '<a href="#/" style="font-size:24px; color:grey;">' + Course + '</a>';
+                            //return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\')" style="font-size:24px;">' + Course + ' <span class="fa fa-film"></span></a>';
                         }
                         else {
                             return '<a href="#/" style="font-size:24px; color:green;">' + Course + ' <span class="fa fa-check"></span></a>';
@@ -186,6 +188,7 @@ var BindDataTable = function () {
                 {
                     "mData": "Progress",
                     "orderable": false,
+                    "width": "40px",
                     "className": "dt-center", "targets": "_all",
                     "render": function (Progress, type, full, meta) {
                         if (Progress >= 100) {
@@ -198,6 +201,7 @@ var BindDataTable = function () {
                     "mData": "Score",
                     "orderable": false,
                     "className": "dt-center", "targets": "_all",
+                    "width": "20px",
                     "render": function (Score, type, full, meta) {
                         if (full.Progress >= 100) {
                             return Score;
@@ -208,6 +212,7 @@ var BindDataTable = function () {
                 },
                 {
                     "mData": "EnrolledDate",
+                    "width": "50px",
                     "orderable": false,
                     render: function (EnrolledDate, type, row) {
                         if (type === "sort" || type === "type") {
@@ -219,6 +224,7 @@ var BindDataTable = function () {
                 {
                     "mData": "CompletionDate",
                     "orderable": false,
+                    "width": "60px",
                     render: function (CompletionDate, type, row) {
                         if (type === "sort" || type === "type") {
                             return CompletionDate;
@@ -228,6 +234,7 @@ var BindDataTable = function () {
                 },
                 {
                     "mData": "ConsumedTime",
+                    "width": "40px",
                     "orderable": false
                 }
             ],

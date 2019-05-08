@@ -2035,7 +2035,7 @@ namespace ELearningV1.Models
                         try
                         {
                             con.Open();
-                            cmd.CommandType = CommandType.StoredProcedure;  
+                            cmd.CommandType = CommandType.StoredProcedure;
                             cmd.ExecuteNonQuery();
 
                             DataTable dt = new DataTable();
@@ -2084,23 +2084,33 @@ namespace ELearningV1.Models
 
         public bool SaveEmployeePersonalityExam(string EmpID, string EmpName, string E, string A, string C, string N, string O, string Date1)
         {
-            using (SqlConnection con = new SqlConnection(Cons))
+            SqlConnection con = new SqlConnection();
+            try
             {
-                using (SqlCommand cmd = new SqlCommand("INSERT INTO ELearningPersonalityResult VALUES('" + EmpID + "','" + EmpName + "','" + E + "','" + A + "','" + C + "','" + N + "','" + O + "','" + Date1 + "')", con))
+                using (con = new SqlConnection(Cons))
                 {
-                    try
+                    using (SqlCommand cmdd = new SqlCommand("DELETE FROM ELearningPersonalityResult WHERE EmployeeNumber = '" + EmpID + "'", con))
+                    {
+
+                        con.Open();
+                        cmdd.CommandType = CommandType.Text;
+                        cmdd.ExecuteNonQuery();
+                        con.Close();
+                        //return true;
+                    }
+
+                    using (SqlCommand cmd = new SqlCommand("INSERT INTO ELearningPersonalityResult VALUES('" + EmpID + "','" + EmpName + "','" + E + "','" + A + "','" + C + "','" + N + "','" + O + "','" + Date1 + "')", con))
                     {
                         con.Open();
                         cmd.CommandType = CommandType.Text;
                         cmd.ExecuteNonQuery();
                         return true;
                     }
-                    catch (Exception ex)
-                    { return false; }
-                    finally
-                    { con.Close(); }
                 }
             }
+            catch (Exception ex)
+            { return false; }
+
         }
 
         public bool UpdateEmployeePersonalityProgress(string EmpID, string CourseID, string ConTime)
@@ -2122,6 +2132,52 @@ namespace ELearningV1.Models
                     { con.Close(); }
                 }
             }
+        }
+
+        public VMGetQuestionsAndEmployeeAnswersList getQuestAndEmpAns(string EmployeeNumber, string CourseID, string CourseSecID)
+        {
+            VMGetQuestionsAndEmployeeAnswersList EmpCourseStatusCount = new VMGetQuestionsAndEmployeeAnswersList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningGetQuestionsAndEmployeeAnswers", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+                            con.Open();
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                            cmd.Parameters.AddWithValue("@CourseID", CourseID);
+                            cmd.Parameters.AddWithValue("@CourseSecID", CourseSecID);
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                VMGetQuestionsAndEmployeeAnswers data = new VMGetQuestionsAndEmployeeAnswers();
+                                data.CourseID = dr["CourseID"].ToString();
+                                data.CourseSecID = dr["CourseSecID"].ToString();
+                                data.QuestionID = dr["QuestionID"].ToString();
+                                data.AnswerID = dr["AnswerID"].ToString();
+                                data.Question = dr["Question"].ToString();
+                                data.EmployeeAnswer = dr["EmployeeAnswer"].ToString();
+                                data.IsCorrect = dr["IsCorrect"].ToString();
+                                data.OrderNumber = dr["OrderNumber"].ToString();
+                                EmpCourseStatusCount.Add(data);
+                            }
+                            return EmpCourseStatusCount;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+            return null;
         }
         #endregion
     }

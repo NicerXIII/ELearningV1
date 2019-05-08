@@ -787,5 +787,68 @@ namespace ELearningV1.Controllers
             catch (Exception ex) { }
             return response;
         }
+
+        public ActionResult getPersonalityTestResult()
+        {
+            var response = new JsonResult();
+            try
+            {
+                var userID = Session["EmployeeNumber"].ToString();
+                var data = SQLcon.GetEmployeePersonalityResult(userID).SingleOrDefault();
+
+                response.Data = new
+                {
+                    _EmpNo = data.EmployeeNumber,
+                    _name = data.Name,
+                    _e = data.Extroversion,
+                    _a = data.Agreeableness,
+                    _c = data.Conscientiousness,
+                    _n = data.Neuroticism,
+                    _o = data.Openness
+                };
+            }
+            catch (Exception ex)
+            {
+                response.Data = new
+                {   _error = ex.Message };
+            }            
+            return response;
+        }
+
+        public JsonResult getQuestionAndEmpAnswers(DataTablesParam param, string CourseID, string CourseSecID)
+        {
+            List<VMGetQuestionsAndEmployeeAnswers> QuestList = new List<VMGetQuestionsAndEmployeeAnswers>();
+            var sessionEmp = Session["EmployeeNumber"].ToString();
+            int pageNo = 1;
+            int totalCount = 0;
+
+            if (param.iDisplayStart >= param.iDisplayLength)
+            { pageNo = (param.iDisplayStart / param.iDisplayLength) + 1; }
+
+            totalCount = SQLcon.getQuestAndEmpAns(sessionEmp,CourseID,CourseSecID).Count();
+
+            if (totalCount == 0)
+            { totalCount = 0; }
+
+            QuestList = SQLcon.getQuestAndEmpAns(sessionEmp, CourseID, CourseSecID).OrderBy(x => x.OrderNumber).Select(x => new VMGetQuestionsAndEmployeeAnswers
+            {
+                CourseID  = x.CourseID,
+                CourseSecID = x.CourseSecID,
+                QuestionID = x.QuestionID,
+                AnswerID = x.AnswerID,
+                Question = x.Question,
+                EmployeeAnswer = x.EmployeeAnswer,
+                IsCorrect = x.IsCorrect,
+                OrderNumber = x.OrderNumber,
+            }).AsEnumerable().ToList();
+
+            return Json(new
+            {
+                aaData = QuestList,
+                eEcho = param.sEcho,
+                iTotalDisplayRecords = totalCount,
+                iTotalRecords = QuestList.Count()
+            }, JsonRequestBehavior.AllowGet);
+        }
     }
 }
