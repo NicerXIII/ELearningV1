@@ -417,10 +417,10 @@
                             <td>CourseSec ID</td>
                             <td>Question ID</td>
                             <td>Answer ID</td>
-                            <td>Question</td>
-                            <td>Employee Answer</td>
-                            <td>Remarks</td>
-                            <td>Order Number</td>
+                            <td>Question No.</td>
+                            <td><h4>Question</h4></td>
+                            <td><h4>Your Answer</h4></td>
+                            <td><h4>Remarks</h4></td>
                         </tr>
                     </thead>                    
                     <tbody></tbody>
@@ -1551,6 +1551,12 @@
                         "className": "dt-center", "targets": "_all"
                     },
                     {
+                        "mData": "OrderNumber",
+                        "orderable": false,
+                        "visible": false,
+                        "className": "dt-center", "targets": "_all"
+                    },
+                    {
                         "mData": "Question",
                         "orderable": false,
                         "visible": true,
@@ -1574,12 +1580,6 @@
                                 return '<label class="text-danger" style="font-weight:400">Incorrect</label>';
                             }
                         }
-                    },
-                    {
-                        "mData": "OrderNumber",
-                        "orderable": false,
-                        "visible": false,
-                        "className": "dt-center", "targets": "_all"
                     },
                 ],
                 responsive: true,
