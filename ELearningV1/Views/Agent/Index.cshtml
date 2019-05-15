@@ -113,7 +113,7 @@
                                     <li class="active"><a href="#CourseEmployeeListStatus" data-toggle="tab" style="font-weight:600;">Employee List Status <span class="fa fa-hourglass-1"></span></a></li>
                                     <li><a href="#CourseReports" onclick="ocCourseReports()" data-toggle="tab" style="font-weight:600;">Reports <span class="fa fa-folder-open"></span></a></li>
                                     <li><a href="#CoursePersonalityReports" data-toggle="tab" style="font-weight:600;">Personality Reports <span class="fa fa-file-excel-o"></span></a></li>
-                                    <li><a href="#RetakeCourseRequest" onclick="LoadRetakeRequestDataTable()" data-toggle="tab" style="font-weight:600;">Retake Course Requests <span class="fa fa-paste"></span></a></li>
+                                    <li id="retakequest"><a href="#RetakeCourseRequest" onclick="LoadRetakeRequestDataTable()" data-toggle="tab" style="font-weight:600;">Retake Course Requests <span class="fa fa-paste"></span></a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="CourseEmployeeListStatus">
@@ -235,7 +235,28 @@
 <!--<script src="~/Scripts/Dev_Scripts/AgentIndex.js"></script>-->
 <script>
     $(document).ready(function () {
-        PanelBoxStatus();
+        $.ajax({
+            type: "POST",
+            url: "/Home/GetSession",
+            data: {},
+            success: function (response) {
+                if (response.ID === "162370" || response.ID === "060201") {
+                    $("#retakequest").removeClass('hidden');
+                }
+                else {
+                    $("#retakequest").addClass('hidden');
+                }
+                PanelBoxStatus();
+                //UserActivityChart();
+                //UserProgressActivity();
+                //BindDataTable();
+            },
+            error: function (response) {
+                window.location.href = '/LogIn/Index';
+            }
+
+        });
+        //PanelBoxStatus();
     });
 
     var PanelBoxStatus = function () {
