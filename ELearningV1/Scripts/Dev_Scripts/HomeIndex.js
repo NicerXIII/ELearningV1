@@ -164,25 +164,29 @@ var BindDataTable = function () {
                     "orderable": false,
                     "width": "100px",
                     "render": function (Course, type, full, meta) {
-                        debugger
                         var comp = moment.tz(full.CompletionDate, 'Asia/Manila').format("MM/DD/YYYY");
                         var now = moment.tz('Asia/Manila').format("MM/DD/YYYY");
                         //var dComp = new Date(comp);
                         // dNow = new Date(now);
-                        if (full.Progress < 100 && comp >= now) {
-                            return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\')" style="font-size:24px;">' + Course + '</a>';
-                        }
-                        else if (full.Progress <= 100 && comp >= now && full.Score == 0) {
-                            return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\')" style="font-size:24px;">' + Course + ' <span class="fa fa-film"></span></a>';
-                        }
-                        else if (full.Progress <= 100 && comp < now) {
-                             return '<a href="#/" style="font-size:24px; color:grey;">' + Course + '</a>';
-                            //return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\')" style="font-size:24px;">' + Course + ' <span class="fa fa-film"></span></a>';
-                        }
-                        else {
-                            return '<a href="#/" style="font-size:24px; color:green;">' + Course + ' <span class="fa fa-check"></span></a>';
+
+                        //if the retake request is APPROVED
+                        if (full.Status2 === "APPROVED") {
+                            return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\',\'' + full.ID + '\')" style="font-size:24px;">' + Course + '</a>';
                         }
 
+                        //if not yet meet the completion date and progess is not 100%
+                        else if (full.Progress < 100 && comp >= now)
+                        { return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\',\'' + full.ID + '\')" style="font-size:24px;">' + Course + '</a>'; }
+                        //if the course is all about videos
+                        else if (full.Progress <= 100 && comp >= now && full.Score === 0)
+                        { return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\',\'' + full.ID + '\')" style="font-size:24px;">' + Course + ' <span class="fa fa-film"></span></a>'; }
+                        //if progress is less than or equal to 100 and completion date is met ~Disabled for retaking the exam
+                        else if (full.Progress <= 100 && comp < now) {
+                            return '<a href="#/" style="font-size:24px; color:grey;">' + Course + '</a>';
+                            //return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\')" style="font-size:24px;">' + Course + ' <span class="fa fa-film"></span></a>';
+                        }
+                        else
+                        { return '<a href="#/" style="font-size:24px; color:green;">' + Course + ' <span class="fa fa-check"></span></a>'; }
                     }
                 },
                 {
@@ -207,6 +211,20 @@ var BindDataTable = function () {
                             return Score;
                         } else {
                             return 0;
+                        }
+                    }
+                },
+                {
+                    "mData": "Status",
+                    "orderable": false,
+                    "className": "dt-center", "targets": "_all",
+                    "width": "20px",
+                    "render": function (Status, type, full, meta) {
+                        if (Status === 'PASSED') {
+                            return '<label class="text-success">' + Status + '</label>';
+                        }
+                        else {
+                            return '<label class="text-danger">' + Status + '</label>';
                         }
                     }
                 },
@@ -236,6 +254,47 @@ var BindDataTable = function () {
                     "mData": "ConsumedTime",
                     "width": "40px",
                     "orderable": false
+                },
+                {
+                    "mData": "ID",
+                    "orderable": false,
+                    "width": "50px",
+                    "render": function (Progress, type, full, meta) {
+                        debugger
+                        var completionDate = moment.tz(full.CompletionDate, 'Asia/Manila').format("MM/DD/YYYY");
+                        var enrolledDate = moment.tz(full.EnrolledDate, 'Asia/Manila').format("MM/DD/YYYY");
+                        var now = moment.tz('Asia/Manila').format("MM/DD/YYYY");
+
+                        if (full.Course === "Personality Test") {
+                            return '';
+                        }
+                        else {
+                            if (full.Status2 === "WAITING") {
+                                return '<label>Request already sent</label>';
+                            }
+                            else if (full.Status2 === "APPROVED") {
+                                return '<label>Request approved</label>';
+                            }
+                            else if (full.Status2 === "DENIED") {
+                                return '<label>Request denied</label>';
+                            }
+                            else {
+                                //if not yet taking the exam
+                                if (full.Progress === 0 && full.Score === 0) {
+                                    return '';
+                                }
+                                //all course passing is 92 except spelling is 100
+                                //if failed and completion date is not yet meet
+                                else if (full.Score < 92 && completionDate > now) {
+                                    return ''; //<a href="#/"  onclick="reqRetake(\'' + Progress.CourseID + '\')" style="font-size:18px; cursor: not-allowed; text-decoration: none;">Request retake</a>
+                                }
+                                //if failed and completion date is met
+                                else {
+                                    return '<a href="#/"  onclick="reqRetake(\'' + full.ID + '\')" style="font-size:18px;">Request retake</a>';
+                                }
+                            }
+                        }
+                    }
                 }
             ],
             responsive: true,
@@ -252,8 +311,9 @@ var BindDataTable = function () {
     }
 }
 
-var ocSelectThisCourse = function (CID) {
+var ocSelectThisCourse = function (CID,ID) {
     $("#CourseID").val(CID);
+    $("#EmployeeCourseProgressID").val(ID);
     $.ajax({
         type: "POST",
         url: "/Home/CheckCurrentStatus",
@@ -261,9 +321,11 @@ var ocSelectThisCourse = function (CID) {
         success: function (response) {
             debugger
             var result = parseInt(response.res);
+            //check if there's a 'Progress'
             if (result > 0) {
                 $("#modalDeleteUserProgress").modal('show');
-            } else {
+            }
+            else {
                 $("#modalProceedToExam").modal('show');
 
             }
@@ -274,11 +336,12 @@ var ocSelectThisCourse = function (CID) {
 
 var ocDeleteUserProgress = function () {
     var CID = $("#CourseID").val();
+    var ID = $("#EmployeeCourseProgressID").val();
     if (CID != "") {
         $.ajax({
             type: "POST",
             url: "/Home/ResetUserCourseProgress",
-            data: { "CourseID": CID },
+            data: { "CourseID": CID, "CourseProgressID": ID },
             success: function (response) {
                 debugger
                 var result = response.res;
@@ -322,4 +385,20 @@ var ocYesTakeExam = function () {
     var CID = $("#CourseID").val();
     $("#modalProceedToExam").modal('hide');
     window.location.href = "/Exam/Exam?CourseID=" + CID + ""
+}
+
+var reqRetake = function (ID) {
+    $.ajax({
+        type: "POST",
+        url: "/Home/RetakeRequest",
+        data: { "ID": ID },
+        success: function (response) {
+            var result = response.res;
+            if (result === true) {
+                alert("Request sent successfully");
+                BindDataTable();
+            }
+        },
+        error: function (response) { alert(response.res); }
+    });
 }

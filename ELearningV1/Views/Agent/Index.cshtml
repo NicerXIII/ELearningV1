@@ -113,6 +113,7 @@
                                     <li class="active"><a href="#CourseEmployeeListStatus" data-toggle="tab" style="font-weight:600;">Employee List Status <span class="fa fa-hourglass-1"></span></a></li>
                                     <li><a href="#CourseReports" onclick="ocCourseReports()" data-toggle="tab" style="font-weight:600;">Reports <span class="fa fa-folder-open"></span></a></li>
                                     <li><a href="#CoursePersonalityReports" data-toggle="tab" style="font-weight:600;">Personality Reports <span class="fa fa-file-excel-o"></span></a></li>
+                                    <li><a href="#RetakeCourseRequest" onclick="LoadRetakeRequestDataTable()" data-toggle="tab" style="font-weight:600;">Retake Course Requests <span class="fa fa-paste"></span></a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="CourseEmployeeListStatus">
@@ -199,6 +200,25 @@
                                         </div>
                                         <div class="row mt-2">
                                             <div id="container2" style="width:100%; min-width: 500px; height: 400px; margin: 0 auto"></div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="RetakeCourseRequest">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <table id="tblRetakeRequest" class="table table-bordered table-responsive table-striped table-hover" style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>EmployeeNumber</th>
+                                                            <th>Name</th>
+                                                            <th>Course</th>
+                                                            <th>Enrolled Date</th>
+                                                            <th>Completion Date</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -606,6 +626,120 @@
                 });
             },
             error: function (response) { }
+        });
+    }
+
+    var atable;
+    var LoadRetakeRequestDataTable = function () {
+        //if table exist
+        if ($.fn.DataTable.isDataTable("#tblRetakeRequest")) {
+            //Clear table for redraw
+            atable.draw();
+        }
+        else {
+            moment.tz.add("Asia/Manila|+08 +09|-80 -90|010101010|-1kJI0 AL0 cK10 65X0 mXB0 vX0 VK10 1db0|24e6");
+            atable = $("#tblRetakeRequest").DataTable({
+                "bServerSide": true,
+                "processing": true,
+                "sAjaxSource": "/Agent/LoadRetakeRequest",
+                "fnServerData": function (sSource, aoData, fnCallback) {
+                                        
+                    $.ajax({
+                        type: "Get",
+                        data: aoData,
+                        url: sSource,
+                        success: fnCallback
+                    });
+                },
+                "aoColumns": [
+                    {
+                        "mData": "EmployeeNumber",
+                        "orderable": false,
+                        "width": "25px",
+                    },
+                    {
+                        "mData": "Name",
+                        "width": "100px",
+                        "orderable": false
+                    },
+                    {
+                        "mData": "Course",
+                        "width": "100px",
+                        "orderable": false,
+                    },
+                    {
+                        "mData": "EnrolledDate",
+                        "width": "50px",
+                        "orderable": false,
+                        render: function (EnrolledDate, type, row) {
+                            return moment.tz(EnrolledDate, 'Asia/Manila').format("MM/DD/YYYY");
+                        }
+                    },
+                    {
+                        "mData": "CompletionDate",
+                        "width": "50px",
+                        "orderable": false,
+                        render: function (EnrolledDate, type, row) {
+                            return moment.tz(EnrolledDate, 'Asia/Manila').format("MM/DD/YYYY");
+                        }
+                    },
+                    {
+                        "mData": "ID",
+                        "width": "50px",
+                        "orderable": false,
+                        "className": "dt-center",
+                        "render": function (ID, type, meta) {
+                            debugger
+                            return '<a href="#/"  onclick="ApproveRequestRetake(\'' + ID + '\')" style="font-size:14px;"><li class="fa fa-check-circle" title="Approve"></li></a> | <a href="#/"  onclick="DenyRequestRetake(\'' + ID + '\')" style="font-size:14px;"><li class="fa fa-times-circle" title="Deny"></li></a> ';
+                        }
+                    },
+                ],
+                responsive: true,
+                select: { style: 'single' },
+                "bInfo": true,
+                "bPaginate": false,
+                "sScrollY": "300",
+                "scrollX": true,
+                "bScrollCollapse": false,
+                "searching": false,
+                "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]]
+            });
+        }
+    }
+
+    var ApproveRequestRetake = function (ID) {
+        $.ajax({
+            type: "POST",
+            url: "/Agent/SaveDecision",
+            data: { "ID": ID, "Decision": "APPROVED"},
+            success: function (response) {
+                if (response.res === true) {
+                    alert("Successfully saved");
+                    LoadRetakeRequestDataTable();
+                }
+                else {
+                    alert("Error");
+                }
+            },
+            error: function (response) { alert(response.res); }
+        });
+    }
+
+    var DenyRequestRetake = function (ID) {
+        $.ajax({
+            type: "POST",
+            url: "/Agent/SaveDecision",
+            data: { "ID": ID, "Decision": "DENIED" },
+            success: function (response) {
+                if (response.res === true) {
+                    alert("Successfully saved");
+                    LoadRetakeRequestDataTable();
+                }
+                else {
+                    alert("Error");
+                }
+            },
+            error: function (response) { alert(response.res); }
         });
     }
 </script>

@@ -214,6 +214,7 @@
     <Compile Include="Models\ViewModel\VMGetDataToLoadOneByOne.cs" />
     <Compile Include="Models\ViewModel\VMGetEmployeeAnswers.cs" />
     <Compile Include="Models\ViewModel\VMGetEmployeeEnrollDate.cs" />
+    <Compile Include="Models\ViewModel\VMGetEmployeeRequestRetake.cs" />
     <Compile Include="Models\ViewModel\VMGetExamQuestion.cs" />
     <Compile Include="Models\ViewModel\VMGetExamQuestions.cs" />
     <Compile Include="Models\ViewModel\VMGetPDFPath.cs" />
@@ -221,6 +222,7 @@
     <Compile Include="Models\ViewModel\VMGetQuestionID.cs" />
     <Compile Include="Models\ViewModel\VMGetQuestionIDbyEmployeeAnswer.cs" />
     <Compile Include="Models\ViewModel\VMGetQuestionsAndEmployeeAnswers.cs" />
+    <Compile Include="Models\ViewModel\VMGetStatus2.cs" />
     <Compile Include="Models\ViewModel\VMGetVideoPath.cs" />
     <Compile Include="Models\ViewModel\VMKioskLogInUser.cs" />
     <Compile Include="Models\ViewModel\VMLogHistory.cs" />

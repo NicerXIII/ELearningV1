@@ -204,5 +204,44 @@ namespace ELearningV1.Controllers
             return response;
 
         }
+
+        public JsonResult LoadRetakeRequest(DataTablesParam param)
+        {
+            List<VMGetEmployeeRequestRetake> QuestList = new List<VMGetEmployeeRequestRetake>();
+            var userID = Session["EmployeeNumber"].ToString();
+            int pageNo = 1;
+            int totalCount = 0;
+
+            if (param.iDisplayStart >= param.iDisplayLength)
+            { pageNo = (param.iDisplayStart / param.iDisplayLength) + 1; }
+
+            totalCount = SQLcon.getEmpRequest().Count();
+            QuestList = SQLcon.getEmpRequest().Select(x => new VMGetEmployeeRequestRetake
+            {
+                ID = x.ID,
+                EmployeeNumber = x.EmployeeNumber,
+                Name = x.Name,
+                Course = x.Course,
+                EnrolledDate = x.EnrolledDate,
+                CompletionDate = x.CompletionDate
+            }).AsEnumerable().ToList();
+
+            return Json(new
+            {
+                aaData = QuestList,
+                eEcho = param.sEcho,
+                iTotalDisplayRecords = totalCount,
+                iTotalRecords = QuestList.Count()
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SaveDecision(string ID, string Decision)
+        {
+            var response = new JsonResult();
+            try
+            { response.Data = new { res = SQLcon.saveDecision(ID, Decision) }; }
+            catch (Exception ex) { }
+            return response;
+        }
     }
 }

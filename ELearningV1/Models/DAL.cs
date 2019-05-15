@@ -148,7 +148,7 @@ namespace ELearningV1.Models
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {
-                using (SqlCommand com = new SqlCommand("Update ELearningCourseProgress SET Progress='0',Score='0' Where EmployeeNumber='" + EmployeeNumber + "' And CourseID='" + CourseID + "' And Status1 is null", con))
+                using (SqlCommand com = new SqlCommand("UPDATE ELearningCourseProgress SET Progress='0',Score='0',Status1=NULL WHERE EmployeeNumber='" + EmployeeNumber + "' AND CourseID='" + CourseID + "' AND Status1 IN (NULL,'FAILED')", con))
                 {
                     try
                     {
@@ -535,6 +535,8 @@ namespace ELearningV1.Models
                             courseprog.EnrolledDate = Convert.ToDateTime(dr["EnrolledDate"]);
                             courseprog.CompletionDate = Convert.ToDateTime(dr["CompletionDate"]);
                             courseprog.ConsumedTime = Convert.ToString(dr["ConsumedTime"]);
+                            courseprog.Status = dr["Status1"].ToString();
+                            courseprog.Status2 = dr["Status2"].ToString();
                             CourseProgList.Add(courseprog);
                         }
                         return CourseProgList;
@@ -2180,5 +2182,131 @@ namespace ELearningV1.Models
             return null;
         }
         #endregion
+
+        public bool sendRetakeRequest(string ID, string user)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningSendRetakeRequest", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@CourseProgressID", ID);
+                        cmd.Parameters.AddWithValue("@EmployeeNumber", user);
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    { return false; }
+                    finally
+                    { con.Close(); }
+                }
+            }
+        }
+
+        public VMGetEmployeeRequestRetakeList getEmpRequest()
+        {
+            VMGetEmployeeRequestRetakeList EmployeeCourseStatusList = new VMGetEmployeeRequestRetakeList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningGetRetakeRequest", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+                            con.Open();
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                VMGetEmployeeRequestRetake empstatus = new VMGetEmployeeRequestRetake();
+                                empstatus.ID = dr["ID"].ToString();
+                                empstatus.EmployeeNumber = dr["EmployeeNumber"].ToString();
+                                empstatus.Name = dr["Name"].ToString();
+                                empstatus.Course = dr["Course"].ToString();
+                                empstatus.EnrolledDate = dr["EnrolledDate"].ToString();
+                                empstatus.CompletionDate = dr["CompletionDate"].ToString();
+                                EmployeeCourseStatusList.Add(empstatus);
+                            }
+
+                            return EmployeeCourseStatusList;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public bool saveDecision(string ID, string Decision)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningUpdateRequestRetake", con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ID", ID);
+                        cmd.Parameters.AddWithValue("@Decision", Decision);
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    { return false; }
+                    finally
+                    { con.Close(); }
+                }
+            }
+        }
+
+        public VMGetStatus2List getStatus2(string ID)
+        {
+            VMGetStatus2List StatusList = new VMGetStatus2List();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("SELECT Status2 FROM ELEARNINGCOURSEPROGRESS WHERE ID ='"+ ID+"'", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+                            con.Open();
+                            cmd.CommandType = CommandType.Text;
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                VMGetStatus2 empstatus = new VMGetStatus2();
+                                empstatus.Status2 = dr["Status2"].ToString();
+                                StatusList.Add(empstatus);
+                            }
+
+                            return StatusList;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+            return null;
+        }
     }
 }

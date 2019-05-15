@@ -111,7 +111,9 @@ namespace ELearningV1.Controllers
                 Score = x.Score,
                 EnrolledDate = x.EnrolledDate,
                 CompletionDate = x.CompletionDate,
-                ConsumedTime = x.ConsumedTime
+                ConsumedTime = x.ConsumedTime,
+                Status = x.Status,
+                Status2 = x.Status2
             }).AsEnumerable().ToList();
 
             return Json(new
@@ -189,18 +191,29 @@ namespace ELearningV1.Controllers
             return response;
         }
 
-        public ActionResult ResetUserCourseProgress(string CourseID)
+        public ActionResult ResetUserCourseProgress(string CourseID, string CourseProgressID)
         {
             var response = new JsonResult();
             var userID = Session["EmployeeNumber"].ToString();
             var UserStats = SQLcon.SelectEmployeeProgressByEmpIDAndCourseID(userID, CourseID).Select(x => x.Status1).SingleOrDefault();
 
+            //Check if status2 is approved or denied 
+            //If approved, he can retake the course
+            var result = SQLcon.getStatus2(CourseProgressID).Select(x=>x.Status2).FirstOrDefault().ToString();
+
             try
             {
-                if (UserStats != "")
-                {   response.Data = new{ res = false};  }
+                if (UserStats != "" || UserStats != null)
+                {
+                    if (result =="DENIED" || result == null || result == "DONE")
+                    {   response.Data = new { res = false };    }
+
+                    //if APPROVED
+                    else
+                    { response.Data = new { res = SQLcon.ResetCourseProgressByCourseIDAndUserID(userID, CourseID) };    }
+                }
                 else
-                {   response.Data = new {  res = SQLcon.ResetCourseProgressByCourseIDAndUserID(userID, CourseID) }; }
+                {   response.Data = new { res = SQLcon.ResetCourseProgressByCourseIDAndUserID(userID, CourseID) }; }
             }
             catch (Exception ex) { }
             return response;
@@ -229,6 +242,16 @@ namespace ELearningV1.Controllers
             catch (Exception ex) { }
 
             return response;
+        }
+
+        public ActionResult RetakeRequest(string ID)
+        {
+            var response = new JsonResult();
+            var user = Session["EmployeeNumber"].ToString();
+            try
+            {   response.Data = new { res = SQLcon.sendRetakeRequest(ID,user) }; }
+            catch (Exception ex) { }
+            return response;            
         }
     }
 }

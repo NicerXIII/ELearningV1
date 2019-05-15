@@ -17,6 +17,8 @@ namespace ELearningV1.Models.ViewModel
         public DateTime EnrolledDate { get; set; }
         public DateTime? CompletionDate { get; set; }
         public string ConsumedTime { get; set; }
+        public string Status { get; set; }
+        public string Status2 { get; set; }
     }
 
     public class VMELearningCousesProgressList : List<VMELearningCousesProgress> { }
