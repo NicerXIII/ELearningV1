@@ -168,23 +168,19 @@ var BindDataTable = function () {
                         var now = moment.tz('Asia/Manila').format("MM/DD/YYYY");
                         //var dComp = new Date(comp);
                         // dNow = new Date(now);
-                        
+
                         //if the retake request is APPROVED
-                        if (full.Status2 === "APPROVED")
-                        {   return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\',\'' + full.ID + '\')" style="font-size:24px;">' + Course + '</a>';  }
+                        if (full.Status2 === "APPROVED") { return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\',\'' + full.ID + '\')" style="font-size:24px;">' + Course + '</a>'; }
                         //if not yet meet the completion date and progess is not 100%
-                        else if (full.Progress < 100 && comp >= now)
-                        { return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\',\'' + full.ID + '\')" style="font-size:24px;">' + Course + '</a>'; }
+                        else if (full.Progress < 100 && comp >= now) { return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\',\'' + full.ID + '\')" style="font-size:24px;">' + Course + '</a>'; }
                         //if the course is all about videos
-                        else if (full.Progress <= 100 && comp >= now && full.Score === 0)
-                        { return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\',\'' + full.ID + '\')" style="font-size:24px;">' + Course + ' <span class="fa fa-film"></span></a>'; }
+                        else if (full.Progress <= 100 && comp >= now && full.Score === 0) { return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\',\'' + full.ID + '\')" style="font-size:24px;">' + Course + ' <span class="fa fa-film"></span></a>'; }
                         //if progress is less than or equal to 100 and completion date is met ~Disabled for retaking the exam
                         else if (full.Progress <= 100 && comp < now) {
                             return '<a href="#/" style="font-size:24px; color:grey;">' + Course + '</a>';
                             //return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\')" style="font-size:24px;">' + Course + ' <span class="fa fa-film"></span></a>';
                         }
-                        else
-                        { return '<a href="#/" style="font-size:24px; color:green;">' + Course + ' <span class="fa fa-check"></span></a>'; }                  
+                        else { return '<a href="#/" style="font-size:24px; color:green;">' + Course + ' <span class="fa fa-check"></span></a>'; }
                     }
                 },
                 {
@@ -265,10 +261,13 @@ var BindDataTable = function () {
 
                         var courseee = full.Course;
 
-                        if (full.Course === "Personality Test" || full.Course === "Speak English Naturally" || courseee.includes("Spelling") === true) {
+                        //Automatically no retake if the completion date is met						
+                        if (full.Course === "Personality Test" || courseee.includes("Spelling") === true || full.Status === "PASSED") { //full.Course === "Speak English Naturally" || 
                             return '';
                         }
-                        else {
+
+                        //For those who request a retake
+                        if (full.Status2 !== "" || full.Statu2 !== null) {
                             if (full.Status2 === "WAITING") {
                                 return '<label>Request already sent</label>';
                             }
@@ -278,20 +277,45 @@ var BindDataTable = function () {
                             else if (full.Status2 === "DENIED") {
                                 return '<label>Request denied</label>';
                             }
-                            else {
-                                //if not yet taking the exam
-                                if (full.Progress === 0 && full.Score === 0) {
+                            //DONE
+                            else { return ''; }
+                        }
+                        //For those who not request a retake
+
+						/**
+							According to sir Ranil, all UNFINISHED and FAILED course CAN request a retake
+							
+							All course passing is 92(una nyang sinabi) tas naging 90 except spelling need 100
+						**/
+                        else {
+                            //
+
+                            //if not yet taking the course
+                            if (full.Progress === 0 && full.Score === 0) {
+                                if (now > completionDate) {
+                                    return '<a href="#/"  onclick="reqRetake(\'' + full.ID + '\')" style="font-size:18px;">Request retake</a>';
+                                }
+                                else { return ''; }
+                            }
+
+                            //If not yet done in his course
+                            if (full.Progress < 100 && full.Progress > 1) {
+                                //If he met the completion date
+                                if (now > completionDate) {
+                                    return '<a href="#/"  onclick="reqRetake(\'' + full.ID + '\')" style="font-size:18px;">Request retake</a>';
+                                }
+                                else {
                                     return '';
                                 }
-                                //all course passing is 92 except spelling is 100
-                                //if failed and completion date is not yet meet
-                                else if (completionDate > now) //full.Score < 92 && 
-                                {
-                                    return ''; //<a href="#/"  onclick="reqRetake(\'' + Progress.CourseID + '\')" style="font-size:18px; cursor: not-allowed; text-decoration: none;">Request retake</a>
-                                }
-                                //if failed and completion date is met
-                                else {
+                            }
+
+                            //When employee is done
+                            if (full.Progress === 100) {
+                                if (now > completionDate) {
                                     return '<a href="#/"  onclick="reqRetake(\'' + full.ID + '\')" style="font-size:18px;">Request retake</a>';
+                                }
+                                else {
+                                    return '';
                                 }
                             }
                         }
@@ -312,7 +336,7 @@ var BindDataTable = function () {
     }
 }
 
-var ocSelectThisCourse = function (CID,ID) {
+var ocSelectThisCourse = function (CID, ID) {
     $("#CourseID").val(CID);
     $("#EmployeeCourseProgressID").val(ID);
     $.ajax({
