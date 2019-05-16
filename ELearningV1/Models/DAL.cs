@@ -148,11 +148,13 @@ namespace ELearningV1.Models
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {
-                using (SqlCommand com = new SqlCommand("UPDATE ELearningCourseProgress SET Progress='0',Score='0',Status1=NULL WHERE EmployeeNumber='" + EmployeeNumber + "' AND CourseID='" + CourseID + "' AND Status1 IN (NULL,'FAILED')", con))
+                using (SqlCommand com = new SqlCommand("ELearningUpdateEmployeeCourseProgress", con))
                 {
                     try
                     {
-                        com.CommandType = CommandType.Text;
+                        com.CommandType = CommandType.StoredProcedure;
+                        com.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                        com.Parameters.AddWithValue("@CourseID", CourseID);
                         con.Open();
                         com.ExecuteNonQuery();
                         con.Close();
@@ -170,11 +172,13 @@ namespace ELearningV1.Models
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {
-                using (SqlCommand com = new SqlCommand("Delete From ELearningEmpAnswer Where EmployeeNumber='" + EmployeeNumber + "' And CourseID='" + CourseID + "'", con))
+                using (SqlCommand com = new SqlCommand("ELearningDeleteEmployeeAnswer", con))
                 {
                     try
                     {
-                        com.CommandType = CommandType.Text;
+                        com.CommandType = CommandType.StoredProcedure;
+                        com.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                        com.Parameters.AddWithValue("@CourseID", CourseID);
                         con.Open();
                         com.ExecuteNonQuery();
                         con.Close();

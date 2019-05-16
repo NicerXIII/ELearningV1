@@ -168,12 +168,10 @@ var BindDataTable = function () {
                         var now = moment.tz('Asia/Manila').format("MM/DD/YYYY");
                         //var dComp = new Date(comp);
                         // dNow = new Date(now);
-
+                        
                         //if the retake request is APPROVED
-                        if (full.Status2 === "APPROVED") {
-                            return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\',\'' + full.ID + '\')" style="font-size:24px;">' + Course + '</a>';
-                        }
-
+                        if (full.Status2 === "APPROVED")
+                        {   return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\',\'' + full.ID + '\')" style="font-size:24px;">' + Course + '</a>';  }
                         //if not yet meet the completion date and progess is not 100%
                         else if (full.Progress < 100 && comp >= now)
                         { return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\',\'' + full.ID + '\')" style="font-size:24px;">' + Course + '</a>'; }
@@ -186,7 +184,7 @@ var BindDataTable = function () {
                             //return '<a href="#/"  onclick="ocSelectThisCourse(\'' + full.CourseID + '\')" style="font-size:24px;">' + Course + ' <span class="fa fa-film"></span></a>';
                         }
                         else
-                        { return '<a href="#/" style="font-size:24px; color:green;">' + Course + ' <span class="fa fa-check"></span></a>'; }
+                        { return '<a href="#/" style="font-size:24px; color:green;">' + Course + ' <span class="fa fa-check"></span></a>'; }                  
                     }
                 },
                 {
@@ -265,7 +263,9 @@ var BindDataTable = function () {
                         var enrolledDate = moment.tz(full.EnrolledDate, 'Asia/Manila').format("MM/DD/YYYY");
                         var now = moment.tz('Asia/Manila').format("MM/DD/YYYY");
 
-                        if (full.Course === "Personality Test") {
+                        var courseee = full.Course;
+
+                        if (full.Course === "Personality Test" || full.Course === "Speak English Naturally" || courseee.includes("Spelling") === true) {
                             return '';
                         }
                         else {
