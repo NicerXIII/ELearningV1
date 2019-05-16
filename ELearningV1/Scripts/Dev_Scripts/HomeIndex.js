@@ -285,7 +285,8 @@ var BindDataTable = function () {
                                 }
                                 //all course passing is 92 except spelling is 100
                                 //if failed and completion date is not yet meet
-                                else if (full.Score < 92 && completionDate > now) {
+                                else if (completionDate > now) //full.Score < 92 && 
+                                {
                                     return ''; //<a href="#/"  onclick="reqRetake(\'' + Progress.CourseID + '\')" style="font-size:18px; cursor: not-allowed; text-decoration: none;">Request retake</a>
                                 }
                                 //if failed and completion date is met
