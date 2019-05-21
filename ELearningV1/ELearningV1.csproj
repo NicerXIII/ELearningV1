@@ -219,6 +219,7 @@
     <Compile Include="Models\ViewModel\VMGetExamQuestions.cs" />
     <Compile Include="Models\ViewModel\VMGetPDFPath.cs" />
     <Compile Include="Models\ViewModel\VMGetPersonalityTestResult.cs" />
+    <Compile Include="Models\ViewModel\VMGetQuestionDetails.cs" />
     <Compile Include="Models\ViewModel\VMGetQuestionID.cs" />
     <Compile Include="Models\ViewModel\VMGetQuestionIDbyEmployeeAnswer.cs" />
     <Compile Include="Models\ViewModel\VMGetQuestionsAndEmployeeAnswers.cs" />

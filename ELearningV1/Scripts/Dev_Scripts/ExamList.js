@@ -751,7 +751,8 @@ var BindQuestionTable = function () {
                     "orderable": false,
                     "width": "100px",
                     "render": function (ID, type, full, meta) {
-                        return '<a href="#/" onclick="EditQuestion(\'' + ID + '\',\'' + full.Question + '\',\'' + full.QuestionType + '\',\'' + full.C1 + '\',\'' + full.C2 + '\',\'' + full.C3 + '\',\'' + full.C4 + '\',\'' + full.CAnswer1 + '\',\'' + full.CAnswer2 + '\',\'' + full.CAnswer3 + '\',\'' + full.CAnswer4 + '\',\'' + full.CourseSectionID + '\',\'' + full.CourseID + '\')"> <i class="fa fa-pencil" title="Edit"></i> ' + " " + "Edit" + '</a> | <a href="#/" onclick="DeleteSelectedQuestion(\'' + ID + '\')"> <i class="fa fa-times" title="Delete"></i> ' + " " + "Delete" + '</a>';
+                        return '<a href="#/" onclick="EditQuestion(\'' + ID + '\',\'' + full.QuestionType + '\',\'' + full.CourseSectionID + '\',\'' + full.CourseID + '\')"> <i class="fa fa-pencil" title="Edit"></i> ' + " " + "Edit" + '</a> | <a href="#/" onclick="DeleteSelectedQuestion(\'' + ID + '\')"> <i class="fa fa-times" title="Delete"></i> ' + " " + "Delete" + '</a>';
+                        //return '<a href="#/" onclick="EditQuestion(\'' + ID + '\',\'' + full.Question + '\',\'' + full.QuestionType + '\',\'' + full.C1 + '\',\'' + full.C2 + '\',\'' + full.C3 + '\',\'' + full.C4 + '\',\'' + full.CAnswer1 + '\',\'' + full.CAnswer2 + '\',\'' + full.CAnswer3 + '\',\'' + full.CAnswer4 + '\',\'' + full.CourseSectionID + '\',\'' + full.CourseID + '\')"> <i class="fa fa-pencil" title="Edit"></i> ' + " " + "Edit" + '</a> | <a href="#/" onclick="DeleteSelectedQuestion(\'' + ID + '\')"> <i class="fa fa-times" title="Delete"></i> ' + " " + "Delete" + '</a>';
                     }
                 },
             ],
@@ -768,76 +769,97 @@ var BindQuestionTable = function () {
     }
 }
 
-var EditQuestion = function (ID, Question, Type, C1, C2, C3, C4, CAns, CAns2, CAns3, CAns4, CourSecID, CouID) {
-    //alert("Edit: " + " ID: " + ID + ' & ' + "Question: " + Question + ' & ' + "Type: " + Type + ' & ' + "Choice1: " + C1 + ' & ' + "Choice2: " + C2 + ' & ' + "Choice3: " + C3 + ' & ' + "Choice4: " + C4 + ' & ' + "Correct Answer: " + CAns + ' & ' + "CourSecID: " + CourSecID + ' & ' + "CourID: " + CouID);
-    debugger
-    document.getElementById("chckMCOne").checked = false;
-    document.getElementById("chckMCTwo").checked = false;
-    document.getElementById("chckMCThree").checked = false;
-    document.getElementById("chckMCFour").checked = false;
+var Question, C1, C2, C3, C4, CAns, CAns2, CAns3, CAns4;
+var EditQuestion = function (ID, Type, CourSecID, CouID) { //, Question, C1, C2, C3, C4, CAns, CAns2, CAns3, CAns4
+    $.ajax({
+        type: "POST",
+        url: "/Exam/GetQuestionDetails",
+        data: { "ID": ID },
+        success: function (response) {
+            debugger
+            Question = response.res[0].Question;
+            C1 = response.res[0].C1;
+            C2 = response.res[0].C2;
+            C3 = response.res[0].C3;
+            C4 = response.res[0].C4;
+            CAns = response.res[0].CAnswer1;
+            CAns2 = response.res[0].CAnswer2;
+            CAns3 = response.res[0].CAnswer3;
+            CAns4 = response.res[0].CAnswer4;
 
-    document.getElementById("chckMCOA1").checked = false;
-    document.getElementById("chckMCOA2").checked = false;
-    document.getElementById("chckMCOA3").checked = false;
-    document.getElementById("chckMCOA4").checked = false;
+            document.getElementById("chckMCOne").checked = false;
+            document.getElementById("chckMCTwo").checked = false;
+            document.getElementById("chckMCThree").checked = false;
+            document.getElementById("chckMCFour").checked = false;
 
-    $("#textQuestion").val(Question);
-    $("#QuestionID").val(ID);
-    document.getElementById("ddquestionType").selectedIndex = Type - 1;
+            document.getElementById("chckMCOA1").checked = false;
+            document.getElementById("chckMCOA2").checked = false;
+            document.getElementById("chckMCOA3").checked = false;
+            document.getElementById("chckMCOA4").checked = false;
 
-    var b = document.getElementById("mc");
-    var c = document.getElementById("mcoa");
+            $("#textQuestion").val(Question);
+            $("#QuestionID").val(ID);
+            document.getElementById("ddquestionType").selectedIndex = Type - 1;
 
-    if (Type == "2") {
-        b.style.display = "block";
-        c.style.display = "none";
+            var b = document.getElementById("mc");
+            var c = document.getElementById("mcoa");
 
-        $("#txtMCOne").val(C1);
-        $("#txtMCTwo").val(C2);
-        $("#txtMCThree").val(C3);
-        $("#txtMCFour").val(C4);
+            if (Type === "2") {
+                b.style.display = "block";
+                c.style.display = "none";
 
-        //var temp = new Array();
-        //temp = CAns.split(",");
+                $("#txtMCOne").val(C1);
+                $("#txtMCTwo").val(C2);
+                $("#txtMCThree").val(C3);
+                $("#txtMCFour").val(C4);
 
-        //for (var data in temp) {
-        //alert(temp[data]);
-        if (CAns === C1 || CAns2 === C1 || CAns3 === C1 || CAns4 === C1) {
-            document.getElementById("chckMCOne").checked = true;
+                //var temp = new Array();
+                //temp = CAns.split(",");
+
+                //for (var data in temp) {
+                //alert(temp[data]);
+                if (CAns === C1 || CAns2 === C1 || CAns3 === C1 || CAns4 === C1) {
+                    document.getElementById("chckMCOne").checked = true;
+                }
+                if (CAns === C2 || CAns2 === C2 || CAns3 === C2 || CAns4 === C2) {
+                    document.getElementById("chckMCTwo").checked = true;
+                }
+                if (CAns === C3 || CAns2 === C3 || CAns3 === C3 || CAns4 === C3) {
+                    document.getElementById("chckMCThree").checked = true;
+                }
+                if (CAns === C4 || CAns2 === C4 || CAns3 === C4 || CAns4 === C4) {
+                    document.getElementById("chckMCFour").checked = true;
+                }
+                //}
+            }
+            else {
+                c.style.display = "block";
+                b.style.display = "none";
+
+                $("#txtMCOA1").val(C1);
+                $("#txtMCOA2").val(C2);
+                $("#txtMCOA3").val(C3);
+                $("#txtMCOA4").val(C4);
+
+                if (CAns === C1 || CAns2 === C1 || CAns3 === C1 || CAns4 === C1) {
+                    document.getElementById("chckMCOA1").checked = true;
+                }
+                if (CAns === C2 || CAns2 === C2 || CAns3 === C2 || CAns4 === C2) {
+                    document.getElementById("chckMCOA2").checked = true;
+                }
+                if (CAns === C3 || CAns2 === C3 || CAns3 === C3 || CAns4 === C3) {
+                    document.getElementById("chckMCOA3").checked = true;
+                }
+                if (CAns === C4 || CAns2 === C4 || CAns3 === C4 || CAns4 === C4) {
+                    document.getElementById("chckMCOA4").checked = true;
+                }
+            }
+        },
+        error: function (response) {
+
         }
-        if (CAns === C2 || CAns2 === C2 || CAns3 === C2 || CAns4 === C2) {
-            document.getElementById("chckMCTwo").checked = true;
-        }
-        if (CAns === C3 || CAns2 === C3 || CAns3 === C3 || CAns4 === C3) {
-            document.getElementById("chckMCThree").checked = true;
-        }
-        if (CAns === C4 || CAns2 === C4 || CAns3 === C4 || CAns4 === C4) {
-            document.getElementById("chckMCFour").checked = true;
-        }
-        //}
-    }
-    else {
-        c.style.display = "block";
-        b.style.display = "none";
-
-        $("#txtMCOA1").val(C1);
-        $("#txtMCOA2").val(C2);
-        $("#txtMCOA3").val(C3);
-        $("#txtMCOA4").val(C4);
-
-        if (CAns === C1) {
-            document.getElementById("chckMCOA1").checked = true;
-        }
-        if (CAns2 === C2) {
-            document.getElementById("chckMCOA2").checked = true;
-        }
-        if (CAns3 === C3) {
-            document.getElementById("chckMCOA3").checked = true;
-        }
-        if (CAns4 === C4) {
-            document.getElementById("chckMCOA4").checked = true;
-        }
-    }
+    });
+    
 }
 
 var DeleteSelectedQuestion = function (ID) {

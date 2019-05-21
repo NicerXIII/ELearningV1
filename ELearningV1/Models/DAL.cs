@@ -962,6 +962,52 @@ namespace ELearningV1.Models
             }
             return "true";
         }
+
+        public VMGetQuestionDetailsList getQuestDetail(string ID)
+        {
+            VMGetQuestionDetailsList QuestDetail = new VMGetQuestionDetailsList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningGetQuestionDetail", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@ID", ID);
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                VMGetQuestionDetails question = new VMGetQuestionDetails();
+                                question.Question = dr["Question"].ToString();
+                                question.C1 = dr["C1"].ToString();
+                                question.C2 = dr["C2"].ToString();
+                                question.C3 = dr["C3"].ToString();
+                                question.C4 = dr["C4"].ToString();
+                                question.CAnswer1 = dr["CAnswer1"].ToString();
+                                question.CAnswer2 = dr["CAnswer2"].ToString();
+                                question.CAnswer3 = dr["CAnswer3"].ToString();
+                                question.CAnswer4 = dr["CAnswer4"].ToString();
+                                QuestDetail.Add(question);
+                            }
+                            return QuestDetail;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+
+            return null;
+        }
         #endregion
 
         #region Getting Questions and answers
@@ -2187,6 +2233,7 @@ namespace ELearningV1.Models
         }
         #endregion
 
+        #region For Retake function in Index module        
         public bool sendRetakeRequest(string ID, string user)
         {
             using (SqlConnection con = new SqlConnection(Cons))
@@ -2312,5 +2359,6 @@ namespace ELearningV1.Models
             }
             return null;
         }
+        #endregion
     }
 }

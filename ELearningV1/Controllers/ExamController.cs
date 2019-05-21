@@ -571,9 +571,7 @@ namespace ELearningV1.Controllers
             response.Data = SQLcon.ViewCourseSectionByID(CourseID).Where(x => x.OrderSec == Convert.ToInt32(OrderSec)).OrderBy(x => x.OrderSec).SingleOrDefault();
             return response;
         }
-
-        #endregion
-
+        //////////////////////////////////
         public ActionResult GetQuizRadioIDbyCourseID(string CourseID, string SectionID)
         {
             DAL SQLcon = new DAL();
@@ -849,6 +847,48 @@ namespace ELearningV1.Controllers
                 iTotalDisplayRecords = totalCount,
                 iTotalRecords = QuestList.Count()
             }, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+        public ActionResult GetQuestionDetails(DataTablesParam param, string ID)
+        {
+            List<VMGetQuestionDetails> QuestList = new List<VMGetQuestionDetails>();
+            /**
+            int pageNo = 1;
+            int totalCount = 0;
+
+            if (param.iDisplayStart >= param.iDisplayLength)
+            { pageNo = (param.iDisplayStart / param.iDisplayLength) + 1; }
+
+            totalCount = SQLcon.getQuestDetail(ID).Count();
+
+            if (totalCount == 0)
+            { totalCount = 0; }
+            **/
+            QuestList = SQLcon.getQuestDetail(ID).Select(x => new VMGetQuestionDetails
+            {
+                Question = x.Question,
+                C1 = x.C1,
+                C2 = x.C2,
+                C3 = x.C3,
+                C4 = x.C4,
+                CAnswer1 = x.CAnswer1,
+                CAnswer2 = x.CAnswer2,
+                CAnswer3 = x.CAnswer3,
+                CAnswer4 = x.CAnswer4
+            }).AsEnumerable().ToList();
+
+            //return Json(new
+            //{
+            //    aaData = QuestList,
+            //    eEcho = param.sEcho,
+            //    iTotalDisplayRecords = totalCount,
+            //    iTotalRecords = QuestList.Count()
+            //}, JsonRequestBehavior.AllowGet);
+            var response = new JsonResult();
+            response.Data = new
+            { res = QuestList };
+            return response;
         }
     }
 }
