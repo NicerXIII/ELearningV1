@@ -188,6 +188,9 @@ namespace ELearningV1.Controllers
             string result = "";
 
             #region Condition
+            if (Question.Contains("'"))
+            {   Question = Question.Replace("'","\\'");  }
+            /**
             if (Answer1 == "" || Answer1 == null)
             { }
             else if (Answer2 == "" || Answer2 == null)
@@ -196,6 +199,7 @@ namespace ELearningV1.Controllers
             { }
             else if (Answer4 == "" || Answer4 == null)
             { }
+            **/
             #endregion
 
             string[] Arraydata = new string[] { };
@@ -240,6 +244,8 @@ namespace ELearningV1.Controllers
             var result = "";
             try
             {
+                if (Question.Contains("'"))
+                {   Question = Question.Replace("'", "\\'"); }
                 if (CorAns1 == "" || CorAns1 == null)
                 { CorAns1 = "NULL"; }
                 if (CorAns2 == "" || CorAns2 == null)

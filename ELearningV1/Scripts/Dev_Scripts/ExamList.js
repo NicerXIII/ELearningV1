@@ -296,8 +296,7 @@ var BindDataTable = function () {
                             // INSIDE viewQuestionList nakalagay
                             //  \'' + full.ID + '\',\'' + full.CourseID + '\'
                             return '<a href="#/" onclick="viewQuestionList(\'' + full.ID + '\',\'' + full.CourseID + '\',\'' + Title + '\')"> <i class="glyphicon glyphicon-check"></i> ' + " " + Title + '</a>';
-                        } else if (full.Type != "Test" && full.Type != "Video" && full.Type == "VideoExam")
-                        {
+                        } else if (full.Type != "Test" && full.Type != "Video" && full.Type == "VideoExam") {
                             return '<a href="#/" onclick="viewQuestionList(\'' + full.ID + '\',\'' + full.CourseID + '\',\'' + Title + '\')"> <span class="fa fa-film">&nbsp;</span><i class="glyphicon glyphicon-check"></i> ' + " " + Title + '</a>';
                         }
                         else if (full.Type != "Test" && full.Type != "Video" && full.Type == "PDF") {
@@ -776,7 +775,6 @@ var EditQuestion = function (ID, Type, CourSecID, CouID) { //, Question, C1, C2,
         url: "/Exam/GetQuestionDetails",
         data: { "ID": ID },
         success: function (response) {
-            debugger
             Question = response.res[0].Question;
             C1 = response.res[0].C1;
             C2 = response.res[0].C2;
@@ -797,7 +795,14 @@ var EditQuestion = function (ID, Type, CourSecID, CouID) { //, Question, C1, C2,
             document.getElementById("chckMCOA3").checked = false;
             document.getElementById("chckMCOA4").checked = false;
 
-            $("#textQuestion").val(Question);
+            debugger
+            var questWithOutSlice = Question;
+            if (Question.includes("\'")) {
+                questWithOutSlice = Question.replace(/[&\/\\#,+()$~%.":*?<>{}]/g, "");
+                questWithOutSlice.charAt(0).toUpperCase() + questWithOutSlice.substring(1);
+            }
+            
+            $("#textQuestion").val(questWithOutSlice); //Question
             $("#QuestionID").val(ID);
             document.getElementById("ddquestionType").selectedIndex = Type - 1;
 
@@ -859,7 +864,7 @@ var EditQuestion = function (ID, Type, CourSecID, CouID) { //, Question, C1, C2,
 
         }
     });
-    
+
 }
 
 var DeleteSelectedQuestion = function (ID) {
