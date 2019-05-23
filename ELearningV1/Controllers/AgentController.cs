@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.IO;
+using System.Text;
 using System.Web.Mvc;
 using ELearningV1.Models;
 using ELearningV1.Models.ViewModel;
 using KioskVersion3.Models.ViewModel;
+using ELearningV1.Views.Agent.Reports;
 
 namespace ELearningV1.Controllers
 {
@@ -242,6 +245,32 @@ namespace ELearningV1.Controllers
             { response.Data = new { res = SQLcon.saveDecision(ID, Decision) }; }
             catch (Exception ex) { }
             return response;
+        }
+
+        public ActionResult ExportELearningCourseProgress(/**DataTablesParam param,**/ string fileType)
+        {
+            Stream oStream;
+            EmployeeCourseProgress rpt = new EmployeeCourseProgress();
+            string contentType = "";
+            if (fileType == "CSV")
+            {
+                rpt.Refresh();
+                rpt.SetDatabaseLogon("sa", "s3cur3d");
+                oStream = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                contentType = "application/vnd.xls";
+                rpt.Dispose();
+                    
+            }
+            else
+            {
+                rpt.Refresh();
+                rpt.SetDatabaseLogon("sa", "s3cur3d");
+                oStream = rpt.ExportToStream(CrystalDecisions.Shared.ExportFormatType.ExcelRecord);
+                contentType = "application/vnd.ms-excel";
+                rpt.Dispose();
+            }
+            return new FileStreamResult(oStream, contentType);
+            //return null;
         }
     }
 }
