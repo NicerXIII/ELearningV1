@@ -263,7 +263,10 @@ var BindDataTable = function () {
 
                         //Automatically no retake if the completion date is met						
                         if (full.Course === "Personality Test" || courseee.includes("Spelling") === true || full.Status === "PASSED") { //full.Course === "Speak English Naturally" || 
-                            return '';
+                            if (now > completionDate) {
+                                return '<a href="#/"  onclick="reqRetake(\'' + full.ID + '\')" style="font-size:18px;">Request retake</a>';
+                            }
+                            else { return ''; }
                         }
 
                         //For those who request a retake
