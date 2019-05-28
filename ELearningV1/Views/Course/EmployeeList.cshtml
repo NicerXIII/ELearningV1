@@ -1,0 +1,272 @@
+﻿
+@{
+    ViewBag.Title = "Employee List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .margin {
+        margin-left: 50px;
+    }
+
+    .mt-1 {
+        margin-top: 5px;
+    }
+
+    .mt-2 {
+        margin-top: 10px;
+    }
+
+    .mt-3 {
+        margin-top: 15px;
+    }
+
+    .mt-4 {
+        margin-top: 20px;
+    }
+
+    .mt5 {
+        margin-top: 25px;
+    }
+</style>
+
+<div class="content" style="padding: 0px 0px 0px 0px;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 style="font-weight:700; font-size:24px;">Employee List</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <h4 style="font-weight:700; font-size:20px;">Employees</h4>
+                                <table id="tblEmployeeList" class="table table-striped table-hover table-responsive" style="min-width:500px;">
+                                    <thead style="font-size:18px;">
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Full Name</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="font-size:16px;"></tbody>
+                                </table>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <h4 style="font-weight:700; font-size:20px;">Applied Courses of: <label id="EmployeeNumber"></label></h4>
+                                <table id="tblAppliedCourse" class="table table-striped table-hover table-responsive" style="min-width:500px;height:50%">
+                                    <thead style="font-size:18px;">
+                                        <tr>
+                                            <th scope="col" width="50"></th>
+                                            <th scope="col">Course Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="font-size:16px;"></tbody>
+                                </table>
+                                <div class="row hidden mt-3" id="divStatus">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        <label>Status</label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                        <select class="form-control" id="ddStatus" name="sellist1">
+                                            <option selected>----Select Status----</option>
+                                            <option value="Active">Active</option>
+                                            <option value="Inactive">Inactive</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        <button type="button" class="btn btn-primary btn-block" onclick="saveStatus()">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="EmpNumber">
+<script>
+    $(document).ready(function () {
+        LoadingData();
+        $.ajax({
+            type: "POST",
+            url: "/Home/GetSession",
+            data: {},
+            success: function (response) {
+                EmployeeListDataTable();
+            },
+            error: function (response) {
+                window.location.href = '/LogIn/Index';
+            }
+        });
+    });
+
+    var etable;
+    var EmployeeListDataTable = function () {
+        //if table exist
+        if ($.fn.DataTable.isDataTable("#tblEmployeeList")) {
+            //Clear table for redraw
+            etable.draw();
+        }
+        else {
+            moment.tz.add("Asia/Manila|+08 +09|-80 -90|010101010|-1kJI0 AL0 cK10 65X0 mXB0 vX0 VK10 1db0|24e6");
+            etable = $("#tblEmployeeList").DataTable({
+                "bServerSide": true,
+                "processing": true,
+                "sAjaxSource": "/Course/GetAllEpmployees",
+                "fnServerData": function (sSource, aoData, fnCallback) {
+                    $.ajax({
+                        type: "Get",
+                        data: aoData,
+                        url: sSource,
+                        success: fnCallback
+                    });
+                },
+                "aoColumns": [
+                    {
+                        "mData": "EmployeeNumber",
+                        "orderable": false,
+                        "width": "24px",
+                        //"className": "text-center", "targets": "_all",
+                        //"render": function (EmployeeNumber, type, full, meta) {
+                        //    return '<a href="#/" onclick="ocSelectEmployee(\'' + EmployeeNumber + '\')">Select</a>';
+                        //}
+                    },
+                    {
+                        "mData": "EmpName",
+                        "orderable": false,
+                        "width": "100px"
+                    },
+                    {
+                        "mData": "EmployeeNumber",
+                        "orderable": false,
+                        "width": "24px",
+                        "render": function (EmployeeNumber, type, full, meta) {
+                            return '<a href="#/" onclick="ocSelectEmployee(\'' + EmployeeNumber + '\',\'' + full.EmpName + '\')">Select</a>';
+                            //return '<div class="dropdown"><button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Select Status</button><div class="dropdown-menu"><a class="dropdown-item" href="#" onclick="Active()">Active</a><a class="dropdown-item" href="#" onclick="Inactive()">Inactive</a></div></div>';
+                        }
+                    }
+                ],
+                responsive: true,
+                select: { style: 'single' },
+                "bInfo": true,
+                "bPaginate": false,
+                "sScrollY": "500",
+                "scrollX": false,
+                "bScrollCollapse": false,
+                "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]]
+            });
+            EndLoading();
+        }
+    }
+
+    var ocSelectEmployee = function (EmpNumber, Name) {
+        var newEmp = EmpNumber.trim();
+        LoadingData();
+        $("#EmployeeNumber").val(newEmp);
+        $("#EmployeeNumber").text(Name + " - " + newEmp);
+        if (newEmp != "") {
+            AppliedCourseDataTable();
+        }
+        else {
+            alert(null);
+        }
+    }
+
+    var actable;
+    var AppliedCourseDataTable = function () {
+        //if table exist
+        if ($.fn.DataTable.isDataTable("#tblAppliedCourse")) {
+            //Clear table for redraw
+            actable.draw();
+            EndLoading();
+        }
+        else {
+            moment.tz.add("Asia/Manila|+08 +09|-80 -90|010101010|-1kJI0 AL0 cK10 65X0 mXB0 vX0 VK10 1db0|24e6");
+
+            actable = $("#tblAppliedCourse").DataTable({
+                "bServerSide": true,
+                "processing": true,
+                "sAjaxSource": "/Course/GetAllCourseApplied",
+                "fnServerData": function (sSource, aoData, fnCallback) {
+
+                    var EmployeeNumber = $("#EmployeeNumber").val();
+                    aoData.push({ "name": "EmployeeNumber", "value": EmployeeNumber });
+
+                    $.ajax({
+                        type: "Get",
+                        data: aoData,
+                        url: sSource,
+                        success: fnCallback
+                    });
+                },
+                "aoColumns": [
+                    {
+                        "mData": "ID",
+                        "orderable": false,
+                        "width": "24px",
+                        "visible": false
+                        //"className": "text-center", "targets": "_all",
+                        //"render": function (ID, type, full, meta) {
+                        //    return '<a href="#/" onclick="ocRemoveSelectedCourse(\'' + ID + '\')" style="color:#fd4a81;">Remove</a>';
+                        //}
+                    },
+                    {
+                        "mData": "Course",
+                        "orderable": false,
+                        //"width": "100px"
+                    }
+                ],
+                responsive: true,
+                select: { style: 'single' },
+                "bInfo": false,
+                "bPaginate": false,
+                "sScrollY": "200",
+                //"scrollX": false,
+                "bScrollCollapse": false,
+                "searching": true,
+                "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]]
+            });
+            EndLoading();
+        }
+
+        var div = document.getElementById("divStatus");
+        if (div.classList.contains('hidden')) {
+            $("#divStatus").removeClass('hidden');
+        }
+        //else {
+        //    $("#divStatus").addClass('hidden');
+        //}
+
+    }
+
+    var saveStatus = function () {
+        debugger
+        var decision = $("#ddStatus option:selected").val();
+        var EmpNum = $("#EmpNumber").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Course/UpdateEmployeeStatus",
+            data: { "EmployeeNumber": EmpNum, "Status": decision },
+            success: function (response) {
+                var result = response.res;
+                if (result === true) {
+                    alert("Success");
+                }
+                else {
+                    alert("Error encountered");
+                }
+            },
+            error: function (response) { }
+        });
+    }
+
+    //$("#EmpNumber").change(function () {
+    //    debugger
+    //    var emp = $("#EmpNumber").val();
+    //    $("#EmployeeNumber").text(emp);
+    //});
+</script>

@@ -2805,6 +2805,7 @@
     <Content Include="Views\Agent\Index.cshtml" />
     <Content Include="Views\Course\ViewCourseList.cshtml" />
     <Content Include="Views\Course\IndexCourseAssign.cshtml" />
+    <Content Include="Views\Course\EmployeeList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

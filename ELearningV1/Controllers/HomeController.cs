@@ -20,8 +20,38 @@ namespace ELearningV1.Controllers
             return View();
         }
 
+        public ActionResult getDatabaseServer()
+        {
+            string ServerConnectionMessage = string.Empty;
+            System.Data.SqlClient.SqlConnectionStringBuilder connBuilder = new System.Data.SqlClient.SqlConnectionStringBuilder();
+            connBuilder.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PayRollCon"].ConnectionString;
+            ServerConnectionMessage = "Server Status: Connected to " + connBuilder.DataSource + " ";
+
+            var response = new JsonResult();
+            response.Data = new
+            {
+                Database = ServerConnectionMessage
+            };
+            return response;
+        }
+
         public ActionResult GetSession()
         {
+            System.Data.SqlClient.SqlConnectionStringBuilder connBuilder = new System.Data.SqlClient.SqlConnectionStringBuilder();
+            connBuilder.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PayRollCon"].ConnectionString;
+            string DatabaseServer = connBuilder.DataSource;
+            string a = "";
+
+            if(DatabaseServer == "SLARDAR" || DatabaseServer == "Slardar")
+            {   a = "TESTING";  }
+            else
+            {   a = "PRODUCTION";   }
+
+            string ServerConnectionMessage = "Server Status: Connected to " + a + " ";
+
+            Session["Database"] = ServerConnectionMessage;
+
+            var DatabaseC = Session["Database"].ToString();
             var userID = Session["EmployeeNumber"].ToString();
             var userName = Session["EmployeeName"].ToString();
             var userDept = Session["EmployeeDeptName"].ToString();
@@ -35,7 +65,8 @@ namespace ELearningV1.Controllers
                 Name = userName,
                 Dep = userDept,
                 Pos = userPos,
-                ReportTo = userReportTo
+                ReportTo = userReportTo,
+                Database = DatabaseC
             };
             return response;
         }

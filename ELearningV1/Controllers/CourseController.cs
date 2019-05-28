@@ -13,23 +13,38 @@ namespace ELearningV1.Controllers
     {
         DAL SQLcon = new DAL();
         // GET: Course
+        #region Views
         [HttpGet]
         public ActionResult CourseList()
-        {
-            return View();
-        }
-        
+        {   return View();  }
+
         [HttpGet]
         public ActionResult CourseDetail(string CourseID)
         {
             DAL SQLcon = new DAL();
             VMViewCourses courseData = new VMViewCourses();
             try
-            {   courseData = SQLcon.ViewCoursesByID(CourseID).SingleOrDefault();    }
+            { courseData = SQLcon.ViewCoursesByID(CourseID).SingleOrDefault(); }
             catch (Exception ex) { }
 
             return View(courseData);
         }
+
+        public ActionResult CourseDetailReport()
+        { return View(); }
+
+        public ActionResult CreateCourse()
+        { return View(); }
+
+        public ActionResult ViewCourseList()
+        { return View(); }
+
+        public ActionResult IndexCourseAssign()
+        { return View(); }
+
+        public ActionResult EmployeeList()
+        { return View(); }
+        #endregion
 
         public ActionResult UpdateCourse(string CourseID, string CourseName, string CourseDesc, bool IsActive)
         {
@@ -45,10 +60,7 @@ namespace ELearningV1.Controllers
             {   res = stats };
 
             return response;
-        }
-
-        public ActionResult CourseDetailReport()
-        {   return View();  }
+        }        
 
         public JsonResult ImageUpload(CourseImage model, string CName, string CDesc, string Days1)
         {
@@ -85,10 +97,7 @@ namespace ELearningV1.Controllers
                 iName = file.FileName
             };
             return response;
-        }
-
-        public ActionResult CreateCourse()
-        {   return View();  }
+        }        
 
         public ActionResult EmployeeCourseDetail(string CourseID)
         {
@@ -157,10 +166,7 @@ namespace ELearningV1.Controllers
                 iTotalDisplayRecords = totalCount,
                 iTotalRecords = CourseUserList.Count()
             }, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult ViewCourseList()
-        {   return View();  }
+        }        
 
         public ActionResult LoadCourseDetails(DataTablesParam param)
         {
@@ -259,10 +265,7 @@ namespace ELearningV1.Controllers
 
             return response;
             **/
-        }
-
-        public ActionResult IndexCourseAssign()
-        {   return View();  }
+        }        
 
         public ActionResult GetAllEpmployees(DataTablesParam param)
         {
@@ -278,7 +281,7 @@ namespace ELearningV1.Controllers
             if (param.sSearch != null)
             {
                 totalCount = SQLcon.ViewEmployee1().Where(x => x.EmpName.ToString().Contains(param.sSearch)).Count();
-                Emps = SQLcon.ViewEmployee1().Where(x => x.EmpName.ToString().Contains(param.sSearch)).Select(x => new VMELearnEmpData
+                Emps = SQLcon.ViewEmployee1().Where(x => x.EmpName.ToString().Contains(param.sSearch)).OrderBy(x=>x.EmpName).Select(x => new VMELearnEmpData
                 {
                     EmployeeNumber = x.EmployeeNumber,
                     EmpName = x.EmpName
@@ -291,7 +294,7 @@ namespace ELearningV1.Controllers
                 {
                     EmployeeNumber = x.EmployeeNumber,
                     EmpName = x.EmpName
-                }).AsEnumerable().ToList();
+                }).OrderBy(x => x.EmpName).AsEnumerable().ToList();
             }
 
             return Json(new
@@ -410,6 +413,17 @@ namespace ELearningV1.Controllers
             var response = new JsonResult();
             response.Data = new
             {   res = result    };
+            return response;
+        }
+
+        public ActionResult UpdateEmployeeStatus(string EmployeeNumber, string Status)
+        {
+            bool result = SQLcon.SaveEmployeeStatus(EmployeeNumber,Status);
+
+            var response = new JsonResult();
+            response.Data = new
+            {   res = result    };
+
             return response;
         }
 

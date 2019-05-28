@@ -207,6 +207,7 @@
                                 <li><a href="#/" onclick="addCourse()"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> New Course</a></li>
                                 <li><a href="@Url.Action("ViewCourseList", "Course")"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> View Course List</a></li>
                                 <li><a href="@Url.Action("IndexCourseAssign", "Course")"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> Assign Course</a></li>
+                                <li><a href="@Url.Action("EmployeeList", "Course")"><i class="fa fa-arrow-circle-o-right" style="font-size:20px;"></i> Employee List</a></li>
                             </ul>
                         </li>
                     }
@@ -230,11 +231,17 @@
         <!-- Main content -->
     </div>
     <footer class="main-footer">
+        <strong>Copyright &copy; 2019 <a href="http://trecnetkiosk:94/">Trec Pacific Corp.</a>.</strong> All rights reserved. | 
+        <label id="DatabaseServer">
+        @try{   @Session["Database"].ToString();    }
+        catch (Exception ex) { }
+        </label>
         <div class="pull-right hidden-xs">
-            <b>Version</b> 1.0.0
+            <div class="row">
+                <!--<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><label id="DatabaseServer"></label></div>-->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><b>Version</b> 1.0.0</div>
+            </div>
         </div>
-        <strong>Copyright &copy; 2019 <a href="http://trecnetkiosk:94/">Trec Pacific Corp.</a>.</strong> All rights
-        reserved.
     </footer>
     <div class="control-sidebar-bg">
     </div>
@@ -313,6 +320,36 @@
 <script src="~/Scripts/Dev_Scripts/AddNewCourse.js"></script>
 
 <script>
+    //$(document).ready(function () {
+    //    LoadingData();
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "/Home/GetSession",
+    //        data: {},
+    //        success: function (response) {
+    //            GetDatabaseServer();
+    //        },
+    //        error: function (response) {
+    //            window.location.href = '/LogIn/Index';
+    //        }
+
+    //    });
+    //});
+
+    //var GetDatabaseServer = function () {
+    //    $.ajax({
+    //        type: "POST",
+    //        url: "/Home/getDatabaseServer",
+    //        data: {},
+    //        success: function (response) {
+    //            debugger
+    //            var db = response.Database;
+    //            //alert(db);
+    //            $("#DatabaseServer").text(db);
+    //        }
+    //    });
+    //}
+
     var Exams = function ()
     {   window.location.href = '@Url.Action("ExamList", "Exam")';   }
     

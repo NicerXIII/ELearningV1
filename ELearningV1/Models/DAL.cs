@@ -736,6 +736,28 @@ namespace ELearningV1.Models
             }
         }
 
+        public bool SaveEmployeeStatus(string EmployeeNumber, string Status)
+        {
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningUpdateEmployeeStatus", con))
+                {
+                    try
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                        cmd.Parameters.AddWithValue("@Status", Status);
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    { return false; }
+                }
+            }
+        }
+
         #endregion
 
         #region Creating Exam
@@ -1897,12 +1919,12 @@ namespace ELearningV1.Models
             VMELearnEmpDataList EmployeeList = new VMELearnEmpDataList();
             using (SqlConnection con = new SqlConnection(Cons))
             {
-                using (SqlCommand cmd = new SqlCommand("Select EmployeeNumber,EmpName From fuzeEmpData1", con))
+                using (SqlCommand cmd = new SqlCommand("ELearningGetEmployeeList", con))
                 {
                     try
                     {
                         con.Open();
-                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandType = CommandType.StoredProcedure;
                         SqlDataReader dr = cmd.ExecuteReader();
 
                         while (dr.Read())

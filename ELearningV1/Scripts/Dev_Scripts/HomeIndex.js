@@ -5,6 +5,7 @@
         url: "/Home/GetSession",
         data: {},
         success: function (response) {
+            //GetDatabaseServer();
             PanelBoxStatus();
             UserActivityChart();
             UserProgressActivity();
@@ -16,6 +17,19 @@
 
     });
 });
+
+//var GetDatabaseServer = function () {
+//    debugger
+//    $.ajax({
+//        type: "POST",
+//        url: "/Home/getDatabaseServer",
+//        data: {},
+//        success: function (response) {
+//            debugger
+//            $("#DatabaseServer").val(response.Database);
+//        }
+//    });
+//}
 
 var PanelBoxStatus = function () {
     $.ajax({
