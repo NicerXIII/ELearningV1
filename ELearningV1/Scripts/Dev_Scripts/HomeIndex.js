@@ -262,15 +262,27 @@ var BindDataTable = function () {
                         var courseee = full.Course;
 
                         //Automatically no retake if the completion date is met						
-                        if (full.Course === "Personality Test" || courseee.includes("Spelling") === true || full.Status === "PASSED") { //full.Course === "Speak English Naturally" || 
-                            if (now > completionDate) {
-                                return '<a href="#/"  onclick="reqRetake(\'' + full.ID + '\')" style="font-size:18px;">Request retake</a>';
-                            }
-                            else { return ''; }
+                        if (full.Course === "Personality Test" || courseee.includes("Spelling") === true || full.Status === "PASSED") //full.Course === "Speak English Naturally" ||
+						{
+							//Done
+							if(full.Status === "PASSED" || full.Progress === 100){
+								return '';
+							}
+							
+							//If not yet taken and the completion date is met
+                            else if (now > completionDate) {
+								if(full.Progress > 100) {
+									return '<a href="#/"  onclick="reqRetake(\'' + full.ID + '\')" style="font-size:18px;">Request retake</a>';	
+								}
+								else{
+									return '';
+								}
+							}
+							else { return ''; }
                         }
 
                         //For those who request a retake
-                        if (full.Status2 !== "" || full.Statu2 !== null) {
+                        if (full.Status2 !== "" && full.Statu2 !== null) {
                             if (full.Status2 === "WAITING") {
                                 return '<label>Request already sent</label>';
                             }
@@ -291,8 +303,6 @@ var BindDataTable = function () {
 							All course passing is 92(una nyang sinabi) tas naging 90 except spelling need 100
 						**/
                         else {
-                            //
-
                             //if not yet taking the course
                             if (full.Progress === 0 && full.Score === 0) {
                                 if (now > completionDate) {
@@ -314,11 +324,11 @@ var BindDataTable = function () {
 
                             //When employee is done
                             if (full.Progress === 100) {
-                                if (now > completionDate) {
-                                    return '<a href="#/"  onclick="reqRetake(\'' + full.ID + '\')" style="font-size:18px;">Request retake</a>';
+                                if (full.Score == 0 && full.Status === "") { //now > completionDate
+                                    return '';
                                 }
                                 else {
-                                    return '';
+                                    return '<a href="#/"  onclick="reqRetake(\'' + full.ID + '\')" style="font-size:18px;">Request retake</a>';
                                 }
                             }
                         }
