@@ -271,7 +271,7 @@ var BindDataTable = function () {
 							
 							//If not yet taken and the completion date is met
                             else if (now > completionDate) {
-								if(full.Progress > 100) {
+								if(full.Progress < 100) {
 									return '<a href="#/"  onclick="reqRetake(\'' + full.ID + '\')" style="font-size:18px;">Request retake</a>';	
 								}
 								else{
