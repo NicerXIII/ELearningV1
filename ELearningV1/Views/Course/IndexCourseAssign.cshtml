@@ -31,6 +31,7 @@
                                         <tr>
                                             <th scope="col" width="50"></th>
                                             <th scope="col">Course Name</th>
+                                            <th scope="col">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody style="font-size:18px;"></tbody>
@@ -191,8 +192,9 @@
                 "fnServerData": function (sSource, aoData, fnCallback) {
 
                     var EmployeeNumber = $("#EmpNumber").val();
+                    var newEMp = EmployeeNumber.trim();
 
-                    aoData.push({ "name": "EmployeeNumber", "value": EmployeeNumber });
+                    aoData.push({ "name": "EmployeeNumber", "value": newEMp });
 
                     $.ajax({
                         type: "Get",
@@ -214,6 +216,11 @@
                     {
                         "mData": "Course",
                         "orderable": false
+                    },
+                    {
+                        "mData": "Status",
+                        "orderable": false,
+                        "visible": false
                     }
                 ],
                 responsive: true,

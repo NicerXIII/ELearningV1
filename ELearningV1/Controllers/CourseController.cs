@@ -379,7 +379,8 @@ namespace ELearningV1.Controllers
                 Course = SQLcon.ViewEmployeeCourseApplied(EmployeeNumber).Where(x => x.Course.ToString().Contains(param.sSearch)).Select(x => new VMViewCourses
                 {
                     ID = x.ID,
-                    Course = x.Course
+                    Course = x.Course,
+                    Status = x.Status
                 }).AsEnumerable().ToList();
             }
             else
@@ -388,7 +389,8 @@ namespace ELearningV1.Controllers
                 Course = SQLcon.ViewEmployeeCourseApplied(EmployeeNumber).Select(x => new VMViewCourses
                 {
                     ID = x.ID,
-                    Course = x.Course
+                    Course = x.Course,
+                    Status = x.Status
                 }).AsEnumerable().ToList();
             }
 

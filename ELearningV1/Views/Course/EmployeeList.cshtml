@@ -59,6 +59,8 @@
                                         <tr>
                                             <th scope="col" width="50"></th>
                                             <th scope="col">Course Name</th>
+                                            <th scope="col">Status</th>
+
                                         </tr>
                                     </thead>
                                     <tbody style="font-size:16px;"></tbody>
@@ -217,6 +219,23 @@
                         "mData": "Course",
                         "orderable": false,
                         //"width": "100px"
+                    },
+                    {
+                        "mData": "Status",
+                        "orderable": false,
+                        //"width": "100px"
+                        "render": function (Status, type, full, meta) {
+                            if (Status === "PASSED") {
+                                return '<label class="text-success">' + Status + '</label>';
+                            }
+                            else if (Status === "FAILED") {
+                                return '<label class="text-danger">' + Status + '</label>';
+                            }
+                            else {
+                                return '<label class="text-default">' + Status + '</label>';
+                            }
+                        }
+                        
                     }
                 ],
                 responsive: true,

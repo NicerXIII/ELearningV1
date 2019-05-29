@@ -1983,12 +1983,15 @@ namespace ELearningV1.Models
         {
             using (SqlConnection con = new SqlConnection(Cons))
             {
-                using (SqlCommand cmd = new SqlCommand("INSERT INTO ELearningEmployeeCourseApplied VALUES('" + CourseID + "','" + EmployeeNumber + "','" + Date1.ToString() + "')", con))
+                using (SqlCommand cmd = new SqlCommand("ELearningSaveAddEmployeeToCourse", con))
                 {
                     try
                     {
                         con.Open();
-                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@EmployeeNumber",EmployeeNumber);
+                        cmd.Parameters.AddWithValue("@CourseID", CourseID);
+                        cmd.Parameters.AddWithValue("@Date", Date1);
                         cmd.ExecuteNonQuery();
                         return true;
                     }
@@ -2005,28 +2008,35 @@ namespace ELearningV1.Models
             VMViewCoursesList CourseList = new VMViewCoursesList();
             using (SqlConnection con = new SqlConnection(Cons))
             {
-                using (SqlCommand cmd = new SqlCommand("LoadEmployeeCourseApplied", con))
+                using (SqlCommand cmd = new SqlCommand("ELearningLoadEmployeeCourseApplied", con))
                 {
-                    try
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                     {
-                        con.Open();
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
-                        SqlDataReader dr = cmd.ExecuteReader();
-
-                        while (dr.Read())
+                        try
                         {
-                            VMViewCourses course = new VMViewCourses();
-                            course.ID = Convert.ToInt32(dr["ID"]);
-                            course.Course = Convert.ToString(dr["Course"]);
-                            CourseList.Add(course);
+                            con.Open();
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+                            
+                            foreach(DataRow dr in dt.Rows)
+                            {
+                                VMViewCourses course = new VMViewCourses();
+                                course.ID = Convert.ToInt32(dr["ID"]);
+                                course.Course = dr["Course"].ToString();
+                                course.Status = dr["Status1"].ToString();
+                                CourseList.Add(course);
+                            }
+                            return CourseList;
                         }
-                        return CourseList;
-                    }
-                    catch (Exception ex)
-                    { }
-                    finally
-                    { con.Close(); }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }                        
                 }
             }
 
