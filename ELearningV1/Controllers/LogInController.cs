@@ -24,10 +24,25 @@ namespace ELearningV1.Controllers
                 var logInData = SQLcon.KioskLogInUserData(unum, upass).SingleOrDefault();
                 if (logInData != null)
                 {
+
+                    System.Data.SqlClient.SqlConnectionStringBuilder connBuilder = new System.Data.SqlClient.SqlConnectionStringBuilder();
+                    connBuilder.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PayRollCon"].ConnectionString;
+                    string DatabaseServer = connBuilder.DataSource;
+                    string a = "";
+
+                    if (DatabaseServer == "SLARDAR" || DatabaseServer == "Slardar")
+                    { a = "TESTING"; }
+                    else
+                    { a = "PRODUCTION"; }
+
+                    string ServerConnectionMessage = "Server Status: Connected to " + a + " ";
+
+                    Session["Database"] = ServerConnectionMessage;
                     Session["EmployeeNumber"] = logInData.EmployeeNumber.ToString();
                     Session["EmployeeDeptName"] = logInData.Department.ToString();
                     Session["EmployeePositionName"] = logInData.Position.ToString();
                     Session["EmployeeReportTo"] = logInData.ReportTo.ToString();
+
                     var data1 = SQLcon.FBLoadLeftPanel(logInData.EmployeeNumber).Select(x => new VMELearnEmpData
                     {
                         EmpName = x.EmpName,

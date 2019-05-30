@@ -37,21 +37,6 @@ namespace ELearningV1.Controllers
 
         public ActionResult GetSession()
         {
-            System.Data.SqlClient.SqlConnectionStringBuilder connBuilder = new System.Data.SqlClient.SqlConnectionStringBuilder();
-            connBuilder.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["PayRollCon"].ConnectionString;
-            string DatabaseServer = connBuilder.DataSource;
-            string a = "";
-
-            if(DatabaseServer == "SLARDAR" || DatabaseServer == "Slardar")
-            {   a = "TESTING";  }
-            else
-            {   a = "PRODUCTION";   }
-
-            string ServerConnectionMessage = "Server Status: Connected to " + a + " ";
-
-            Session["Database"] = ServerConnectionMessage;
-
-            var DatabaseC = Session["Database"].ToString();
             var userID = Session["EmployeeNumber"].ToString();
             var userName = Session["EmployeeName"].ToString();
             var userDept = Session["EmployeeDeptName"].ToString();
@@ -65,8 +50,7 @@ namespace ELearningV1.Controllers
                 Name = userName,
                 Dep = userDept,
                 Pos = userPos,
-                ReportTo = userReportTo,
-                Database = DatabaseC
+                ReportTo = userReportTo
             };
             return response;
         }
