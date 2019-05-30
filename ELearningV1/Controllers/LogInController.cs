@@ -35,9 +35,9 @@ namespace ELearningV1.Controllers
                     else
                     { a = "PRODUCTION"; }
 
-                    string ServerConnectionMessage = "Server Status: Connected to " + a + " ";
+                    //string ServerConnectionMessage = "Server Status: Connected to " + a + " ";
 
-                    Session["Database"] = ServerConnectionMessage;
+                    Session["Database"] = a;
                     Session["EmployeeNumber"] = logInData.EmployeeNumber.ToString();
                     Session["EmployeeDeptName"] = logInData.Department.ToString();
                     Session["EmployeePositionName"] = logInData.Position.ToString();
