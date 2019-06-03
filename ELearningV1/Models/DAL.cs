@@ -758,6 +758,48 @@ namespace ELearningV1.Models
             }
         }
 
+        public VMGetVideoListList GetVideoList(string EmployeeNumber, string CourseID)
+        {
+            VMGetVideoListList EmployeeCourseList = new VMGetVideoListList();
+            using (SqlConnection con = new SqlConnection(Cons))
+            {
+                using (SqlCommand cmd = new SqlCommand("ELearningGetCourseVideos", con))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        try
+                        {
+                            con.Open();
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
+                            cmd.Parameters.AddWithValue("@CourseID", CourseID);
+                            cmd.ExecuteNonQuery();
+
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                VMGetVideoList videoDetails = new VMGetVideoList();
+                                videoDetails.CourseID = dr["CourseID"].ToString();
+                                videoDetails.Course = dr["Course"].ToString();
+                                videoDetails.CourseSecID = dr["CourseSecID"].ToString();
+                                videoDetails.Title = dr["Title"].ToString();
+                                videoDetails.SrcFile = dr["SrcFile"].ToString();
+                                EmployeeCourseList.Add(videoDetails);
+                            }
+                            return EmployeeCourseList;
+                        }
+                        catch (Exception ex)
+                        { }
+                        finally
+                        { con.Close(); }
+                    }
+                }
+            }
+
+            return null;
+        }
         #endregion
 
         #region Creating Exam
@@ -1989,7 +2031,7 @@ namespace ELearningV1.Models
                     {
                         con.Open();
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@EmployeeNumber",EmployeeNumber);
+                        cmd.Parameters.AddWithValue("@EmployeeNumber", EmployeeNumber);
                         cmd.Parameters.AddWithValue("@CourseID", CourseID);
                         cmd.Parameters.AddWithValue("@Date", Date1);
                         cmd.ExecuteNonQuery();
@@ -2021,8 +2063,8 @@ namespace ELearningV1.Models
 
                             DataTable dt = new DataTable();
                             sda.Fill(dt);
-                            
-                            foreach(DataRow dr in dt.Rows)
+
+                            foreach (DataRow dr in dt.Rows)
                             {
                                 VMViewCourses course = new VMViewCourses();
                                 course.ID = Convert.ToInt32(dr["ID"]);
@@ -2036,7 +2078,7 @@ namespace ELearningV1.Models
                         { }
                         finally
                         { con.Close(); }
-                    }                        
+                    }
                 }
             }
 
@@ -2360,7 +2402,7 @@ namespace ELearningV1.Models
             VMGetStatus2List StatusList = new VMGetStatus2List();
             using (SqlConnection con = new SqlConnection(Cons))
             {
-                using (SqlCommand cmd = new SqlCommand("SELECT Status2 FROM ELEARNINGCOURSEPROGRESS WHERE ID ='"+ ID+"'", con))
+                using (SqlCommand cmd = new SqlCommand("SELECT Status2 FROM ELEARNINGCOURSEPROGRESS WHERE ID ='" + ID + "'", con))
                 {
                     using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                     {

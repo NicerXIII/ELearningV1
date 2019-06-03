@@ -227,6 +227,7 @@
     <Compile Include="Models\ViewModel\VMGetQuestionIDbyEmployeeAnswer.cs" />
     <Compile Include="Models\ViewModel\VMGetQuestionsAndEmployeeAnswers.cs" />
     <Compile Include="Models\ViewModel\VMGetStatus2.cs" />
+    <Compile Include="Models\ViewModel\VMGetVideoList.cs" />
     <Compile Include="Models\ViewModel\VMGetVideoPath.cs" />
     <Compile Include="Models\ViewModel\VMKioskLogInUser.cs" />
     <Compile Include="Models\ViewModel\VMLogHistory.cs" />
@@ -2806,6 +2807,7 @@
     <Content Include="Views\Course\ViewCourseList.cshtml" />
     <Content Include="Views\Course\IndexCourseAssign.cshtml" />
     <Content Include="Views\Course\EmployeeList.cshtml" />
+    <Content Include="Views\Course\VideoLibrary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -44,6 +44,9 @@ namespace ELearningV1.Controllers
 
         public ActionResult EmployeeList()
         { return View(); }
+
+        public ActionResult VideoLibrary()
+        { return View(); }
         #endregion
 
         public ActionResult UpdateCourse(string CourseID, string CourseName, string CourseDesc, bool IsActive)
@@ -364,6 +367,10 @@ namespace ELearningV1.Controllers
 
         public ActionResult GetAllCourseApplied(DataTablesParam param, string EmployeeNumber)
         {
+            if (EmployeeNumber == null || EmployeeNumber == "")
+            {
+                EmployeeNumber = Session["EmployeeNumber"].ToString();
+            }
             List<VMViewCourses> Course = new List<VMViewCourses>();
             DAL SQLcon = new DAL();
             int pageNo = 1;
@@ -427,6 +434,52 @@ namespace ELearningV1.Controllers
             {   res = result    };
 
             return response;
+        }
+
+        public ActionResult GetVideoList(DataTablesParam param, string CourseID)
+        {
+            var EmployeeNumber = Session["EmployeeNumber"].ToString();
+
+            List<VMGetVideoList> Course = new List<VMGetVideoList>();
+            DAL SQLcon = new DAL();
+            int pageNo = 1;
+            int totalCount = 0;
+
+            if (param.iDisplayStart >= param.iDisplayLength)
+            { pageNo = (param.iDisplayStart / param.iDisplayLength) + 1; }
+
+            if (param.sSearch != null)
+            {
+                totalCount = SQLcon.GetVideoList(EmployeeNumber,CourseID).Where(x => x.Course.ToString().Contains(param.sSearch)).Count();
+                Course = SQLcon.GetVideoList(EmployeeNumber, CourseID).Where(x => x.Course.ToString().Contains(param.sSearch)).Select(x => new VMGetVideoList
+                {
+                    CourseID = x.CourseID,
+                    Course = x.Course,
+                    CourseSecID = x.CourseSecID,
+                    Title = x.Title,
+                    SrcFile = x.SrcFile
+                }).AsEnumerable().ToList();
+            }
+            else
+            {
+                totalCount = SQLcon.GetVideoList(EmployeeNumber, CourseID).Count();
+                Course = SQLcon.GetVideoList(EmployeeNumber, CourseID).Select(x => new VMGetVideoList
+                {
+                    CourseID = x.CourseID,
+                    Course = x.Course,
+                    CourseSecID = x.CourseSecID,
+                    Title = x.Title,
+                    SrcFile = x.SrcFile
+                }).AsEnumerable().ToList();
+            }
+
+            return Json(new
+            {
+                aaData = Course,
+                eEcho = param.sEcho,
+                iTotalDisplayRecords = totalCount,
+                iTotalRecords = Course.Count()
+            }, JsonRequestBehavior.AllowGet);
         }
 
     }
