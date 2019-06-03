@@ -62,7 +62,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-info">Close</button>
+                <button type="button" data-dismiss="modal" class="btn btn-info" onclick="StopPlayingVideo()">Close</button>
             </div>
         </div>
     </div>
@@ -233,5 +233,10 @@
             backdrop: "static",
             keyboard: false
         });
+    }
+
+    var StopPlayingVideo = function () {
+        var vid = document.getElementById("videoTuitorial");
+        vid.pause();
     }
 </script>
