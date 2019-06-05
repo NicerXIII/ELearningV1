@@ -3,6 +3,27 @@
     ViewBag.Title = "Video Library | E-Learning";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .mt-1 {
+        margin-top: 5px;
+    }
+
+    .mt-2 {
+        margin-top: 10px;
+    }
+
+    .mt-3 {
+        margin-top: 15px;
+    }
+
+    .mt-4 {
+        margin-top: 20px;
+    }
+
+    .mt-5 {
+        margin-top: 25px;
+    }
+</style>
 <div class="content" style="padding: 0px 0px 0px 0px;">
     <div class="container-fluid">
         <div class="row">
@@ -50,193 +71,63 @@
 <div class="modal fade" id="modalDisplayVideoSelected">
     <div class="modal-dialog" style="margin-top:5%;width:50%;">
         <div class="modal-content">
-            <div class="modal-header">
-                <label style="font-size:xx-large;font-weight:300" id="labelTitle"></label>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+            <!--
+            <div class="modal-header"></div>
+            -->
             <div class="modal-body">
-                <div align="center">
-                    <video id="videoTuitorial" controls width="100%" height="500"></video>
+                <div class="row">
+                    <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 text-center"></div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="StopPlayingVideo()">
+                            <span aria-hidden="true" style="font-size:xx-large">&times;</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center">
+                        <a class="carousel-control-prev" href="#demo" data-slide="prev" onclick="Previous()" id="Prev">
+                            <i class="fa fa-chevron-left" style="margin-top:240px;font-size:xx-large;" title="Previous"></i>
+                            <!--<span class="carousel-control-prev-icon"></span>-->
+                        </a>
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                        <div id="demo" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <video id="videoTuitorial" controls width="100%" height="500"></video>
+                                    <div class="carousel-caption">
+                                        <h3 id="labelTitle">Los Angeles</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--
+                            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </a>
+                            <a class="carousel-control-next" href="#demo" data-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </a>
+                            -->
+                        </div>
+                        <!--<video id="videoTuitorial" controls width="100%" height="500"></video>-->
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center">
+                        <a class="carousel-control-next" href="#demo" data-slide="next" onclick="Next()" id="Next">
+                            <i class="fa fa-chevron-right" style="margin-top:240px;font-size:xx-large;" title="Next"></i>
+                            <!--<span class="carousel-control-next-icon"></span>-->
+                        </a>
+                    </div>
                 </div>
             </div>
+            <!--
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-info" onclick="StopPlayingVideo()">Close</button>
             </div>
+            -->
         </div>
     </div>
 </div>
 
 <input type="hidden" id="CourseID" />
 
-<script>
-    $(document).ready(function () {
-        LoadingData();
-        $.ajax({
-            type: "POST",
-            url: "/Home/GetSession",
-            data: {},
-            success: function (response) {
-                AppliedCourseDataTable();
-            },
-            error: function (response) {
-                window.location.href = '/LogIn/Index';
-            }
-        });
-    });
-
-    var actable;
-    var AppliedCourseDataTable = function () {
-        //if table exist
-        if ($.fn.DataTable.isDataTable("#tblAppliedCourse")) {
-            //Clear table for redraw
-            actable.draw();
-            EndLoading();
-        }
-        else {
-            moment.tz.add("Asia/Manila|+08 +09|-80 -90|010101010|-1kJI0 AL0 cK10 65X0 mXB0 vX0 VK10 1db0|24e6");
-
-            actable = $("#tblAppliedCourse").DataTable({
-                "bServerSide": true,
-                "processing": true,
-                "sAjaxSource": "/Course/GetAllCourseApplied",
-                "fnServerData": function (sSource, aoData, fnCallback) {
-
-                    var EmployeeNumber = $("#EmployeeNumber").val();
-                    aoData.push({ "name": "EmployeeNumber", "value": EmployeeNumber });
-
-                    $.ajax({
-                        type: "Get",
-                        data: aoData,
-                        url: sSource,
-                        success: fnCallback
-                    });
-                },
-                "aoColumns": [
-                    {
-                        "mData": "ID",
-                        "orderable": false,
-                        "width": "24px",
-                        "visible": true,
-                        //"className": "text-center", "targets": "_all",
-                        "render": function (ID, type, full, meta) {
-                            return '<a href="#/" onclick="SelectCourse(\'' + ID + '\')" style="color:#fd4a81;">Select</a>';
-                        }
-                    },
-                    {
-                        "mData": "Course",
-                        "orderable": false,
-                        //"width": "100px"
-                    }
-                ],
-                responsive: true,
-                select: { style: 'single' },
-                "bInfo": false,
-                "bPaginate": false,
-                "sScrollY": "300",
-                //"scrollX": false,
-                "bScrollCollapse": false,
-                "searching": false,
-                "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]]
-            });
-            EndLoading();
-        }
-    }
-
-    var SelectCourse = function (ID) {
-        $("#CourseID").val(ID);
-        GetVideoList();
-    }
-
-    var vtable;
-    var GetVideoList = function () {        //if table exist
-        if ($.fn.DataTable.isDataTable("#tblVideoList")) {
-            //Clear table for redraw
-            vtable.draw();
-            EndLoading();
-        }
-        else {
-            moment.tz.add("Asia/Manila|+08 +09|-80 -90|010101010|-1kJI0 AL0 cK10 65X0 mXB0 vX0 VK10 1db0|24e6");
-
-            vtable = $("#tblVideoList").DataTable({
-                "bServerSide": true,
-                "processing": true,
-                "sAjaxSource": "/Course/GetVideoList",
-                "fnServerData": function (sSource, aoData, fnCallback) {
-
-                    var CourseID = $("#CourseID").val();
-                    aoData.push({ "name": "CourseID", "value": CourseID });
-
-                    $.ajax({
-                        type: "Get",
-                        data: aoData,
-                        url: sSource,
-                        success: fnCallback
-                    });
-                },
-                "aoColumns": [
-                    {
-                        "mData": "CourseID",
-                        "orderable": false,
-                        "width": "24px",
-                        "visible": true,
-                        "render": function (SrcFile, type, full, meta) {
-                            return '<a href="#/" onclick="ViewVideo(\'' + full.SrcFile + '\',\'' + full.Title + '\')" style="color:#fd4a81;">View</a>';
-                        }
-                    },
-                    {
-                        "mData": "Course",
-                        "orderable": false,
-                        "width": "100px",
-                        "visible": false
-                    },
-                    {
-                        "mData": "CourseSecID",
-                        "orderable": false,
-                        //"width": "24px",
-                        "visible": false
-                    },
-                    {
-                        "mData": "Title",
-                        "orderable": false,
-                        //"width": "100px"
-                    },
-                    {
-                        "mData": "SrcFile",
-                        "orderable": false,
-                        //"width": "100px",
-                        "visible": false
-                    }
-                ],
-                responsive: true,
-                select: { style: 'single' },
-                "bInfo": false,
-                "bPaginate": false,
-                "sScrollY": "300",
-                //"scrollX": false,
-                "bScrollCollapse": false,
-                "searching": false,
-                "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]]
-            });
-            EndLoading();
-        }
-    }
-
-    var ViewVideo = function (sourceFile, Title) {
-        debugger
-        //alert(sourceFile);
-        //var videoID =
-        $("#labelTitle").text(Title);
-        document.getElementById("videoTuitorial").src = sourceFile;
-        $("#modalDisplayVideoSelected").modal({
-            backdrop: "static",
-            keyboard: false
-        });
-    }
-
-    var StopPlayingVideo = function () {
-        var vid = document.getElementById("videoTuitorial");
-        vid.pause();
-    }
-</script>
+<script src="~/Scripts/Dev_Scripts/VideoLibrary.js?verse=1.0"></script>

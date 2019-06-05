@@ -1967,6 +1967,7 @@
     <Content Include="Scripts\Dev_Scripts\ExamQuestionList.js" />
     <Content Include="Scripts\Dev_Scripts\Exam_FINAL.js" />
     <Content Include="Scripts\Dev_Scripts\HomeIndex.js" />
+    <Content Include="Scripts\Dev_Scripts\VideoLibrary.js" />
     <Content Include="Scripts\Dev_Scripts\ViewCourse.js" />
     <Content Include="Scripts\highcharts\6.2.0\css\highcharts.css" />
     <Content Include="Scripts\highcharts\6.2.0\css\themes\dark-unica.css" />
