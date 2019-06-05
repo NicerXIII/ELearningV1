@@ -71,18 +71,21 @@
 <div class="modal fade" id="modalDisplayVideoSelected">
     <div class="modal-dialog" style="margin-top:5%;width:50%;">
         <div class="modal-content">
-            <!--
-            <div class="modal-header"></div>
-            -->
+            <div class="modal-header">
+                <label style="font-size:large;font-weight:300" id="labelTitle">Los Angeles</label>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="StopPlayingVideo()">
+                    <span aria-hidden="true" style="font-size:xx-large">&times;</span>
+                </button>
+            </div>
             <div class="modal-body">
+                <!--
                 <div class="row">
                     <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 text-center"></div>
                     <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="StopPlayingVideo()">
-                            <span aria-hidden="true" style="font-size:xx-large">&times;</span>
-                        </button>
+                        
                     </div>
                 </div>
+                -->
                 <div class="row">
                     <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center">
                         <a class="carousel-control-prev" href="#demo" data-slide="prev" onclick="Previous()" id="Prev">
@@ -95,9 +98,11 @@
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
                                     <video id="videoTuitorial" controls width="100%" height="500"></video>
+                                    <!--
                                     <div class="carousel-caption">
                                         <h3 id="labelTitle">Los Angeles</h3>
                                     </div>
+                                    -->
                                 </div>
                             </div>
                             <!--
