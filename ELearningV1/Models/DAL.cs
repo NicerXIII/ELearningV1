@@ -50,12 +50,14 @@ namespace ELearningV1.Models
             return null;
         }
 
-        public VMELearnEmpDataList FBLoadLeftPanel(string EmpID)
+        public VMELearnEmpDataList FBLoadLeftPanel(string EmpName/*EmpID*/)
         {
             VMELearnEmpDataList EmpDataList = new VMELearnEmpDataList();
             using (SqlConnection con = new SqlConnection(Cons))
             {
-                using (SqlCommand cmd = new SqlCommand("Select * From fuzeEmpData1 Where EmployeeNumber = '" + EmpID + "' ", con))
+                //OLD CODE
+                /* "Select * From fuzeEmpData1 Where EmployeeNumber = '" + EmpID + "' " */
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM fuzeEmpData1 WHERE UPPER(EmpName) = '"+ EmpName + "'", con))
                 {
                     try
                     {
